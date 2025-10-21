@@ -378,18 +378,24 @@ function generateHTML(page, lang, t) {
       content = `
         <section class="contact-section">
           <div class="container">
-            <h1>${t.contact.h1}</h1>
-            <p>${t.contact.description}</p>
+            <h1 style="text-align: center; margin-bottom: 1rem;">${t.contact.h1}</h1>
+            <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--ink-600); font-size: 1.125rem;">${t.contact.description}</p>
             
             <form id="contactForm" class="contact-form">
-              <input type="text" name="name" placeholder="${t.contact.form.name}" required>
-              <input type="email" name="email" placeholder="${t.contact.form.email}" required>
-              <textarea name="message" rows="6" placeholder="${t.contact.form.message}" required></textarea>
+              <div class="form-group">
+                <input type="text" name="name" placeholder="${t.contact.form.name}" required>
+              </div>
+              <div class="form-group">
+                <input type="email" name="email" placeholder="${t.contact.form.email}" required>
+              </div>
+              <div class="form-group">
+                <textarea name="message" rows="6" placeholder="${t.contact.form.message}" required></textarea>
+              </div>
               <button type="submit" class="btn btn-primary">${t.contact.form.submit}</button>
             </form>
             
-            <div class="contact-info">
-              <p><strong>${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}">${t.contact.support.email}</a></p>
+            <div class="contact-info" style="text-align: center; margin-top: 3rem;">
+              <p style="font-size: 1rem; color: var(--ink-600);"><strong style="color: var(--ink-900);">${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}" style="color: var(--brand-primary); text-decoration: none;">${t.contact.support.email}</a></p>
             </div>
           </div>
         </section>
