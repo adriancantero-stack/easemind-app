@@ -16,7 +16,11 @@
     "plans": "Planos",
     "startFree": "Começar grátis",
     "subMonthly": "Assinar Mensal",
-    "subYearly": "Assinar Anual"
+    "subYearly": "Assinar Anual",
+    "finalTitle": "Pronto para começar?",
+    "finalSubtitle": "Baixe o EaseMind e encontre calma em poucos minutos",
+    "availableOn": "Disponível na",
+    "availableAt": "Disponível no"
   },
   "hero": {
     "h1": "Encontre calma e clareza em poucos minutos",
