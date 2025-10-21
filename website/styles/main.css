@@ -427,21 +427,27 @@ section h2 {
 }
 
 .benefit-icon {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 16px;
-  background: linear-gradient(135deg, var(--brand-soft), var(--secondary));
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  aspect-ratio: 1;
+  margin: 0 auto 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
-  font-size: 2rem;
-  box-shadow: 0 8px 24px rgba(139, 111, 243, 0.15);
   transition: var(--transition-bounce);
 }
 
-.benefit-card:hover .benefit-icon {
-  transform: scale(1.1) rotate(5deg);
+.benefit-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 24px;
+  transition: var(--transition-bounce);
+}
+
+.benefit-card:hover .benefit-icon img {
+  transform: scale(1.08) rotate(3deg);
 }
 
 .benefit-card h3 {
