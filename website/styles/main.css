@@ -915,6 +915,7 @@ footer {
   font-size: 0.9375rem;
   line-height: 1.7;
   border: 1px solid rgba(203, 213, 225, 0.1);
+  text-align: center;
 }
 
 /* === ANIMATIONS === */
