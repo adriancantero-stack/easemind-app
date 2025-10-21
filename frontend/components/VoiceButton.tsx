@@ -64,8 +64,8 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
       )}
       
       <TouchableOpacity
-        onPressIn={onPressIn}
-        onPressOut={onPressOut}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
         style={[
           styles.button,
           {
