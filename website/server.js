@@ -103,28 +103,36 @@ function generateHTML(page, lang, t) {
             <p class="section-subtitle">${t.howItWorks.subtitle || 'Simples, rápido e eficaz'}</p>
             <div class="steps">
               <div class="step">
-                <div class="step-visual">💭</div>
+                <div class="step-visual">
+                  <img src="/images/step-1.png" alt="${t.howItWorks.s1.title}" loading="lazy">
+                </div>
                 <div class="step-content">
                   <h3>${t.howItWorks.s1.title}</h3>
                   <p>${t.howItWorks.s1.description}</p>
                 </div>
               </div>
               <div class="step">
-                <div class="step-visual">🎧</div>
+                <div class="step-visual">
+                  <img src="/images/step-2.png" alt="${t.howItWorks.s2.title}" loading="lazy">
+                </div>
                 <div class="step-content">
                   <h3>${t.howItWorks.s2.title}</h3>
                   <p>${t.howItWorks.s2.description}</p>
                 </div>
               </div>
               <div class="step">
-                <div class="step-visual">🚨</div>
+                <div class="step-visual">
+                  <img src="/images/step-3.png" alt="${t.howItWorks.s3.title}" loading="lazy">
+                </div>
                 <div class="step-content">
                   <h3>${t.howItWorks.s3.title}</h3>
                   <p>${t.howItWorks.s3.description}</p>
                 </div>
               </div>
               <div class="step">
-                <div class="step-visual">📔</div>
+                <div class="step-visual">
+                  <img src="/images/step-4.png" alt="${t.howItWorks.s4?.title || 'Diário Emocional'}" loading="lazy">
+                </div>
                 <div class="step-content">
                   <h3>${t.howItWorks.s4?.title || 'Diário Emocional'}</h3>
                   <p>${t.howItWorks.s4?.description || 'Registre seus sentimentos e acompanhe seu progresso ao longo do tempo.'}</p>
