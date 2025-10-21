@@ -32,9 +32,10 @@ export default function HomeScreen() {
   const [userId, setUserId] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
 
-  const backendUrl =
-    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-    process.env.EXPO_PUBLIC_BACKEND_URL;
+  // Get backend URL - prioritize environment variable
+  const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || 
+    'https://zen-app.preview.emergentagent.com';
 
   // Initialize userId on component mount
   useEffect(() => {
