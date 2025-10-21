@@ -22,7 +22,9 @@
     "availableOn": "Available on the",
     "availableAt": "Get it on",
     "downloadOn": "Download on the",
-    "getItOn": "Get it on"
+    "getItOn": "Get it on",
+    "availableOnAppStore": "App Store",
+    "availableOnGooglePlay": "Google Play"
   },
   "hero": {
     "h1": "Find calm and clarity in minutes",
