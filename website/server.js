@@ -72,17 +72,23 @@ function generateHTML(page, lang, t) {
             <p class="section-subtitle">${t.benefits.subtitle || 'Apoio emocional quando você mais precisa'}</p>
             <div class="benefit-grid">
               <div class="benefit-card">
-                <div class="benefit-icon">💬</div>
+                <div class="benefit-icon">
+                  <img src="/images/benefit-1.png" alt="${t.benefits.b1.title}" loading="lazy">
+                </div>
                 <h3>${t.benefits.b1.title}</h3>
                 <p>${t.benefits.b1.description}</p>
               </div>
               <div class="benefit-card">
-                <div class="benefit-icon">🎵</div>
+                <div class="benefit-icon">
+                  <img src="/images/benefit-2.png" alt="${t.benefits.b2.title}" loading="lazy">
+                </div>
                 <h3>${t.benefits.b2.title}</h3>
                 <p>${t.benefits.b2.description}</p>
               </div>
               <div class="benefit-card">
-                <div class="benefit-icon">🆘</div>
+                <div class="benefit-icon">
+                  <img src="/images/benefit-3.png" alt="${t.benefits.b3.title}" loading="lazy">
+                </div>
                 <h3>${t.benefits.b3.title}</h3>
                 <p>${t.benefits.b3.description}</p>
               </div>
