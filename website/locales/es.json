@@ -136,11 +136,21 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 EaseMind.io — Todos los derechos reservados.",
-    "links": {
-      "privacy": "Privacidad",
-      "terms": "Términos",
-      "contact": "Contacto"
-    }
+    "product": "Producto",
+    "legal": "Legal",
+    "download": "Descargar",
+    "how": "Cómo funciona",
+    "plans": "Planes",
+    "faq": "FAQ",
+    "contact": "Contacto",
+    "privacy": "Privacidad",
+    "terms": "Términos de Uso",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
+    "madeWith": "Hecho con",
+    "toHelp": "para ayudarte a encontrar calma",
+    "disclaimer": "EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.",
+    "disclaimerLabel": "Aviso Importante:",
+    "copyright": "© 2025 EaseMind. Todos los derechos reservados."
   }
 }
