@@ -1137,4 +1137,19 @@ footer {
     font-size: 0.8125rem;
     padding: 1.25rem;
   }
+
+
+/* === DOWNLOAD BADGES === */
+.store-badge-link:hover {
+  transform: translateY(-3px);
+}
+
+.store-badge-link:hover .store-badge {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.store-badge {
+  transition: all 0.3s ease;
+}
+
 }
