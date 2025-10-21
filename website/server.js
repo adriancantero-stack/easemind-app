@@ -309,8 +309,8 @@ function generateHTML(page, lang, t) {
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <ul class="nav-links">
-        <li><a href="/how-it-works?lang=${lang}" ${page === 'how-it-works' ? 'class="active"' : ''}>${t.nav.howItWorks}</a></li>
-        <li><a href="/plans?lang=${lang}" ${page === 'plans' ? 'class="active"' : ''}>${t.nav.pricing}</a></li>
+        <li><a href="/how-it-works?lang=${lang}" ${page === 'how-it-works' ? 'class="active"' : ''}>${t.nav.how}</a></li>
+        <li><a href="/plans?lang=${lang}" ${page === 'plans' ? 'class="active"' : ''}>${t.nav.plans}</a></li>
         <li><a href="/faq?lang=${lang}" ${page === 'faq' ? 'class="active"' : ''}>${t.nav.faq}</a></li>
         <li><a href="/contact?lang=${lang}" ${page === 'contact' ? 'class="active"' : ''}>${t.nav.contact}</a></li>
         <li class="lang-selector">
