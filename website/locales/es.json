@@ -48,19 +48,43 @@
     "h1": "Cómo funciona",
     "s1": {
       "title": "Habla con Luna",
-      "description": "Luna comprende cómo te sientes y responde con empatía. Voz natural, ritmo calmado y guía práctica."
+      "description": "Luna comprende cómo te sientes y responde con empatía. Voz natural, ritmo calmado y guía práctica.",
+      "feature1": "Conversaciones naturales:",
+      "feature1Desc": "Luna usa procesamiento de lenguaje natural para entender tus emociones y ofrecer respuestas empáticas y contextualizadas.",
+      "feature2": "Memoria contextual:",
+      "feature2Desc": "Ella recuerda tus conversaciones anteriores para ofrecer apoyo personalizado y consistente a lo largo del tiempo.",
+      "feature3": "Disponible 24/7:",
+      "feature3Desc": "Accede cuando lo necesites, sin citas ni colas de espera."
     },
     "s2": {
       "title": "Sesiones guiadas",
-      "description": "Prácticas cortas con música ambiental: 4-7-8, respiración en caja, relajación, gratitud, sueño y enfoque."
+      "description": "Prácticas cortas con música ambiental: 4-7-8, respiración en caja, relajación, gratitud, sueño y enfoque.",
+      "feature1": "Técnicas científicamente validadas:",
+      "feature1Desc": "Respiración 4-7-8, Box Breathing, relajación muscular progresiva, mindfulness y visualización guiada.",
+      "feature2": "Música ambiental personalizada:",
+      "feature2Desc": "Sonidos de la naturaleza, frecuencias binaurales y melodías relajantes para potenciar los ejercicios.",
+      "feature3": "Sesiones de 3 a 15 minutos:",
+      "feature3Desc": "Prácticas adaptables a tu rutina, ya sea para una pausa rápida o un momento más profundo de autocuidado."
     },
     "s3": {
       "title": "SOS con música calmante",
-      "description": "En crisis, pulsa SOS: respiración breve, contención y guía hacia ayuda inmediata."
+      "description": "En crisis, pulsa SOS: respiración breve, contención y guía hacia ayuda inmediata.",
+      "feature1": "Activación inmediata:",
+      "feature1Desc": "Un toque en el botón SOS inicia una sesión de respiración de emergencia con música calmante instantánea.",
+      "feature2": "Instrucciones claras y tranquilizadoras:",
+      "feature2Desc": "Voz guiada que te acompaña durante la crisis, enseñando técnicas de regulación emocional en tiempo real.",
+      "feature3": "Contactos de emergencia:",
+      "feature3Desc": "Acceso rápido a Línea de Crisis (911) y otros recursos de apoyo profesional."
     },
     "s4": {
       "title": "Diario y progreso",
-      "description": "Registra cómo te sientes, sigue tu progreso y descubre qué te ayuda más."
+      "description": "Registra cómo te sientes, sigue tu progreso y descubre qué te ayuda más.",
+      "feature1": "Registro emocional diario:",
+      "feature1Desc": "Sigue tus sentimientos, disparadores y patrones a lo largo del tiempo con insights basados en datos.",
+      "feature2": "Gráficos y tendencias:",
+      "feature2Desc": "Visualiza tu evolución emocional con gráficos intuitivos que muestran cómo estás progresando.",
+      "feature3": "Recomendaciones personalizadas:",
+      "feature3Desc": "Basándose en tu historial, Luna sugiere prácticas y horarios ideales para tus ejercicios."
     }
   },
   "plans": {
