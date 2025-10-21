@@ -62,15 +62,15 @@ O Emergent vai:
 
 Após deploy, teste na URL do Emergent:
 ```
-https://zen-app.preview.emergentagent.com/
+https://ui-revamp-21.preview.emergentagent.com/
    ↓
    Deve mostrar: Website Institucional (Home do EaseMind)
 
-https://zen-app.preview.emergentagent.com/app
+https://ui-revamp-21.preview.emergentagent.com/app
    ↓
    Deve mostrar: App Mobile (Expo)
 
-https://zen-app.preview.emergentagent.com/api/health
+https://ui-revamp-21.preview.emergentagent.com/api/health
    ↓
    Deve retornar: 200 OK
 ```
