@@ -849,25 +849,23 @@ section h2 {
 footer {
   background: linear-gradient(180deg, var(--surface-dark) 0%, var(--surface-dark-alt) 100%);
   color: var(--ink-blue);
-  padding: 5rem 0 2rem;
-}
-
-.footer-logo {
-  margin-bottom: 3rem;
-  max-width: 600px;
-}
-
-.footer-logo p {
-  color: var(--ink-blue);
-  line-height: 1.8;
-  margin-top: 1rem;
+  padding: 4rem 0 2rem;
 }
 
 .footer-content {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 4rem;
-  margin-bottom: 4rem;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  align-items: start;
+}
+
+.footer-brand {
+  max-width: 320px;
+}
+
+.footer-brand img {
+  display: block;
 }
 
 .footer-brand h3 {
@@ -879,6 +877,7 @@ footer {
 .footer-brand p {
   color: var(--ink-blue);
   line-height: 1.8;
+  font-size: 0.9375rem;
 }
 
 .footer-links h4 {
