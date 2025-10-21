@@ -109,7 +109,7 @@ p {
 
 /* === HEADER === */
 header {
-  background: transparent;
+  background: linear-gradient(180deg, #F7E7FF 0%, #E8F2FF 50%);
   backdrop-filter: none;
   box-shadow: none;
   border: none;
@@ -117,6 +117,8 @@ header {
   top: 0;
   z-index: 1000;
   transition: var(--transition-smooth);
+  margin: 0;
+  padding: 0;
 }
 
 header.scrolled {
