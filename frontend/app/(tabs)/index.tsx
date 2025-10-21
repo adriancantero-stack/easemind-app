@@ -160,21 +160,39 @@ export default function HomeScreen() {
 
   // Voice recording handlers
   const handleStartRecording = async () => {
-    const success = await startRecording();
-    if (!success) {
-      Alert.alert('Permissão necessária', 'Por favor, ative o acesso ao microfone para usar a função de voz.');
+    console.log('🎙️ handleStartRecording called');
+    try {
+      const success = await startRecording();
+      console.log('🎙️ startRecording result:', success);
+      if (!success) {
+        Alert.alert('Permissão necessária', 'Por favor, ative o acesso ao microfone para usar a função de voz.');
+      }
+    } catch (error) {
+      console.error('❌ handleStartRecording error:', error);
+      Alert.alert('Erro', 'Não foi possível iniciar a gravação.');
     }
   };
 
   const handleStopRecording = async () => {
-    const audioUri = await stopRecording();
-    if (audioUri) {
-      // Transcribe audio
-      const transcribedText = await transcribeAudio(audioUri, backendUrl);
-      if (transcribedText) {
-        // Auto-send transcribed text
-        await sendMessage(transcribedText);
+    console.log('🛑 handleStopRecording called');
+    try {
+      const audioUri = await stopRecording();
+      console.log('🛑 stopRecording result:', audioUri);
+      if (audioUri) {
+        console.log('📝 Starting transcription...');
+        // Transcribe audio
+        const transcribedText = await transcribeAudio(audioUri, backendUrl);
+        console.log('📝 Transcription result:', transcribedText);
+        if (transcribedText) {
+          // Auto-send transcribed text
+          await sendMessage(transcribedText);
+        } else {
+          Alert.alert('Erro', 'Não foi possível transcrever o áudio.');
+        }
       }
+    } catch (error) {
+      console.error('❌ handleStopRecording error:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao processar o áudio.');
     }
   };
 
