@@ -21,6 +21,16 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const pulseAnim = useRef(new Animated.Value(1)).current;
 
+  const handlePressIn = () => {
+    console.log('🎙️ VoiceButton: PressIn event triggered');
+    onPressIn();
+  };
+
+  const handlePressOut = () => {
+    console.log('🛑 VoiceButton: PressOut event triggered');
+    onPressOut();
+  };
+
   React.useEffect(() => {
     if (isRecording) {
       // Pulse animation
