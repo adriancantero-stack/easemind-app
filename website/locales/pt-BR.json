@@ -89,23 +89,47 @@
   },
   "plans": {
     "h1": "Escolha seu plano",
+    "subtitle": "Escolha o plano ideal para você",
     "free": {
       "title": "Gratuito",
+      "period": "Grátis para sempre",
       "price": "R$ 0",
       "features": [
-        "2 sessões/semana",
-        "Chat básico com a Luna",
-        "Diário limitado"
+        "Conversas ilimitadas com Luna",
+        "3 sessões guiadas por semana",
+        "Botão SOS básico",
+        "Diário emocional"
       ]
     },
     "monthly": {
       "title": "Premium Mensal",
-      "price": "R$ 29,90/mês"
+      "price": "R$ 29,90",
+      "period": "por mês",
+      "features": [
+        "Sessões ilimitadas com música",
+        "Voz natural da Luna (TTS)",
+        "SOS avançado com respiração",
+        "Diário completo + tendências",
+        "Suporte prioritário",
+        "Conteúdo exclusivo"
+      ]
     },
     "yearly": {
       "title": "Premium Anual",
-      "price": "R$ 299,00/ano"
+      "price": "R$ 199,90",
+      "period": "~R$ 16,66/mês • economize 30%",
+      "badge": "✨ Mais econômico",
+      "features": [
+        "Sessões ilimitadas com música",
+        "Voz natural da Luna (TTS)",
+        "SOS avançado com respiração",
+        "Diário completo + tendências",
+        "Suporte prioritário",
+        "Conteúdo exclusivo"
+      ]
     },
+    "legal": "Assinaturas com renovação automática. Cancele na App Store ou Google Play. Impostos locais podem se aplicar.",
+    "payment": "Aceitamos cartões de crédito, débito e PIX • Dados protegidos",
     "premium": {
       "features": [
         "Sessões ilimitadas com música",
