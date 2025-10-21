@@ -20,7 +20,9 @@
     "finalTitle": "Ready to get started?",
     "finalSubtitle": "Download EaseMind and find calm in minutes",
     "availableOn": "Available on the",
-    "availableAt": "Get it on"
+    "availableAt": "Get it on",
+    "downloadOn": "Download on the",
+    "getItOn": "Get it on"
   },
   "hero": {
     "h1": "Find calm and clarity in minutes",
