@@ -89,23 +89,47 @@
   },
   "plans": {
     "h1": "Elige tu plan",
+    "subtitle": "Elige el plan perfecto para ti",
     "free": {
       "title": "Gratis",
       "price": "$0",
+      "period": "Gratis para siempre",
       "features": [
-        "2 sesiones guiadas/semana",
-        "Chat básico con Luna",
-        "Diario limitado"
+        "Conversaciones ilimitadas con Luna",
+        "3 sesiones guiadas por semana",
+        "Botón SOS básico",
+        "Diario emocional"
       ]
     },
     "monthly": {
       "title": "Premium Mensual",
-      "price": "US$ 7.99/mes"
+      "price": "US$ 7.99",
+      "period": "por mes",
+      "features": [
+        "Sesiones ilimitadas con música",
+        "Voz natural de Luna (TTS)",
+        "SOS avanzado con respiración",
+        "Diario completo + tendencias",
+        "Soporte prioritario",
+        "Contenido exclusivo"
+      ]
     },
     "yearly": {
       "title": "Premium Anual",
-      "price": "US$ 79.90/año"
+      "price": "US$ 49.99",
+      "period": "~US$ 4.17/mes • ahorra 30%",
+      "badge": "✨ Mejor valor",
+      "features": [
+        "Sesiones ilimitadas con música",
+        "Voz natural de Luna (TTS)",
+        "SOS avanzado con respiración",
+        "Diario completo + tendencias",
+        "Soporte prioritario",
+        "Contenido exclusivo"
+      ]
     },
+    "legal": "Suscripciones con renovación automática. Cancela en App Store o Google Play. Pueden aplicarse impuestos locales.",
+    "payment": "Aceptamos tarjetas de crédito, débito y más • Datos protegidos",
     "premium": {
       "features": [
         "Sesiones ilimitadas con música",
@@ -114,8 +138,7 @@
         "Biblioteca 'Aprender' completa",
         "Soporte prioritario"
       ]
-    },
-    "legal": "Suscripciones con renovación automática. Cancela cuando quieras en App Store o Google Play. Pueden aplicarse impuestos locales."
+    }
   },
   "faq": {
     "h1": "Preguntas Frecuentes",
