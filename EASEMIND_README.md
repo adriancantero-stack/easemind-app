@@ -282,7 +282,8 @@ Pattern: Inhale 4 → Hold 4 → Exhale 4 → Hold 4
 ```
 MONGO_URL=mongodb://localhost:27017
 DB_NAME=test_database
-EMERGENT_LLM_KEY=sk-emergent-8365972AfCa4b54193
+EMERGENT_LLM_KEY=your-emergent-key-here
+OPENAI_API_KEY=your-openai-key-here
 ```
 
 ### Frontend (.env)
