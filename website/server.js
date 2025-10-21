@@ -360,7 +360,7 @@ function generateHTML(page, lang, t) {
     <div class="container">
       <div class="footer-content">
         <div class="footer-brand">
-          <h3>EaseMind</h3>
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
           <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
         </div>
         <div class="footer-links">
