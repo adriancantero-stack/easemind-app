@@ -243,8 +243,9 @@ nav {
   position: relative;
   overflow: hidden;
   padding: 10rem 0 8rem;
-  background: linear-gradient(180deg, var(--brand-soft) 0%, var(--secondary-soft) 100%);
+  background: linear-gradient(180deg, #E8F2FF 0%, #F7E7FF 100%);
   text-align: center;
+  margin-top: 0;
 }
 
 /* Breathing particles effect */
