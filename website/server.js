@@ -269,7 +269,7 @@ function generateHTML(page, lang, t) {
                   </svg>
                   <div style="text-align: left;">
                     <div style="color: rgba(255,255,255,0.8); font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.5px;">${t.cta.downloadOn}</div>
-                    <div style="color: white; font-size: 1.125rem; font-weight: 600; line-height: 1.2;">App Store</div>
+                    <div style="color: white; font-size: 1.125rem; font-weight: 600; line-height: 1.2;">${t.cta.availableOnAppStore}</div>
                   </div>
                 </div>
               </a>
