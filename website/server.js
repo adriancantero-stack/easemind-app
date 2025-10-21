@@ -263,13 +263,6 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        </section>
-      `;
-      break;
       
     case 'contact':
       content = `
