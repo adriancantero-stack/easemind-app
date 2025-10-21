@@ -362,38 +362,35 @@ function generateHTML(page, lang, t) {
         <div class="footer-brand">
           <h3>EaseMind</h3>
           <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
-          <div style="margin-top: 1.5rem;">
-            <a href="${appPreviewUrl}" class="btn btn-primary" target="_blank" rel="noopener" style="font-size: 0.9375rem; padding: 0.875rem 1.75rem;">Baixar App</a>
-          </div>
         </div>
         <div class="footer-links">
-          <h4>Produto</h4>
+          <h4>${t.footer.product}</h4>
           <ul>
-            <li><a href="/how-it-works?lang=${lang}">Como funciona</a></li>
-            <li><a href="/plans?lang=${lang}">Planos</a></li>
-            <li><a href="/faq?lang=${lang}">FAQ</a></li>
-            <li><a href="/contact?lang=${lang}">Contato</a></li>
+            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
+            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
+            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
+            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
           </ul>
         </div>
         <div class="footer-links">
-          <h4>Legal</h4>
+          <h4>${t.footer.legal}</h4>
           <ul>
-            <li><a href="/privacy?lang=${lang}">Privacidade</a></li>
-            <li><a href="/terms?lang=${lang}">Termos de Uso</a></li>
+            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
+            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
           </ul>
-          <h4 style="margin-top: 2rem;">Baixar</h4>
+          <h4 style="margin-top: 2rem;">${t.footer.download}</h4>
           <ul>
-            <li><a href="${appStoreUrl}" target="_blank" rel="noopener">App Store</a></li>
-            <li><a href="${playStoreUrl}" target="_blank" rel="noopener">Google Play</a></li>
+            <li><a href="${appStoreUrl}" target="_blank" rel="noopener">${t.footer.appStore}</a></li>
+            <li><a href="${playStoreUrl}" target="_blank" rel="noopener">${t.footer.googlePlay}</a></li>
           </ul>
         </div>
       </div>
-      <div class="disclaimer">
-        ⚕️ <strong>Aviso Importante:</strong> O EaseMind não substitui tratamento médico ou psicológico. Em caso de crise, procure ajuda profissional (CVV 188, SAMU 192) ou vá ao hospital mais próximo.
+      <div class="disclaimer" style="text-align: center;">
+        ⚕️ <strong>${t.footer.disclaimerLabel}</strong> ${t.footer.disclaimer}
       </div>
-      <div class="footer-bottom">
-        <p>&copy; ${new Date().getFullYear()} EaseMind. Todos os direitos reservados.</p>
-        <p>🇧🇷 Feito com ❤️ para ajudar você a encontrar calma</p>
+      <div class="footer-bottom" style="text-align: center;">
+        <p>${t.footer.copyright}</p>
+        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
       </div>
     </div>
   </footer>
