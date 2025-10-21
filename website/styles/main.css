@@ -109,7 +109,7 @@ p {
 
 /* === HEADER === */
 header {
-  background: linear-gradient(180deg, #F7E7FF 0%, #E8F2FF 50%);
+  background: #F7E7FF;
   backdrop-filter: none;
   box-shadow: none;
   border: none;
