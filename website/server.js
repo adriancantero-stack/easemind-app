@@ -194,7 +194,6 @@ function generateHTML(page, lang, t) {
                   <img src="/images/step-1.png" alt="${t.howItWorks.s1.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
                 </div>
                 <div class="step-content">
-                  <div class="step-number">01</div>
                   <h3>${t.howItWorks.s1.title}</h3>
                   <p>${t.howItWorks.s1.description}</p>
                   <ul style="margin-top: 1.5rem; line-height: 2;">
@@ -208,7 +207,6 @@ function generateHTML(page, lang, t) {
               <!-- Step 2: Guided Sessions -->
               <div class="step">
                 <div class="step-content">
-                  <div class="step-number">02</div>
                   <h3>${t.howItWorks.s2.title}</h3>
                   <p>${t.howItWorks.s2.description}</p>
                   <ul style="margin-top: 1.5rem; line-height: 2;">
@@ -228,7 +226,6 @@ function generateHTML(page, lang, t) {
                   <img src="/images/step-3.png" alt="${t.howItWorks.s3.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
                 </div>
                 <div class="step-content">
-                  <div class="step-number">03</div>
                   <h3>${t.howItWorks.s3.title}</h3>
                   <p>${t.howItWorks.s3.description}</p>
                   <ul style="margin-top: 1.5rem; line-height: 2;">
@@ -242,7 +239,6 @@ function generateHTML(page, lang, t) {
               <!-- Step 4: Journal & Progress -->
               <div class="step">
                 <div class="step-content">
-                  <div class="step-number">04</div>
                   <h3>${t.howItWorks.s4.title}</h3>
                   <p>${t.howItWorks.s4.description}</p>
                   <ul style="margin-top: 1.5rem; line-height: 2;">
@@ -252,7 +248,7 @@ function generateHTML(page, lang, t) {
                   </ul>
                 </div>
                 <div class="step-visual">
-                  <img src="/images/benefit-1.png" alt="${t.howItWorks.s4.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
+                  <img src="/images/step-4.png" alt="${t.howItWorks.s4.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
                 </div>
               </div>
             </div>
