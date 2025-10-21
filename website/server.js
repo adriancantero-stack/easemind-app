@@ -41,10 +41,11 @@ function detectLanguage(req) {
   return 'en';
 }
 
-// Helper: Generate HTML template
+// Helper: Generate HTML template (PREMIUM DESIGN)
 function generateHTML(page, lang, t) {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
+  const appPreviewUrl = 'https://calm-space-12.preview.emergentagent.com';
   
   let content = '';
   
