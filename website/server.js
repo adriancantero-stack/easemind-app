@@ -452,11 +452,18 @@ app.get('/privacy', (req, res) => {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">EaseMind</a>
+      <a href="/?lang=${lang}" class="logo">
+        <img src="/logo.png" alt="EaseMind Logo">
+      </a>
       <div class="lang-selector">
-        <a href="?lang=pt-BR">PT</a>
-        <a href="?lang=en">EN</a>
-        <a href="?lang=es">ES</a>
+        <button class="lang-selector-button">
+          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+        </button>
+        <div class="lang-selector-dropdown">
+          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
+          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+        </div>
       </div>
     </nav>
   </header>
