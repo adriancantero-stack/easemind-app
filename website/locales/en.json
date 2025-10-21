@@ -89,23 +89,47 @@
   },
   "plans": {
     "h1": "Choose your plan",
+    "subtitle": "Choose the perfect plan for you",
     "free": {
       "title": "Free",
       "price": "$0",
+      "period": "Free forever",
       "features": [
-        "2 guided sessions/week",
-        "Basic chat with Luna",
-        "Limited journal"
+        "Unlimited conversations with Luna",
+        "3 guided sessions per week",
+        "Basic SOS button",
+        "Emotional journal"
       ]
     },
     "monthly": {
       "title": "Premium Monthly",
-      "price": "$7.99/month"
+      "price": "$7.99",
+      "period": "per month",
+      "features": [
+        "Unlimited sessions with music",
+        "Luna's natural voice (TTS)",
+        "Advanced SOS with breathing",
+        "Full journal + trends",
+        "Priority support",
+        "Exclusive content"
+      ]
     },
     "yearly": {
       "title": "Premium Yearly",
-      "price": "$79.90/year"
+      "price": "$49.99",
+      "period": "~$4.17/month • save 30%",
+      "badge": "✨ Best value",
+      "features": [
+        "Unlimited sessions with music",
+        "Luna's natural voice (TTS)",
+        "Advanced SOS with breathing",
+        "Full journal + trends",
+        "Priority support",
+        "Exclusive content"
+      ]
     },
+    "legal": "Subscriptions auto-renew. Cancel anytime in the App Store or Google Play. Local taxes may apply.",
+    "payment": "We accept credit cards, debit cards, and more • Protected data",
     "premium": {
       "features": [
         "Unlimited sessions with music",
@@ -114,8 +138,7 @@
         "Full Learn library",
         "Priority support"
       ]
-    },
-    "legal": "Subscriptions auto-renew. Cancel anytime in the App Store or Google Play. Local taxes may apply."
+    }
   },
   "faq": {
     "h1": "Frequently Asked Questions",
