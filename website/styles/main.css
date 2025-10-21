@@ -852,9 +852,20 @@ footer {
   padding: 5rem 0 2rem;
 }
 
+.footer-logo {
+  margin-bottom: 3rem;
+  max-width: 600px;
+}
+
+.footer-logo p {
+  color: var(--ink-blue);
+  line-height: 1.8;
+  margin-top: 1rem;
+}
+
 .footer-content {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 4rem;
   margin-bottom: 4rem;
 }
