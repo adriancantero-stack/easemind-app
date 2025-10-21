@@ -147,6 +147,8 @@
   },
   "faq": {
     "h1": "Perguntas Frequentes",
+    "subtitle": "",
+    "more": "Ainda tem dúvidas?",
     "items": [
       {
         "q": "O EaseMind substitui um psicólogo?",
