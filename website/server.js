@@ -366,7 +366,7 @@ function generateHTML(page, lang, t) {
             </div>
             
             <div style="text-align: center; margin-top: 4rem;">
-              <p style="font-size: 1.125rem; margin-bottom: 1.5rem;">${t.faq.more}</p>
+              <p style="font-size: 1.125rem; margin-bottom: 1.5rem; text-align: center; margin-left: auto; margin-right: auto;">${t.faq.more}</p>
               <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact}</a>
             </div>
           </div>
