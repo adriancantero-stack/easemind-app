@@ -171,38 +171,64 @@ function generateHTML(page, lang, t) {
       
     case 'plans':
       content = `
-        <section class="plans-section">
+        <section class="pricing">
           <div class="container">
-            <h1>${t.plans.h1}</h1>
-            <div class="plans-grid">
-              <div class="plan-card">
+            <h2>${t.plans.h1}</h2>
+            <p class="section-subtitle">${t.plans.subtitle || 'Escolha o plano ideal para você'}</p>
+            
+            <div class="pricing-grid">
+              <!-- FREE PLAN -->
+              <div class="pricing-card">
                 <h3>${t.plans.free.title}</h3>
-                <p class="price">${t.plans.free.price}</p>
-                <ul>
-                  ${t.plans.free.features.map(f => `<li>${f}</li>`).join('')}
+                <div class="price">R$ 0</div>
+                <div class="period">${t.plans.free.period || 'Grátis para sempre'}</div>
+                <ul class="pricing-features">
+                  <li>Conversas ilimitadas com Luna</li>
+                  <li>3 sessões guiadas por semana</li>
+                  <li>Botão SOS básico</li>
+                  <li>Diário emocional</li>
                 </ul>
-                <a href="${appStoreUrl}" class="btn btn-outline">${t.cta.startFree}</a>
+                <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.startFree || 'Começar grátis'}</a>
               </div>
               
-              <div class="plan-card featured">
-                <h3>${t.plans.monthly.title}</h3>
-                <p class="price">${t.plans.monthly.price}</p>
-                <ul>
-                  ${t.plans.premium.features.map(f => `<li>${f}</li>`).join('')}
+              <!-- ANNUAL PLAN - FEATURED -->
+              <div class="pricing-card featured">
+                <div class="pricing-badge">✨ Mais econômico</div>
+                <h3>${t.plans.yearly.title || 'Premium Anual'}</h3>
+                <div class="price">R$ 199,90</div>
+                <div class="period">~R$ 16,66/mês • economize 30%</div>
+                <ul class="pricing-features">
+                  <li>✓ Sessões ilimitadas com música</li>
+                  <li>✓ Voz natural da Luna (TTS)</li>
+                  <li>✓ SOS avançado com respiração</li>
+                  <li>✓ Diário completo + tendências</li>
+                  <li>✓ Suporte prioritário</li>
+                  <li>✓ Conteúdo exclusivo</li>
                 </ul>
-                <a href="${appStoreUrl}" class="btn btn-primary">${t.cta.subMonthly}</a>
+                <a href="${appPreviewUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
               </div>
               
-              <div class="plan-card">
-                <h3>${t.plans.yearly.title}</h3>
-                <p class="price">${t.plans.yearly.price}</p>
-                <ul>
-                  ${t.plans.premium.features.map(f => `<li>${f}</li>`).join('')}
+              <!-- MONTHLY PLAN -->
+              <div class="pricing-card">
+                <h3>${t.plans.monthly.title || 'Premium Mensal'}</h3>
+                <div class="price">R$ 29,90</div>
+                <div class="period">por mês</div>
+                <ul class="pricing-features">
+                  <li>✓ Sessões ilimitadas com música</li>
+                  <li>✓ Voz natural da Luna (TTS)</li>
+                  <li>✓ SOS avançado com respiração</li>
+                  <li>✓ Diário completo + tendências</li>
+                  <li>✓ Suporte prioritário</li>
+                  <li>✓ Conteúdo exclusivo</li>
                 </ul>
-                <a href="${appStoreUrl}" class="btn btn-outline">${t.cta.subYearly}</a>
+                <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
               </div>
             </div>
-            <p class="legal-note">${t.plans.legal}</p>
+            
+            <div style="text-align: center; margin-top: 3rem; color: #6B7280; font-size: 0.875rem;">
+              <p>${t.plans.legal || 'Pagamentos seguros via App Store/Google Play. Cancele a qualquer momento.'}</p>
+              <p style="margin-top: 0.5rem;">💰 Aceitamos cartões de crédito, débito e PIX • 🔒 Dados protegidos</p>
+            </div>
           </div>
         </section>
       `;
