@@ -174,26 +174,109 @@ function generateHTML(page, lang, t) {
       
     case 'how-it-works':
       content = `
-        <section class="how-section">
+        <!-- HERO SECTION -->
+        <section class="hero" style="padding: 8rem 0 5rem; text-align: center;">
           <div class="container">
-            <h1>${t.howItWorks.h1}</h1>
-            <div class="how-grid">
-              <div class="how-item">
-                <h3>${t.howItWorks.s1.title}</h3>
-                <p>${t.howItWorks.s1.description}</p>
+            <h1 style="font-size: 3rem; margin-bottom: 1.5rem;">${t.howItWorks.title}</h1>
+            <p style="font-size: 1.25rem; color: var(--ink-blue); max-width: 700px; margin: 0 auto 2rem;">
+              ${t.howItWorks.subtitle}
+            </p>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS DETAILED -->
+        <section class="how-it-works" style="padding: 4rem 0;">
+          <div class="container">
+            <div class="steps">
+              <!-- Step 1: Luna Chat -->
+              <div class="step">
+                <div class="step-visual">
+                  <img src="/images/step-1.png" alt="${t.howItWorks.s1.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
+                </div>
+                <div class="step-content">
+                  <div class="step-number">01</div>
+                  <h3>${t.howItWorks.s1.title}</h3>
+                  <p>${t.howItWorks.s1.description}</p>
+                  <ul style="margin-top: 1.5rem; line-height: 2;">
+                    <li><strong>${t.howItWorks.s1.feature1 || 'Conversas naturais:'}</strong> ${t.howItWorks.s1.feature1Desc || 'Luna usa processamento de linguagem natural para entender suas emoções e oferecer respostas empáticas e contextualizadas.'}</li>
+                    <li><strong>${t.howItWorks.s1.feature2 || 'Memória contextual:'}</strong> ${t.howItWorks.s1.feature2Desc || 'Ela lembra de suas conversas anteriores para oferecer suporte personalizado e consistente ao longo do tempo.'}</li>
+                    <li><strong>${t.howItWorks.s1.feature3 || 'Disponível 24/7:'}</strong> ${t.howItWorks.s1.feature3Desc || 'Acesse quando precisar, sem agendamentos ou filas de espera.'}</li>
+                  </ul>
+                </div>
               </div>
-              <div class="how-item">
-                <h3>${t.howItWorks.s2.title}</h3>
-                <p>${t.howItWorks.s2.description}</p>
+
+              <!-- Step 2: Guided Sessions -->
+              <div class="step">
+                <div class="step-content">
+                  <div class="step-number">02</div>
+                  <h3>${t.howItWorks.s2.title}</h3>
+                  <p>${t.howItWorks.s2.description}</p>
+                  <ul style="margin-top: 1.5rem; line-height: 2;">
+                    <li><strong>${t.howItWorks.s2.feature1 || 'Técnicas cientificamente validadas:'}</strong> ${t.howItWorks.s2.feature1Desc || 'Respiração 4-7-8, Box Breathing, relaxamento muscular progressivo, mindfulness e visualização guiada.'}</li>
+                    <li><strong>${t.howItWorks.s2.feature2 || 'Música ambiente personalizada:'}</strong> ${t.howItWorks.s2.feature2Desc || 'Sons da natureza, frequências binaurais e melodias relaxantes para potencializar os exercícios.'}</li>
+                    <li><strong>${t.howItWorks.s2.feature3 || 'Sessões de 3 a 15 minutos:'}</strong> ${t.howItWorks.s2.feature3Desc || 'Práticas adaptáveis à sua rotina, seja para uma pausa rápida ou um momento mais profundo de autocuidado.'}</li>
+                  </ul>
+                </div>
+                <div class="step-visual">
+                  <img src="/images/step-2.png" alt="${t.howItWorks.s2.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
+                </div>
               </div>
-              <div class="how-item">
-                <h3>${t.howItWorks.s3.title}</h3>
-                <p>${t.howItWorks.s3.description}</p>
+
+              <!-- Step 3: SOS Panic Button -->
+              <div class="step">
+                <div class="step-visual">
+                  <img src="/images/step-3.png" alt="${t.howItWorks.s3.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
+                </div>
+                <div class="step-content">
+                  <div class="step-number">03</div>
+                  <h3>${t.howItWorks.s3.title}</h3>
+                  <p>${t.howItWorks.s3.description}</p>
+                  <ul style="margin-top: 1.5rem; line-height: 2;">
+                    <li><strong>${t.howItWorks.s3.feature1 || 'Ativação imediata:'}</strong> ${t.howItWorks.s3.feature1Desc || 'Um toque no botão SOS inicia uma sessão de respiração de emergência com música calmante instantânea.'}</li>
+                    <li><strong>${t.howItWorks.s3.feature2 || 'Instruções claras e tranquilizadoras:'}</strong> ${t.howItWorks.s3.feature2Desc || 'Voz guiada que acompanha você durante a crise, ensinando técnicas de regulação emocional em tempo real.'}</li>
+                    <li><strong>${t.howItWorks.s3.feature3 || 'Contatos de emergência:'}</strong> ${t.howItWorks.s3.feature3Desc || 'Acesso rápido a CVV (188), SAMU (192) e outros recursos de apoio profissional.'}</li>
+                  </ul>
+                </div>
               </div>
-              <div class="how-item">
-                <h3>${t.howItWorks.s4.title}</h3>
-                <p>${t.howItWorks.s4.description}</p>
+
+              <!-- Step 4: Journal & Progress -->
+              <div class="step">
+                <div class="step-content">
+                  <div class="step-number">04</div>
+                  <h3>${t.howItWorks.s4.title}</h3>
+                  <p>${t.howItWorks.s4.description}</p>
+                  <ul style="margin-top: 1.5rem; line-height: 2;">
+                    <li><strong>${t.howItWorks.s4.feature1 || 'Registro emocional diário:'}</strong> ${t.howItWorks.s4.feature1Desc || 'Acompanhe seus sentimentos, gatilhos e padrões ao longo do tempo com insights baseados em dados.'}</li>
+                    <li><strong>${t.howItWorks.s4.feature2 || 'Gráficos e tendências:'}</strong> ${t.howItWorks.s4.feature2Desc || 'Visualize sua evolução emocional com gráficos intuitivos que mostram como você está progredindo.'}</li>
+                    <li><strong>${t.howItWorks.s4.feature3 || 'Recomendações personalizadas:'}</strong> ${t.howItWorks.s4.feature3Desc || 'Com base no seu histórico, Luna sugere práticas e horários ideais para seus exercícios.'}</li>
+                  </ul>
+                </div>
+                <div class="step-visual">
+                  <img src="/images/benefit-1.png" alt="${t.howItWorks.s4.title}" loading="lazy" style="width: 100%; height: auto; border-radius: 24px;">
+                </div>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="benefits" id="download" style="padding: 6rem 0; text-align: center; background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);">
+          <div class="container">
+            <h2 style="color: white; font-size: 2.5rem; margin-bottom: 1rem;">${t.cta.finalTitle}</h2>
+            <p style="color: rgba(255,255,255,0.9); font-size: 1.25rem; margin-bottom: 2.5rem;">${t.cta.finalSubtitle}</p>
+            <div class="cta-group" style="justify-content: center;">
+              <a href="${appStoreUrl}" class="btn btn-primary" target="_blank" rel="noopener" style="background: white; color: var(--brand-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                </svg>
+                ${t.cta.availableOn} App Store
+              </a>
+              <a href="${playStoreUrl}" class="btn btn-primary" target="_blank" rel="noopener" style="background: white; color: var(--brand-primary);">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style="margin-right: 0.5rem;">
+                  <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.53,12.9 20.18,13.18L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z"/>
+                </svg>
+                ${t.cta.availableAt} Google Play
+              </a>
             </div>
           </div>
         </section>
