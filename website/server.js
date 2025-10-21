@@ -178,7 +178,7 @@ function generateHTML(page, lang, t) {
         <section class="hero" style="padding: 8rem 0 5rem; text-align: center;">
           <div class="container">
             <h1 style="font-size: 3rem; margin-bottom: 1.5rem;">${t.howItWorks.title}</h1>
-            <p style="font-size: 1.25rem; color: var(--ink-blue); max-width: 700px; margin: 0 auto 2rem;">
+            <p style="font-size: 1.25rem; color: rgba(255, 255, 255, 0.85); font-weight: 500; max-width: 700px; margin: 0 auto 2rem;">
               ${t.howItWorks.subtitle}
             </p>
           </div>
