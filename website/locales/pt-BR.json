@@ -58,15 +58,33 @@
     },
     "s2": {
       "title": "Sessões guiadas",
-      "description": "Práticas curtas com música ambiente: 4-7-8, Box Breathing, relaxamento, gratidão, sono e foco."
+      "description": "Práticas curtas com música ambiente: 4-7-8, Box Breathing, relaxamento, gratidão, sono e foco.",
+      "feature1": "Técnicas cientificamente validadas:",
+      "feature1Desc": "Respiração 4-7-8, Box Breathing, relaxamento muscular progressivo, mindfulness e visualização guiada.",
+      "feature2": "Música ambiente personalizada:",
+      "feature2Desc": "Sons da natureza, frequências binaurais e melodias relaxantes para potencializar os exercícios.",
+      "feature3": "Sessões de 3 a 15 minutos:",
+      "feature3Desc": "Práticas adaptáveis à sua rotina, seja para uma pausa rápida ou um momento mais profundo de autocuidado."
     },
     "s3": {
       "title": "SOS com música calmante",
-      "description": "Em crise, toque no SOS: respiração curta, acolhimento e orientação para ajuda imediata."
+      "description": "Em crise, toque no SOS: respiração curta, acolhimento e orientação para ajuda imediata.",
+      "feature1": "Ativação imediata:",
+      "feature1Desc": "Um toque no botão SOS inicia uma sessão de respiração de emergência com música calmante instantânea.",
+      "feature2": "Instruções claras e tranquilizadoras:",
+      "feature2Desc": "Voz guiada que acompanha você durante a crise, ensinando técnicas de regulação emocional em tempo real.",
+      "feature3": "Contatos de emergência:",
+      "feature3Desc": "Acesso rápido a CVV (188), SAMU (192) e outros recursos de apoio profissional."
     },
     "s4": {
       "title": "Diário e progresso",
-      "description": "Registre como se sente, acompanhe seu progresso e descubra o que funciona melhor para você."
+      "description": "Registre como se sente, acompanhe seu progresso e descubra o que funciona melhor para você.",
+      "feature1": "Registro emocional diário:",
+      "feature1Desc": "Acompanhe seus sentimentos, gatilhos e padrões ao longo do tempo com insights baseados em dados.",
+      "feature2": "Gráficos e tendências:",
+      "feature2Desc": "Visualize sua evolução emocional com gráficos intuitivos que mostram como você está progredindo.",
+      "feature3": "Recomendações personalizadas:",
+      "feature3Desc": "Com base no seu histórico, Luna sugere práticas e horários ideais para seus exercícios."
     }
   },
   "plans": {
