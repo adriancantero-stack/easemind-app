@@ -1126,9 +1126,41 @@ footer {
   }
   
   /* Contact Form */
+  .contact-form {
+    padding: 2rem 1.5rem;
+  }
+  
   .contact-form input,
   .contact-form textarea {
     font-size: 1rem;
+    padding: 0.875rem 1rem;
+  }
+  
+  .contact-section {
+    padding: 4rem 0;
+  }
+  
+  .contact-section h1 {
+    font-size: 2rem;
+  }
+  
+  .contact-section p {
+    font-size: 1rem;
+  }
+  
+  /* FAQ */
+  .faq-question {
+    padding: 1.5rem;
+    font-size: 1.0625rem;
+  }
+  
+  .faq-answer {
+    padding: 0 1.5rem;
+    font-size: 1rem;
+  }
+  
+  .faq-item.active .faq-answer {
+    padding: 0 1.5rem 1.5rem;
   }
 }
 
