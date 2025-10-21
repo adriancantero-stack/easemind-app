@@ -349,14 +349,14 @@ function generateHTML(page, lang, t) {
         <section class="faq">
           <div class="container">
             <h2>${t.faq.h1}</h2>
-            <p class="section-subtitle">${t.faq.subtitle || 'Perguntas frequentes'}</p>
+            ${t.faq.subtitle ? `<p class="section-subtitle">${t.faq.subtitle}</p>` : ''}
             
             <div class="faq-list">
               ${t.faq.items.map((item, index) => `
                 <div class="faq-item">
-                  <button class="faq-question">
+                  <button class="faq-question" onclick="this.parentElement.classList.toggle('active')">
                     ${item.q}
-                    <span>›</span>
+                    <span class="faq-icon">›</span>
                   </button>
                   <div class="faq-answer">
                     ${item.a}
@@ -366,8 +366,8 @@ function generateHTML(page, lang, t) {
             </div>
             
             <div style="text-align: center; margin-top: 4rem;">
-              <p style="font-size: 1.125rem; margin-bottom: 1.5rem;">${t.faq.more || 'Ainda tem dúvidas?'}</p>
-              <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact || 'Entre em contato'}</a>
+              <p style="font-size: 1.125rem; margin-bottom: 1.5rem;">${t.faq.more}</p>
+              <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact}</a>
             </div>
           </div>
         </section>
