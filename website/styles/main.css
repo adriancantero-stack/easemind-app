@@ -161,42 +161,7 @@ nav {
   color: var(--brand-dark);
 }
 
-.nav-links {
-  display: flex;
-  gap: 2.5rem;
-  align-items: center;
-}
-
-.nav-links a {
-  color: var(--ink-600);
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  transition: var(--transition-smooth);
-  position: relative;
-}
-
-.nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--brand-primary);
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  width: 100%;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-  color: var(--brand-primary);
-}
-
+/* Language Selector */
 .lang-selector {
   position: relative;
 }
@@ -206,20 +171,18 @@ nav {
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  border: 2px solid var(--brand-soft);
+  border: none;
   border-radius: 12px;
-  background: white;
+  background: transparent;
   font-size: 0.875rem;
   font-weight: 700;
   color: var(--brand-primary);
   cursor: pointer;
   transition: var(--transition-smooth);
-  box-shadow: 0 2px 8px rgba(139, 111, 243, 0.1);
 }
 
 .lang-selector-button:hover {
-  background: var(--brand-soft);
-  box-shadow: 0 4px 12px rgba(139, 111, 243, 0.15);
+  background: rgba(139, 111, 243, 0.08);
 }
 
 .lang-selector-dropdown {
