@@ -27,6 +27,8 @@
     "subtitle": "Your virtual therapist Luna welcomes, guides, and supports you with breathing, mindfulness, and evidence-based psychology."
   },
   "benefits": {
+    "title": "Why choose EaseMind?",
+    "subtitle": "Emotional support when you need it most",
     "b1": {
       "title": "Emotional support anytime",
       "description": "Talk to Luna and relieve anxiety with CBT, guided breathing, and real empathy."
@@ -41,6 +43,8 @@
     }
   },
   "howItWorks": {
+    "title": "How it works",
+    "subtitle": "Simple, fast, and effective",
     "h1": "How it works",
     "s1": {
       "title": "Talk to Luna",
