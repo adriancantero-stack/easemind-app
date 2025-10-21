@@ -146,6 +146,8 @@
   },
   "faq": {
     "h1": "Preguntas Frecuentes",
+    "subtitle": "",
+    "more": "¿Aún tienes dudas?",
     "items": [
       {
         "q": "¿EaseMind reemplaza a un terapeuta?",
