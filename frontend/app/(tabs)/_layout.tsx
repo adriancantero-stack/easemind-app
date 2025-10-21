@@ -1,6 +1,6 @@
 import { Tabs } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { Animated, Easing } from 'react-native';
+import { Animated, Easing, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
