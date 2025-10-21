@@ -48,19 +48,43 @@
     "h1": "How it works",
     "s1": {
       "title": "Talk to Luna",
-      "description": "Luna understands how you feel and replies with empathy. Natural voice, calm pace, and practical guidance."
+      "description": "Luna understands how you feel and replies with empathy. Natural voice, calm pace, and practical guidance.",
+      "feature1": "Natural conversations:",
+      "feature1Desc": "Luna uses natural language processing to understand your emotions and offer empathetic, contextual responses.",
+      "feature2": "Contextual memory:",
+      "feature2Desc": "She remembers your previous conversations to provide personalized and consistent support over time.",
+      "feature3": "Available 24/7:",
+      "feature3Desc": "Access whenever you need, with no appointments or waiting queues."
     },
     "s2": {
       "title": "Guided sessions",
-      "description": "Short practices with ambient music: 4-7-8, box breathing, relaxation, gratitude, sleep, and focus."
+      "description": "Short practices with ambient music: 4-7-8, box breathing, relaxation, gratitude, sleep, and focus.",
+      "feature1": "Scientifically validated techniques:",
+      "feature1Desc": "4-7-8 breathing, Box Breathing, progressive muscle relaxation, mindfulness, and guided visualization.",
+      "feature2": "Personalized ambient music:",
+      "feature2Desc": "Nature sounds, binaural frequencies, and relaxing melodies to enhance the exercises.",
+      "feature3": "Sessions from 3 to 15 minutes:",
+      "feature3Desc": "Practices adaptable to your routine, whether for a quick break or a deeper moment of self-care."
     },
     "s3": {
       "title": "SOS with calming music",
-      "description": "In distress, tap SOS: short breathing, reassurance, and guidance to immediate help."
+      "description": "In distress, tap SOS: short breathing, reassurance, and guidance to immediate help.",
+      "feature1": "Immediate activation:",
+      "feature1Desc": "One tap on the SOS button starts an emergency breathing session with instant calming music.",
+      "feature2": "Clear and reassuring instructions:",
+      "feature2Desc": "Guided voice that accompanies you during the crisis, teaching emotional regulation techniques in real-time.",
+      "feature3": "Emergency contacts:",
+      "feature3Desc": "Quick access to Lifeline (988), Emergency (911), and other professional support resources."
     },
     "s4": {
       "title": "Journal & progress",
-      "description": "Record how you feel, track your progress, and discover what helps you most."
+      "description": "Record how you feel, track your progress, and discover what helps you most.",
+      "feature1": "Daily emotional tracking:",
+      "feature1Desc": "Track your feelings, triggers, and patterns over time with data-based insights.",
+      "feature2": "Charts and trends:",
+      "feature2Desc": "Visualize your emotional evolution with intuitive graphs showing how you're progressing.",
+      "feature3": "Personalized recommendations:",
+      "feature3Desc": "Based on your history, Luna suggests ideal practices and times for your exercises."
     }
   },
   "plans": {
