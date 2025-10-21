@@ -358,11 +358,11 @@ function generateHTML(page, lang, t) {
   
   <footer>
     <div class="container">
-      <div class="footer-logo">
-        <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
-        <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
-      </div>
       <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
+          <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
+        </div>
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
