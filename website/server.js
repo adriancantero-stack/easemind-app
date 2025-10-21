@@ -305,19 +305,25 @@ function generateHTML(page, lang, t) {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">EaseMind</a>
-      <div class="nav-links">
-        <a href="/?lang=${lang}">${t.nav.home}</a>
-        <a href="/how-it-works?lang=${lang}">${t.nav.how}</a>
-        <a href="/plans?lang=${lang}">${t.nav.plans}</a>
-        <a href="/faq?lang=${lang}">${t.nav.faq}</a>
-        <a href="/contact?lang=${lang}">${t.nav.contact}</a>
-      </div>
-      <div class="lang-selector">
-        <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>PT</a>
-        <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>EN</a>
-        <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>ES</a>
-      </div>
+      <a href="/?lang=${lang}" class="logo">
+        <img src="/logo.png" alt="EaseMind Logo">
+      </a>
+      <ul class="nav-links">
+        <li><a href="/how-it-works?lang=${lang}" ${page === 'how-it-works' ? 'class="active"' : ''}>${t.nav.howItWorks}</a></li>
+        <li><a href="/plans?lang=${lang}" ${page === 'plans' ? 'class="active"' : ''}>${t.nav.pricing}</a></li>
+        <li><a href="/faq?lang=${lang}" ${page === 'faq' ? 'class="active"' : ''}>${t.nav.faq}</a></li>
+        <li><a href="/contact?lang=${lang}" ${page === 'contact' ? 'class="active"' : ''}>${t.nav.contact}</a></li>
+        <li class="lang-selector">
+          <button class="lang-selector-button">
+            ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          </button>
+          <div class="lang-selector-dropdown">
+            <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
+            <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+            <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          </div>
+        </li>
+      </ul>
     </nav>
   </header>
   
