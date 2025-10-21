@@ -318,7 +318,7 @@ function generateHTML(page, lang, t) {
                 <div class="price">${t.plans.yearly.price}</div>
                 <div class="period">${t.plans.yearly.period}</div>
                 <ul class="pricing-features">
-                  ${t.plans.yearly.features.map(f => `<li>✓ ${f}</li>`).join('')}
+                  ${t.plans.yearly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
                 <a href="${appPreviewUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
               </div>
@@ -329,7 +329,7 @@ function generateHTML(page, lang, t) {
                 <div class="price">${t.plans.monthly.price}</div>
                 <div class="period">${t.plans.monthly.period}</div>
                 <ul class="pricing-features">
-                  ${t.plans.monthly.features.map(f => `<li>✓ ${f}</li>`).join('')}
+                  ${t.plans.monthly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
                 <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
               </div>
