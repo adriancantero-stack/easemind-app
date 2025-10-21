@@ -368,7 +368,7 @@ function generateHTML(page, lang, t) {
       </div>
       <div class="footer-bottom">
         <p>&copy; ${new Date().getFullYear()} EaseMind. Todos os direitos reservados.</p>
-        <p style="margin-top: 0.5rem; font-size: 0.875rem;">🇧🇷 Feito com ❤️ para ajudar você a encontrar calma</p>
+        <p>🇧🇷 Feito com ❤️ para ajudar você a encontrar calma</p>
       </div>
     </div>
   </footer>
