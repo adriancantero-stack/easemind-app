@@ -20,7 +20,9 @@
     "finalTitle": "Pronto para começar?",
     "finalSubtitle": "Baixe o EaseMind e encontre calma em poucos minutos",
     "availableOn": "Disponível na",
-    "availableAt": "Disponível no"
+    "availableAt": "Disponível no",
+    "downloadOn": "Disponível no",
+    "getItOn": "Disponível no"
   },
   "hero": {
     "h1": "Encontre calma e clareza em poucos minutos",
