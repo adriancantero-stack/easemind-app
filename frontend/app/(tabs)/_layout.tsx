@@ -87,6 +87,7 @@ export default function TabLayout() {
                 style={{
                   transform: [{ scale: pulseAnim }],
                   marginTop: -20,
+                  alignItems: 'center',
                 }}
               >
                 <Image
@@ -97,9 +98,21 @@ export default function TabLayout() {
                     resizeMode: 'contain',
                   }}
                 />
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: '600',
+                    color: '#BDAAFF',
+                    marginTop: 2,
+                    letterSpacing: 1,
+                    opacity: 0.8,
+                  }}
+                >
+                  SOS
+                </Text>
               </Animated.View>
             ),
-            tabBarLabel: () => null, // Remove o texto "SOS" de baixo
+            tabBarLabel: () => null,
           }}
           listeners={{
             tabPress: (e) => {
