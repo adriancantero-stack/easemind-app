@@ -90,7 +90,10 @@ export default function HomeScreen() {
     setIsLoading(true);
 
     try {
-      console.log('🚀 Sending message to:', `${backendUrl}/api/chat`);
+      console.log('=== SEND MESSAGE DEBUG ===');
+      console.log('🚀 Backend URL:', backendUrl);
+      console.log('🚀 Full endpoint:', `${backendUrl}/api/chat`);
+      console.log('🆔 User ID:', userId);
       
       // Filter messages from last 24 hours
       const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
@@ -102,7 +105,8 @@ export default function HomeScreen() {
         content: msg.content
       }));
       
-      console.log('📦 Payload:', { message: userMessage, user_id: userId, history: `${history.length} messages` });
+      console.log('📦 Message:', userMessage);
+      console.log('📦 History length:', history.length);
       
       const response = await fetch(`${backendUrl}/api/chat`, {
         method: 'POST',
