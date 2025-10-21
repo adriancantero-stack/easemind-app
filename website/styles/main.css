@@ -109,7 +109,7 @@ p {
 
 /* === HEADER === */
 header {
-  background-color: transparent;
+  background: linear-gradient(180deg, #F7E7FF 0%, #E8F2FF 100%);
   backdrop-filter: none;
   box-shadow: none;
   position: sticky;
@@ -120,7 +120,7 @@ header {
 
 header.scrolled {
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
-  background-color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(180deg, rgba(247, 231, 255, 0.95) 0%, rgba(232, 242, 255, 0.95) 100%);
   backdrop-filter: blur(12px) saturate(180%);
 }
 
