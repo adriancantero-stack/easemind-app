@@ -780,21 +780,34 @@ section h2 {
   background: var(--brand-soft);
 }
 
-.faq-question span {
+.faq-question .faq-icon {
   font-size: 1.5rem;
   font-weight: 700;
   transition: transform 0.3s;
+  display: inline-block;
 }
 
-.faq-question:hover span {
+.faq-question:hover .faq-icon {
   transform: translateX(4px);
 }
 
+.faq-item.active .faq-question .faq-icon {
+  transform: rotate(90deg);
+}
+
 .faq-answer {
-  padding: 0 2.5rem 2rem;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 2.5rem;
   color: var(--ink-600);
   line-height: 1.8;
   font-size: 1.0625rem;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+  max-height: 500px;
+  padding: 0 2.5rem 2rem;
 }
 
 /* === CONTACT === */
