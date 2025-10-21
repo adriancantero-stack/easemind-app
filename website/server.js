@@ -53,30 +53,88 @@ function generateHTML(page, lang, t) {
   switch(page) {
     case 'home':
       content = `
+        <!-- HERO SECTION -->
         <section class="hero">
           <div class="container">
             <h1>${t.hero.h1}</h1>
-            <p class="hero-subtitle">${t.hero.subtitle}</p>
-            <div class="cta-buttons">
-              <a href="${appStoreUrl}" class="btn btn-primary" target="_blank" rel="noopener">${t.cta.download}</a>
+            <p>${t.hero.subtitle}</p>
+            <div class="cta-group">
+              <a href="${appPreviewUrl}" class="btn btn-primary" target="_blank" rel="noopener">${t.cta.download}</a>
               <a href="/how-it-works?lang=${lang}" class="btn btn-secondary">${t.cta.how}</a>
             </div>
           </div>
         </section>
         
+        <!-- BENEFITS SECTION -->
         <section class="benefits">
           <div class="container">
-            <div class="benefit-card">
-              <h3>${t.benefits.b1.title}</h3>
-              <p>${t.benefits.b1.description}</p>
+            <h2>${t.benefits.title || 'Por que escolher o EaseMind?'}</h2>
+            <p class="section-subtitle">${t.benefits.subtitle || 'Apoio emocional quando você mais precisa'}</p>
+            <div class="benefit-grid">
+              <div class="benefit-card">
+                <div class="benefit-icon">💬</div>
+                <h3>${t.benefits.b1.title}</h3>
+                <p>${t.benefits.b1.description}</p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon">🎵</div>
+                <h3>${t.benefits.b2.title}</h3>
+                <p>${t.benefits.b2.description}</p>
+              </div>
+              <div class="benefit-card">
+                <div class="benefit-icon">🆘</div>
+                <h3>${t.benefits.b3.title}</h3>
+                <p>${t.benefits.b3.description}</p>
+              </div>
             </div>
-            <div class="benefit-card">
-              <h3>${t.benefits.b2.title}</h3>
-              <p>${t.benefits.b2.description}</p>
+          </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section class="how-it-works">
+          <div class="container">
+            <h2>${t.howItWorks.h1}</h2>
+            <p class="section-subtitle">${t.howItWorks.subtitle || 'Simples, rápido e eficaz'}</p>
+            <div class="steps">
+              <div class="step">
+                <div class="step-visual">💭</div>
+                <div class="step-content">
+                  <h3>${t.howItWorks.s1.title}</h3>
+                  <p>${t.howItWorks.s1.description}</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-visual">🎧</div>
+                <div class="step-content">
+                  <h3>${t.howItWorks.s2.title}</h3>
+                  <p>${t.howItWorks.s2.description}</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-visual">🚨</div>
+                <div class="step-content">
+                  <h3>${t.howItWorks.s3.title}</h3>
+                  <p>${t.howItWorks.s3.description}</p>
+                </div>
+              </div>
+              <div class="step">
+                <div class="step-visual">📔</div>
+                <div class="step-content">
+                  <h3>${t.howItWorks.s4?.title || 'Diário Emocional'}</h3>
+                  <p>${t.howItWorks.s4?.description || 'Registre seus sentimentos e acompanhe seu progresso ao longo do tempo.'}</p>
+                </div>
+              </div>
             </div>
-            <div class="benefit-card">
-              <h3>${t.benefits.b3.title}</h3>
-              <p>${t.benefits.b3.description}</p>
+          </div>
+        </section>
+
+        <!-- CTA FINAL -->
+        <section class="benefits" style="padding: 4rem 0; text-align: center;">
+          <div class="container">
+            <h2>${t.cta.finalTitle || 'Pronto para começar?'}</h2>
+            <p class="section-subtitle">${t.cta.finalSubtitle || 'Baixe o EaseMind e encontre calma em poucos minutos'}</p>
+            <div class="cta-group">
+              <a href="${appPreviewUrl}" class="btn btn-primary" target="_blank" rel="noopener">${t.cta.download}</a>
             </div>
           </div>
         </section>
