@@ -139,9 +139,18 @@
     "product": "Product",
     "legal": "Legal",
     "download": "Download",
+    "how": "How it works",
+    "plans": "Plans",
+    "faq": "FAQ",
+    "contact": "Contact",
+    "privacy": "Privacy",
+    "terms": "Terms of Use",
+    "appStore": "App Store",
+    "googlePlay": "Google Play",
     "madeWith": "Made with",
     "toHelp": "to help you find calm",
-    "disclaimer": "EaseMind does not replace medical or psychological treatment. In case of crisis, seek professional help (CVV 188, SAMU 192) or go to the nearest hospital.",
-    "rights": "All rights reserved"
+    "disclaimer": "EaseMind does not replace medical or psychological treatment. In case of crisis, seek professional help (Lifeline 988, Emergency 911) or go to the nearest hospital.",
+    "disclaimerLabel": "Important Notice:",
+    "copyright": "© 2025 EaseMind. All rights reserved."
   }
 }
