@@ -27,7 +27,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
-        "https://calm-space-12.preview.emergentagent.com",
+        "https://zen-app.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],

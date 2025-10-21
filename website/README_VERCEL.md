@@ -78,7 +78,7 @@ website/
 O website terá links para o app:
 - **App Store**: `https://apps.apple.com/app/easemind` (quando publicar)
 - **Google Play**: `https://play.google.com/store/apps/details?id=io.easemind`
-- **Web Preview**: `https://calm-space-12.preview.emergentagent.com`
+- **Web Preview**: `https://zen-app.preview.emergentagent.com`
 
 ## 💰 Custo
 

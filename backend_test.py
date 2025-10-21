@@ -206,7 +206,7 @@ class UnifiedProxyTester:
         
         try:
             headers = {
-                "Origin": "https://calm-space-12.preview.emergentagent.com",
+                "Origin": "https://zen-app.preview.emergentagent.com",
                 "Access-Control-Request-Method": "POST",
                 "Access-Control-Request-Headers": "Content-Type"
             }
