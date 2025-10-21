@@ -20,27 +20,29 @@ export default function TabLayout() {
     loadFromStorage();
   }, []);
 
-  // Pulse animation for SOS button
+  // Breathing animation for SOS button (inhale/exhale rhythm)
   useEffect(() => {
-    // Slow breathing effect: 4s loop (1.0 → 1.05)
-    const pulse = Animated.loop(
+    // Realistic breathing: 4.5s inhale, 4.5s exhale (1.0 → 1.08)
+    const breathe = Animated.loop(
       Animated.sequence([
+        // Inhale
         Animated.timing(pulseAnim, {
-          toValue: 1.05,
-          duration: 2000,
+          toValue: 1.08,
+          duration: 4500,
           useNativeDriver: true,
-          easing: Easing.inOut(Easing.ease),
+          easing: Easing.bezier(0.4, 0.0, 0.2, 1), // Smooth ease-in-out
         }),
+        // Exhale
         Animated.timing(pulseAnim, {
           toValue: 1,
-          duration: 2000,
+          duration: 4500,
           useNativeDriver: true,
-          easing: Easing.inOut(Easing.ease),
+          easing: Easing.bezier(0.4, 0.0, 0.2, 1),
         }),
       ])
     );
-    pulse.start();
-    return () => pulse.stop();
+    breathe.start();
+    return () => breathe.stop();
   }, []);
 
   return (
