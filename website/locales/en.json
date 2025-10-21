@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "EaseMind — Find calm and clarity with Luna",
+    "description": "Empathetic AI for mental wellness. Guided breathing, SOS with music, emotional journal, and self-care content."
+  },
+  "nav": {
+    "home": "Home",
+    "how": "How it works",
+    "plans": "Plans",
+    "faq": "FAQ",
+    "contact": "Contact"
+  },
+  "cta": {
+    "download": "Download App",
+    "how": "How it works",
+    "plans": "Plans",
+    "startFree": "Start free",
+    "subMonthly": "Subscribe Monthly",
+    "subYearly": "Subscribe Yearly"
+  },
+  "hero": {
+    "h1": "Find calm and clarity in minutes",
+    "subtitle": "Your virtual therapist Luna welcomes, guides, and supports you with breathing, mindfulness, and evidence-based psychology."
+  },
+  "benefits": {
+    "b1": {
+      "title": "Emotional support anytime",
+      "description": "Talk to Luna and relieve anxiety with CBT, guided breathing, and real empathy."
+    },
+    "b2": {
+      "title": "Guided sessions with music",
+      "description": "4-7-8, Box Breathing, muscle relaxation, gratitude, sleep, and focus — with soft soundbeds."
+    },
+    "b3": {
+      "title": "Ethical, safe, and private",
+      "description": "No diagnosis, no prescriptions. Your data complies with GDPR/LGPD."
+    }
+  },
+  "howItWorks": {
+    "h1": "How it works",
+    "s1": {
+      "title": "Talk to Luna",
+      "description": "Luna understands how you feel and replies with empathy. Natural voice, calm pace, and practical guidance."
+    },
+    "s2": {
+      "title": "Guided sessions",
+      "description": "Short practices with ambient music: 4-7-8, box breathing, relaxation, gratitude, sleep, and focus."
+    },
+    "s3": {
+      "title": "SOS with calming music",
+      "description": "In distress, tap SOS: short breathing, reassurance, and guidance to immediate help."
+    },
+    "s4": {
+      "title": "Journal & progress",
+      "description": "Record how you feel, track your progress, and discover what helps you most."
+    }
+  },
+  "plans": {
+    "h1": "Choose your plan",
+    "free": {
+      "title": "Free",
+      "price": "$0",
+      "features": [
+        "2 guided sessions/week",
+        "Basic chat with Luna",
+        "Limited journal"
+      ]
+    },
+    "monthly": {
+      "title": "Premium Monthly",
+      "price": "$7.99/month"
+    },
+    "yearly": {
+      "title": "Premium Yearly",
+      "price": "$79.90/year"
+    },
+    "premium": {
+      "features": [
+        "Unlimited sessions with music",
+        "Luna's natural voice (TTS)",
+        "Full journal + mood trends",
+        "Full Learn library",
+        "Priority support"
+      ]
+    },
+    "legal": "Subscriptions auto-renew. Cancel anytime in the App Store or Google Play. Local taxes may apply."
+  },
+  "faq": {
+    "h1": "Frequently Asked Questions",
+    "items": [
+      {
+        "q": "Does EaseMind replace a therapist?",
+        "a": "No. It's emotional support and self-care, without diagnosis or prescriptions. In crisis, seek professional help."
+      },
+      {
+        "q": "Can I cancel anytime?",
+        "a": "Yes. Cancel in the App Store or Google Play at any time."
+      },
+      {
+        "q": "Are my data private?",
+        "a": "Yes. We comply with GDPR/LGPD. You can request full deletion."
+      },
+      {
+        "q": "What's included in Premium?",
+        "a": "Unlimited sessions with music, Luna's voice, full journal, and full Learn content."
+      }
+    ]
+  },
+  "contact": {
+    "h1": "Contact",
+    "description": "Reach our team. We reply within 48 business hours.",
+    "form": {
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "submit": "Send",
+      "success": "Message sent successfully!",
+      "error": "We couldn't send it now. Please try again later."
+    },
+    "support": {
+      "label": "Support email:",
+      "email": "support@easemind.io"
+    }
+  },
+  "legal": {
+    "disclaimer": "EaseMind is an emotional support app and does not replace therapy, diagnosis, or medical treatment. In crisis, seek professional help.",
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "terms": {
+      "title": "Terms of Use"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 EaseMind.io — All rights reserved.",
+    "links": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "contact": "Contact"
+    }
+  }
+}

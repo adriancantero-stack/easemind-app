@@ -1,0 +1,50 @@
+{
+  "expo": {
+    "name": "EaseMind",
+    "slug": "easemind",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "easemind",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "primaryColor": "#C8B6FF",
+    "backgroundColor": "#0E1A2B",
+    "description": "Ease your mind. Heal your day. Mental health support app for anxiety and stress.",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "io.easemind.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#0E1A2B"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "io.easemind.app"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#0E1A2B"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    },
+    "extra": {
+      "EXPO_PUBLIC_BACKEND_URL": "${EXPO_PUBLIC_BACKEND_URL}"
+    }
+  }
+}

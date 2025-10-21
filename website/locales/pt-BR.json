@@ -1,0 +1,142 @@
+{
+  "meta": {
+    "title": "EaseMind — Encontre calma e claridade com a Luna",
+    "description": "App de bem-estar mental com IA empática. Respiração guiada, SOS com música, diário emocional e conteúdo para autocuidado."
+  },
+  "nav": {
+    "home": "Início",
+    "how": "Como funciona",
+    "plans": "Planos",
+    "faq": "FAQ",
+    "contact": "Contato"
+  },
+  "cta": {
+    "download": "Baixar o App",
+    "how": "Como funciona",
+    "plans": "Planos",
+    "startFree": "Começar grátis",
+    "subMonthly": "Assinar Mensal",
+    "subYearly": "Assinar Anual"
+  },
+  "hero": {
+    "h1": "Encontre calma e clareza em poucos minutos",
+    "subtitle": "Sua terapeuta virtual Luna está aqui para acolher, orientar e guiar você com técnicas de respiração, mindfulness e psicologia baseada em evidências."
+  },
+  "benefits": {
+    "b1": {
+      "title": "Suporte emocional a qualquer hora",
+      "description": "Converse com a Luna e alivie a ansiedade com TCC, respiração guiada e empatia real."
+    },
+    "b2": {
+      "title": "Sessões guiadas com música",
+      "description": "Respiração 4-7-8, relaxamento muscular, gratidão e sono — com trilhas suaves."
+    },
+    "b3": {
+      "title": "Ético, seguro e privado",
+      "description": "Sem diagnósticos, sem prescrição. Seus dados seguem LGPD/GDPR."
+    }
+  },
+  "howItWorks": {
+    "h1": "Como funciona",
+    "s1": {
+      "title": "Converse com a Luna",
+      "description": "Luna entende como você se sente e responde com empatia. Voz natural, ritmo calmo e orientação prática."
+    },
+    "s2": {
+      "title": "Sessões guiadas",
+      "description": "Práticas curtas com música ambiente: 4-7-8, Box Breathing, relaxamento, gratidão, sono e foco."
+    },
+    "s3": {
+      "title": "SOS com música calmante",
+      "description": "Em crise, toque no SOS: respiração curta, acolhimento e orientação para ajuda imediata."
+    },
+    "s4": {
+      "title": "Diário e progresso",
+      "description": "Registre como se sente, acompanhe seu progresso e descubra o que funciona melhor para você."
+    }
+  },
+  "plans": {
+    "h1": "Escolha seu plano",
+    "free": {
+      "title": "Gratuito",
+      "price": "R$ 0",
+      "features": [
+        "2 sessões/semana",
+        "Chat básico com a Luna",
+        "Diário limitado"
+      ]
+    },
+    "monthly": {
+      "title": "Premium Mensal",
+      "price": "R$ 29,90/mês"
+    },
+    "yearly": {
+      "title": "Premium Anual",
+      "price": "R$ 299,00/ano"
+    },
+    "premium": {
+      "features": [
+        "Sessões ilimitadas com música",
+        "Voz natural da Luna (TTS)",
+        "Diário completo + histórico de humor",
+        "Biblioteca 'Aprender' completa",
+        "Suporte prioritário"
+      ]
+    },
+    "legal": "Assinaturas com renovação automática. Cancele na App Store ou Google Play. Impostos locais podem se aplicar."
+  },
+  "faq": {
+    "h1": "Perguntas Frequentes",
+    "items": [
+      {
+        "q": "O EaseMind substitui um psicólogo?",
+        "a": "Não. É um app de apoio emocional e autocuidado, sem diagnóstico ou prescrição. Em caso de crise, procure ajuda profissional."
+      },
+      {
+        "q": "Posso cancelar a assinatura quando quiser?",
+        "a": "Sim. Cancele diretamente na App Store ou Google Play, a qualquer momento."
+      },
+      {
+        "q": "Meus dados são privados?",
+        "a": "Sim. Seguimos LGPD/GDPR. Você pode solicitar exclusão completa."
+      },
+      {
+        "q": "O que tem no plano Premium?",
+        "a": "Sessões ilimitadas com música, voz da Luna, diário completo e conteúdo 'Aprender' completo."
+      }
+    ]
+  },
+  "contact": {
+    "h1": "Contato",
+    "description": "Fale com nossa equipe. Respondemos em até 48 horas úteis.",
+    "form": {
+      "name": "Nome",
+      "email": "E-mail",
+      "message": "Mensagem",
+      "submit": "Enviar",
+      "success": "Mensagem enviada com sucesso!",
+      "error": "Não foi possível enviar agora. Tente novamente mais tarde."
+    },
+    "support": {
+      "label": "E-mail de suporte:",
+      "email": "support@easemind.io"
+    }
+  },
+  "legal": {
+    "disclaimer": "EaseMind é um app de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico. Em caso de crise, procure ajuda profissional.",
+    "privacy": {
+      "title": "Política de Privacidade"
+    },
+    "terms": {
+      "title": "Termos de Uso"
+    }
+  },
+  "footer": {
+    "copyright": "© 2025 EaseMind.io — Todos os direitos reservados.",
+    "links": {
+      "privacy": "Privacidade",
+      "terms": "Termos",
+      "contact": "Contato"
+    }
+  }
+}

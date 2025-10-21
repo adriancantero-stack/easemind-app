@@ -1,0 +1,397 @@
+import React, { useEffect, useState, useRef } from 'react';
+import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator, Alert, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { LinearGradient } from 'expo-linear-gradient';
+import { useStore } from '../../store/useStore';
+import { theme } from '../../utils/theme';
+import { useTranslation } from 'react-i18next';
+import { MoodPicker } from '../../components/MoodPicker';
+import { GreetingCard } from '../../components/GreetingCard';
+import { ChatBubble } from '../../components/ChatBubble';
+import { VoiceButton } from '../../components/VoiceButton';
+import { LunaAvatar } from '../../components/LunaAvatar';
+import { useVoiceRecording } from '../../hooks/useVoiceRecording';
+import { useAudioPlayer } from '../../hooks/useAudioPlayer';
+import Constants from 'expo-constants';
+
+type AvatarState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'error';
+
+export default function HomeScreen() {
+  const { t } = useTranslation();
+  const isDarkMode = useStore((state) => state.isDarkMode);
+  const language = useStore((state) => state.language);
+  const currentTheme = isDarkMode ? theme.dark : theme.light;
+  const messages = useStore((state) => state.messages);
+  const addMessage = useStore((state) => state.addMessage);
+  const getUserId = useStore((state) => state.getUserId);
+  
+  const [inputText, setInputText] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
+  const [avatarState, setAvatarState] = useState<AvatarState>('idle');
+  const [userId, setUserId] = useState<string>('');
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  const backendUrl =
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
+    process.env.EXPO_PUBLIC_BACKEND_URL;
+
+  // Initialize userId on component mount
+  useEffect(() => {
+    const initUserId = async () => {
+      const id = await getUserId();
+      setUserId(id);
+      console.log('🆔 User ID:', id);
+    };
+    initUserId();
+  }, [getUserId]);
+
+  // Voice hooks
+  const { isRecording, isTranscribing, startRecording, stopRecording, transcribeAudio } = useVoiceRecording();
+  const { isPlaying, isLoading: isLoadingAudio, playAudio } = useAudioPlayer();
+
+  // Avatar state management (simple version)
+  useEffect(() => {
+    if (isRecording) {
+      setAvatarState('listening');
+    } else if (isTranscribing || isLoading) {
+      setAvatarState('thinking');
+    } else if (isPlaying) {
+      setAvatarState('speaking');
+    } else {
+      setAvatarState('idle');
+    }
+  }, [isRecording, isTranscribing, isLoading, isPlaying]);
+
+  // Auto-scroll quando novas mensagens chegam
+  useEffect(() => {
+    if (messages.length > 0) {
+      setTimeout(() => {
+        scrollViewRef.current?.scrollToEnd({ animated: true });
+      }, 100);
+    }
+  }, [messages]);
+
+  const handleQuickAction = async (action: string) => {
+    const actionTexts: Record<string, string> = {
+      breathe: 'I need help with breathing',
+      calm: 'I need to calm down right now',
+      note: 'I want to write down my thoughts',
+    };
+    await sendMessage(actionTexts[action]);
+  };
+
+  const sendMessage = async (text: string) => {
+    if (!text.trim() || isLoading) return;
+
+    const userMessage = text.trim();
+    setInputText('');
+    addMessage('user', userMessage);
+    setIsLoading(true);
+
+    try {
+      console.log('🚀 Sending message to:', `${backendUrl}/api/chat`);
+      
+      // Filter messages from last 24 hours
+      const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
+      const recentMessages = messages.filter(msg => msg.timestamp > twentyFourHoursAgo);
+      
+      // Format history for backend
+      const history = recentMessages.map(msg => ({
+        role: msg.role,
+        content: msg.content
+      }));
+      
+      console.log('📦 Payload:', { message: userMessage, user_id: userId, history: `${history.length} messages` });
+      
+      const response = await fetch(`${backendUrl}/api/chat`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          message: userMessage,
+          user_id: userId,
+          history: history
+        }),
+      });
+
+      const correlationId = response.headers.get('X-Correlation-ID') || 'unknown';
+      console.log('📍 Correlation-ID:', correlationId);
+      console.log('✅ Response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}, Correlation-ID: ${correlationId}`);
+      }
+
+      const data = await response.json();
+      console.log('📨 Response data:', data);
+      
+      if (data.response) {
+        addMessage('assistant', data.response);
+        console.log('✅ Message added successfully');
+        
+        // Auto-play TTS for the response
+        const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        console.log('🎤 Preparing to play audio for message:', messageId);
+        
+        setTimeout(() => {
+          console.log('🎤 Calling handlePlayAudio now...');
+          handlePlayAudio(messageId, data.response);
+        }, 500);
+      }
+    } catch (error) {
+      console.error('❌ Chat error:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.log('🔍 Error details:', errorMessage);
+      addMessage('assistant', 'I\'m having trouble connecting. Take a deep breath. You\'re doing great.');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Função para lidar com Enter
+  const handleKeyPress = (e: any) => {
+    if (e.nativeEvent.key === 'Enter' && !e.nativeEvent.shiftKey) {
+      e.preventDefault();
+      sendMessage(inputText);
+    }
+  };
+
+  // Voice recording handlers
+  const handleStartRecording = async () => {
+    const success = await startRecording();
+    if (!success) {
+      Alert.alert('Permissão necessária', 'Por favor, ative o acesso ao microfone para usar a função de voz.');
+    }
+  };
+
+  const handleStopRecording = async () => {
+    const audioUri = await stopRecording();
+    if (audioUri) {
+      // Transcribe audio
+      const transcribedText = await transcribeAudio(audioUri, backendUrl);
+      if (transcribedText) {
+        // Auto-send transcribed text
+        await sendMessage(transcribedText);
+      }
+    }
+  };
+
+  // Audio playback handler
+  const handlePlayAudio = async (messageId: string, text: string) => {
+    try {
+      console.log('🎵 handlePlayAudio called:', { messageId, textPreview: text.substring(0, 30), language, backendUrl });
+      setPlayingMessageId(messageId);
+      await playAudio(messageId, text, language, backendUrl);
+      console.log('🎵 playAudio completed for:', messageId);
+      setPlayingMessageId(null);
+    } catch (error) {
+      console.error('❌ handlePlayAudio error:', error);
+      setPlayingMessageId(null);
+    }
+  };
+
+  return (
+    <LinearGradient
+      colors={currentTheme.bgGradient}
+      style={styles.gradientContainer}
+    >
+      <SafeAreaView style={styles.container} edges={['top']}>
+        <KeyboardAvoidingView 
+          style={{ flex: 1 }} 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
+        >
+          <View style={styles.header}>
+            <Image
+              source={isDarkMode 
+                ? require('../../assets/images/logo-easemind-dark.png')
+                : require('../../assets/images/logo-easemind.png')
+              }
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
+
+          <ScrollView 
+            ref={scrollViewRef}
+            style={styles.chatContainer}
+            contentContainerStyle={[
+              styles.chatContent,
+              messages.length === 0 && styles.centeredContent
+            ]}
+            onContentSizeChange={() => scrollViewRef.current?.scrollToEnd({ animated: true })}
+          >
+            {/* Luna Avatar - Oculto por enquanto */}
+            {/* <View style={styles.avatarContainer}>
+              <LunaAvatar state={avatarState} size={120} />
+            </View> */}
+
+            <MoodPicker />
+
+            {messages.length === 0 && <GreetingCard />}
+
+          {messages.map((msg, index) => (
+            <ChatBubble 
+              key={index} 
+              role={msg.role} 
+              content={msg.content}
+              isLatest={index === messages.length - 1}
+              messageId={msg.timestamp.toString()}
+              onPlayAudio={msg.role === 'assistant' ? handlePlayAudio : undefined}
+              isPlayingAudio={playingMessageId === msg.timestamp.toString() && isPlaying}
+              isLoadingAudio={playingMessageId === msg.timestamp.toString() && isLoadingAudio}
+            />
+          ))}
+
+          {isLoading && (
+            <View style={styles.loadingContainer}>
+              <ActivityIndicator size="small" color={currentTheme.accent1} />
+            </View>
+          )}
+        </ScrollView>
+
+        <View style={[styles.quickActions, { backgroundColor: currentTheme.bg }]}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity
+              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
+              onPress={() => handleQuickAction('breathe')}
+            >
+              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
+                {t('home.quickActions.breathe')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
+              onPress={() => handleQuickAction('calm')}
+            >
+              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
+                {t('home.quickActions.calm')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
+              onPress={() => handleQuickAction('note')}
+            >
+              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
+                {t('home.quickActions.note')}
+              </Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </View>
+
+        <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
+          <TextInput
+            style={[styles.input, { color: currentTheme.text }]}
+            value={inputText}
+            onChangeText={setInputText}
+            onKeyPress={handleKeyPress}
+            placeholder={t('home.placeholder')}
+            placeholderTextColor={currentTheme.textMuted}
+            multiline
+            maxLength={500}
+            onSubmitEditing={() => sendMessage(inputText)}
+            blurOnSubmit={false}
+          />
+          <VoiceButton
+            isRecording={isRecording}
+            isTranscribing={isTranscribing}
+            onPressIn={handleStartRecording}
+            onPressOut={handleStopRecording}
+          />
+          <TouchableOpacity
+            style={[styles.sendButton, { backgroundColor: currentTheme.accent1, opacity: inputText.trim() ? 1 : 0.5 }]}
+            onPress={() => sendMessage(inputText)}
+            disabled={!inputText.trim() || isLoading}
+          >
+            <Text style={styles.sendButtonText}>➤</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+    </LinearGradient>
+  );
+}
+
+const styles = StyleSheet.create({
+  gradientContainer: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+  },
+  header: {
+    alignItems: 'center',
+    paddingTop: theme.spacing.md,
+    paddingBottom: theme.spacing.sm,
+  },
+  logo: {
+    width: 150,
+    height: 50,
+  },
+  avatarContainer: {
+    alignItems: 'center',
+    marginTop: theme.spacing.xl,
+    marginBottom: theme.spacing.lg,
+  },
+  greeting: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  chatContainer: {
+    flex: 1,
+  },
+  chatContent: {
+    paddingBottom: theme.spacing.md,
+  },
+  centeredContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    paddingTop: 60,
+  },
+  loadingContainer: {
+    padding: theme.spacing.md,
+    alignItems: 'center',
+  },
+  quickActions: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+  },
+  chipButton: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: 20,
+    marginRight: theme.spacing.sm,
+  },
+  chipText: {
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.md,
+    borderTopWidth: 1,
+    marginBottom: theme.spacing.md, // Eleva a barra
+  },
+  input: {
+    flex: 1,
+    fontSize: 16,
+    maxHeight: 100,
+    paddingVertical: theme.spacing.sm,
+  },
+  sendButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: theme.spacing.sm,
+  },
+  sendButtonText: {
+    fontSize: 20,
+    color: '#FFFFFF',
+  },
+});
