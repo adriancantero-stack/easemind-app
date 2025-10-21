@@ -8,12 +8,9 @@
   ],
   "routes": [
     {
-      "src": "/styles/(.*)",
-      "dest": "/styles/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "server.js"
     }
-  ]
+  ],
+  "outputDirectory": "."
 }
