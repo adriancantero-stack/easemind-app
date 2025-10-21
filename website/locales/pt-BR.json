@@ -22,7 +22,9 @@
     "availableOn": "Disponível na",
     "availableAt": "Disponível no",
     "downloadOn": "Disponível no",
-    "getItOn": "Disponível no"
+    "getItOn": "Disponível no",
+    "availableOnAppStore": "App Store",
+    "availableOnGooglePlay": "Google Play"
   },
   "hero": {
     "h1": "Encontre calma e clareza em poucos minutos",
