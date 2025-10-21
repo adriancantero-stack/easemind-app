@@ -86,23 +86,17 @@ export default function TabLayout() {
               <Animated.View
                 style={{
                   transform: [{ scale: pulseAnim }],
-                  backgroundColor: '#BDAAFF', // Lilac Serenity
-                  borderRadius: 32,
-                  width: 64,
-                  height: 64,
-                  justifyContent: 'center',
-                  alignItems: 'center',
                   marginTop: -20,
-                  borderWidth: 3,
-                  borderColor: '#FFFFFF',
-                  elevation: 6,
-                  shadowColor: 'rgba(189, 170, 255, 0.4)',
-                  shadowOffset: { width: 0, height: 4 },
-                  shadowOpacity: 0.4,
-                  shadowRadius: 12,
                 }}
               >
-                <Ionicons name="heart-outline" size={28} color="#FFFFFF" />
+                <Image
+                  source={require('../../assets/images/panic-button.png')}
+                  style={{
+                    width: 70,
+                    height: 70,
+                    resizeMode: 'contain',
+                  }}
+                />
               </Animated.View>
             ),
             tabBarLabel: () => null, // Remove o texto "SOS" de baixo
