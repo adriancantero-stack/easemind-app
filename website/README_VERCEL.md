@@ -2,32 +2,51 @@
 
 Este diretório contém o website institucional do EaseMind para deploy no Vercel.
 
-## 🚀 Deploy no Vercel
+## 🚀 Deploy no Vercel - INSTRUÇÕES CORRETAS
 
 ### Passo 1: Conectar com GitHub
-1. Faça push do código para o GitHub
+1. Faça push do código para o GitHub (use a interface do Emergent: "Save to GitHub")
 2. Acesse [vercel.com](https://vercel.com) e faça login com GitHub
 3. Clique em "New Project"
 4. Importe o repositório do EaseMind
 
-### Passo 2: Configurar o Projeto
-- **Root Directory**: Defina como `website`
-- **Framework Preset**: `Other`
-- **Build Command**: `npm install`
-- **Output Directory**: deixe vazio (usa o padrão)
+### Passo 2: Configurar o Projeto ⚠️ IMPORTANTE!
 
-### Passo 3: Deploy
-- Clique em "Deploy"
-- Aguarde alguns minutos
-- Website estará no ar! 🎉
+**Na tela de configuração do projeto:**
 
-### Passo 4: Configurar Domínio Customizado
+```
+Framework Preset: Other
+Root Directory: website
+Build Command: (deixe vazio ou npm install)
+Output Directory: (deixe vazio - IMPORTANTE!)
+Install Command: npm install
+```
+
+**NÃO configure Output Directory como "public"!** Isso é para sites estáticos. Estamos usando Node.js server.
+
+### Passo 3: Configurações do Projeto (Settings)
+
+Se o deploy falhar com erro "No Output Directory named 'public'":
+
+1. Vá em **Settings** → **General**
+2. **Output Directory**: Deixe **VAZIO** ou coloque apenas um ponto `.`
+3. **Framework Preset**: `Other`
+4. Salve as configurações
+5. Em **Deployments**, faça **Redeploy** da última versão
+
+### Passo 4: Deploy
+
+1. Clique em **"Deploy"**
+2. Aguarde 2-3 minutos
+3. Website estará no ar! 🎉
+
+### Passo 5: Configurar Domínio Customizado
 1. No dashboard do Vercel, vá em "Settings" → "Domains"
 2. Adicione `easemind.io`
 3. Configure o DNS:
    - Tipo: `A`
    - Nome: `@`
-   - Valor: (IP fornecido pelo Vercel)
+   - Valor: (IP fornecido pelo Vercel - geralmente 76.76.21.21)
    
    OU
    
@@ -41,9 +60,9 @@ Este diretório contém o website institucional do EaseMind para deploy no Verce
 
 ```
 website/
-├── server.js           # Servidor Express
+├── server.js           # Servidor Express (Node.js)
 ├── package.json        # Dependências
-├── vercel.json        # Config Vercel
+├── vercel.json        # Config Vercel (@vercel/node)
 ├── locales/           # Traduções (PT, EN, ES)
 │   ├── pt-BR.json
 │   ├── en.json
@@ -75,3 +94,13 @@ O website terá links para o app:
 - Edge Functions
 - Cache automático
 - 99.99% uptime
+
+## ❓ Troubleshooting
+
+**Erro: "No Output Directory named 'public'"**
+- Solução: Vá em Settings → General → Output Directory → Deixe VAZIO → Salve → Redeploy
+
+**Erro: "Build failed"**
+- Verifique se Root Directory está como `website`
+- Verifique se vercel.json existe no diretório `website/`
+- Verifique se package.json tem as dependências corretas
