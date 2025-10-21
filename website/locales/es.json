@@ -27,6 +27,8 @@
     "subtitle": "Tu terapeuta virtual Luna te acoge, guía y acompaña con respiración, mindfulness y psicología basada en evidencia."
   },
   "benefits": {
+    "title": "¿Por qué elegir EaseMind?",
+    "subtitle": "Apoyo emocional cuando más lo necesitas",
     "b1": {
       "title": "Apoyo emocional en cualquier momento",
       "description": "Habla con Luna y alivia la ansiedad con TCC, respiración guiada y empatía real."
@@ -41,6 +43,8 @@
     }
   },
   "howItWorks": {
+    "title": "Cómo funciona",
+    "subtitle": "Simple, rápido y eficaz",
     "h1": "Cómo funciona",
     "s1": {
       "title": "Habla con Luna",
