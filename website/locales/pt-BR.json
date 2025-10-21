@@ -136,11 +136,12 @@
     }
   },
   "footer": {
-    "copyright": "© 2025 EaseMind.io — Todos os direitos reservados.",
-    "links": {
-      "privacy": "Privacidade",
-      "terms": "Termos",
-      "contact": "Contato"
-    }
+    "product": "Produto",
+    "legal": "Legal",
+    "download": "Baixar",
+    "madeWith": "Feito com",
+    "toHelp": "para ajudar você a encontrar calma",
+    "disclaimer": "O EaseMind não substitui tratamento médico ou psicológico. Em caso de crise, procure ajuda profissional (CVV 188, SAMU 192) ou vá ao hospital mais próximo.",
+    "rights": "Todos os direitos reservados"
   }
 }
