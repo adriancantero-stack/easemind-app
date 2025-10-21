@@ -328,22 +328,42 @@ function generateHTML(page, lang, t) {
   <footer>
     <div class="container">
       <div class="footer-content">
-        <div class="footer-section">
-          <h4>EaseMind</h4>
-          <p>${t.legal.disclaimer}</p>
+        <div class="footer-brand">
+          <h3>EaseMind</h3>
+          <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
+          <div style="margin-top: 1.5rem;">
+            <a href="${appPreviewUrl}" class="btn btn-primary" target="_blank" rel="noopener" style="font-size: 0.9375rem; padding: 0.875rem 1.75rem;">Baixar App</a>
+          </div>
         </div>
-        <div class="footer-section">
-          <h4>${t.footer.links.privacy}</h4>
-          <a href="/privacy?lang=${lang}">${t.legal.privacy.title}</a><br>
-          <a href="/terms?lang=${lang}">${t.legal.terms.title}</a>
+        <div class="footer-links">
+          <h4>Produto</h4>
+          <ul>
+            <li><a href="/how-it-works?lang=${lang}">Como funciona</a></li>
+            <li><a href="/plans?lang=${lang}">Planos</a></li>
+            <li><a href="/faq?lang=${lang}">FAQ</a></li>
+            <li><a href="/contact?lang=${lang}">Contato</a></li>
+          </ul>
         </div>
-        <div class="footer-section">
-          <h4>Download</h4>
-          <a href="${appStoreUrl}" target="_blank" rel="noopener">App Store</a><br>
-          <a href="${playStoreUrl}" target="_blank" rel="noopener">Google Play</a>
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy?lang=${lang}">Privacidade</a></li>
+            <li><a href="/terms?lang=${lang}">Termos de Uso</a></li>
+          </ul>
+          <h4 style="margin-top: 2rem;">Baixar</h4>
+          <ul>
+            <li><a href="${appStoreUrl}" target="_blank" rel="noopener">App Store</a></li>
+            <li><a href="${playStoreUrl}" target="_blank" rel="noopener">Google Play</a></li>
+          </ul>
         </div>
       </div>
-      <p class="copyright">${t.footer.copyright}</p>
+      <div class="disclaimer">
+        ⚕️ <strong>Aviso Importante:</strong> O EaseMind não substitui tratamento médico ou psicológico. Em caso de crise, procure ajuda profissional (CVV 188, SAMU 192) ou vá ao hospital mais próximo.
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; ${new Date().getFullYear()} EaseMind. Todos os direitos reservados.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.875rem;">🇧🇷 Feito com ❤️ para ajudar você a encontrar calma</p>
+      </div>
     </div>
   </footer>
   
