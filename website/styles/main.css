@@ -650,6 +650,10 @@ section h2 {
   transition: var(--transition-smooth);
   position: relative;
   box-shadow: var(--shadow-soft);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .pricing-card:hover {
@@ -685,6 +689,7 @@ section h2 {
 .pricing-card h3 {
   font-size: 1.875rem;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .pricing-card .price {
@@ -693,6 +698,7 @@ section h2 {
   color: var(--brand-primary);
   margin-bottom: 0.5rem;
   letter-spacing: -0.03em;
+  text-align: center;
 }
 
 .pricing-card .period {
@@ -700,11 +706,14 @@ section h2 {
   font-size: 1rem;
   margin-bottom: 2.5rem;
   font-weight: 500;
+  text-align: center;
 }
 
 .pricing-features {
   list-style: none;
   margin-bottom: 2.5rem;
+  text-align: left;
+  display: inline-block;
 }
 
 .pricing-features li {
