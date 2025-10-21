@@ -16,7 +16,11 @@
     "plans": "Plans",
     "startFree": "Start free",
     "subMonthly": "Subscribe Monthly",
-    "subYearly": "Subscribe Yearly"
+    "subYearly": "Subscribe Yearly",
+    "finalTitle": "Ready to get started?",
+    "finalSubtitle": "Download EaseMind and find calm in minutes",
+    "availableOn": "Available on the",
+    "availableAt": "Get it on"
   },
   "hero": {
     "h1": "Find calm and clarity in minutes",
