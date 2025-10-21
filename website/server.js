@@ -297,60 +297,47 @@ function generateHTML(page, lang, t) {
         <section class="pricing">
           <div class="container">
             <h2>${t.plans.h1}</h2>
-            <p class="section-subtitle">${t.plans.subtitle || 'Escolha o plano ideal para você'}</p>
+            <p class="section-subtitle">${t.plans.subtitle}</p>
             
             <div class="pricing-grid">
               <!-- FREE PLAN -->
               <div class="pricing-card">
                 <h3>${t.plans.free.title}</h3>
-                <div class="price">R$ 0</div>
-                <div class="period">${t.plans.free.period || 'Grátis para sempre'}</div>
+                <div class="price">${t.plans.free.price}</div>
+                <div class="period">${t.plans.free.period}</div>
                 <ul class="pricing-features">
-                  <li>Conversas ilimitadas com Luna</li>
-                  <li>3 sessões guiadas por semana</li>
-                  <li>Botão SOS básico</li>
-                  <li>Diário emocional</li>
+                  ${t.plans.free.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
                 <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.startFree || 'Começar grátis'}</a>
               </div>
               
               <!-- ANNUAL PLAN - FEATURED -->
               <div class="pricing-card featured">
-                <div class="pricing-badge">✨ Mais econômico</div>
-                <h3>${t.plans.yearly.title || 'Premium Anual'}</h3>
-                <div class="price">R$ 199,90</div>
-                <div class="period">~R$ 16,66/mês • economize 30%</div>
+                <div class="pricing-badge">${t.plans.yearly.badge}</div>
+                <h3>${t.plans.yearly.title}</h3>
+                <div class="price">${t.plans.yearly.price}</div>
+                <div class="period">${t.plans.yearly.period}</div>
                 <ul class="pricing-features">
-                  <li>✓ Sessões ilimitadas com música</li>
-                  <li>✓ Voz natural da Luna (TTS)</li>
-                  <li>✓ SOS avançado com respiração</li>
-                  <li>✓ Diário completo + tendências</li>
-                  <li>✓ Suporte prioritário</li>
-                  <li>✓ Conteúdo exclusivo</li>
+                  ${t.plans.yearly.features.map(f => `<li>✓ ${f}</li>`).join('')}
                 </ul>
                 <a href="${appPreviewUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
               </div>
               
               <!-- MONTHLY PLAN -->
               <div class="pricing-card">
-                <h3>${t.plans.monthly.title || 'Premium Mensal'}</h3>
-                <div class="price">R$ 29,90</div>
-                <div class="period">por mês</div>
+                <h3>${t.plans.monthly.title}</h3>
+                <div class="price">${t.plans.monthly.price}</div>
+                <div class="period">${t.plans.monthly.period}</div>
                 <ul class="pricing-features">
-                  <li>✓ Sessões ilimitadas com música</li>
-                  <li>✓ Voz natural da Luna (TTS)</li>
-                  <li>✓ SOS avançado com respiração</li>
-                  <li>✓ Diário completo + tendências</li>
-                  <li>✓ Suporte prioritário</li>
-                  <li>✓ Conteúdo exclusivo</li>
+                  ${t.plans.monthly.features.map(f => `<li>✓ ${f}</li>`).join('')}
                 </ul>
                 <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
               </div>
             </div>
             
-            <div style="text-align: center; margin-top: 3rem; color: #6B7280; font-size: 0.875rem;">
-              <p>${t.plans.legal || 'Pagamentos seguros via App Store/Google Play. Cancele a qualquer momento.'}</p>
-              <p style="margin-top: 0.5rem;">💰 Aceitamos cartões de crédito, débito e PIX • 🔒 Dados protegidos</p>
+            <div style="text-align: center; margin-top: 3rem; color: #6B7280; font-size: 0.875rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+              <p>${t.plans.legal}</p>
+              <p style="margin-top: 0.5rem;">💰 ${t.plans.payment} • 🔒</p>
             </div>
           </div>
         </section>
