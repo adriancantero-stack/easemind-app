@@ -358,11 +358,11 @@ function generateHTML(page, lang, t) {
   
   <footer>
     <div class="container">
+      <div class="footer-logo">
+        <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
+        <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
+      </div>
       <div class="footer-content">
-        <div class="footer-brand">
-          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
-          <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
-        </div>
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
@@ -378,7 +378,9 @@ function generateHTML(page, lang, t) {
             <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
             <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
           </ul>
-          <h4 style="margin-top: 2rem;">${t.footer.download}</h4>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.download}</h4>
           <ul>
             <li><a href="${appStoreUrl}" target="_blank" rel="noopener">${t.footer.appStore}</a></li>
             <li><a href="${playStoreUrl}" target="_blank" rel="noopener">${t.footer.googlePlay}</a></li>
