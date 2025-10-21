@@ -236,14 +236,33 @@ function generateHTML(page, lang, t) {
       
     case 'faq':
       content = `
-        <section class="faq-section">
+        <section class="faq">
           <div class="container">
-            <h1>${t.faq.h1}</h1>
+            <h2>${t.faq.h1}</h2>
+            <p class="section-subtitle">${t.faq.subtitle || 'Perguntas frequentes'}</p>
+            
             <div class="faq-list">
-              ${t.faq.items.map(item => `
+              ${t.faq.items.map((item, index) => `
                 <div class="faq-item">
-                  <h3>${item.q}</h3>
-                  <p>${item.a}</p>
+                  <button class="faq-question">
+                    ${item.q}
+                    <span>›</span>
+                  </button>
+                  <div class="faq-answer">
+                    ${item.a}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            
+            <div style="text-align: center; margin-top: 4rem;">
+              <p style="font-size: 1.125rem; margin-bottom: 1.5rem;">${t.faq.more || 'Ainda tem dúvidas?'}</p>
+              <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact || 'Entre em contato'}</a>
+            </div>
+          </div>
+        </section>
+      `;
+      break;
                 </div>
               `).join('')}
             </div>
