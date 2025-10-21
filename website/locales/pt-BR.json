@@ -48,7 +48,13 @@
     "h1": "Como funciona",
     "s1": {
       "title": "Converse com a Luna",
-      "description": "Luna entende como você se sente e responde com empatia. Voz natural, ritmo calmo e orientação prática."
+      "description": "Luna entende como você se sente e responde com empatia. Voz natural, ritmo calmo e orientação prática.",
+      "feature1": "Conversas naturais:",
+      "feature1Desc": "Luna usa processamento de linguagem natural para entender suas emoções e oferecer respostas empáticas e contextualizadas.",
+      "feature2": "Memória contextual:",
+      "feature2Desc": "Ela lembra de suas conversas anteriores para oferecer suporte personalizado e consistente ao longo do tempo.",
+      "feature3": "Disponível 24/7:",
+      "feature3Desc": "Acesse quando precisar, sem agendamentos ou filas de espera."
     },
     "s2": {
       "title": "Sessões guiadas",
