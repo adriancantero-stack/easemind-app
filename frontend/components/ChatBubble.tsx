@@ -32,7 +32,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
   const shouldAnimate = !isUser && isLatest;
   const { displayedText, isTyping } = useTypingEffect(
     shouldAnimate ? content : '', 
-    25 // velocidade: 25ms por caractere
+    150 // velocidade: 150ms por palavra
   );
 
   // Se não deve animar, mostra o conteúdo completo
