@@ -17,13 +17,17 @@ interface SessionCardProps {
 }
 
 export const SessionCard: React.FC<SessionCardProps> = ({ session, forceLanguage }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
 
   const handlePress = () => {
     router.push(`/session-details?id=${session.id}`);
   };
+
+  // Get translations based on current language
+  const title = t(`sessions.list.${session.id}.title`);
+  const description = t(`sessions.list.${session.id}.description`);
 
   return (
     <TouchableOpacity
@@ -32,10 +36,10 @@ export const SessionCard: React.FC<SessionCardProps> = ({ session, forceLanguage
       onPress={handlePress}
     >
       <Text style={[styles.title, { color: currentTheme.text }]}>
-        {t(`sessions.list.${session.id}.title`)}
+        {title}
       </Text>
       <Text style={[styles.description, { color: currentTheme.textSecondary }]}>
-        {t(`sessions.list.${session.id}.description`)}
+        {description}
       </Text>
       <Text style={[styles.duration, { color: currentTheme.accent1 }]}>
         {session.duration} min
