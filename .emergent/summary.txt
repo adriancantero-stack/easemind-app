@@ -1,70 +1,124 @@
 <analysis>
-The AI engineer's work centered on iteratively refining the EaseMind institutional website on Vercel, driven by detailed user feedback on UI/UX, responsiveness, and internationalization. Key tasks included a comprehensive footer redesign (layout, centralization, translations, element removal) and mobile app UI updates, specifically for the panic button's visual and animation. Significant effort was dedicated to fixing website translation inconsistencies across pages and ensuring content accuracy, including the How it works and Plans sections. A critical debugging phase addressed a non-functional voice/text chat in the mobile app, pinpointing environment variable reading issues. The engineer meticulously updated HTML, CSS, and translation JSONs across the codebase. Challenges involved deployment complexities between the local unified-server and Vercel. The trajectory concludes with the engineer identifying and correcting hardcoded elements on the  page, indicating an ongoing commitment to robust internationalization and UI consistency.
+The AI engineer's work in this trajectory demonstrates an iterative, feedback-driven development process, spanning both the EaseMind website and mobile application. Initial efforts focused on website improvements, including hardcoded download button translations, comprehensive redesign and translation of the FAQ page with accordion functionality, and mobile responsiveness for Contact and FAQ pages. Critical fixes involved standardizing mobile image display on the How it works page and refining download button aesthetics.
+
+A significant portion of the work was dedicated to building a comprehensive Admin Dashboard, which involved creating new routes, implementing a basic login system, integrating with existing backend analytics APIs via proxy routes, and ensuring proper service management on the unified server. Concurrently, the engineer addressed website structural issues like favicon integration and ensuring legal pages (, ) had correct CSS and were responsive.
+
+Mobile app development focused on enhancing the AI chat experience. This included optimizing TTS audio delivery to reduce delays, implementing and then iteratively refining a word-by-word typing animation, and experimenting with a visual Luna orb to indicate speech, which was later removed based on user feedback. The engineer also fixed dark mode readability for session card subtitles and ensured session details were fully translated across all languages. The trajectory concludes with the engineer debugging a  function naming conflict during the implementation of guided sessions.
 </analysis>
 
 <product_requirements>
-The EaseMind application is a mobile-first emotional support tool for anxiety, featuring an AI chat (Luna persona with OpenAI LLMs), panic button, guided sessions, and a journal, supporting light/dark modes and multi-language with an Apple-like serenity design. The institutional website (easemind.io) features public pages (Landing, How it works, Plans, FAQ, Contact, Legal), multi-language support (PT-BR default, EN, ES), and a Rootd-inspired premium visual redesign including animated gradients, 3D illustrations, and micro-interactions. The website is hosted on Vercel, while the mobile app and backend are on Emergent. Recent user requests have focused on refining the website's footer (layout, centralization, translations, removing specific elements like the Baixar App button and Brazil flag), updating the mobile panic button's visual and animation (breathing effect with an SOS label), ensuring website content translations (e.g., Why choose EaseMind?, Simple, fast, and effective), enhancing the How it works page with detailed explanations and consistent design (including images and text visibility), and correcting the Plans page (duplicate checkmarks, pricing, text centralization, and translation). The mobile app's AI chat voice and text functionality also required debugging due to backend connection issues.
+The EaseMind application aims to be a mobile-first emotional support tool, featuring an AI chat (Luna persona), panic button, guided sessions, and a journal, all supporting light/dark modes and multi-language with an Apple-like serenity design. The institutional website (easemind.io) provides public pages (Landing, How it works, Plans, FAQ, Contact, Legal) with multi-language support (PT-BR default, EN, ES) and a premium visual redesign.
+
+Recent development focused on:
+1.  **Website**:
+    *   Ensuring download buttons on the  page use correct translated text and badge styling.
+    *   Overhauling the FAQ page: implementing accordion functionality, removing duplicate subtitles, centralizing and translating Ainda tem dúvidas? text and contact button.
+    *   Improving the Contact page: fixing CSS for form fields, ensuring vertical arrangement, text centralization, and mobile responsiveness.
+    *   Correcting mobile display of images on the  page (images above text for sections 2 & 4).
+    *   Changing download button color from black to lilac and removing underlines on .
+    *   Creating a comprehensive  dashboard with metrics (total users, premium/free, engagement, popular sessions, mood distribution, website visits, collected emails, financial data), secured by a login, and designed responsively with charts/cards.
+    *   Applying correct CSS and ensuring responsiveness for  and  pages across languages.
+    *   Adding favicon to  and  pages.
+    *   Debugging admin page access and data loading issues through the  proxy.
+    *   Increasing the mobile website's logo size by approximately 50% for better visibility.
+
+2.  **Mobile App**:
+    *   Optimizing AI chat: reducing delay between text appearance and audio (TTS) playback.
+    *   Implementing a word-by-word typing animation for Luna's responses, synchronized with speech for a more human-like interaction.
+    *   Experimenting with an animated Luna orb fixed to the right of the screen, appearing during speech, but later removed based on user feedback.
+    *   Fixing unreadable subtitles in session cards when in dark mode.
+    *   Ensuring session titles and descriptions within the sessions cards and the detailed session steps are correctly translated across all supported languages.
+    *   Implementing a Guided Session feature where Luna speaks each step, cards advance automatically based on step duration, and the session loops for a set duration, with integrated TTS.
 </product_requirements>
 
 <key_technical_concepts>
 - **Expo Router**: File-based mobile navigation.
 - **React Native**: Core mobile UI framework.
 - **FastAPI**: Backend API development.
-- **MongoDB**: Database for backend.
-- **i18n-js, expo-localization**: Multi-language support.
-- **OpenAI API**: AI features (chat, STT, TTS).
-- **Express.js**: Node.js server for website rendering.
-- **Vercel**: Website deployment platform.
-- **Emergent Platform**: Mobile app/backend hosting.
+- **Express.js**: Node.js server for website rendering, handling routes, and proxying.
+- **i18n-js, expo-localization**: Multi-language support for mobile and web.
+- ****: State management for the mobile application.
+- ****: Session management for website (admin login).
+- ****: Used for server-side API calls/proxying in Express.js.
+- **Supervisor**: Process control system for managing services (backend, website proxy).
 </key_technical_concepts>
 
 <code_architecture>
 
--   ****: FastAPI backend. Contains  and  endpoints for AI voice functionalities. Its configuration and accessibility were debugged.
--   ****: Mobile app's main tab navigation layout. Modified to embed the panic button with a new image (), an enhanced breathing animation, and an SOS text label below it.
--   ****: Mobile app's main chat screen. Involved debugging for correctly reading  to establish connection with the backend API for chat functionality.
--   ****: Mobile component for voice input. Debugged to ensure it correctly triggers recording and transcription processes.
--   ****: Frontend environment variables.  was crucial for resolving API connection issues.
--   ****: Expo configuration file. Ensured  was correctly exposed.
--   ** (pt-BR, en, es)**: Website translation files. Extensively updated with new keys and values for:
-    *   Footer content (links, disclaimer, copyright, custom phrases).
-    *   Website section titles and subtitles (Why choose EaseMind?, How it works).
-    *   Detailed explanations for the How it works steps.
-    *   Plans page features, pricing disclaimers, and calls to action.
-    *   CTAs like Disponible en.
--   ****: New image asset for the mobile panic button.
--   ****: New logo image for the website footer.
--   ****: Express.js server responsible for rendering the website HTML. Received extensive modifications for:
-    *   Iterative footer redesign: removed the Baixar App button, centralized disclaimer/copyright, removed the Brazil flag, restructured into 3 and then 4 columns with a new logo.
-    *   Integration of all new translation keys for dynamic content rendering across multiple languages.
-    *   Complete overhaul of the  route to a detailed, styled page consistent with the home page, incorporating 3D images and enhanced descriptions.
-    *   Text visibility adjustments and replacement of TCC with Terapia Cognitivo-Comportamental on the home page.
-    *   Update of download buttons on the How it works page to a modern badge style.
-    *   Removal of hardcoded ✓ from plan features and correction of plan pricing across locales.
--   ****: Website's central CSS stylesheet. Updated for:
-    *   Styling the redesigned footer (centralization, 3-column, then 4-column layout, responsive adjustments).
-    *   Adjusting the How it works subtitle text color to black for better contrast.
-    *   Applying styles for the new download button badges, including hover effects.
-    *   Centralizing text within pricing cards and removing default checkmark styles on the Plans page.
-    *   Extending media queries for comprehensive website responsiveness.
--   ****: Node.js proxy used in the Emergent deployment environment. Its role in proxying requests to the website server (rather than directly serving content) was clarified during local debugging.
+
+-   ****: FastAPI backend. Contains analytics endpoints (, , ) that were utilized for the new Admin Dashboard. No direct modifications made in this trajectory, but its APIs were consumed.
+-   ****: Contains  class and  function which provide the data for the Admin Dashboard. No direct modifications in this trajectory.
+-   ****: Mobile app's main chat screen.
+    -   Modified to remove a  delay for TTS audio.
+    -   Optimized to initiate TTS API calls in parallel with text rendering.
+    -   Underwent several iterations to implement a word-by-word typing animation, including refactoring attempts to fix issues with repeated starts and full text appearing at once.
+    -   Temporarily included a fixed animated Luna orb for visual interaction during speech, later removed.
+    -    import added for potential future use (though the typing logic was reverted).
+-   ****: Mobile component for displaying chat messages.
+    -   Modified to use  for word-by-word animation.
+    -   Adjusted typing speed.
+    -   Removed  condition from audio playback button to ensure it's always visible.
+    -   Temporarily modified to display an orb next to the text during typing, later reverted.
+-   ****: Custom hook for typing animation.
+    -   Modified to animate text word-by-word instead of character-by-character.
+-   ****: Zustand store for global state management.
+    -   Modified to include  and  in the  interface for typing animation.
+    -   Added functions for progressive message updates and typing animation management, later reverted during refactoring.
+-   ****: Defines light/dark mode themes.
+    -   Added  property to the theme to ensure session card subtitles are readable in dark mode.
+-   ****: Mobile component displaying a session summary.
+    -   Modified to correctly use  for translating session titles and descriptions.
+    -   The  styling was updated to use the newly added .
+-   ****: Contains all mobile app translation keys.
+    -   Extensively updated to include detailed step-by-step instructions for all 8 guided sessions across English, Portuguese (pt-BR), and Spanish.
+-   ****: Mobile app's sessions listing screen. No direct modifications in this trajectory.
+-   ****: Mobile app's guided session detail screen.
+    -   Modified to fetch session steps using translation keys () instead of hardcoded text.
+    -   Implemented a Guided Session feature: includes state management for guided mode, current step, timer, TTS integration, automatic card progression, and UI elements (start button, progress indicator).
+    -   Added new styles for the guided session UI elements.
+    -   **Currently has a naming conflict with  function.**
+-   ****: Express.js server for rendering the website.
+    -   Corrected hardcoded download buttons on  to use translation keys.
+    -   Modified  route: removed duplicate subtitle, integrated accordion JavaScript, and used translation keys for Ainda tem dúvidas? and contact button.
+    -   Adjusted  for Ainda tem dúvidas? on FAQ and E-mail de suporte on Contact page.
+    -   Corrected HTML structure for the Contact form to use  classes, ensuring proper layout.
+    -   Modified  route HTML to change download button styles to lilac and remove underlines.
+    -   Introduced session management () and implemented  login and logout routes.
+    -   Added a new  dashboard route, initially rendering .
+    -   Implemented proxy routes () using  to forward requests from the website to the backend's analytics APIs.
+    -   Corrected favicon integration for  and  pages.
+-   ****: Website's central CSS stylesheet.
+    -   Added styles for the FAQ accordion functionality (hiding answers, animating transitions).
+    -   Added responsive styles for the Contact form and FAQ page, ensuring mobile adaptability.
+    -   Added CSS rules to force image display above text on mobile for the How it works steps.
+    -   Updated styles for download buttons on  to lilac color and removed underlines.
+    -   Added  styles for Privacy and Terms pages to ensure proper formatting and responsiveness.
+    -   Modified media queries to increase the size of the logo on mobile.
+-   ** (pt-BR, en, es)**: Website translation files.
+    -   Updated with  and  keys.
+    -   Updated with , , and  keys.
+-   ****: New file created for the Admin Dashboard HTML structure, including placeholders for metrics, charts, and tables, and the login form. This file was dynamically rendered by .
+-   ****: Updated to include  and .
+-   ****: Node.js proxy for the Emergent deployment environment.
+    -   No direct code modifications were made to this file within the trajectory, but its role in proxying requests and its interaction with  (running on port 9000) was crucial for debugging admin page access.
+-   ****: New supervisor configuration file created to ensure the  process runs reliably on port 9000, managed by Supervisor.
 </code_architecture>
 
 <pending_tasks>
 - Implement remaining visual redesign elements for website (iPhone mockup in Hero, micro-animations for sections, full page review).
-- Frontend integration of the Emotional Audio System for the mobile app.
+- Frontend integration of the Emotional Audio System for the mobile app (beyond the current guided sessions).
 - RevenueCat integration for monetization.
 - CMS integration for Blog/Studies.
-- Debug the persistent translation issue for session descriptions in the  component of the mobile app.
-- Ensure website download buttons on the  page correctly use translated text and the badge styling.
-- Ensure mobile app's voice chat and TTS features are fully functional and reliably connect to the backend.
+- Debug the persistent translation issue for session descriptions in the  component of the mobile app (this was fixed in the trajectory).
+- Ensure mobile app's voice chat and TTS features are fully functional and reliably connect to the backend (delay was addressed, but overall functionality might need further checks).
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was addressing a user report that the download buttons on the  page of the website were still appearing in a plain, untranslated style, despite previous efforts to update them to a modern badge style with dynamic translations. The user explicitly stated, conferir, porque gastou creditos mas o botao nao mudou, continua do mesmo jeito que antes de pedir para fazer as correcoes. Upon inspecting , the AI engineer identified that the HTML for these download buttons was indeed hardcoded with static English text (, ) instead of properly utilizing the  and  translation keys that had been previously added to the localization files. The current task involves correcting this hardcoding in  to ensure the buttons dynamically load translated text and are displayed with the intended badge styling.
+Immediately prior to this summary, the AI engineer was implementing a Guided Session feature for the mobile app in . This feature involves Luna speaking each step, automatic card progression based on time, and looping for a set duration. The UI for starting the guided session and a progress indicator have been added, along with associated CSS styles.
+
+However, during this implementation, an error was encountered where the  function was declared twice, leading to a conflict and application crash. This conflict arose because  was used both for general background music (from ) and for the Text-to-Speech (TTS) functionality guiding the session. The engineer identified this specific conflict as the root cause of the crash.
 </current_work>
 
 <optional_next_step>
-Correct the hardcoded download button text in  to use translation keys.
+Resolve the  function naming conflict in  by renaming one of the functions or using a more distinct naming convention.
 </optional_next_step>
-
