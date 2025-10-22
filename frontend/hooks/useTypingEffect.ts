@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-export const useTypingEffect = (text: string, speed: number = 30) => {
+export const useTypingEffect = (text: string, speed: number = 50) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(true);
 
@@ -13,11 +13,14 @@ export const useTypingEffect = (text: string, speed: number = 30) => {
       return;
     }
 
+    // Split text into words for word-by-word animation
+    const words = text.split(' ');
     let currentIndex = 0;
     
     const intervalId = setInterval(() => {
-      if (currentIndex < text.length) {
-        setDisplayedText(text.slice(0, currentIndex + 1));
+      if (currentIndex < words.length) {
+        const currentText = words.slice(0, currentIndex + 1).join(' ');
+        setDisplayedText(currentText);
         currentIndex++;
       } else {
         setIsTyping(false);
