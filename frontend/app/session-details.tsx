@@ -187,9 +187,9 @@ export default function SessionDetailsScreen() {
         }
       }, 1000); // Atualiza a cada segundo
       
-      // Agendar primeiro avanço de step (após 4 segundos)
-      const stepDuration = 4000; // 4 segundos conforme solicitado
-      console.log('⏰ Agendando primeiro avanço em', stepDuration, 'ms...');
+      // Agendar primeiro avanço de step (duração baseada na sessão)
+      const stepDuration = getStepDuration(id as string, 0);
+      console.log('⏰ Agendando primeiro avanço em', stepDuration, 'ms (step 0 da sessão', id, ')...');
       const timerId = setTimeout(() => {
         console.log('⏰ Timer de', stepDuration, 'ms atingido, avançando para próximo step...');
         advanceToNextStep();
