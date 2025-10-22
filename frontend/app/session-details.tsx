@@ -118,10 +118,7 @@ export default function SessionDetailsScreen() {
     currentStepRef.current = nextStep; // Atualizar ref
     setCurrentStep(nextStep); // Atualizar state
     
-    // Falar o próximo step (não bloqueia o timer)
-    speakStep(steps[nextStep]).catch(err => {
-      console.error('❌ Erro ao falar step:', err);
-    });
+    // Sem fala - apenas avanço visual dos cards
     
     // Calcular tempo para o próximo step (4 segundos)
     const stepDuration = 4000; // 4 segundos
