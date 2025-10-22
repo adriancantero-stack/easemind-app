@@ -310,12 +310,6 @@ export default function SessionDetailsScreen() {
             borderColor: currentTheme.accent2,
           }
         ]}>
-          {isGuidedMode && (
-            <View style={styles.speakingIndicator}>
-              <Ionicons name="volume-high" size={20} color="white" />
-              <Text style={styles.speakingText}>Luna está falando...</Text>
-            </View>
-          )}
           <Text style={[
             styles.instruction, 
             { color: isGuidedMode ? 'white' : currentTheme.text }
