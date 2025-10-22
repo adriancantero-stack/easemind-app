@@ -13,6 +13,7 @@ import { LunaAvatar } from '../../components/LunaAvatar';
 import { useVoiceRecording } from '../../hooks/useVoiceRecording';
 import { useAudioPlayer } from '../../hooks/useAudioPlayer';
 import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type AvatarState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'error';
 
