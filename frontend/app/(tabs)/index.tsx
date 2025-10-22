@@ -223,16 +223,6 @@ export default function HomeScreen() {
       style={styles.gradientContainer}
     >
       <SafeAreaView style={styles.container} edges={['top']}>
-        {/* Fixed Luna Orb - appears when speaking */}
-        {playingMessageId && (
-          <View style={styles.fixedOrbContainer}>
-            <LunaAvatar 
-              state="talking"
-              size={60}
-            />
-          </View>
-        )}
-
         <KeyboardAvoidingView 
           style={{ flex: 1 }} 
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
