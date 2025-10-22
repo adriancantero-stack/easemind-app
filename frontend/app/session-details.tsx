@@ -121,9 +121,9 @@ export default function SessionDetailsScreen() {
 
   // Função para avançar para o próximo step
   const advanceToNextStep = () => {
-    console.log('⏭️ advanceToNextStep chamado. isGuidedMode:', isGuidedMode, 'steps.length:', steps.length);
+    console.log('⏭️ advanceToNextStep chamado. isGuidedModeRef:', isGuidedModeRef.current, 'steps.length:', steps.length);
     
-    if (!isGuidedMode || steps.length === 0) {
+    if (!isGuidedModeRef.current || steps.length === 0) {
       console.log('⚠️ Não pode avançar - modo guiado inativo ou sem steps');
       return;
     }
