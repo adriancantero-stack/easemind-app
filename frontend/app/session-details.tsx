@@ -20,6 +20,14 @@ export default function SessionDetailsScreen() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
+  const [isGuidedMode, setIsGuidedMode] = useState(false);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const guidedTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const stepTimerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  const { playAudio, isLoading: isLoadingTTS } = useAudioPlayer();
+  const language = useStore((state) => state.language);
+  const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:8001';
 
   // Get session steps from translations
   const getSessionSteps = (sessionId: string): string[] => {
