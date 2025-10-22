@@ -210,11 +210,9 @@ export default function HomeScreen() {
   };
 
   // Audio with typing animation handler
-  const handlePlayAudioWithTyping = async (messageId: string, fullText: string, timestamp: number) => {
+  const handlePlayAudioWithTyping = async (messageId: string, fullText: string) => {
     try {
       console.log('🎬 Starting typing animation synced with audio');
-      const updateTypingMessage = useStore.getState().updateTypingMessage;
-      const completeTypingMessage = useStore.getState().completeTypingMessage;
       
       // Split text into words
       const words = fullText.split(' ');
@@ -226,6 +224,20 @@ export default function HomeScreen() {
       
       console.log(`📊 Animation config: ${totalWords} words, ${estimatedDuration}ms total, ${wordDelay}ms per word`);
       
+      // Create initial empty message with timestamp
+      const timestamp = Date.now();
+      const newMessage = {
+        role: 'assistant' as const,
+        content: '',
+        timestamp,
+        isTyping: true,
+        fullContent: fullText,
+      };
+      
+      // Add initial message
+      const messages = [...useStore.getState().messages, newMessage];
+      useStore.setState({ messages });
+      
       // Start TTS playback
       setPlayingMessageId(messageId);
       const audioPromise = playAudio(messageId, fullText, language, backendUrl);
@@ -234,12 +246,29 @@ export default function HomeScreen() {
       let currentText = '';
       for (let i = 0; i < words.length; i++) {
         currentText += (i > 0 ? ' ' : '') + words[i];
-        updateTypingMessage(timestamp, currentText);
+        
+        // Update the message with progressive text
+        const updatedMessages = useStore.getState().messages.map(msg =>
+          msg.timestamp === timestamp ? { ...msg, content: currentText } : msg
+        );
+        useStore.setState({ messages: updatedMessages });
+        
         await new Promise(resolve => setTimeout(resolve, wordDelay));
       }
       
-      // Complete typing
-      completeTypingMessage(timestamp);
+      // Complete typing - remove typing flags and save
+      const finalMessages = useStore.getState().messages.map(msg =>
+        msg.timestamp === timestamp 
+          ? { role: msg.role, content: fullText, timestamp: msg.timestamp }
+          : msg
+      );
+      useStore.setState({ messages: finalMessages });
+      
+      // Save to storage
+      try {
+        await AsyncStorage.setItem('@easemind_messages', JSON.stringify(finalMessages));
+      } catch {}
+      
       console.log('✅ Typing animation completed');
       
       // Wait for audio to finish
@@ -248,9 +277,8 @@ export default function HomeScreen() {
       
     } catch (error) {
       console.error('❌ handlePlayAudioWithTyping error:', error);
-      // Ensure full text is shown on error
-      const completeTypingMessage = useStore.getState().completeTypingMessage;
-      completeTypingMessage(timestamp);
+      // On error, show full text immediately
+      addMessage('assistant', fullText);
       setPlayingMessageId(null);
     }
   };
