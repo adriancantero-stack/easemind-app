@@ -52,7 +52,7 @@ export default function SessionDetailsScreen() {
   // Mapear sons para cada sessão
   const sessionAudio: { [key: string]: any } = {
     '1': require('../assets/audio/respiracao_caixa.mp3'),
-    '2': require('../assets/audio/respiracao_caixa.mp3'),
+    '2': require('../assets/audio/respiracao_4_7_8.mp3'),
     '3': require('../assets/audio/gentle_rain.mp3'),
     '4': require('../assets/audio/sunrise_soft.mp3'),
     '5': require('../assets/audio/night_wind.mp3'),
