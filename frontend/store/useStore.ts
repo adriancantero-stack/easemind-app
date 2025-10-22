@@ -171,6 +171,37 @@ export const useStore = create<AppState>((set, get) => ({
     } catch {}
   },
 
+  addTypingMessage: async (role: 'user' | 'assistant', fullContent: string) => {
+    const newMessage: Message = {
+      role,
+      content: '', // Start empty
+      timestamp: Date.now(),
+      isTyping: true,
+      fullContent,
+    };
+    const messages = [...get().messages, newMessage];
+    set({ messages });
+  },
+
+  updateTypingMessage: (timestamp: number, content: string) => {
+    const messages = get().messages.map(msg =>
+      msg.timestamp === timestamp ? { ...msg, content } : msg
+    );
+    set({ messages });
+  },
+
+  completeTypingMessage: async (timestamp: number) => {
+    const messages = get().messages.map(msg =>
+      msg.timestamp === timestamp 
+        ? { ...msg, content: msg.fullContent || msg.content, isTyping: false, fullContent: undefined }
+        : msg
+    );
+    set({ messages });
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(messages));
+    } catch {}
+  },
+
   addMoodEntry: async (mood: number, note?: string) => {
     const entry: MoodEntry = {
       id: Date.now().toString(),
