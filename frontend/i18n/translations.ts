@@ -270,6 +270,8 @@ export const translations = {
       next: 'Próximo',
       back: 'Voltar',
       finish: 'Concluir',
+      startGuided: 'Iniciar Sessão',
+      stop: 'Parar',
       completedMessage: 'Você dedicou {duration} minutos para si hoje. Isso é motivo de orgulho.',
       notFound: 'Sessão não encontrada',
       list: {
