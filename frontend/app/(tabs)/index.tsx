@@ -136,14 +136,12 @@ export default function HomeScreen() {
         addMessage('assistant', data.response);
         console.log('✅ Message added successfully');
         
-        // Auto-play TTS for the response
+        // Auto-play TTS for the response (immediately, no delay)
         const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        console.log('🎤 Preparing to play audio for message:', messageId);
+        console.log('🎤 Starting TTS immediately for message:', messageId);
         
-        setTimeout(() => {
-          console.log('🎤 Calling handlePlayAudio now...');
-          handlePlayAudio(messageId, data.response);
-        }, 500);
+        // Start audio playback immediately without delay
+        handlePlayAudio(messageId, data.response);
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
