@@ -104,6 +104,16 @@ export default function SessionDetailsScreen() {
 
   // Função removida - não há mais fala, apenas avanço de cards
 
+  // Função para obter duração total da sessão
+  const getSessionDuration = (sessionId: string): number => {
+    // Sessão 2 (4-7-8 Breathing) dura 3 minutos
+    if (sessionId === '2') {
+      return 180000; // 3 minutos em ms
+    }
+    // Todas as outras sessões usam 2 minutos
+    return 120000; // 2 minutos em ms
+  };
+
   // Função para obter duração do step baseada na sessão
   const getStepDuration = (sessionId: string, stepIndex: number): number => {
     // Sessão 2 (4-7-8 Breathing) tem tempos variáveis
