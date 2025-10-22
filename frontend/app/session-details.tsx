@@ -122,16 +122,17 @@ export default function SessionDetailsScreen() {
 
   // Função para avançar para o próximo step
   const advanceToNextStep = () => {
-    console.log('⏭️ advanceToNextStep chamado. isGuidedModeRef:', isGuidedModeRef.current, 'steps.length:', steps.length);
+    console.log('⏭️ advanceToNextStep chamado. isGuidedModeRef:', isGuidedModeRef.current, 'currentStepRef:', currentStepRef.current, 'steps.length:', steps.length);
     
     if (!isGuidedModeRef.current || steps.length === 0) {
       console.log('⚠️ Não pode avançar - modo guiado inativo ou sem steps');
       return;
     }
     
-    const nextStep = (currentStep + 1) % steps.length; // Loop circular
-    console.log('📍 Avançando de step', currentStep, 'para', nextStep);
-    setCurrentStep(nextStep);
+    const nextStep = (currentStepRef.current + 1) % steps.length; // Loop circular usando ref
+    console.log('📍 Avançando de step', currentStepRef.current, 'para', nextStep);
+    currentStepRef.current = nextStep; // Atualizar ref
+    setCurrentStep(nextStep); // Atualizar state
     
     // Falar o próximo step (não bloqueia o timer)
     speakStep(steps[nextStep]).catch(err => {
