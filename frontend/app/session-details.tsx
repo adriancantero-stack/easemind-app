@@ -98,6 +98,103 @@ export default function SessionDetailsScreen() {
     }
   };
 
+  // Função para falar um step usando TTS
+  const speakStep = async (stepText: string) => {
+    try {
+      const messageId = `step_${Date.now()}`;
+      await playAudio(messageId, stepText, language, backendUrl);
+      console.log('🗣️ Luna falou:', stepText);
+    } catch (error) {
+      console.error('Erro ao falar step:', error);
+    }
+  };
+
+  // Função para avançar para o próximo step
+  const advanceToNextStep = async () => {
+    if (!isGuidedMode || steps.length === 0) return;
+    
+    const nextStep = (currentStep + 1) % steps.length; // Loop circular
+    setCurrentStep(nextStep);
+    
+    // Falar o próximo step
+    await speakStep(steps[nextStep]);
+    
+    // Calcular tempo para o próximo step (4 segundos por padrão)
+    const stepDuration = 4000; // 4 segundos
+    
+    // Agendar próximo step
+    stepTimerRef.current = setTimeout(() => {
+      advanceToNextStep();
+    }, stepDuration);
+  };
+
+  // Iniciar sessão guiada
+  const startGuidedSession = async () => {
+    if (steps.length === 0) return;
+    
+    console.log('🎬 Iniciando sessão guiada...');
+    setIsGuidedMode(true);
+    setCurrentStep(0);
+    setElapsedTime(0);
+    
+    // Tocar música de fundo
+    await playAudio();
+    
+    // Falar o primeiro step
+    await speakStep(steps[0]);
+    
+    // Iniciar timer principal (conta tempo total)
+    const sessionDuration = 120000; // 2 minutos em ms
+    const startTime = Date.now();
+    
+    guidedTimerRef.current = setInterval(() => {
+      const elapsed = Date.now() - startTime;
+      setElapsedTime(elapsed);
+      
+      // Se completou a duração, parar
+      if (elapsed >= sessionDuration) {
+        stopGuidedSession();
+      }
+    }, 1000); // Atualiza a cada segundo
+    
+    // Agendar primeiro avanço de step (após 4 segundos)
+    stepTimerRef.current = setTimeout(() => {
+      advanceToNextStep();
+    }, 4000);
+  };
+
+  // Parar sessão guiada
+  const stopGuidedSession = () => {
+    console.log('⏹️ Parando sessão guiada...');
+    setIsGuidedMode(false);
+    
+    // Limpar timers
+    if (guidedTimerRef.current) {
+      clearInterval(guidedTimerRef.current);
+      guidedTimerRef.current = null;
+    }
+    
+    if (stepTimerRef.current) {
+      clearTimeout(stepTimerRef.current);
+      stepTimerRef.current = null;
+    }
+    
+    // Parar música de fundo
+    stopAudio();
+  };
+
+  // Cleanup ao desmontar componente
+  useEffect(() => {
+    return () => {
+      if (guidedTimerRef.current) {
+        clearInterval(guidedTimerRef.current);
+      }
+      if (stepTimerRef.current) {
+        clearTimeout(stepTimerRef.current);
+      }
+    };
+  }, []);
+
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
