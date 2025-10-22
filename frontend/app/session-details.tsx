@@ -65,7 +65,7 @@ export default function SessionDetailsScreen() {
     };
   }, [sound]);
 
-  const playAudio = async () => {
+  const playBackgroundAudio = async () => {
     try {
       if (sound) {
         await sound.unloadAsync();
