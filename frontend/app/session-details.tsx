@@ -110,6 +110,10 @@ export default function SessionDetailsScreen() {
     if (sessionId === '2') {
       return 180000; // 3 minutos em ms
     }
+    // Sessão 3 (Progressive Muscle Relaxation) dura 5 minutos
+    if (sessionId === '3') {
+      return 300000; // 5 minutos em ms
+    }
     // Todas as outras sessões usam 2 minutos
     return 120000; // 2 minutos em ms
   };
@@ -120,6 +124,10 @@ export default function SessionDetailsScreen() {
     if (sessionId === '2') {
       const durations = [4000, 7000, 8000, 4000]; // 4s, 7s, 8s, 4s
       return durations[stepIndex] || 4000;
+    }
+    // Sessão 3 (Progressive Muscle Relaxation) usa 10 segundos por step
+    if (sessionId === '3') {
+      return 10000; // 10 segundos
     }
     // Todas as outras sessões usam 4 segundos
     return 4000;
