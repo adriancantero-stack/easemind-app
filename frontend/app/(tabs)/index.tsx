@@ -133,15 +133,17 @@ export default function HomeScreen() {
       console.log('📨 Response data:', data);
       
       if (data.response) {
-        addMessage('assistant', data.response);
-        console.log('✅ Message added successfully');
-        
-        // Auto-play TTS for the response (immediately, no delay)
         const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
-        console.log('🎤 Starting TTS immediately for message:', messageId);
         
-        // Start audio playback immediately without delay
-        handlePlayAudio(messageId, data.response);
+        // Start TTS immediately (in parallel with UI update)
+        console.log('🎤 Starting TTS in parallel with UI update');
+        const ttsPromise = handlePlayAudio(messageId, data.response);
+        
+        // Add message to UI (happens immediately while TTS is loading)
+        addMessage('assistant', data.response);
+        console.log('✅ Message added successfully, TTS loading in background');
+        
+        // TTS will continue loading and play automatically when ready
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
