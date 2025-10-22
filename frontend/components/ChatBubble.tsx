@@ -123,8 +123,13 @@ const styles = StyleSheet.create({
   assistantContainer: {
     alignItems: 'flex-start',
   },
+  messageRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
   bubble: {
-    maxWidth: '80%',
+    maxWidth: '75%',
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm + 4,
     borderRadius: theme.radius,
@@ -145,5 +150,11 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing.sm,
     alignSelf: 'flex-start',
     padding: 4,
+  },
+  orbContainer: {
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
