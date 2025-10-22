@@ -275,12 +275,10 @@ export const translations = {
           title: 'Respiração em Caixa',
           description: 'Acalme sua mente com respiração 4-4-4-4',
           steps: [
-            'Encontre uma posição confortável',
             'Inspire por 4 segundos',
             'Segure por 4 segundos',
             'Expire por 4 segundos',
             'Segure por 4 segundos',
-            'Repita este ciclo',
           ],
         },
         '2': {
