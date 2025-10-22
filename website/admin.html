@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EaseMind - Admin Dashboard</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header h1 {
+      color: #667eea;
+      font-size: 2rem;
+    }
+
+    .logout-btn {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .logout-btn:hover {
+      background: #764ba2;
+      transform: translateY(-2px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card h3 {
+      color: #667eea;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .subtitle {
+      color: #718096;
+      font-size: 0.875rem;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .chart-container h2 {
+      color: #1a202c;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 1rem;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f7fafc;
+      color: #667eea;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover {
+      background: #f7fafc;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-premium {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .badge-free {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 3rem;
+      color: white;
+      font-size: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stat-card .value {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 EaseMind Admin Dashboard</h1>
+      <button class="logout-btn" onclick="logout()">Sair</button>
+    </div>
+
+    <div id="loading" class="loading">Carregando dados...</div>
+    
+    <div id="dashboard" style="display: none;">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total de Usuários</h3>
+          <div class="value" id="totalUsers">-</div>
+          <div class="subtitle" id="activeUsers">-</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Usuários Ativos (7d)</h3>
+          <div class="value" id="activeUsers7d">-</div>
+          <div class="subtitle" id="retentionRate">-</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Conversas Totais</h3>
+          <div class="value" id="totalConversations">-</div>
+          <div class="subtitle" id="avgConversations">-</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Sessões Guiadas</h3>
+          <div class="value" id="totalSessions">-</div>
+          <div class="subtitle">Completadas com sucesso</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Entradas de Diário</h3>
+          <div class="value" id="totalJournal">-</div>
+          <div class="subtitle">Registros emocionais</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Humor Médio</h3>
+          <div class="value" id="avgMood">-</div>
+          <div class="subtitle" id="riskEvents">-</div>
+        </div>
+      </div>
+
+      <!-- Mood Distribution Chart -->
+      <div class="chart-container">
+        <h2>Distribuição de Humor</h2>
+        <canvas id="moodChart" height="80"></canvas>
+      </div>
+
+      <!-- Popular Sessions Table -->
+      <div class="table-container">
+        <h2>Sessões Guiadas Mais Populares</h2>
+        <table id="sessionsTable">
+          <thead>
+            <tr>
+              <th>Sessão</th>
+              <th>Tipo</th>
+              <th>Duração</th>
+              <th>Completadas</th>
+              <th>Popularidade</th>
+            </tr>
+          </thead>
+          <tbody id="sessionsBody">
+            <tr><td colspan="5" style="text-align: center;">Carregando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script>
+    let moodChart;
+
+    async function loadDashboard() {
+      try {
+        // Load global stats
+        const statsRes = await fetch('/api/admin/stats');
+        const statsData = await statsRes.json();
+        const stats = statsData.stats;
+
+        // Update stat cards
+        document.getElementById('totalUsers').textContent = stats.users.total.toLocaleString();
+        document.getElementById('activeUsers7d').textContent = stats.users.active_7d.toLocaleString();
+        document.getElementById('retentionRate').textContent = `Taxa de retenção: ${stats.users.retention_rate}%`;
+        document.getElementById('totalConversations').textContent = stats.engagement.total_conversations.toLocaleString();
+        document.getElementById('avgConversations').textContent = `${stats.engagement.avg_conversations_per_user} por usuário`;
+        document.getElementById('totalSessions').textContent = stats.engagement.total_sessions.toLocaleString();
+        document.getElementById('totalJournal').textContent = stats.engagement.total_journal_entries.toLocaleString();
+        document.getElementById('avgMood').textContent = stats.wellbeing.avg_mood.toFixed(1);
+        document.getElementById('riskEvents').textContent = `${stats.wellbeing.risk_events_30d} eventos de risco (30d)`;
+
+        // Load mood distribution
+        const moodRes = await fetch('/api/admin/mood-distribution');
+        const moodData = await moodRes.json();
+        
+        const ctx = document.getElementById('moodChart').getContext('2d');
+        if (moodChart) {
+          moodChart.destroy();
+        }
+        
+        moodChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: Object.keys(moodData),
+            datasets: [{
+              label: 'Número de Registros',
+              data: Object.values(moodData),
+              backgroundColor: 'rgba(102, 126, 234, 0.8)',
+              borderColor: 'rgba(102, 126, 234, 1)',
+              borderWidth: 2,
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                display: false
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  precision: 0
+                }
+              }
+            }
+          }
+        });
+
+        // Load popular sessions
+        const sessionsRes = await fetch('/api/admin/popular-sessions');
+        const sessionsData = await sessionsRes.json();
+        const sessions = sessionsData.sessions;
+
+        const sessionsBody = document.getElementById('sessionsBody');
+        if (sessions && sessions.length > 0) {
+          sessionsBody.innerHTML = sessions.map(session => `
+            <tr>
+              <td><strong>${session.title}</strong></td>
+              <td>${session.type}</td>
+              <td>${session.duration}min</td>
+              <td>${session.completed_count || 0}</td>
+              <td>
+                <div style="background: #e0e7ff; height: 8px; border-radius: 4px; overflow: hidden;">
+                  <div style="background: #667eea; height: 100%; width: ${Math.min(session.popularity || 0, 100)}%;"></div>
+                </div>
+              </td>
+            </tr>
+          `).join('');
+        } else {
+          sessionsBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma sessão encontrada</td></tr>';
+        }
+
+        // Hide loading, show dashboard
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+
+      } catch (error) {
+        console.error('Error loading dashboard:', error);
+        document.getElementById('loading').textContent = 'Erro ao carregar dados. Tente novamente.';
+      }
+    }
+
+    function logout() {
+      if (confirm('Tem certeza que deseja sair?')) {
+        fetch('/admin/logout', { method: 'POST' })
+          .then(() => {
+            window.location.href = '/admin';
+          });
+      }
+    }
+
+    // Auto-refresh every 30 seconds
+    loadDashboard();
+    setInterval(loadDashboard, 30000);
+  </script>
+</body>
+</html>
