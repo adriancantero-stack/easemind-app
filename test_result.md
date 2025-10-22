@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix deployment routing for easemind.io domain. Implement unified proxy server to route traffic correctly: / → Website (9000), /app → Frontend (3000), /api/* → Backend (8001). SSL certificate is pending automatic provisioning (up to 24h)."
+user_problem_statement: "Fix critical playAudio function naming conflict in session-details.tsx that was causing app crashes. The conflict was between playAudio from useAudioPlayer hook (TTS) and a local playAudio function (background music)."
 
 backend:
   - task: "Unified Proxy Server (Node.js)"
