@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ActivityIndicator, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../utils/theme';
 import { useStore } from '../store/useStore';
 import { useTypingEffect } from '../hooks/useTypingEffect';
+import { LunaAvatar } from './LunaAvatar';
 
 interface ChatBubbleProps {
   role: 'user' | 'assistant';
