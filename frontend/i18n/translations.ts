@@ -59,14 +59,37 @@ export const translations = {
         '1': {
           title: 'Box Breathing',
           description: 'Calm your mind with 4-4-4-4 breathing',
+          steps: [
+            'Find a comfortable position',
+            'Inhale for 4 seconds',
+            'Hold for 4 seconds',
+            'Exhale for 4 seconds',
+            'Hold for 4 seconds',
+            'Repeat this cycle',
+          ],
         },
         '2': {
           title: '4-7-8 Breathing',
           description: 'Deep relaxation technique for anxiety relief',
+          steps: [
+            'Sit comfortably',
+            'Inhale through your nose for 4 seconds',
+            'Hold your breath for 7 seconds',
+            'Exhale through your mouth for 8 seconds',
+            'Repeat the cycle 3-4 times',
+          ],
         },
         '3': {
           title: 'Progressive Muscle Relaxation',
           description: 'Release tension from your body',
+          steps: [
+            'Lie down or sit comfortably',
+            'Tense your feet muscles for 5 seconds',
+            'Relax completely',
+            'Move up to legs, then abdomen',
+            'Continue up to your head',
+            'Feel the total relaxation',
+          ],
         },
         '4': {
           title: 'Gratitude Practice',
