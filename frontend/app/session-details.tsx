@@ -259,7 +259,7 @@ export default function SessionDetailsScreen() {
 
       <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
         {/* Animação de respiração (apenas para sessões 1 e 2) */}
-        {(id === '1' || id === '2') && (
+        {(id === '1' || id === '2') && isGuidedMode && (
           <View style={styles.animationContainer}>
             <BreathAnimation />
           </View>
