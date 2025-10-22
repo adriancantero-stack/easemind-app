@@ -45,6 +45,9 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
     }
   };
 
+  // Show orb when Luna is typing or speaking
+  const showOrb = !isUser && (isTyping || isPlayingAudio);
+
   return (
     <View
       style={[
@@ -52,45 +55,57 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         isUser ? styles.userContainer : styles.assistantContainer,
       ]}
     >
-      <View
-        style={[
-          styles.bubble,
-          {
-            backgroundColor: isUser ? currentTheme.accent1 : currentTheme.card,
-          },
-        ]}
-      >
-        <Text
+      <View style={styles.messageRow}>
+        <View
           style={[
-            styles.text,
+            styles.bubble,
             {
-              color: isUser ? '#FFFFFF' : currentTheme.text,
+              backgroundColor: isUser ? currentTheme.accent1 : currentTheme.card,
             },
           ]}
         >
-          {textToShow}
-          {shouldAnimate && isTyping && (
-            <Text style={styles.cursor}>▊</Text>
-          )}
-        </Text>
-        
-        {/* Play audio button for assistant messages */}
-        {!isUser && onPlayAudio && messageId && (
-          <TouchableOpacity 
-            style={styles.audioButton}
-            onPress={handlePlayAudio}
-            disabled={isLoadingAudio}
+          <Text
+            style={[
+              styles.text,
+              {
+                color: isUser ? '#FFFFFF' : currentTheme.text,
+              },
+            ]}
           >
-            {isLoadingAudio ? (
-              <ActivityIndicator size="small" color={currentTheme.accent1} />
-            ) : (
-              <Ionicons 
-                name={isPlayingAudio ? "volume-high" : "volume-medium-outline"} 
-                size={18} 
-                color={currentTheme.accent1} 
-              />
+            {textToShow}
+            {shouldAnimate && isTyping && (
+              <Text style={styles.cursor}>▊</Text>
             )}
-          </TouchableOpacity>
+          </Text>
+          
+          {/* Play audio button for assistant messages */}
+          {!isUser && onPlayAudio && messageId && (
+            <TouchableOpacity 
+              style={styles.audioButton}
+              onPress={handlePlayAudio}
+              disabled={isLoadingAudio}
+            >
+              {isLoadingAudio ? (
+                <ActivityIndicator size="small" color={currentTheme.accent1} />
+              ) : (
+                <Ionicons 
+                  name={isPlayingAudio ? "volume-high" : "volume-medium-outline"} 
+                  size={18} 
+                  color={currentTheme.accent1} 
+                />
+              )}
+            </TouchableOpacity>
+          )}
+        </View>
+        
+        {/* Luna Orb - appears to the right while typing/speaking */}
+        {showOrb && (
+          <View style={styles.orbContainer}>
+            <LunaAvatar 
+              state={isPlayingAudio ? 'talking' : 'listening'}
+              size={40}
+            />
+          </View>
         )}
       </View>
     </View>
