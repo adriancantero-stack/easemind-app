@@ -114,6 +114,10 @@ export default function SessionDetailsScreen() {
     if (sessionId === '3') {
       return 300000; // 5 minutos em ms
     }
+    // Sessão 5 (Body Scan for Sleep) dura 5 minutos
+    if (sessionId === '5') {
+      return 300000; // 5 minutos em ms
+    }
     // Todas as outras sessões usam 2 minutos
     return 120000; // 2 minutos em ms
   };
@@ -128,6 +132,10 @@ export default function SessionDetailsScreen() {
     // Sessão 3 (Progressive Muscle Relaxation) usa 10 segundos por step
     if (sessionId === '3') {
       return 10000; // 10 segundos
+    }
+    // Sessão 5 (Body Scan for Sleep) usa 15 segundos por step
+    if (sessionId === '5') {
+      return 15000; // 15 segundos
     }
     // Todas as outras sessões usam 4 segundos
     return 4000;
