@@ -318,28 +318,6 @@ export default function SessionDetailsScreen() {
           </View>
         )}
       </ScrollView>
-
-      {/* Botões de navegação */}
-      <View style={[styles.footer, { backgroundColor: currentTheme.card }]}>
-        <TouchableOpacity
-          style={[styles.navButton, currentStep === 0 && styles.navButtonDisabled]}
-          onPress={handleBack}
-          disabled={currentStep === 0}
-        >
-          <Text style={[styles.navButtonText, { color: currentTheme.text }]}>
-            {t('sessions.back')}
-          </Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.navButtonPrimary, { backgroundColor: currentTheme.accent1 }]}
-          onPress={handleNext}
-        >
-          <Text style={styles.navButtonPrimaryText}>
-            {currentStep === steps.length - 1 ? t('sessions.finish') : t('sessions.next')}
-          </Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
