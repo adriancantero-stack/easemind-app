@@ -162,6 +162,7 @@ export default function SessionDetailsScreen() {
     console.log('📝 Primeiro step:', steps[0].substring(0, 50) + '...');
     
     setIsGuidedMode(true);
+    isGuidedModeRef.current = true; // Sincronizar ref
     setCurrentStep(0);
     setElapsedTime(0);
     
