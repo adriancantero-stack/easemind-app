@@ -194,12 +194,15 @@ export default function SessionDetailsScreen() {
         }
       }, 1000); // Atualiza a cada segundo
       
-      // Agendar primeiro avanço de step (após 8 segundos)
-      console.log('⏰ Agendando primeiro avanço em 8000ms...');
-      stepTimerRef.current = setTimeout(() => {
-        console.log('⏰ Timer de 8s atingido, avançando para próximo step...');
+      // Agendar primeiro avanço de step (após 4 segundos)
+      const stepDuration = 4000; // 4 segundos conforme solicitado
+      console.log('⏰ Agendando primeiro avanço em', stepDuration, 'ms...');
+      const timerId = setTimeout(() => {
+        console.log('⏰ Timer de', stepDuration, 'ms atingido, avançando para próximo step...');
         advanceToNextStep();
-      }, 8000);
+      }, stepDuration);
+      stepTimerRef.current = timerId;
+      console.log('⏰ Timer ID criado:', timerId);
       
       console.log('✅ Sessão guiada completamente configurada');
     } catch (error) {
