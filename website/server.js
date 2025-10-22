@@ -4,6 +4,7 @@ const path = require('path');
 const { marked } = require('marked');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+const fetch = require('node-fetch');
 
 const app = express();
 const PORT = process.env.PORT || 9000;
