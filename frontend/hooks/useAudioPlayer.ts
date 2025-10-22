@@ -11,8 +11,9 @@ export const useAudioPlayer = () => {
   const [isLoading, setIsLoading] = useState(false);
   const soundRef = useRef<Audio.Sound | null>(null);
   const cacheRef = useRef<AudioCache>({});
+  const [audioDuration, setAudioDuration] = useState<number>(0);
 
-  const playAudio = async (messageId: string, text: string, lang: string, backendUrl: string) => {
+  const playAudio = async (messageId: string, text: string, lang: string, backendUrl: string, onProgress?: (progress: number) => void) => {
     try {
       // Check cache first
       if (cacheRef.current[messageId]) {
