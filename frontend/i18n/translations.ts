@@ -488,12 +488,10 @@ export const translations = {
           title: 'Respiración en Caja',
           description: 'Calma tu mente con respiración 4-4-4-4',
           steps: [
-            'Encuentra una posición cómoda',
             'Inhala durante 4 segundos',
             'Mantén durante 4 segundos',
             'Exhala durante 4 segundos',
             'Mantén durante 4 segundos',
-            'Repite este ciclo',
           ],
         },
         '2': {
