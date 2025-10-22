@@ -99,31 +99,46 @@ export default function SessionDetailsScreen() {
   };
 
   // Função para falar um step usando TTS
-  const speakStep = async (stepText: string) => {
+  const speakStep = async (stepText: string): Promise<void> => {
     try {
+      console.log('🎯 speakStep chamado com texto:', stepText.substring(0, 50) + '...');
       const messageId = `step_${Date.now()}`;
       // Usar o playAudio do hook para TTS
+      console.log('📞 Chamando playAudio com:', { messageId, language, backendUrl });
       await playAudio(messageId, stepText, language, backendUrl);
-      console.log('🗣️ Luna falou:', stepText);
+      console.log('✅ playAudio completado');
+      console.log('🗣️ Luna falou:', stepText.substring(0, 50) + '...');
     } catch (error) {
-      console.error('Erro ao falar step:', error);
+      console.error('❌ Erro ao falar step:', error);
+      if (error instanceof Error) {
+        console.error('❌ Detalhes do erro:', error.message, error.stack);
+      }
     }
   };
 
   // Função para avançar para o próximo step
-  const advanceToNextStep = async () => {
-    if (!isGuidedMode || steps.length === 0) return;
+  const advanceToNextStep = () => {
+    console.log('⏭️ advanceToNextStep chamado. isGuidedMode:', isGuidedMode, 'steps.length:', steps.length);
+    
+    if (!isGuidedMode || steps.length === 0) {
+      console.log('⚠️ Não pode avançar - modo guiado inativo ou sem steps');
+      return;
+    }
     
     const nextStep = (currentStep + 1) % steps.length; // Loop circular
+    console.log('📍 Avançando de step', currentStep, 'para', nextStep);
     setCurrentStep(nextStep);
     
-    // Falar o próximo step
-    await speakStep(steps[nextStep]);
+    // Falar o próximo step (não bloqueia o timer)
+    speakStep(steps[nextStep]).catch(err => {
+      console.error('❌ Erro ao falar step:', err);
+    });
     
-    // Calcular tempo para o próximo step (4 segundos por padrão)
-    const stepDuration = 4000; // 4 segundos
+    // Calcular tempo para o próximo step (8 segundos - tempo suficiente para TTS + pausa)
+    const stepDuration = 8000; // 8 segundos
     
     // Agendar próximo step
+    console.log('⏰ Agendando próximo step em', stepDuration, 'ms');
     stepTimerRef.current = setTimeout(() => {
       advanceToNextStep();
     }, stepDuration);
@@ -131,37 +146,60 @@ export default function SessionDetailsScreen() {
 
   // Iniciar sessão guiada
   const startGuidedSession = async () => {
-    if (steps.length === 0) return;
+    if (steps.length === 0) {
+      console.log('⚠️ Não há steps para iniciar sessão guiada');
+      return;
+    }
     
-    console.log('🎬 Iniciando sessão guiada...');
+    console.log('🎬 Iniciando sessão guiada com', steps.length, 'steps...');
+    console.log('📝 Primeiro step:', steps[0].substring(0, 50) + '...');
+    
     setIsGuidedMode(true);
     setCurrentStep(0);
     setElapsedTime(0);
     
-    // Tocar música de fundo
-    await playBackgroundAudio();
-    
-    // Falar o primeiro step
-    await speakStep(steps[0]);
-    
-    // Iniciar timer principal (conta tempo total)
-    const sessionDuration = 120000; // 2 minutos em ms
-    const startTime = Date.now();
-    
-    guidedTimerRef.current = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      setElapsedTime(elapsed);
+    try {
+      // Tocar música de fundo
+      console.log('🎵 Iniciando música de fundo...');
+      await playBackgroundAudio();
+      console.log('✅ Música de fundo iniciada');
       
-      // Se completou a duração, parar
-      if (elapsed >= sessionDuration) {
-        stopGuidedSession();
+      // Falar o primeiro step
+      console.log('🗣️ Iniciando TTS para primeiro step...');
+      await speakStep(steps[0]);
+      console.log('✅ Primeiro step falado');
+      
+      // Iniciar timer principal (conta tempo total)
+      const sessionDuration = 120000; // 2 minutos em ms
+      const startTime = Date.now();
+      
+      console.log('⏱️ Timer principal iniciado, duração:', sessionDuration, 'ms');
+      
+      guidedTimerRef.current = setInterval(() => {
+        const elapsed = Date.now() - startTime;
+        setElapsedTime(elapsed);
+        
+        // Se completou a duração, parar
+        if (elapsed >= sessionDuration) {
+          console.log('⏰ Tempo da sessão completado, parando...');
+          stopGuidedSession();
+        }
+      }, 1000); // Atualiza a cada segundo
+      
+      // Agendar primeiro avanço de step (após 8 segundos)
+      console.log('⏰ Agendando primeiro avanço em 8000ms...');
+      stepTimerRef.current = setTimeout(() => {
+        console.log('⏰ Timer de 8s atingido, avançando para próximo step...');
+        advanceToNextStep();
+      }, 8000);
+      
+      console.log('✅ Sessão guiada completamente configurada');
+    } catch (error) {
+      console.error('❌ Erro ao iniciar sessão guiada:', error);
+      if (error instanceof Error) {
+        console.error('❌ Detalhes:', error.message, error.stack);
       }
-    }, 1000); // Atualiza a cada segundo
-    
-    // Agendar primeiro avanço de step (após 4 segundos)
-    stepTimerRef.current = setTimeout(() => {
-      advanceToNextStep();
-    }, 4000);
+    }
   };
 
   // Parar sessão guiada
