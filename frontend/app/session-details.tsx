@@ -137,14 +137,17 @@ export default function SessionDetailsScreen() {
       console.error('❌ Erro ao falar step:', err);
     });
     
-    // Calcular tempo para o próximo step (8 segundos - tempo suficiente para TTS + pausa)
-    const stepDuration = 8000; // 8 segundos
+    // Calcular tempo para o próximo step (4 segundos)
+    const stepDuration = 4000; // 4 segundos
     
     // Agendar próximo step
     console.log('⏰ Agendando próximo step em', stepDuration, 'ms');
-    stepTimerRef.current = setTimeout(() => {
+    const timerId = setTimeout(() => {
+      console.log('⏰ Timer disparado! Chamando advanceToNextStep recursivamente...');
       advanceToNextStep();
     }, stepDuration);
+    stepTimerRef.current = timerId;
+    console.log('⏰ Novo timer ID criado:', timerId);
   };
 
   // Iniciar sessão guiada
