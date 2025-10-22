@@ -32,6 +32,7 @@ export default function HomeScreen() {
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [userId, setUserId] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
+  const isAnimatingRef = useRef(false); // Prevent multiple animations
 
   // Get backend URL - prioritize environment variable
   const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
