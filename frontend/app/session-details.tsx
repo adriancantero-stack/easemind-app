@@ -181,10 +181,10 @@ export default function SessionDetailsScreen() {
       console.log('✅ Áudio iniciado');
       
       // Iniciar timer principal (conta tempo total)
-      const sessionDuration = 120000; // 2 minutos em ms
+      const sessionDuration = getSessionDuration(id as string);
       const startTime = Date.now();
       
-      console.log('⏱️ Timer principal iniciado, duração:', sessionDuration, 'ms');
+      console.log('⏱️ Timer principal iniciado, duração:', sessionDuration, 'ms (', sessionDuration/1000, 'segundos )');
       
       guidedTimerRef.current = setInterval(() => {
         const elapsed = Date.now() - startTime;
