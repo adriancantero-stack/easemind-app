@@ -56,7 +56,7 @@ export default function SessionDetailsScreen() {
     '3': require('../assets/audio/gentle_rain.mp3'),
     '4': require('../assets/audio/sunrise_soft.mp3'),
     '5': require('../assets/audio/night_wind.mp3'),
-    '6': require('../assets/audio/chime_up.mp3'),
+    '6': require('../assets/audio/calma_rapida.mp3'),
     '7': require('../assets/audio/deep_piano.mp3'),
     '8': require('../assets/audio/forest_birds.mp3'),
   };
