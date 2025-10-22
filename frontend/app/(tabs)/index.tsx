@@ -356,6 +356,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  fixedOrbContainer: {
+    position: 'absolute',
+    top: 80,
+    right: 20,
+    zIndex: 1000,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
   header: {
     alignItems: 'center',
     paddingTop: theme.spacing.md,
