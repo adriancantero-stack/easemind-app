@@ -133,19 +133,11 @@ export default function HomeScreen() {
       console.log('📨 Response data:', data);
       
       if (data.response) {
-        const timestamp = Date.now();
-        const messageId = `msg_${timestamp}_${Math.random().toString(36).substr(2, 9)}`;
+        const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         
-        // Add typing message (with fullContent stored but content empty)
-        const addTypingMessage = useStore.getState().addTypingMessage;
-        const updateTypingMessage = useStore.getState().updateTypingMessage;
-        const completeTypingMessage = useStore.getState().completeTypingMessage;
-        
-        addTypingMessage('assistant', data.response);
-        console.log('✅ Typing message added, starting animation');
-        
+        console.log('🎤 Starting TTS with typing animation');
         // Start TTS and typing animation in parallel
-        handlePlayAudioWithTyping(messageId, data.response, timestamp);
+        handlePlayAudioWithTyping(messageId, data.response);
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
