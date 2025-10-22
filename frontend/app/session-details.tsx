@@ -146,11 +146,17 @@ export default function SessionDetailsScreen() {
 
   // Iniciar sessão guiada
   const startGuidedSession = async () => {
+    console.log('🚀 startGuidedSession foi chamado!');
+    console.log('Steps disponíveis:', steps.length);
+    console.log('Steps:', steps);
+    
     if (steps.length === 0) {
       console.log('⚠️ Não há steps para iniciar sessão guiada');
+      alert('⚠️ Não há steps disponíveis para esta sessão.');
       return;
     }
     
+    alert('🎬 Iniciando sessão guiada com ' + steps.length + ' steps!');
     console.log('🎬 Iniciando sessão guiada com', steps.length, 'steps...');
     console.log('📝 Primeiro step:', steps[0].substring(0, 50) + '...');
     
