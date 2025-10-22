@@ -137,9 +137,13 @@ export default function HomeScreen() {
       if (data.response) {
         const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         
-        console.log('🎤 Starting TTS with typing animation');
-        // Start TTS and typing animation in parallel
-        handlePlayAudioWithTyping(messageId, data.response);
+        // Add message to UI immediately
+        addMessage('assistant', data.response);
+        console.log('✅ Message added successfully');
+        
+        // Start TTS immediately
+        console.log('🎤 Starting TTS playback');
+        handlePlayAudio(messageId, data.response);
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
