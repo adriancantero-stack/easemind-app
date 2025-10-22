@@ -320,7 +320,7 @@ export default function SessionDetailsScreen() {
             
             {/* Indicador de tempo */}
             <Text style={[styles.timerText, { color: currentTheme.text }]}>
-              {Math.floor(elapsedTime / 1000)}s / 120s
+              {Math.floor(elapsedTime / 1000)}s / {getSessionDuration(id as string) / 1000}s
             </Text>
           </View>
         )}
