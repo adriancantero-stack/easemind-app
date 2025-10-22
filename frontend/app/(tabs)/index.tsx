@@ -133,17 +133,19 @@ export default function HomeScreen() {
       console.log('📨 Response data:', data);
       
       if (data.response) {
-        const messageId = `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+        const timestamp = Date.now();
+        const messageId = `msg_${timestamp}_${Math.random().toString(36).substr(2, 9)}`;
         
-        // Start TTS immediately (in parallel with UI update)
-        console.log('🎤 Starting TTS in parallel with UI update');
-        const ttsPromise = handlePlayAudio(messageId, data.response);
+        // Add typing message (with fullContent stored but content empty)
+        const addTypingMessage = useStore.getState().addTypingMessage;
+        const updateTypingMessage = useStore.getState().updateTypingMessage;
+        const completeTypingMessage = useStore.getState().completeTypingMessage;
         
-        // Add message to UI (happens immediately while TTS is loading)
-        addMessage('assistant', data.response);
-        console.log('✅ Message added successfully, TTS loading in background');
+        addTypingMessage('assistant', data.response);
+        console.log('✅ Typing message added, starting animation');
         
-        // TTS will continue loading and play automatically when ready
+        // Start TTS and typing animation in parallel
+        handlePlayAudioWithTyping(messageId, data.response, timestamp);
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
