@@ -27,7 +27,9 @@ export default function SessionDetailsScreen() {
   
   const { playAudio, isLoading: isLoadingTTS } = useAudioPlayer();
   const language = useStore((state) => state.language);
-  const backendUrl = Constants.expoConfig?.extra?.backendUrl || 'http://localhost:8001';
+  const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+  
+  console.log('🔧 Backend URL configurada:', backendUrl);
 
   // Get session steps from translations
   const getSessionSteps = (sessionId: string): string[] => {
