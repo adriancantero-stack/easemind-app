@@ -37,7 +37,7 @@ export default function HomeScreen() {
   // Get backend URL - prioritize environment variable
   const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || 
-    'https://ui-revamp-21.preview.emergentagent.com';
+    'https://mindapp-admin.preview.emergentagent.com';
 
   // Initialize userId on component mount
   useEffect(() => {

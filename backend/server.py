@@ -27,7 +27,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
-        "https://ui-revamp-21.preview.emergentagent.com",
+        "https://mindapp-admin.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],
