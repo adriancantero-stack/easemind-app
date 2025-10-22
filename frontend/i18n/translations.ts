@@ -94,22 +94,53 @@ export const translations = {
         '4': {
           title: 'Gratitude Practice',
           description: 'Shift your mindset to appreciation',
+          steps: [
+            'Think of 3 things you are grateful for',
+            'Visualize each one of them',
+            'Feel the gratitude in your heart',
+            'Breathe deeply',
+          ],
         },
         '5': {
           title: 'Body Scan for Sleep',
           description: 'Prepare your body and mind for rest',
+          steps: [
+            'Lie down comfortably',
+            'Scan your body from head to toe',
+            'Notice each sensation',
+            'Relax each part of your body',
+            'Let yourself drift into sleep',
+          ],
         },
         '6': {
           title: 'Quick Calm',
           description: 'Instant relief in 60 seconds',
+          steps: [
+            'Take 3 deep breaths',
+            'Close your eyes',
+            'Drop your shoulders',
+            'Feel the calm',
+          ],
         },
         '7': {
           title: 'Evening Wind Down',
           description: 'Transition peacefully to rest',
+          steps: [
+            'Turn off electronic devices',
+            'Do some gentle stretches',
+            'Practice calm breathing',
+            'Prepare to rest',
+          ],
         },
         '8': {
           title: 'Mindful Moment',
           description: 'Ground yourself in the present',
+          steps: [
+            'Close your eyes',
+            'Focus on your breathing',
+            'Notice sounds around you',
+            'Be present in this moment',
+          ],
         },
       },
     },
