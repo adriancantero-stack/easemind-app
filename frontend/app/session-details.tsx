@@ -169,6 +169,7 @@ export default function SessionDetailsScreen() {
     setIsGuidedMode(true);
     isGuidedModeRef.current = true; // Sincronizar ref
     setCurrentStep(0);
+    currentStepRef.current = 0; // Sincronizar ref do step
     setElapsedTime(0);
     
     try {
