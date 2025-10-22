@@ -60,12 +60,10 @@ export const translations = {
           title: 'Box Breathing',
           description: 'Calm your mind with 4-4-4-4 breathing',
           steps: [
-            'Find a comfortable position',
             'Inhale for 4 seconds',
             'Hold for 4 seconds',
             'Exhale for 4 seconds',
             'Hold for 4 seconds',
-            'Repeat this cycle',
           ],
         },
         '2': {
