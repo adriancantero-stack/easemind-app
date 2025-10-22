@@ -118,6 +118,10 @@ export default function SessionDetailsScreen() {
     if (sessionId === '5') {
       return 300000; // 5 minutos em ms
     }
+    // Sessão 6 (Quick Calm) dura 1 minuto
+    if (sessionId === '6') {
+      return 60000; // 1 minuto em ms
+    }
     // Todas as outras sessões usam 2 minutos
     return 120000; // 2 minutos em ms
   };
@@ -135,6 +139,10 @@ export default function SessionDetailsScreen() {
     }
     // Sessão 5 (Body Scan for Sleep) usa 15 segundos por step
     if (sessionId === '5') {
+      return 15000; // 15 segundos
+    }
+    // Sessão 6 (Quick Calm) usa 15 segundos por step (4 steps em 1 minuto)
+    if (sessionId === '6') {
       return 15000; // 15 segundos
     }
     // Todas as outras sessões usam 4 segundos
