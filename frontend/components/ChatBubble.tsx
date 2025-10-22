@@ -74,7 +74,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         </Text>
         
         {/* Play audio button for assistant messages */}
-        {!isUser && onPlayAudio && messageId && !isTyping && (
+        {!isUser && onPlayAudio && messageId && (
           <TouchableOpacity 
             style={styles.audioButton}
             onPress={handlePlayAudio}
