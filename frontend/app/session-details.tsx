@@ -104,6 +104,17 @@ export default function SessionDetailsScreen() {
 
   // Função removida - não há mais fala, apenas avanço de cards
 
+  // Função para obter duração do step baseada na sessão
+  const getStepDuration = (sessionId: string, stepIndex: number): number => {
+    // Sessão 2 (4-7-8 Breathing) tem tempos variáveis
+    if (sessionId === '2') {
+      const durations = [4000, 7000, 8000, 4000]; // 4s, 7s, 8s, 4s
+      return durations[stepIndex] || 4000;
+    }
+    // Todas as outras sessões usam 4 segundos
+    return 4000;
+  };
+
   // Função para avançar para o próximo step
   const advanceToNextStep = () => {
     console.log('⏭️ advanceToNextStep chamado. isGuidedModeRef:', isGuidedModeRef.current, 'currentStepRef:', currentStepRef.current, 'steps.length:', steps.length);
@@ -120,11 +131,11 @@ export default function SessionDetailsScreen() {
     
     // Sem fala - apenas avanço visual dos cards
     
-    // Calcular tempo para o próximo step (4 segundos)
-    const stepDuration = 4000; // 4 segundos
+    // Calcular tempo para o próximo step baseado na sessão
+    const stepDuration = getStepDuration(id as string, nextStep);
     
     // Agendar próximo step
-    console.log('⏰ Agendando próximo step em', stepDuration, 'ms');
+    console.log('⏰ Agendando próximo step em', stepDuration, 'ms (step', nextStep, 'da sessão', id, ')');
     const timerId = setTimeout(() => {
       console.log('⏰ Timer disparado! Chamando advanceToNextStep recursivamente...');
       advanceToNextStep();
