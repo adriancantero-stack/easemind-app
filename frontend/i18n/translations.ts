@@ -502,11 +502,10 @@ export const translations = {
           title: 'Respiración 4-7-8',
           description: 'Técnica de relajación profunda para alivio de ansiedad',
           steps: [
-            'Siéntate cómodamente',
             'Inhala por la nariz durante 4 segundos',
             'Mantén la respiración durante 7 segundos',
             'Exhala por la boca durante 8 segundos',
-            'Repite el ciclo 3-4 veces',
+            'Descansa durante 4 segundos',
           ],
         },
         '3': {
