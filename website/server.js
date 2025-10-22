@@ -394,8 +394,8 @@ function generateHTML(page, lang, t) {
               <button type="submit" class="btn btn-primary">${t.contact.form.submit}</button>
             </form>
             
-            <div class="contact-info" style="text-align: center; margin-top: 3rem;">
-              <p style="font-size: 1rem; color: var(--ink-600);"><strong style="color: var(--ink-900);">${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}" style="color: var(--brand-primary); text-decoration: none;">${t.contact.support.email}</a></p>
+            <div class="contact-info" style="text-align: center; margin-top: 3rem; width: 100%; display: block;">
+              <p style="font-size: 1rem; color: var(--ink-600); text-align: center; margin: 0 auto;"><strong style="color: var(--ink-900);">${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}" style="color: var(--brand-primary); text-decoration: none;">${t.contact.support.email}</a></p>
             </div>
           </div>
         </section>
