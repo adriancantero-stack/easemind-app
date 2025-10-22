@@ -980,11 +980,16 @@ footer {
 @media (max-width: 1024px) {
   .step {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
-  .step:nth-child(even) .step-content,
-  .step:nth-child(even) .step-visual {
-    order: 0;
+  /* Force image to always appear first on mobile */
+  .step .step-visual {
+    order: -1;
+  }
+  
+  .step .step-content {
+    order: 1;
   }
   
   .footer-content {
