@@ -180,15 +180,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Unified Proxy Server routing"
-    - "Public URL accessibility (preview URL)"
-    - "Custom domain SSL provisioning"
+    - "Fix playAudio Naming Conflict in Guided Sessions"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
-      message: "Phase 1 (Deployment Routing) implementation complete. Created unified-server.js as single proxy entry point for all services. Updated Procfile and start-all-services.sh to use new architecture. Local testing confirmed all routes working. Next: Test public preview URL and wait for easemind.io SSL certificate provisioning (automatic, up to 24h)."
-    - agent: "testing"
-      message: "✅ UNIFIED PROXY SERVER TESTING COMPLETE - EXCELLENT RESULTS! Comprehensive testing shows 94.4% success rate (17/18 tests passed). The unified proxy server (implemented via nginx) is working perfectly for all critical functionality: ✅ All services running (Backend 8001, Website 9000, Frontend 3000). ✅ Proxy routing working flawlessly (/api/* → Backend, / → Website, /app → Frontend). ✅ Backend API functionality confirmed through proxy (chat API tested successfully with proper responses). ✅ CORS headers preserved. ✅ Error handling working properly. Minor issue: WebSocket support returns 502 (expected for nginx without WebSocket config, doesn't affect core functionality). RECOMMENDATION: The unified proxy server deployment architecture is ready for production. All critical routing and API functionality working correctly."
+      message: "🔧 CRITICAL BUG FIX COMPLETE: Fixed playAudio function naming conflict in session-details.tsx. The issue was that 'playAudio' was declared twice: once from useAudioPlayer hook (for TTS) and once locally (for background music). This caused the app to crash. SOLUTION: Renamed the local function to 'playBackgroundAudio' and updated all 3 references throughout the file. Now: playAudio = TTS for guided steps, playBackgroundAudio = background music. Expo frontend restarted. Ready for testing. The guided session feature should now work without crashes."
