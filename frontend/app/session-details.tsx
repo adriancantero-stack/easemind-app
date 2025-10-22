@@ -155,14 +155,9 @@ export default function SessionDetailsScreen() {
     
     try {
       // Tocar música de fundo
-      console.log('🎵 Iniciando música de fundo...');
+      console.log('🎵 Iniciando áudio de respiração...');
       await playBackgroundAudio();
-      console.log('✅ Música de fundo iniciada');
-      
-      // Falar o primeiro step
-      console.log('🗣️ Iniciando TTS para primeiro step...');
-      await speakStep(steps[0]);
-      console.log('✅ Primeiro step falado');
+      console.log('✅ Áudio iniciado');
       
       // Iniciar timer principal (conta tempo total)
       const sessionDuration = 120000; // 2 minutos em ms
