@@ -232,14 +232,61 @@ export default function SessionDetailsScreen() {
           </View>
         )}
 
+        {/* Botão Sessão Guiada */}
+        {!isGuidedMode ? (
+          <TouchableOpacity
+            style={[styles.guidedButton, { backgroundColor: currentTheme.accent1 }]}
+            onPress={startGuidedSession}
+            disabled={isLoadingTTS}
+          >
+            <Ionicons name="play-circle" size={24} color="white" />
+            <Text style={styles.guidedButtonText}>
+              {t('sessions.startGuided') || 'Iniciar Sessão Guiada'}
+            </Text>
+          </TouchableOpacity>
+        ) : (
+          <View style={styles.guidedStatusContainer}>
+            <TouchableOpacity
+              style={[styles.stopButton, { backgroundColor: '#EF4444' }]}
+              onPress={stopGuidedSession}
+            >
+              <Ionicons name="stop-circle" size={24} color="white" />
+              <Text style={styles.stopButtonText}>
+                {t('sessions.stop') || 'Parar'}
+              </Text>
+            </TouchableOpacity>
+            
+            {/* Indicador de tempo */}
+            <Text style={[styles.timerText, { color: currentTheme.text }]}>
+              {Math.floor(elapsedTime / 1000)}s / 120s
+            </Text>
+          </View>
+        )}
+
         {/* Progresso */}
         <Text style={[styles.stepIndicator, { color: currentTheme.textSecondary }]}>
           {t('sessions.step')} {currentStep + 1} {t('sessions.of')} {steps.length}
         </Text>
 
         {/* Instrução atual */}
-        <View style={[styles.instructionCard, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.instruction, { color: currentTheme.text }]}>
+        <View style={[
+          styles.instructionCard, 
+          { 
+            backgroundColor: isGuidedMode ? currentTheme.accent1 : currentTheme.card,
+            borderWidth: isGuidedMode ? 3 : 0,
+            borderColor: currentTheme.accent2,
+          }
+        ]}>
+          {isGuidedMode && (
+            <View style={styles.speakingIndicator}>
+              <Ionicons name="volume-high" size={20} color="white" />
+              <Text style={styles.speakingText}>Luna está falando...</Text>
+            </View>
+          )}
+          <Text style={[
+            styles.instruction, 
+            { color: isGuidedMode ? 'white' : currentTheme.text }
+          ]}>
             {steps[currentStep]}
           </Text>
         </View>
