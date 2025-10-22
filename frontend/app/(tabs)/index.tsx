@@ -213,6 +213,14 @@ export default function HomeScreen() {
 
   // Audio with typing animation handler
   const handlePlayAudioWithTyping = async (messageId: string, fullText: string) => {
+    // Prevent multiple animations from running simultaneously
+    if (isAnimatingRef.current) {
+      console.log('⚠️ Animation already running, skipping');
+      return;
+    }
+    
+    isAnimatingRef.current = true;
+    
     try {
       console.log('🎬 Starting typing animation synced with audio');
       
@@ -276,12 +284,14 @@ export default function HomeScreen() {
       // Wait for audio to finish
       await audioPromise;
       setPlayingMessageId(null);
+      isAnimatingRef.current = false;
       
     } catch (error) {
       console.error('❌ handlePlayAudioWithTyping error:', error);
       // On error, show full text immediately
       addMessage('assistant', fullText);
       setPlayingMessageId(null);
+      isAnimatingRef.current = false;
     }
   };
 
