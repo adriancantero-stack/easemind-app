@@ -295,7 +295,7 @@ export default function SessionDetailsScreen() {
         {/* Controle de áudio */}
         <TouchableOpacity
           style={[styles.audioButton, { backgroundColor: currentTheme.accent1 }]}
-          onPress={isPlaying ? stopAudio : playAudio}
+          onPress={isPlaying ? stopAudio : playBackgroundAudio}
         >
           <Ionicons name={isPlaying ? 'pause' : 'play'} size={24} color="#FFF" />
           <Text style={styles.audioButtonText}>
