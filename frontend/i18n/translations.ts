@@ -53,6 +53,8 @@ export const translations = {
       next: 'Next',
       back: 'Back',
       finish: 'Finish',
+      startGuided: 'Start Session',
+      stop: 'Stop',
       completedMessage: 'You took {duration} minutes for yourself today. That\'s something to be proud of.',
       notFound: 'Session not found',
       list: {
