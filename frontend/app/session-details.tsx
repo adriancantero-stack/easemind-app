@@ -102,6 +102,7 @@ export default function SessionDetailsScreen() {
   const speakStep = async (stepText: string) => {
     try {
       const messageId = `step_${Date.now()}`;
+      // Usar o playAudio do hook para TTS
       await playAudio(messageId, stepText, language, backendUrl);
       console.log('🗣️ Luna falou:', stepText);
     } catch (error) {
