@@ -7,6 +7,8 @@ interface Message {
   role: 'user' | 'assistant';
   content: string;
   timestamp: number;
+  isTyping?: boolean; // Para efeito de digitação
+  fullContent?: string; // Conteúdo completo quando está em modo typing
 }
 
 interface MoodEntry {
