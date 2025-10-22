@@ -3,19 +3,15 @@ import { View, StyleSheet, Animated } from 'react-native';
 import { theme } from '../utils/theme';
 import { useStore } from '../store/useStore';
 
-interface BreathAnimationProps {
-  isInhaling: boolean;
-}
-
-export const BreathAnimation: React.FC<BreathAnimationProps> = ({ isInhaling }) => {
+export const BreathAnimation: React.FC = () => {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const scaleAnim = useRef(new Animated.Value(0.6)).current;
   const opacityAnim = useRef(new Animated.Value(0.3)).current;
 
   useEffect(() => {
-    if (isInhaling) {
-      // Inhale animation - expand
+    // Loop infinito de respiração
+    const breatheIn = () => {
       Animated.parallel([
         Animated.timing(scaleAnim, {
           toValue: 1,
@@ -27,9 +23,10 @@ export const BreathAnimation: React.FC<BreathAnimationProps> = ({ isInhaling }) 
           duration: 4000,
           useNativeDriver: true,
         }),
-      ]).start();
-    } else {
-      // Exhale animation - contract
+      ]).start(() => breatheOut());
+    };
+
+    const breatheOut = () => {
       Animated.parallel([
         Animated.timing(scaleAnim, {
           toValue: 0.6,
@@ -41,9 +38,11 @@ export const BreathAnimation: React.FC<BreathAnimationProps> = ({ isInhaling }) 
           duration: 4000,
           useNativeDriver: true,
         }),
-      ]).start();
-    }
-  }, [isInhaling]);
+      ]).start(() => breatheIn());
+    };
+
+    breatheIn();
+  }, []);
 
   return (
     <View style={styles.container}>
