@@ -708,7 +708,6 @@ app.post('/admin/logout', (req, res) => {
 });
 
 // Admin API Proxy (proxy requests to backend)
-const fetch = require('node-fetch');
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
 
 app.get('/api/admin/stats', async (req, res) => {
