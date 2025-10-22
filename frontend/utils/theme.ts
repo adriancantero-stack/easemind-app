@@ -6,6 +6,7 @@ export const theme = {
     card: '#FFFFFF',
     cardOpacity: 'rgba(255, 255, 255, 0.8)',
     text: '#2A2A2E',
+    textSecondary: '#6B7280', // Secondary text for descriptions
     textMuted: '#A1A1B2',
     accent1: '#BDAAFF', // Lilac Serenity
     accent1Hover: '#A88FFF',
@@ -26,6 +27,7 @@ export const theme = {
     card: '#1A2738',
     cardOpacity: 'rgba(26, 39, 56, 0.8)',
     text: '#E6E6EB',
+    textSecondary: '#B4B4B9', // Secondary text for descriptions - lighter for dark mode
     textMuted: '#9CA3AF',
     accent1: '#C8B6FF',
     accent1Hover: '#B09EFF',
