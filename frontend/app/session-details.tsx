@@ -265,7 +265,29 @@ export default function SessionDetailsScreen() {
           </View>
         )}
 
-        {/* Botão Sessão Guiada */}
+        {/* Progresso */}
+        <Text style={[styles.stepIndicator, { color: currentTheme.textSecondary }]}>
+          {t('sessions.step')} {currentStep + 1} {t('sessions.of')} {steps.length}
+        </Text>
+
+        {/* Instrução atual */}
+        <View style={[
+          styles.instructionCard, 
+          { 
+            backgroundColor: isGuidedMode ? currentTheme.accent1 : currentTheme.card,
+            borderWidth: isGuidedMode ? 3 : 0,
+            borderColor: currentTheme.accent2,
+          }
+        ]}>
+          <Text style={[
+            styles.instruction, 
+            { color: isGuidedMode ? 'white' : currentTheme.text }
+          ]}>
+            {steps[currentStep]}
+          </Text>
+        </View>
+
+        {/* Botão Sessão Guiada - Agora abaixo do card */}
         {!isGuidedMode ? (
           <TouchableOpacity
             style={[styles.guidedButton, { backgroundColor: currentTheme.accent1 }]}
@@ -295,30 +317,6 @@ export default function SessionDetailsScreen() {
             </Text>
           </View>
         )}
-
-        {/* Progresso */}
-        <Text style={[styles.stepIndicator, { color: currentTheme.textSecondary }]}>
-          {t('sessions.step')} {currentStep + 1} {t('sessions.of')} {steps.length}
-        </Text>
-
-        {/* Instrução atual */}
-        <View style={[
-          styles.instructionCard, 
-          { 
-            backgroundColor: isGuidedMode ? currentTheme.accent1 : currentTheme.card,
-            borderWidth: isGuidedMode ? 3 : 0,
-            borderColor: currentTheme.accent2,
-          }
-        ]}>
-          <Text style={[
-            styles.instruction, 
-            { color: isGuidedMode ? 'white' : currentTheme.text }
-          ]}>
-            {steps[currentStep]}
-          </Text>
-        </View>
-
-        {/* Audio control removed */}
       </ScrollView>
 
       {/* Botões de navegação */}
