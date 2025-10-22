@@ -154,11 +154,9 @@ export default function SessionDetailsScreen() {
     
     if (steps.length === 0) {
       console.log('⚠️ Não há steps para iniciar sessão guiada');
-      alert('⚠️ Não há steps disponíveis para esta sessão.');
       return;
     }
     
-    alert('🎬 Iniciando sessão guiada com ' + steps.length + ' steps!');
     console.log('🎬 Iniciando sessão guiada com', steps.length, 'steps...');
     console.log('📝 Primeiro step:', steps[0].substring(0, 50) + '...');
     
