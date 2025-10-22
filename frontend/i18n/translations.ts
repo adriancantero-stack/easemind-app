@@ -485,6 +485,8 @@ export const translations = {
       next: 'Siguiente',
       back: 'Atrás',
       finish: 'Finalizar',
+      startGuided: 'Iniciar Sesión',
+      stop: 'Detener',
       completedMessage: 'Dedicaste {duration} minutos para ti hoy. Eso es algo de lo que estar orgulloso.',
       notFound: 'Sesión no encontrada',
       list: {
