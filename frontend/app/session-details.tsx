@@ -228,21 +228,7 @@ export default function SessionDetailsScreen() {
     };
   }, []);
 
-  const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    } else {
-      // Sessão finalizada
-      stopAudio();
-      router.back();
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+  // Navegação manual removida - sessão totalmente automática
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]} edges={['top']}>
