@@ -83,10 +83,13 @@ export const useAudioPlayer = () => {
       if (soundRef.current) {
         console.log('🛑 Stopping previous sound...');
         try {
-          await soundRef.current.stopAsync();
-          await soundRef.current.unloadAsync();
+          const status = await soundRef.current.getStatusAsync();
+          if (status.isLoaded) {
+            await soundRef.current.stopAsync();
+            await soundRef.current.unloadAsync();
+          }
         } catch (e) {
-          console.log('⚠️ Error stopping previous sound:', e);
+          console.log('⚠️ Error stopping previous sound (ignorado):', e);
         }
         soundRef.current = null;
       }
