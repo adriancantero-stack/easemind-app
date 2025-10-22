@@ -217,6 +217,52 @@ export default function HomeScreen() {
     }
   };
 
+  // Audio with typing animation handler
+  const handlePlayAudioWithTyping = async (messageId: string, fullText: string, timestamp: number) => {
+    try {
+      console.log('🎬 Starting typing animation synced with audio');
+      const updateTypingMessage = useStore.getState().updateTypingMessage;
+      const completeTypingMessage = useStore.getState().completeTypingMessage;
+      
+      // Split text into words
+      const words = fullText.split(' ');
+      const totalWords = words.length;
+      
+      // Estimate audio duration (average TTS speed: ~150 words per minute = 2.5 words/sec)
+      const estimatedDuration = (totalWords / 2.5) * 1000; // in milliseconds
+      const wordDelay = estimatedDuration / totalWords;
+      
+      console.log(`📊 Animation config: ${totalWords} words, ${estimatedDuration}ms total, ${wordDelay}ms per word`);
+      
+      // Start TTS playback
+      setPlayingMessageId(messageId);
+      const audioPromise = playAudio(messageId, fullText, language, backendUrl);
+      
+      // Animate typing synchronized with estimated audio duration
+      let currentText = '';
+      for (let i = 0; i < words.length; i++) {
+        currentText += (i > 0 ? ' ' : '') + words[i];
+        updateTypingMessage(timestamp, currentText);
+        await new Promise(resolve => setTimeout(resolve, wordDelay));
+      }
+      
+      // Complete typing
+      completeTypingMessage(timestamp);
+      console.log('✅ Typing animation completed');
+      
+      // Wait for audio to finish
+      await audioPromise;
+      setPlayingMessageId(null);
+      
+    } catch (error) {
+      console.error('❌ handlePlayAudioWithTyping error:', error);
+      // Ensure full text is shown on error
+      const completeTypingMessage = useStore.getState().completeTypingMessage;
+      completeTypingMessage(timestamp);
+      setPlayingMessageId(null);
+    }
+  };
+
   return (
     <LinearGradient
       colors={currentTheme.bgGradient}
