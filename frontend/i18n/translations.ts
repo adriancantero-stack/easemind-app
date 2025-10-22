@@ -72,11 +72,10 @@ export const translations = {
           title: '4-7-8 Breathing',
           description: 'Deep relaxation technique for anxiety relief',
           steps: [
-            'Sit comfortably',
             'Inhale through your nose for 4 seconds',
             'Hold your breath for 7 seconds',
             'Exhale through your mouth for 8 seconds',
-            'Repeat the cycle 3-4 times',
+            'Rest for 4 seconds',
           ],
         },
         '3': {
