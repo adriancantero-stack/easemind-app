@@ -102,23 +102,7 @@ export default function SessionDetailsScreen() {
     }
   };
 
-  // Função para falar um step usando TTS
-  const speakStep = async (stepText: string): Promise<void> => {
-    try {
-      console.log('🎯 speakStep chamado com texto:', stepText.substring(0, 50) + '...');
-      const messageId = `step_${Date.now()}`;
-      // Usar o playAudio do hook para TTS
-      console.log('📞 Chamando playAudio com:', { messageId, language, backendUrl });
-      await playAudio(messageId, stepText, language, backendUrl);
-      console.log('✅ playAudio completado');
-      console.log('🗣️ Luna falou:', stepText.substring(0, 50) + '...');
-    } catch (error) {
-      console.error('❌ Erro ao falar step:', error);
-      if (error instanceof Error) {
-        console.error('❌ Detalhes do erro:', error.message, error.stack);
-      }
-    }
-  };
+  // Função removida - não há mais fala, apenas avanço de cards
 
   // Função para avançar para o próximo step
   const advanceToNextStep = () => {
