@@ -24,6 +24,7 @@ export default function SessionDetailsScreen() {
   const [elapsedTime, setElapsedTime] = useState(0);
   const guidedTimerRef = useRef<NodeJS.Timeout | null>(null);
   const stepTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const isGuidedModeRef = useRef(false); // Ref para manter estado atualizado nos closures
   
   const { playAudio, isLoading: isLoadingTTS } = useAudioPlayer();
   const language = useStore((state) => state.language);
