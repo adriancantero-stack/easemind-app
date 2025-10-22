@@ -136,6 +136,18 @@ backend:
           comment: "Backend API health endpoint confirmed working through proxy. Returns proper JSON response with status 'ok' and API configuration details."
 
 frontend:
+  - task: "Fix playAudio Naming Conflict in Guided Sessions"
+    implemented: true
+    working: "needs_testing"
+    file: "/app/frontend/app/session-details.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "needs_testing"
+          agent: "main"
+          comment: "Fixed critical naming conflict. Renamed local playAudio function to playBackgroundAudio. Now: playAudio (from useAudioPlayer hook) handles TTS for guided session steps, playBackgroundAudio handles background music. Updated all 3 references: function definition (line 68), startGuidedSession call (line 142), and audio button onPress (line 298). App should no longer crash."
+          
   - task: "Expo Frontend Web Build"
     implemented: true
     working: true
