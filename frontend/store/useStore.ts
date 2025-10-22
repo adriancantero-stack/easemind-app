@@ -46,6 +46,9 @@ interface AppState {
   completeOnboarding: () => void;
   setCurrentMood: (mood: number) => void;
   addMessage: (role: 'user' | 'assistant', content: string) => void;
+  addTypingMessage: (role: 'user' | 'assistant', fullContent: string) => void;
+  updateTypingMessage: (timestamp: number, content: string) => void;
+  completeTypingMessage: (timestamp: number) => void;
   addMoodEntry: (mood: number, note?: string) => void;
   addSessionLog: (sessionId: string, notes?: string) => void;
   loadFromStorage: () => Promise<void>;
