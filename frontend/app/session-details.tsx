@@ -139,7 +139,7 @@ export default function SessionDetailsScreen() {
     setElapsedTime(0);
     
     // Tocar música de fundo
-    await playAudio();
+    await playBackgroundAudio();
     
     // Falar o primeiro step
     await speakStep(steps[0]);
