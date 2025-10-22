@@ -19,65 +19,21 @@ export default function SessionDetailsScreen() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [sound, setSound] = useState<Audio.Sound | null>(null);
 
-  // Dados das sessões (simplificado - em produção viria de uma fonte de dados)
-  const sessionSteps: { [key: string]: string[] } = {
-    '1': [
-      'Encontre uma posição confortável',
-      'Inspire por 4 segundos',
-      'Segure por 4 segundos',
-      'Expire por 4 segundos',
-      'Segure por 4 segundos',
-      'Repita este ciclo',
-    ],
-    '2': [
-      'Sente-se confortavelmente',
-      'Inspire pelo nariz por 4 segundos',
-      'Segure a respiração por 7 segundos',
-      'Expire pela boca por 8 segundos',
-      'Repita o ciclo 3-4 vezes',
-    ],
-    '3': [
-      'Deite-se ou sente-se confortavelmente',
-      'Contraia os músculos dos pés por 5 segundos',
-      'Relaxe completamente',
-      'Suba para as pernas, depois abdômen',
-      'Continue até a cabeça',
-      'Sinta o relaxamento total',
-    ],
-    '4': [
-      'Pense em 3 coisas pelas quais é grato',
-      'Visualize cada uma delas',
-      'Sinta a gratidão no seu coração',
-      'Respire profundamente',
-    ],
-    '5': [
-      'Deite-se confortavelmente',
-      'Escaneie seu corpo da cabeça aos pés',
-      'Note cada sensação',
-      'Relaxe cada parte do corpo',
-      'Deixe-se levar ao sono',
-    ],
-    '6': [
-      'Respire fundo 3 vezes',
-      'Feche os olhos',
-      'Solte os ombros',
-      'Sinta a calma',
-    ],
-    '7': [
-      'Desligue dispositivos eletrônicos',
-      'Faça alguns alongamentos suaves',
-      'Pratique respiração calma',
-      'Prepare-se para descansar',
-    ],
-    '8': [
-      'Feche os olhos',
-      'Concentre-se na sua respiração',
-      'Note sons ao seu redor',
-      'Esteja presente neste momento',
-    ],
+  // Get session steps from translations
+  const getSessionSteps = (sessionId: string): string[] => {
+    const stepsKey = `sessions.list.${sessionId}.steps`;
+    const stepsData = t(stepsKey, { returnObjects: true });
+    
+    // If translation exists and is an array, return it
+    if (Array.isArray(stepsData)) {
+      return stepsData;
+    }
+    
+    // Fallback to empty array
+    return [];
   };
 
-  const steps = sessionSteps[id as string] || [];
+  const steps = getSessionSteps(id as string);
 
   // Mapear sons para cada sessão
   const sessionAudio: { [key: string]: any } = {
