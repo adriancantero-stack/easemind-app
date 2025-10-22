@@ -214,6 +214,7 @@ export default function SessionDetailsScreen() {
   const stopGuidedSession = () => {
     console.log('⏹️ Parando sessão guiada...');
     setIsGuidedMode(false);
+    isGuidedModeRef.current = false; // Sincronizar ref
     
     // Limpar timers
     if (guidedTimerRef.current) {
