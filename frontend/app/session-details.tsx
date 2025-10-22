@@ -318,16 +318,7 @@ export default function SessionDetailsScreen() {
           </Text>
         </View>
 
-        {/* Controle de áudio */}
-        <TouchableOpacity
-          style={[styles.audioButton, { backgroundColor: currentTheme.accent1 }]}
-          onPress={isPlaying ? stopAudio : playBackgroundAudio}
-        >
-          <Ionicons name={isPlaying ? 'pause' : 'play'} size={24} color="#FFF" />
-          <Text style={styles.audioButtonText}>
-            {isPlaying ? 'Pausar Som' : 'Tocar Som'}
-          </Text>
-        </TouchableOpacity>
+        {/* Audio control removed */}
       </ScrollView>
 
       {/* Botões de navegação */}
