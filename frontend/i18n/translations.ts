@@ -491,34 +491,88 @@ export const translations = {
         '1': {
           title: 'Respiración en Caja',
           description: 'Calma tu mente con respiración 4-4-4-4',
+          steps: [
+            'Encuentra una posición cómoda',
+            'Inhala durante 4 segundos',
+            'Mantén durante 4 segundos',
+            'Exhala durante 4 segundos',
+            'Mantén durante 4 segundos',
+            'Repite este ciclo',
+          ],
         },
         '2': {
           title: 'Respiración 4-7-8',
           description: 'Técnica de relajación profunda para alivio de ansiedad',
+          steps: [
+            'Siéntate cómodamente',
+            'Inhala por la nariz durante 4 segundos',
+            'Mantén la respiración durante 7 segundos',
+            'Exhala por la boca durante 8 segundos',
+            'Repite el ciclo 3-4 veces',
+          ],
         },
         '3': {
           title: 'Relajación Muscular Progresiva',
           description: 'Libera la tensión de tu cuerpo',
+          steps: [
+            'Acuéstate o siéntate cómodamente',
+            'Contrae los músculos de los pies durante 5 segundos',
+            'Relájate completamente',
+            'Sube a las piernas, luego al abdomen',
+            'Continúa hasta la cabeza',
+            'Siente la relajación total',
+          ],
         },
         '4': {
           title: 'Práctica de Gratitud',
           description: 'Cambia tu mentalidad hacia la apreciación',
+          steps: [
+            'Piensa en 3 cosas por las que estás agradecido',
+            'Visualiza cada una de ellas',
+            'Siente la gratitud en tu corazón',
+            'Respira profundamente',
+          ],
         },
         '5': {
           title: 'Escaneo Corporal para Dormir',
           description: 'Prepara tu cuerpo y mente para descansar',
+          steps: [
+            'Acuéstate cómodamente',
+            'Escanea tu cuerpo de la cabeza a los pies',
+            'Nota cada sensación',
+            'Relaja cada parte del cuerpo',
+            'Déjate llevar al sueño',
+          ],
         },
         '6': {
           title: 'Calma Rápida',
           description: 'Alivio instantáneo en 60 segundos',
+          steps: [
+            'Respira profundo 3 veces',
+            'Cierra los ojos',
+            'Suelta los hombros',
+            'Siente la calma',
+          ],
         },
         '7': {
           title: 'Relajación Nocturna',
           description: 'Transición pacífica hacia el descanso',
+          steps: [
+            'Apaga los dispositivos electrónicos',
+            'Haz algunos estiramientos suaves',
+            'Practica respiración tranquila',
+            'Prepárate para descansar',
+          ],
         },
         '8': {
           title: 'Momento Consciente',
           description: 'Conéctate al momento presente',
+          steps: [
+            'Cierra los ojos',
+            'Concéntrate en tu respiración',
+            'Nota los sonidos a tu alrededor',
+            'Está presente en este momento',
+          ],
         },
       },
     },
