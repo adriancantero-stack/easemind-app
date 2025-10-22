@@ -707,6 +707,7 @@ app.post('/admin/logout', (req, res) => {
 });
 
 // Admin API Proxy (proxy requests to backend)
+const fetch = require('node-fetch');
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
 
 app.get('/api/admin/stats', async (req, res) => {
@@ -715,7 +716,6 @@ app.get('/api/admin/stats', async (req, res) => {
   }
   
   try {
-    const fetch = (await import('node-fetch')).default;
     const response = await fetch(`${BACKEND_URL}/api/admin/stats`);
     const data = await response.json();
     res.json(data);
@@ -731,7 +731,6 @@ app.get('/api/admin/popular-sessions', async (req, res) => {
   }
   
   try {
-    const fetch = (await import('node-fetch')).default;
     const response = await fetch(`${BACKEND_URL}/api/admin/popular-sessions`);
     const data = await response.json();
     res.json(data);
@@ -747,7 +746,6 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
   
   try {
-    const fetch = (await import('node-fetch')).default;
     const response = await fetch(`${BACKEND_URL}/api/admin/mood-distribution`);
     const data = await response.json();
     res.json(data);
