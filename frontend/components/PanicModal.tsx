@@ -223,8 +223,8 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
       };
     } else if (language === 'es') {
       return {
-        crisis: { number: '024', label: 'Línea de Atención' },
-        emergency: { number: '112', label: 'Emergencias' }
+        crisis: { number: '024', label: 'Línea de Atención (ES) / 911 (LATAM)' },
+        emergency: { number: '112', label: 'Emergencias (ES) / 911 (LATAM)' }
       };
     } else {
       // pt-BR (padrão)
