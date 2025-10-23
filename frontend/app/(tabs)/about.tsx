@@ -92,6 +92,15 @@ export default function AboutScreen() {
             🇺🇸 USA: <Text style={{ fontWeight: '700' }}>988</Text> Suicide & Crisis Lifeline
           </Text>
           <Text style={[styles.contactText, { color: currentTheme.text }]}>
+            🇪🇸 España: <Text style={{ fontWeight: '700' }}>024</Text> Línea de Atención
+          </Text>
+          <Text style={[styles.contactText, { color: currentTheme.text }]}>
+            🇪🇺 Europa: <Text style={{ fontWeight: '700' }}>112</Text> Emergencias
+          </Text>
+          <Text style={[styles.contactText, { color: currentTheme.text }]}>
+            🌎 LATAM: <Text style={{ fontWeight: '700' }}>911</Text> Emergencias
+          </Text>
+          <Text style={[styles.contactText, { color: currentTheme.text }]}>
             🌍 {t('about.other_countries')}
           </Text>
         </View>
