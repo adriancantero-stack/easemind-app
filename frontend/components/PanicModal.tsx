@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Animated, Linking } from 'react-native';
 import { BlurView } from 'expo-blur';
+import { Audio } from 'expo-av';
 import { useStore } from '../store/useStore';
 import { theme } from '../utils/theme';
 import { useTranslation } from 'react-i18next';
 import { BreathAnimation } from './BreathAnimation';
 import * as Haptics from 'expo-haptics';
+import { Ionicons } from '@expo/vector-icons';
 
 interface PanicModalProps {
   visible: boolean;
