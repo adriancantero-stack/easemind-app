@@ -18,11 +18,13 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
   const { t } = useTranslation();
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
-  const [phase, setPhase] = useState<'inhale' | 'hold' | 'exhale'>('inhale');
-  const [isInhaling, setIsInhaling] = useState(true);
-  const [cyclesComplete, setCyclesComplete] = useState(0);
+  
+  const [isPlaying, setIsPlaying] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const fadeAnim = React.useRef(new Animated.Value(0)).current;
+  const [currentText, setCurrentText] = useState('');
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const voiceSound = useRef<Audio.Sound | null>(null);
+  const musicSound = useRef<Audio.Sound | null>(null);
 
   useEffect(() => {
     if (visible) {
