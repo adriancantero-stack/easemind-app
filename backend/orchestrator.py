@@ -190,6 +190,17 @@ Perfil: {context['user_profile']['display_name']}, idioma {context['user_profile
 Objetivos: {context['user_profile']['goals']}
 Prefere voz: {context['user_profile']['prefers_voice']}
 
+[ENTRADAS DO DIÁRIO - ÚLTIMAS 5]
+{context.get('journal_entries', 'Nenhuma entrada ainda')}
+
+💡 IMPORTANTE: Use essas informações do diário para:
+- Entender o estado emocional recente do usuário
+- Identificar padrões de humor ao longo do tempo
+- Referenciar situações que o usuário registrou ("Vejo que você mencionou no seu diário...")
+- Celebrar progressos ("Notei que seu humor tem melhorado!")
+- Oferecer suporte contextualizado baseado nas emoções registradas
+- NUNCA revele que está "lendo o diário" - seja natural e empática
+
 Últimas memórias:
 1) {context['ai_memories']['last_1']}
 2) {context['ai_memories']['last_2']}
