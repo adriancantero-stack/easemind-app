@@ -246,7 +246,7 @@ export const translations = {
       },
     },
     panic: {
-      title: 'SOS - Respire Comigo',
+      title: 'Respire Comigo',
       initialMessage: 'Respire comigo. Está tudo bem. Vamos passar por isso juntos.',
       breatheWithMe: 'Respire comigo',
       inhale: 'Inspire...',
