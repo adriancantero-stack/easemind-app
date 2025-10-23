@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { BreathAnimation } from './BreathAnimation';
 import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 interface PanicModalProps {
   visible: boolean;
@@ -26,13 +27,30 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
   const voiceSound = useRef<Audio.Sound | null>(null);
   const musicSound = useRef<Audio.Sound | null>(null);
 
+  // Configurar modo de áudio
+  useEffect(() => {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+      staysActiveInBackground: true,
+    });
+  }, []);
+
+  // Cleanup ao fechar
+  useEffect(() => {
+    if (!visible) {
+      stopAllAudio();
+      setIsPlaying(false);
+      setIsComplete(false);
+      setCurrentText('');
+    }
+  }, [visible]);
+
   useEffect(() => {
     if (visible) {
       // Reset state
-      setCyclesComplete(0);
       setIsComplete(false);
-      setPhase('inhale');
-      setIsInhaling(true);
+      setIsPlaying(false);
+      setCurrentText(t('panic.initialMessage'));
       
       // Fade in
       Animated.timing(fadeAnim, {
@@ -45,46 +63,125 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
       try {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       } catch {}
+
+      // Iniciar sessão SOS automaticamente após 1 segundo
+      setTimeout(() => {
+        startSOSSession();
+      }, 1000);
     }
   }, [visible]);
 
-  useEffect(() => {
-    if (!visible || isComplete) return;
-
-    const timer = setTimeout(() => {
-      if (phase === 'inhale') {
-        setPhase('hold');
-        setIsInhaling(true);
-        try {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        } catch {}
-      } else if (phase === 'hold') {
-        setPhase('exhale');
-        setIsInhaling(false);
-        try {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-        } catch {}
-      } else {
-        // Complete cycle
-        const newCount = cyclesComplete + 1;
-        setCyclesComplete(newCount);
-        
-        if (newCount >= 6) {
-          setIsComplete(true);
-          try {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
-          } catch {}
-        } else {
-          setPhase('inhale');
-          setIsInhaling(true);
-        }
+  const stopAllAudio = async () => {
+    try {
+      if (voiceSound.current) {
+        await voiceSound.current.stopAsync();
+        await voiceSound.current.unloadAsync();
+        voiceSound.current = null;
       }
-    }, 4000); // 4 seconds per phase
+      if (musicSound.current) {
+        await musicSound.current.stopAsync();
+        await musicSound.current.unloadAsync();
+        musicSound.current = null;
+      }
+    } catch (error) {
+      console.error('Erro ao parar áudio:', error);
+    }
+  };
 
-    return () => clearTimeout(timer);
-  }, [phase, visible, isComplete, cyclesComplete]);
+  const startSOSSession = async () => {
+    console.log('🆘 Iniciando sessão SOS...');
+    setIsPlaying(true);
+    setCurrentText(t('panic.breatheWithMe'));
 
-  const handleClose = () => {
+    try {
+      // Carregar áudios em paralelo
+      const [voiceResult, musicResult] = await Promise.all([
+        Audio.Sound.createAsync(
+          require('../assets/audio/luna_sos.mp3'),
+          { shouldPlay: true, volume: 1.0 }
+        ),
+        Audio.Sound.createAsync(
+          require('../assets/audio/432hz_calmante.mp3'),
+          { 
+            shouldPlay: true, 
+            volume: 0.35,
+            isLooping: true
+          }
+        ),
+      ]);
+
+      voiceSound.current = voiceResult.sound;
+      musicSound.current = musicResult.sound;
+
+      console.log('✅ Áudios iniciados em paralelo');
+
+      // Monitorar progresso da voz para sincronizar textos
+      voiceSound.current.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded && status.isPlaying) {
+          const positionMs = status.positionMillis;
+          
+          // Sincronizar textos baseado na posição do áudio
+          // Ajuste esses tempos conforme o áudio real
+          if (positionMs < 10000) {
+            setCurrentText(t('panic.inhale'));
+          } else if (positionMs < 20000) {
+            setCurrentText(t('panic.hold'));
+          } else if (positionMs < 30000) {
+            setCurrentText(t('panic.exhale'));
+          } else if (positionMs < 40000) {
+            setCurrentText(t('panic.inhale'));
+          } else if (positionMs < 50000) {
+            setCurrentText(t('panic.hold'));
+          } else if (positionMs < 60000) {
+            setCurrentText(t('panic.exhale'));
+          } else {
+            setCurrentText(t('panic.relax'));
+          }
+        }
+
+        if (status.isLoaded && status.didJustFinish) {
+          console.log('✅ Voz guiada finalizada');
+          handleSessionComplete();
+        }
+      });
+
+    } catch (error) {
+      console.error('❌ Erro ao iniciar sessão SOS:', error);
+      setIsPlaying(false);
+    }
+  };
+
+  const handleSessionComplete = async () => {
+    console.log('🎉 Sessão SOS completada');
+    setIsComplete(true);
+    setCurrentText('');
+    
+    // Fade out da música
+    if (musicSound.current) {
+      try {
+        await musicSound.current.setVolumeAsync(0.35);
+        
+        // Fade out gradual
+        for (let i = 0.35; i >= 0; i -= 0.05) {
+          await musicSound.current.setVolumeAsync(i);
+          await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        
+        await musicSound.current.stopAsync();
+        await musicSound.current.unloadAsync();
+        musicSound.current = null;
+      } catch (error) {
+        console.error('Erro no fade out:', error);
+      }
+    }
+
+    try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch {}
+  };
+
+  const handleClose = async () => {
+    await stopAllAudio();
     Animated.timing(fadeAnim, {
       toValue: 0,
       duration: 300,
@@ -94,15 +191,17 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
     });
   };
 
-  const getPhaseText = () => {
-    switch (phase) {
-      case 'inhale':
-        return t('panic.inhale');
-      case 'hold':
-        return t('panic.hold');
-      case 'exhale':
-        return t('panic.exhale');
-    }
+  const handleTalkToLuna = () => {
+    handleClose();
+    router.push('/(tabs)/');
+  };
+
+  const handleCallCVV = () => {
+    Linking.openURL('tel:188');
+  };
+
+  const handleCallSAMU = () => {
+    Linking.openURL('tel:192');
   };
 
   return (
@@ -121,15 +220,21 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
                   {t('panic.title')}
                 </Text>
                 
-                <BreathAnimation isInhaling={isInhaling} />
+                {currentText && (
+                  <Text style={[styles.subtitleText, { color: currentTheme.textSecondary }]}>
+                    {currentText}
+                  </Text>
+                )}
                 
-                <Text style={[styles.phaseText, { color: currentTheme.accent1 }]}>
-                  {getPhaseText()}
-                </Text>
+                <View style={styles.breathContainer}>
+                  <BreathAnimation />
+                </View>
                 
-                <Text style={[styles.cycleText, { color: currentTheme.textMuted }]}>
-                  {t('panic.cycle')} {cyclesComplete + 1} {t('panic.of')} 6
-                </Text>
+                {isPlaying && (
+                  <Text style={[styles.phaseText, { color: currentTheme.accent1 }]}>
+                    {currentText}
+                  </Text>
+                )}
                 
                 <TouchableOpacity
                   style={[styles.closeButton, { backgroundColor: currentTheme.card }]}
@@ -146,16 +251,37 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
                   {t('panic.complete')}
                 </Text>
                 
-                <Text style={[styles.afterPanicText, { color: currentTheme.text }]}>
-                  {t('panic.afterPanic')}
+                <Text style={[styles.finalMessage, { color: currentTheme.textSecondary }]}>
+                  {t('panic.finalMessage')}
                 </Text>
                 
                 <TouchableOpacity
                   style={[styles.actionButton, { backgroundColor: currentTheme.accent1 }]}
-                  onPress={handleClose}
+                  onPress={handleTalkToLuna}
                 >
+                  <Ionicons name="chatbubble-ellipses" size={20} color="white" />
                   <Text style={styles.actionButtonText}>
                     {t('panic.talkToAI')}
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={[styles.emergencyButton, { backgroundColor: '#FF6B6B' }]}
+                  onPress={handleCallCVV}
+                >
+                  <Ionicons name="call" size={20} color="white" />
+                  <Text style={styles.actionButtonText}>
+                    CVV (188)
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[styles.emergencyButton, { backgroundColor: '#FF8C42' }]}
+                  onPress={handleCallSAMU}
+                >
+                  <Ionicons name="medical" size={20} color="white" />
+                  <Text style={styles.actionButtonText}>
+                    SAMU (192)
                   </Text>
                 </TouchableOpacity>
                 
@@ -195,16 +321,22 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: '700',
+    marginBottom: theme.spacing.md,
+    textAlign: 'center',
+  },
+  subtitleText: {
+    fontSize: 16,
+    textAlign: 'center',
     marginBottom: theme.spacing.lg,
+  },
+  breathContainer: {
+    marginVertical: theme.spacing.xl,
   },
   phaseText: {
     fontSize: 32,
     fontWeight: '600',
     marginTop: theme.spacing.lg,
-  },
-  cycleText: {
-    fontSize: 14,
-    marginTop: theme.spacing.sm,
+    textAlign: 'center',
   },
   closeButton: {
     marginTop: theme.spacing.xl,
@@ -222,17 +354,31 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
     textAlign: 'center',
   },
-  afterPanicText: {
+  finalMessage: {
     fontSize: 16,
     marginBottom: theme.spacing.xl,
     textAlign: 'center',
+    lineHeight: 24,
   },
   actionButton: {
     width: '100%',
     paddingVertical: theme.spacing.md,
     borderRadius: theme.radius,
     alignItems: 'center',
-    marginBottom: theme.spacing.md,
+    marginBottom: theme.spacing.sm,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
+  },
+  emergencyButton: {
+    width: '100%',
+    paddingVertical: theme.spacing.md,
+    borderRadius: theme.radius,
+    alignItems: 'center',
+    marginBottom: theme.spacing.sm,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 8,
   },
   actionButtonText: {
     color: '#FFFFFF',
@@ -244,6 +390,7 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.md,
     borderRadius: theme.radius,
     alignItems: 'center',
+    marginTop: theme.spacing.sm,
   },
   secondaryButtonText: {
     fontSize: 16,
