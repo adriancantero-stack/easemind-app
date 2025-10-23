@@ -213,12 +213,36 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
     router.push('/(tabs)/');
   };
 
-  const handleCallCVV = () => {
-    Linking.openURL('tel:188');
+  const getEmergencyNumbers = () => {
+    const language = useStore.getState().language;
+    
+    if (language === 'en') {
+      return {
+        crisis: { number: '988', label: 'Suicide & Crisis Lifeline' },
+        emergency: { number: '911', label: 'Emergency Services' }
+      };
+    } else if (language === 'es') {
+      return {
+        crisis: { number: '024', label: 'Línea de Atención' },
+        emergency: { number: '112', label: 'Emergencias' }
+      };
+    } else {
+      // pt-BR (padrão)
+      return {
+        crisis: { number: '188', label: 'CVV' },
+        emergency: { number: '192', label: 'SAMU' }
+      };
+    }
   };
 
-  const handleCallSAMU = () => {
-    Linking.openURL('tel:192');
+  const handleCallCrisis = () => {
+    const numbers = getEmergencyNumbers();
+    Linking.openURL(`tel:${numbers.crisis.number}`);
+  };
+
+  const handleCallEmergency = () => {
+    const numbers = getEmergencyNumbers();
+    Linking.openURL(`tel:${numbers.emergency.number}`);
   };
 
   return (
