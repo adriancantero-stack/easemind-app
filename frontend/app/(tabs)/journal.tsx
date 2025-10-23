@@ -47,6 +47,7 @@ export default function JournalScreen() {
   const [newMood, setNewMood] = useState(3);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [isSaving, setIsSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState<'entries' | 'stats'>('entries');
 
   const backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
