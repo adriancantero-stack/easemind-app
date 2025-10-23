@@ -74,14 +74,17 @@ export default function JournalScreen() {
   };
 
   const createEntry = async () => {
-    if (!newTitle.trim() || !newContent.trim()) {
-      Alert.alert(t('journal.error'), t('journal.fillFields'));
+    if (!newContent.trim()) {
+      Alert.alert(t('journal.error'), t('journal.fillContent'));
       return;
     }
 
     setIsSaving(true);
     try {
       const userId = await getUserId();
+      // Gerar título automático baseado na data
+      const autoTitle = format(selectedDate, "d MMM yyyy");
+      
       const response = await fetch(`${backendUrl}/api/journal`, {
         method: 'POST',
         headers: {
@@ -89,19 +92,20 @@ export default function JournalScreen() {
         },
         body: JSON.stringify({
           user_id: userId,
-          title: newTitle,
+          title: autoTitle,
           content: newContent,
           mood: newMood,
           tags: [],
+          date: selectedDate.toISOString(),
         }),
       });
 
       if (response.ok) {
         console.log('📓 Journal entry created');
         setShowNewEntryModal(false);
-        setNewTitle('');
         setNewContent('');
         setNewMood(3);
+        setSelectedDate(new Date());
         loadEntries();
       }
     } catch (error) {
