@@ -390,11 +390,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 20,
   },
-  input: {
+  sectionLabel: {
+    fontSize: 14,
+    fontWeight: '600',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  dateButton: {
     borderRadius: 12,
     padding: 16,
-    fontSize: 16,
     marginBottom: 16,
+    alignItems: 'center',
+  },
+  dateText: {
+    fontSize: 16,
+    fontWeight: '600',
   },
   textArea: {
     borderRadius: 12,
