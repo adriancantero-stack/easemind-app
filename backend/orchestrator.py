@@ -138,6 +138,22 @@ class MemoryManager:
         recent_sessions = SessionManager.get_recent_sessions(user_id, limit=3)
         sessions_text = ", ".join([s["session_id"] for s in recent_sessions]) if recent_sessions else "Nenhuma sessão recente"
         
+        # 🆕 Buscar últimas 5 entradas do diário
+        journal_entries = list(journal_entries_collection.find(
+            {"user_id": user_id}
+        ).sort("date", -1).limit(5))
+        
+        mood_emojis = {1: "😢", 2: "😕", 3: "😐", 4: "🙂", 5: "😊"}
+        
+        journal_context = []
+        for entry in journal_entries:
+            date_str = entry['date'].strftime("%d/%m/%Y") if isinstance(entry['date'], datetime) else str(entry['date'])[:10]
+            mood = mood_emojis.get(entry.get('mood', 3), "😐")
+            content_preview = entry.get('content', '')[:100] + "..." if len(entry.get('content', '')) > 100 else entry.get('content', '')
+            journal_context.append(f"{date_str} {mood}: {content_preview}")
+        
+        journal_summary = "\n".join(journal_context) if journal_context else "Nenhuma entrada no diário ainda"
+        
         return {
             "user_profile": {
                 "display_name": user.get("display_name", "Usuário"),
@@ -158,7 +174,8 @@ class MemoryManager:
             "user_best_techniques": best_techniques,
             "sessions": {
                 "recent_list": "Nenhuma sessão recente"
-            }
+            },
+            "journal_entries": journal_summary
         }
     
     @staticmethod
