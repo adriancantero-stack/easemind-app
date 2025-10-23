@@ -233,45 +233,157 @@ export default function JournalScreen() {
       </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {entries.length === 0 ? (
-          <View style={[styles.emptyState, { backgroundColor: currentTheme.card }]}>
-            <Text style={[styles.emptyText, { color: currentTheme.text }]}>
-              {t('journal.noEntries')}
-            </Text>
-            <Text style={[styles.emptySubtext, { color: currentTheme.text, opacity: 0.7 }]}>
-              {t('journal.noEntriesSubtext')}
-            </Text>
-          </View>
-        ) : (
-          entries.map((entry) => (
-            <View key={entry.id} style={[styles.entryCard, { backgroundColor: currentTheme.card }]}>
-              <View style={styles.entryHeader}>
-                <Text style={[styles.entryTitle, { color: currentTheme.text }]}>
-                  {entry.title}
+        {activeTab === 'entries' ? (
+          // Entries Tab Content
+          entries.length === 0 ? (
+            <View style={[styles.emptyState, { backgroundColor: currentTheme.card }]}>
+              <Text style={[styles.emptyText, { color: currentTheme.text }]}>
+                {t('journal.noEntries')}
+              </Text>
+              <Text style={[styles.emptySubtext, { color: currentTheme.text, opacity: 0.7 }]}>
+                {t('journal.noEntriesSubtext')}
+              </Text>
+            </View>
+          ) : (
+            entries.map((entry) => (
+              <View key={entry.id} style={[styles.entryCard, { backgroundColor: currentTheme.card }]}>
+                <View style={styles.entryHeader}>
+                  <Text style={[styles.entryTitle, { color: currentTheme.text }]}>
+                    {entry.title}
+                  </Text>
+                  <Text style={styles.moodEmoji}>
+                    {getMoodEmoji(entry.mood)}
+                  </Text>
+                </View>
+                <Text style={[styles.entryContent, { color: currentTheme.textSecondary }]}>
+                  {entry.content}
                 </Text>
-                <Text style={styles.moodEmoji}>
-                  {getMoodEmoji(entry.mood)}
+                <Text style={[styles.entryDate, { color: currentTheme.textSecondary }]}>
+                  {format(new Date(entry.date), "d MMM yyyy, HH:mm")}
+                </Text>
+                {entry.tags.length > 0 && (
+                  <View style={styles.tagsContainer}>
+                    {entry.tags.map((tag, idx) => (
+                      <View key={idx} style={[styles.tag, { backgroundColor: currentTheme.accent1 + '20' }]}>
+                        <Text style={[styles.tagText, { color: currentTheme.accent1 }]}>
+                          {tag}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                )}
+              </View>
+            ))
+          )
+        ) : (
+          // Statistics Tab Content
+          <View>
+            {entries.length === 0 ? (
+              <View style={[styles.emptyState, { backgroundColor: currentTheme.card }]}>
+                <Text style={[styles.emptyText, { color: currentTheme.text }]}>
+                  {t('journal.noDataForStats')}
+                </Text>
+                <Text style={[styles.emptySubtext, { color: currentTheme.text, opacity: 0.7 }]}>
+                  {t('journal.addEntriesForStats')}
                 </Text>
               </View>
-              <Text style={[styles.entryContent, { color: currentTheme.textSecondary }]}>
-                {entry.content}
-              </Text>
-              <Text style={[styles.entryDate, { color: currentTheme.textSecondary }]}>
-                {format(new Date(entry.date), "d MMM yyyy, HH:mm")}
-              </Text>
-              {entry.tags.length > 0 && (
-                <View style={styles.tagsContainer}>
-                  {entry.tags.map((tag, idx) => (
-                    <View key={idx} style={[styles.tag, { backgroundColor: currentTheme.accent1 + '20' }]}>
-                      <Text style={[styles.tagText, { color: currentTheme.accent1 }]}>
-                        {tag}
-                      </Text>
-                    </View>
-                  ))}
+            ) : (
+              <>
+                {/* Weekly Stats */}
+                <View style={[styles.statsCard, { backgroundColor: currentTheme.card }]}>
+                  <Text style={[styles.statsTitle, { color: currentTheme.text }]}>
+                    {t('journal.weeklyStats')}
+                  </Text>
+                  {(() => {
+                    const weekStats = getStats(7);
+                    return (
+                      <View>
+                        <View style={styles.statRow}>
+                          <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>
+                            {t('journal.averageMood')}
+                          </Text>
+                          <Text style={[styles.statValue, { color: currentTheme.text }]}>
+                            {weekStats.average.toFixed(1)} {getMoodEmoji(Math.round(weekStats.average))}
+                          </Text>
+                        </View>
+                        <View style={styles.statRow}>
+                          <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>
+                            {t('journal.totalEntries')}
+                          </Text>
+                          <Text style={[styles.statValue, { color: currentTheme.text }]}>
+                            {weekStats.total}
+                          </Text>
+                        </View>
+                        <View style={styles.statRow}>
+                          <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>
+                            {t('journal.trend')}
+                          </Text>
+                          <Text style={[styles.statValue, { color: currentTheme.text }]}>
+                            {weekStats.trend === 'improving' ? '📈' : weekStats.trend === 'declining' ? '📉' : '➡️'} 
+                            {t(`journal.${weekStats.trend}`)}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })()}
                 </View>
-              )}
-            </View>
-          ))
+
+                {/* Monthly Stats */}
+                <View style={[styles.statsCard, { backgroundColor: currentTheme.card }]}>
+                  <Text style={[styles.statsTitle, { color: currentTheme.text }]}>
+                    {t('journal.monthlyStats')}
+                  </Text>
+                  {(() => {
+                    const monthStats = getStats(30);
+                    return (
+                      <View>
+                        <View style={styles.statRow}>
+                          <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>
+                            {t('journal.averageMood')}
+                          </Text>
+                          <Text style={[styles.statValue, { color: currentTheme.text }]}>
+                            {monthStats.average.toFixed(1)} {getMoodEmoji(Math.round(monthStats.average))}
+                          </Text>
+                        </View>
+                        <View style={styles.statRow}>
+                          <Text style={[styles.statLabel, { color: currentTheme.textSecondary }]}>
+                            {t('journal.totalEntries')}
+                          </Text>
+                          <Text style={[styles.statValue, { color: currentTheme.text }]}>
+                            {monthStats.total}
+                          </Text>
+                        </View>
+                      </View>
+                    );
+                  })()}
+                </View>
+
+                {/* Mood Distribution */}
+                <View style={[styles.statsCard, { backgroundColor: currentTheme.card }]}>
+                  <Text style={[styles.statsTitle, { color: currentTheme.text }]}>
+                    {t('journal.moodDistribution')}
+                  </Text>
+                  {(() => {
+                    const monthStats = getStats(30);
+                    return (
+                      <View style={styles.moodDistribution}>
+                        {Object.entries(monthStats.distribution).map(([mood, count]) => (
+                          <View key={mood} style={styles.moodDistributionItem}>
+                            <Text style={styles.moodDistributionEmoji}>
+                              {getMoodEmoji(parseInt(mood))}
+                            </Text>
+                            <Text style={[styles.moodDistributionCount, { color: currentTheme.text }]}>
+                              {count}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    );
+                  })()}
+                </View>
+              </>
+            )}
+          </View>
         )}
       </ScrollView>
 
