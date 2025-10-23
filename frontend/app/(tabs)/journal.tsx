@@ -201,27 +201,24 @@ export default function JournalScreen() {
               {t('journal.newEntryTitle')}
             </Text>
 
-            <TextInput
-              style={[styles.input, { backgroundColor: currentTheme.bg, color: currentTheme.text }]}
-              placeholder={t('journal.titlePlaceholder')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={newTitle}
-              onChangeText={setNewTitle}
-            />
+            {/* Data */}
+            <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
+              📅 {t('journal.dateLabel')}
+            </Text>
+            <TouchableOpacity 
+              style={[styles.dateButton, { backgroundColor: currentTheme.bg }]}
+              onPress={() => {
+                // Aqui poderia abrir um DatePicker, mas por simplicidade vamos usar a data atual
+              }}
+            >
+              <Text style={[styles.dateText, { color: currentTheme.text }]}>
+                {format(selectedDate, "d MMM yyyy")}
+              </Text>
+            </TouchableOpacity>
 
-            <TextInput
-              style={[styles.textArea, { backgroundColor: currentTheme.bg, color: currentTheme.text }]}
-              placeholder={t('journal.contentPlaceholder')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={newContent}
-              onChangeText={setNewContent}
-              multiline
-              numberOfLines={6}
-              textAlignVertical="top"
-            />
-
-            <Text style={[styles.moodLabel, { color: currentTheme.text }]}>
-              {t('journal.moodLabel')}
+            {/* Mood Selector */}
+            <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
+              😊 {t('journal.moodLabel')}
             </Text>
             <View style={styles.moodPicker}>
               {moods.map((mood) => (
@@ -230,7 +227,7 @@ export default function JournalScreen() {
                   style={[
                     styles.moodButton,
                     { backgroundColor: currentTheme.bg },
-                    newMood === mood.value && { backgroundColor: currentTheme.accent1 },
+                    newMood === mood.value && { backgroundColor: currentTheme.accent1, transform: [{ scale: 1.1 }] },
                   ]}
                   onPress={() => setNewMood(mood.value)}
                 >
@@ -238,6 +235,18 @@ export default function JournalScreen() {
                 </TouchableOpacity>
               ))}
             </View>
+
+            {/* Content */}
+            <TextInput
+              style={[styles.textArea, { backgroundColor: currentTheme.bg, color: currentTheme.text }]}
+              placeholder={t('journal.howFeeling')}
+              placeholderTextColor={currentTheme.textSecondary}
+              value={newContent}
+              onChangeText={setNewContent}
+              multiline
+              numberOfLines={8}
+              textAlignVertical="top"
+            />
 
             <View style={styles.modalButtons}>
               <TouchableOpacity
