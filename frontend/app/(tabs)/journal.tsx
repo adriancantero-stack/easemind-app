@@ -35,9 +35,9 @@ export default function JournalScreen() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [showNewEntryModal, setShowNewEntryModal] = useState(false);
-  const [newTitle, setNewTitle] = useState('');
   const [newContent, setNewContent] = useState('');
   const [newMood, setNewMood] = useState(3);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [isSaving, setIsSaving] = useState(false);
 
   const backendUrl =
