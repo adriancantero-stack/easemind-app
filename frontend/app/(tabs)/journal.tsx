@@ -27,9 +27,17 @@ interface JournalEntry {
 }
 
 export default function JournalScreen() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const language = useStore((state) => state.language);
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
+
+  // Sincronizar idioma do i18n com o idioma do store
+  useEffect(() => {
+    if (i18n.language !== language) {
+      i18n.changeLanguage(language);
+    }
+  }, [language]);
   const getUserId = useStore((state) => state.getUserId);
   
   const [entries, setEntries] = useState<JournalEntry[]>([]);
