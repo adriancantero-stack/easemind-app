@@ -200,6 +200,38 @@ export default function JournalScreen() {
         </TouchableOpacity>
       </View>
 
+      {/* Tabs */}
+      <View style={styles.tabsContainer}>
+        <TouchableOpacity
+          style={[
+            styles.tab,
+            activeTab === 'entries' && [styles.activeTab, { borderBottomColor: currentTheme.accent1 }]
+          ]}
+          onPress={() => setActiveTab('entries')}
+        >
+          <Text style={[
+            styles.tabText,
+            { color: activeTab === 'entries' ? currentTheme.accent1 : currentTheme.textSecondary }
+          ]}>
+            {t('journal.entries')}
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.tab,
+            activeTab === 'stats' && [styles.activeTab, { borderBottomColor: currentTheme.accent1 }]
+          ]}
+          onPress={() => setActiveTab('stats')}
+        >
+          <Text style={[
+            styles.tabText,
+            { color: activeTab === 'stats' ? currentTheme.accent1 : currentTheme.textSecondary }
+          ]}>
+            {t('journal.statistics')}
+          </Text>
+        </TouchableOpacity>
+      </View>
+
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {entries.length === 0 ? (
           <View style={[styles.emptyState, { backgroundColor: currentTheme.card }]}>
