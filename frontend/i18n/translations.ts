@@ -26,7 +26,7 @@ export const translations = {
       },
     },
     panic: {
-      title: 'SOS - Breathe with Me',
+      title: 'Breathe with Me',
       initialMessage: 'Breathe with me. It\'s okay. We\'ll get through this together.',
       breatheWithMe: 'Breathe with me',
       inhale: 'Inhale...',
