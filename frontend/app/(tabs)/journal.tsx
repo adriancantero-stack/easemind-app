@@ -9,6 +9,7 @@ import {
   Modal,
   ActivityIndicator,
   Alert,
+  Dimensions,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from '../../store/useStore';
@@ -16,6 +17,7 @@ import { theme } from '../../utils/theme';
 import { useTranslation } from 'react-i18next';
 import Constants from 'expo-constants';
 import { format } from 'date-fns';
+import { LineChart, BarChart } from 'react-native-chart-kit';
 
 interface JournalEntry {
   id: string;
