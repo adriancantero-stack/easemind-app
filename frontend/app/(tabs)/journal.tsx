@@ -51,7 +51,8 @@ export default function JournalScreen() {
 
   const backendUrl =
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-    process.env.EXPO_PUBLIC_BACKEND_URL;
+    process.env.EXPO_PUBLIC_BACKEND_URL ||
+    'http://localhost:8001';
 
   const moods = [
     { value: 1, emoji: '😢' },
@@ -60,6 +61,49 @@ export default function JournalScreen() {
     { value: 4, emoji: '🙂' },
     { value: 5, emoji: '😊' },
   ];
+
+  // Get stats for selected period
+  const getStats = (days: number) => {
+    const now = new Date();
+    const startDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+    
+    const filteredEntries = entries.filter(entry => {
+      const entryDate = new Date(entry.date);
+      return entryDate >= startDate && entryDate <= now;
+    });
+
+    if (filteredEntries.length === 0) {
+      return {
+        average: 0,
+        trend: 'stable',
+        total: 0,
+        distribution: { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 },
+        chartData: []
+      };
+    }
+
+    // Calculate average mood
+    const sum = filteredEntries.reduce((acc, entry) => acc + entry.mood, 0);
+    const average = sum / filteredEntries.length;
+
+    // Calculate trend
+    const firstHalf = filteredEntries.slice(0, Math.floor(filteredEntries.length / 2));
+    const secondHalf = filteredEntries.slice(Math.floor(filteredEntries.length / 2));
+    const firstAvg = firstHalf.reduce((acc, e) => acc + e.mood, 0) / firstHalf.length;
+    const secondAvg = secondHalf.reduce((acc, e) => acc + e.mood, 0) / secondHalf.length;
+    const trend = secondAvg > firstAvg + 0.3 ? 'improving' : secondAvg < firstAvg - 0.3 ? 'declining' : 'stable';
+
+    // Distribution
+    const distribution = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    filteredEntries.forEach(entry => {
+      distribution[entry.mood as 1|2|3|4|5]++;
+    });
+
+    // Chart data (last 7 points)
+    const chartData = filteredEntries.slice(-7).map(entry => entry.mood);
+
+    return { average, trend, total: filteredEntries.length, distribution, chartData };
+  };
 
   useEffect(() => {
     loadEntries();
