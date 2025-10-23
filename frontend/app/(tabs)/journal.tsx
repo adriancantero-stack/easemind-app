@@ -662,4 +662,45 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  statsCard: {
+    backgroundColor: '#FFF',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  statsTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 16,
+  },
+  statRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  statLabel: {
+    fontSize: 14,
+    flex: 1,
+  },
+  statValue: {
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  moodDistribution: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 8,
+  },
+  moodDistributionItem: {
+    alignItems: 'center',
+  },
+  moodDistributionEmoji: {
+    fontSize: 24,
+    marginBottom: 4,
+  },
+  moodDistributionCount: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
 });
