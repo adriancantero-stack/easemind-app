@@ -308,21 +308,21 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
                 
                 <TouchableOpacity
                   style={[styles.emergencyButton, { backgroundColor: '#FF6B6B' }]}
-                  onPress={handleCallCVV}
+                  onPress={handleCallCrisis}
                 >
                   <Ionicons name="call" size={20} color="white" />
                   <Text style={styles.actionButtonText}>
-                    CVV (188)
+                    {getEmergencyNumbers().crisis.label} ({getEmergencyNumbers().crisis.number})
                   </Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
                   style={[styles.emergencyButton, { backgroundColor: '#FF8C42' }]}
-                  onPress={handleCallSAMU}
+                  onPress={handleCallEmergency}
                 >
                   <Ionicons name="medical" size={20} color="white" />
                   <Text style={styles.actionButtonText}>
-                    SAMU (192)
+                    {getEmergencyNumbers().emergency.label} ({getEmergencyNumbers().emergency.number})
                   </Text>
                 </TouchableOpacity>
                 
