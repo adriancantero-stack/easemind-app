@@ -88,16 +88,33 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
     }
   };
 
+  const getVoiceAudio = () => {
+    const language = useStore.getState().language;
+    
+    // Selecionar áudio baseado no idioma
+    if (language === 'en') {
+      return require('../assets/audio/lily_english_voice.mp3');
+    } else if (language === 'es') {
+      return require('../assets/audio/jhenny_spanish_voice.mp3');
+    } else {
+      // pt-BR (padrão)
+      return require('../assets/audio/luna_sos.mp3');
+    }
+  };
+
   const startSOSSession = async () => {
     console.log('🆘 Iniciando sessão SOS...');
     setIsPlaying(true);
     setCurrentText(t('panic.breatheWithMe'));
 
     try {
+      const voiceAudioSource = getVoiceAudio();
+      console.log('🎙️ Áudio selecionado para idioma:', useStore.getState().language);
+
       // Carregar áudios em paralelo
       const [voiceResult, musicResult] = await Promise.all([
         Audio.Sound.createAsync(
-          require('../assets/audio/luna_sos.mp3'),
+          voiceAudioSource,
           { shouldPlay: true, volume: 1.0 }
         ),
         Audio.Sound.createAsync(
