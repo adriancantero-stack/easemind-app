@@ -113,51 +113,82 @@ export default function LoginScreen() {
   };
 
   const handleGoogleSignIn = async () => {
-    // Por enquanto, desabilitar Google Sign-In no web devido a limitações
-    // Funciona apenas em apps nativos (iOS/Android)
-    if (Platform.OS === 'web') {
-      Alert.alert(
-        'Login com Google',
-        'O login com Google está disponível apenas no app nativo. Por favor, use Email/Senha ou clique em "Continuar sem conta" para usar como visitante.',
-        [{ text: 'OK' }]
-      );
-      return;
-    }
-
     setLoading(true);
     try {
-      // Implementação para Native (iOS/Android)
-      const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
-      
-      // Verificar se o Play Services está disponível
-      await GoogleSignin.hasPlayServices();
-      
-      // Fazer login no Google
-      const userInfo = await GoogleSignin.signIn();
-      
-      // Obter o ID token do Google
-      const { idToken } = userInfo.data!;
-      
-      // Criar credencial do Firebase com o token do Google
-      const googleCredential = GoogleAuthProvider.credential(idToken);
-      
-      // Fazer sign in no Firebase com a credencial do Google
-      await signInWithCredential(auth, googleCredential);
-      
-      console.log('✅ Login com Google realizado (Native)');
-      router.replace('/(tabs)/');
+      if (Platform.OS === 'web') {
+        // Implementação para Web usando popup
+        const provider = new GoogleAuthProvider();
+        provider.setCustomParameters({
+          prompt: 'select_account'
+        });
+        
+        try {
+          // Tentar popup primeiro
+          await signInWithPopup(auth, provider);
+          console.log('✅ Login com Google realizado (Popup)');
+          router.replace('/(tabs)/');
+        } catch (popupError: any) {
+          // Se popup foi bloqueado, usar redirect
+          if (popupError.code === 'auth/popup-blocked' || 
+              popupError.code === 'auth/popup-closed-by-user' ||
+              popupError.code === 'auth/cancelled-popup-request') {
+            console.log('⚠️ Popup bloqueado, usando redirect...');
+            await signInWithRedirect(auth, provider);
+            // O redirect vai recarregar a página, o useEffect vai pegar o resultado
+          } else {
+            throw popupError;
+          }
+        }
+      } else {
+        // Implementação para Native (iOS/Android)
+        const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
+        
+        // Verificar se o Play Services está disponível
+        await GoogleSignin.hasPlayServices();
+        
+        // Fazer login no Google
+        const userInfo = await GoogleSignin.signIn();
+        
+        // Obter o ID token do Google
+        const { idToken } = userInfo.data!;
+        
+        // Criar credencial do Firebase com o token do Google
+        const googleCredential = GoogleAuthProvider.credential(idToken);
+        
+        // Fazer sign in no Firebase com a credencial do Google
+        await signInWithCredential(auth, googleCredential);
+        
+        console.log('✅ Login com Google realizado (Native)');
+        router.replace('/(tabs)/');
+      }
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
       
       // Tratar diferentes tipos de erro
-      if (error.code === 'SIGN_IN_CANCELLED') {
+      if (error.code === 'auth/popup-closed-by-user') {
+        console.log('Login cancelado pelo usuário');
+      } else if (error.code === 'SIGN_IN_CANCELLED') {
         console.log('Login cancelado pelo usuário');
       } else if (error.code === 'IN_PROGRESS') {
         console.log('Login já está em andamento');
       } else if (error.code === 'PLAY_SERVICES_NOT_AVAILABLE') {
-        Alert.alert(t('auth.error'), 'Google Play Services não disponível');
+        if (Platform.OS === 'web') {
+          window.alert('Google Play Services não disponível');
+        } else {
+          Alert.alert(t('auth.error'), 'Google Play Services não disponível');
+        }
+      } else if (error.code === 'auth/unauthorized-domain') {
+        if (Platform.OS === 'web') {
+          window.alert('Domínio não autorizado no Firebase Console. Configure o domínio no Firebase.');
+        } else {
+          Alert.alert(t('auth.error'), 'Domínio não autorizado');
+        }
       } else {
-        Alert.alert(t('auth.error'), t('auth.googleSignInError'));
+        if (Platform.OS === 'web') {
+          window.alert(t('auth.googleSignInError') + ': ' + error.message);
+        } else {
+          Alert.alert(t('auth.error'), t('auth.googleSignInError'));
+        }
       }
     } finally {
       setLoading(false);
