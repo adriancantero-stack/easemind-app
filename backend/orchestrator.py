@@ -99,8 +99,10 @@ class MemoryManager:
         Returns:
             Dict com perfil, memórias, humor, técnicas eficazes
         """
-        # Buscar perfil do usuário
-        user = users_collection.find_one({"user_id": user_id})
+        # Buscar perfil do usuário (primeiro por firebase_uid, depois por user_id)
+        user = users_collection.find_one({"firebase_uid": user_id})
+        if not user:
+            user = users_collection.find_one({"user_id": user_id})
         if not user:
             # Criar usuário básico se não existir
             user = {
