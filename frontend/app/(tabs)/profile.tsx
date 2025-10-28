@@ -195,6 +195,17 @@ const styles = StyleSheet.create({
     fontSize: 28,
     fontWeight: '700',
   },
+  loginButton: {
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    alignItems: 'center',
+  },
+  loginButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
   scrollView: {
     flex: 1,
   },
