@@ -22,10 +22,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const backendUrl =
-    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-    process.env.EXPO_PUBLIC_BACKEND_URL ||
-    'http://localhost:8001';
+  // Backend URL - usar proxy /api quando estiver no web
+  const getBackendUrl = () => {
+    if (Platform.OS === 'web') {
+      // No web, usar proxy /api (configurado no metro/nginx)
+      return '';
+    }
+    // No mobile, usar URL completa
+    return Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
+      process.env.EXPO_PUBLIC_BACKEND_URL ||
+      'http://localhost:8001';
+  };
+
+  const backendUrl = getBackendUrl();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
