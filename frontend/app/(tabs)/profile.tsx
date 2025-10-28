@@ -21,29 +21,45 @@ export default function ProfileScreen() {
   const { user, isAuthenticated } = useAuth();
 
   const handleLogout = async () => {
-    Alert.alert(
-      'Sair da Conta',
-      'Tem certeza que deseja sair?',
-      [
-        { text: 'Cancelar', style: 'cancel' },
-        {
-          text: 'Sair',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              console.log('🚪 Iniciando logout...');
-              await signOut(auth);
-              console.log('✅ Logout realizado com sucesso');
-              // O AuthContext detectará automaticamente a mudança de estado
-              // e atualizará a UI
-            } catch (error) {
-              console.error('❌ Erro ao fazer logout:', error);
-              Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
-            }
+    // Platform-specific confirmation
+    if (Platform.OS === 'web') {
+      // Use browser confirm dialog for web
+      const confirmed = window.confirm('Tem certeza que deseja sair?');
+      if (!confirmed) return;
+      
+      try {
+        console.log('🚪 Iniciando logout...');
+        await signOut(auth);
+        console.log('✅ Logout realizado com sucesso');
+        // O AuthContext detectará automaticamente a mudança de estado
+      } catch (error) {
+        console.error('❌ Erro ao fazer logout:', error);
+        window.alert('Não foi possível sair da conta. Tente novamente.');
+      }
+    } else {
+      // Use native Alert for mobile
+      Alert.alert(
+        'Sair da Conta',
+        'Tem certeza que deseja sair?',
+        [
+          { text: 'Cancelar', style: 'cancel' },
+          {
+            text: 'Sair',
+            style: 'destructive',
+            onPress: async () => {
+              try {
+                console.log('🚪 Iniciando logout...');
+                await signOut(auth);
+                console.log('✅ Logout realizado com sucesso');
+              } catch (error) {
+                console.error('❌ Erro ao fazer logout:', error);
+                Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
+              }
+            },
           },
-        },
-      ]
-    );
+        ]
+      );
+    }
   };
 
   const languages = [
