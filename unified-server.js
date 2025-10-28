@@ -86,7 +86,7 @@ server.listen(PORT, '0.0.0.0', () => {
   `);
   
   console.log('✅ Proxy server ready to route traffic');
-  console.log('🌐 Public URL: https://mindapp-admin.preview.emergentagent.com');
+  console.log('🌐 Public URL: https://calmspace-38.preview.emergentagent.com');
   console.log('🔒 Custom Domain: https://easemind.io (SSL pending)\n');
 });
 

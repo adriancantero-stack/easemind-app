@@ -1,124 +1,101 @@
 <analysis>
-The AI engineer's work in this trajectory demonstrates an iterative, feedback-driven development process, spanning both the EaseMind website and mobile application. Initial efforts focused on website improvements, including hardcoded download button translations, comprehensive redesign and translation of the FAQ page with accordion functionality, and mobile responsiveness for Contact and FAQ pages. Critical fixes involved standardizing mobile image display on the How it works page and refining download button aesthetics.
+The AI engineer's work in this trajectory reflects a comprehensive, iterative, and user-feedback-driven development process across both the website and the Expo mobile application. Initial efforts addressed website fixes, including translation standardizations, responsive design for key pages (FAQ, Contact, How-it-works, Legal), and the creation of an Admin Dashboard with analytics integration.
 
-A significant portion of the work was dedicated to building a comprehensive Admin Dashboard, which involved creating new routes, implementing a basic login system, integrating with existing backend analytics APIs via proxy routes, and ensuring proper service management on the unified server. Concurrently, the engineer addressed website structural issues like favicon integration and ensuring legal pages (, ) had correct CSS and were responsive.
+Mobile app development focused on enhancing the user experience. Key areas included optimizing AI chat TTS for responsiveness and implementing a word-by-word typing animation (though later a Luna orb animation was added and then removed based on feedback). A significant portion of the work revolved around the Guided Session feature, which involved fixing a  naming conflict, debugging complex asynchronous logic with  and React closures (leading to the introduction of  for state synchronization), and implementing variable durations and custom background audio for different guided sessions. The UI was refined by removing manual navigation, repositioning buttons, and adjusting card sizes.
 
-Mobile app development focused on enhancing the AI chat experience. This included optimizing TTS audio delivery to reduce delays, implementing and then iteratively refining a word-by-word typing animation, and experimenting with a visual Luna orb to indicate speech, which was later removed based on user feedback. The engineer also fixed dark mode readability for session card subtitles and ensured session details were fully translated across all languages. The trajectory concludes with the engineer debugging a  function naming conflict during the implementation of guided sessions.
+A major new feature was the SOS session, implemented with parallel audio (guided voice and calming music), a breathing animation, dynamic emergency contact information, and locale-specific audio. The Journal feature received a UI overhaul, removing the title, adding date and mood selection, and crucially, integrating journal entries into Luna's AI context. Finally, a Journal Statistics tab was added with basic charts for emotional trends, and a Firebase-based Email/Password and Google Sign-In authentication system was integrated, with an  and conditional routing. The immediate work involves refining the authenticated profile view and preparing for backend integration of the Firebase UID.
 </analysis>
 
 <product_requirements>
-The EaseMind application aims to be a mobile-first emotional support tool, featuring an AI chat (Luna persona), panic button, guided sessions, and a journal, all supporting light/dark modes and multi-language with an Apple-like serenity design. The institutional website (easemind.io) provides public pages (Landing, How it works, Plans, FAQ, Contact, Legal) with multi-language support (PT-BR default, EN, ES) and a premium visual redesign.
+The EaseMind application is a mobile-first emotional support tool with an AI chat (Luna), panic button, guided sessions, and a journal, supporting multi-language and light/dark modes with an Apple-like serenity design. The institutional website (easemind.io) offers public pages and an Admin Dashboard.
 
-Recent development focused on:
-1.  **Website**:
-    *   Ensuring download buttons on the  page use correct translated text and badge styling.
-    *   Overhauling the FAQ page: implementing accordion functionality, removing duplicate subtitles, centralizing and translating Ainda tem dúvidas? text and contact button.
-    *   Improving the Contact page: fixing CSS for form fields, ensuring vertical arrangement, text centralization, and mobile responsiveness.
-    *   Correcting mobile display of images on the  page (images above text for sections 2 & 4).
-    *   Changing download button color from black to lilac and removing underlines on .
-    *   Creating a comprehensive  dashboard with metrics (total users, premium/free, engagement, popular sessions, mood distribution, website visits, collected emails, financial data), secured by a login, and designed responsively with charts/cards.
-    *   Applying correct CSS and ensuring responsiveness for  and  pages across languages.
-    *   Adding favicon to  and  pages.
-    *   Debugging admin page access and data loading issues through the  proxy.
-    *   Increasing the mobile website's logo size by approximately 50% for better visibility.
-
-2.  **Mobile App**:
-    *   Optimizing AI chat: reducing delay between text appearance and audio (TTS) playback.
-    *   Implementing a word-by-word typing animation for Luna's responses, synchronized with speech for a more human-like interaction.
-    *   Experimenting with an animated Luna orb fixed to the right of the screen, appearing during speech, but later removed based on user feedback.
-    *   Fixing unreadable subtitles in session cards when in dark mode.
-    *   Ensuring session titles and descriptions within the sessions cards and the detailed session steps are correctly translated across all supported languages.
-    *   Implementing a Guided Session feature where Luna speaks each step, cards advance automatically based on step duration, and the session loops for a set duration, with integrated TTS.
+Recent work aimed to:
+1.  **Website**: Enhance responsiveness, standardize translations, redesign FAQ, implement an Admin Dashboard with analytics, fix image display, and improve favicon/logo consistency.
+2.  **Mobile App - AI Chat**: Optimize TTS audio delivery, implement word-by-word typing animation (later removed in favor of simpler UI)
+3.  **Mobile App - Guided Sessions**: Implement guided sessions where Luna speaks steps, cards advance automatically (now with custom timings/audio per session), ensure full translation, and UI/UX refinements (remove manual navigation, animate orb, resize cards).
+4.  **Mobile App - Panic Button (SOS)**: Create an SOS session with guided voice, calming music, breathing animation, locale-specific emergency contacts, and a clear call to action.
+5.  **Mobile App - Journal**: Redesign the journal entry flow (date, mood, direct text, no title), enable Luna to learn from journal entries, and add emotional trend charts/statistics.
+6.  **Mobile App - Authentication**: Implement user registration and login using Firebase (Email/Password and Google Sign-In).
 </product_requirements>
 
 <key_technical_concepts>
-- **Expo Router**: File-based mobile navigation.
+- **Expo Router**: File-based routing for mobile navigation.
 - **React Native**: Core mobile UI framework.
-- **FastAPI**: Backend API development.
-- **Express.js**: Node.js server for website rendering, handling routes, and proxying.
-- **i18n-js, expo-localization**: Multi-language support for mobile and web.
-- ****: State management for the mobile application.
-- ****: Session management for website (admin login).
-- ****: Used for server-side API calls/proxying in Express.js.
-- **Supervisor**: Process control system for managing services (backend, website proxy).
+- **FastAPI**: Backend API development (used for analytics and LLM context).
+- **Express.js**: Website server, handling routes, translations, and API proxying.
+- **, **: Multi-language support.
+- ****: State management for mobile.
+- ****: User authentication (Email/Password, Google Sign-In).
+- **, **: For rendering charts in Journal Stats.
+- ****: React hook crucial for managing mutable state in closures (guided sessions).
 </key_technical_concepts>
 
 <code_architecture>
 
 
--   ****: FastAPI backend. Contains analytics endpoints (, , ) that were utilized for the new Admin Dashboard. No direct modifications made in this trajectory, but its APIs were consumed.
--   ****: Contains  class and  function which provide the data for the Admin Dashboard. No direct modifications in this trajectory.
--   ****: Mobile app's main chat screen.
-    -   Modified to remove a  delay for TTS audio.
-    -   Optimized to initiate TTS API calls in parallel with text rendering.
-    -   Underwent several iterations to implement a word-by-word typing animation, including refactoring attempts to fix issues with repeated starts and full text appearing at once.
-    -   Temporarily included a fixed animated Luna orb for visual interaction during speech, later removed.
-    -    import added for potential future use (though the typing logic was reverted).
--   ****: Mobile component for displaying chat messages.
-    -   Modified to use  for word-by-word animation.
-    -   Adjusted typing speed.
-    -   Removed  condition from audio playback button to ensure it's always visible.
-    -   Temporarily modified to display an orb next to the text during typing, later reverted.
--   ****: Custom hook for typing animation.
-    -   Modified to animate text word-by-word instead of character-by-character.
--   ****: Zustand store for global state management.
-    -   Modified to include  and  in the  interface for typing animation.
-    -   Added functions for progressive message updates and typing animation management, later reverted during refactoring.
--   ****: Defines light/dark mode themes.
-    -   Added  property to the theme to ensure session card subtitles are readable in dark mode.
--   ****: Mobile component displaying a session summary.
-    -   Modified to correctly use  for translating session titles and descriptions.
-    -   The  styling was updated to use the newly added .
--   ****: Contains all mobile app translation keys.
-    -   Extensively updated to include detailed step-by-step instructions for all 8 guided sessions across English, Portuguese (pt-BR), and Spanish.
--   ****: Mobile app's sessions listing screen. No direct modifications in this trajectory.
--   ****: Mobile app's guided session detail screen.
-    -   Modified to fetch session steps using translation keys () instead of hardcoded text.
-    -   Implemented a Guided Session feature: includes state management for guided mode, current step, timer, TTS integration, automatic card progression, and UI elements (start button, progress indicator).
-    -   Added new styles for the guided session UI elements.
-    -   **Currently has a naming conflict with  function.**
--   ****: Express.js server for rendering the website.
-    -   Corrected hardcoded download buttons on  to use translation keys.
-    -   Modified  route: removed duplicate subtitle, integrated accordion JavaScript, and used translation keys for Ainda tem dúvidas? and contact button.
-    -   Adjusted  for Ainda tem dúvidas? on FAQ and E-mail de suporte on Contact page.
-    -   Corrected HTML structure for the Contact form to use  classes, ensuring proper layout.
-    -   Modified  route HTML to change download button styles to lilac and remove underlines.
-    -   Introduced session management () and implemented  login and logout routes.
-    -   Added a new  dashboard route, initially rendering .
-    -   Implemented proxy routes () using  to forward requests from the website to the backend's analytics APIs.
-    -   Corrected favicon integration for  and  pages.
--   ****: Website's central CSS stylesheet.
-    -   Added styles for the FAQ accordion functionality (hiding answers, animating transitions).
-    -   Added responsive styles for the Contact form and FAQ page, ensuring mobile adaptability.
-    -   Added CSS rules to force image display above text on mobile for the How it works steps.
-    -   Updated styles for download buttons on  to lilac color and removed underlines.
-    -   Added  styles for Privacy and Terms pages to ensure proper formatting and responsiveness.
-    -   Modified media queries to increase the size of the logo on mobile.
--   ** (pt-BR, en, es)**: Website translation files.
-    -   Updated with  and  keys.
-    -   Updated with , , and  keys.
--   ****: New file created for the Admin Dashboard HTML structure, including placeholders for metrics, charts, and tables, and the login form. This file was dynamically rendered by .
--   ****: Updated to include  and .
--   ****: Node.js proxy for the Emergent deployment environment.
-    -   No direct code modifications were made to this file within the trajectory, but its role in proxying requests and its interaction with  (running on port 9000) was crucial for debugging admin page access.
--   ****: New supervisor configuration file created to ensure the  process runs reliably on port 9000, managed by Supervisor.
+-   ****: FastAPI backend. Consumes analytics APIs; no direct changes in this trajectory, but its  endpoint was crucial for mobile app and  for journal integration.
+-   ****: Contains  and .
+    -   **Changes**:  was modified to fetch the last 5 journal entries.  was updated to include these entries for Luna's AI.
+-   ****: Mobile app's main chat screen. TTS delay reduced. Luna orb and typing animation logic were experimented with and later removed or refactored away from this file.
+-   ****: Mobile chat message component. Temporarily used  and Luna orb, later reverted.
+-   ****: Custom hook for typing animation. Modified for word-by-word animation.
+-   ****: Zustand store. Added  and  for typing animation, later refactored.
+-   ****: Defines themes. Added  for readability.
+-   ****: Session summary component. Updated  styling and  usage.
+-   ****: Mobile app translations.
+    -   **Changes**: Extensively updated for guided sessions (detailed steps for 8 sessions). Added keys for PanicModal, Journal UI, and Journal Stats. Modified to remove SOS -  prefix and adjust guided session step content.
+-   ****: Guided session screen.
+    -   **Changes**: Renamed local  to  to resolve conflict. Fixed TTS API URL (from  to ). Debugged and fixed state synchronization issues (currentStep, isGuidedMode) using . Implemented custom audio, variable step durations, and total session durations for sessions 1, 2, 3, 5, 6. Removed TTS calls, manual navigation buttons, and Luna speaking indicator. UI adjusted for smaller card, button repositioning, and orb animation for specific sessions.
+-   ****: Audio playback hook.
+    -   **Changes**: Improved error handling for stopping already-finished sounds.
+-   ****: Breathing animation component.
+    -   **Changes**: Implemented breathing animation (expand/contract) synchronized with session steps.
+-   ****: Placeholder for panic screen. No direct changes, but it's the entry point for .
+-   ****: Reimplemented for SOS session.
+    -   **Changes**: Now handles initial text, dual audio playback (voice + music with custom volumes/fades/loops), breathing animation, post-audio message, dynamic emergency contacts based on locale, and locale-specific audio files for Luna's voice.
+-   ****: About page.
+    -   **Changes**: Added dynamic emergency contacts for Europe, Spain, and Latin America.
+-   ****: Journal screen.
+    -   **Changes**: Journal entry modal re-architected: date first, mood selection, no title input (auto-generated), text input with placeholder. Added a Statistics tab. Integrated  component. Fixed placeholder translation issue using .
+-   ****: New component created for journal statistics.
+    -   **Changes**: Implements UI for Last 7 days, Last 30 days, Last 3 months tabs. Displays mood distribution (emoji counts) and a line chart of mood over time (using ).
+-   ****: New file for Firebase configuration.
+    -   **Changes**: Initializes Firebase app, corrected persistence import for React Native environment.
+-   ****: New file for authentication UI.
+    -   **Changes**: Implements screens for user login and registration with Email/Password and Google Sign-In options.
+-   ****: New file.
+    -   **Changes**: Provides an authentication context using Firebase, managing  state and loading status.
+-   ****: Main app layout.
+    -   **Changes**: Wrapped children with . Implemented conditional navigation to redirect to  if no user is logged in, otherwise renders tabs.
+-   ****: Profile screen.
+    -   **Changes**: Added a temporary Login/Cadastro button for testing authentication. Replaced with conditional display: user info (email, UID) and Logout button if authenticated, Login/Cadastro button if not.
+-   ****: Express.js server for website.
+    -   **Changes**: Applied translations to download buttons, FAQ, Contact form. Fixed responsive display of images, adjusted button styles. Implemented Admin Dashboard with login, logout, and proxy routes to backend analytics. Corrected favicon for legal pages.
+-   ****: Website CSS.
+    -   **Changes**: Added styles for FAQ accordion, responsive Contact form, image display on mobile, download button colors, legal page formatting, and increased mobile logo size.
+-   ****: Supervisor config for website.
+    -   **Changes**: New file created to manage the  process on port 9000.
 </code_architecture>
 
 <pending_tasks>
+- Frontend integration of Google Sign-In (Email/Password is implemented, but specific Google Sign-In button/logic needs to be verified/completed).
+- Implement Apple Sign-In (skipped for now due to missing Apple Developer Account).
+- Sync Firebase UID with the Backend (identified as a next step after auth setup).
+- Implement route protection to force login for specific app sections.
 - Implement remaining visual redesign elements for website (iPhone mockup in Hero, micro-animations for sections, full page review).
-- Frontend integration of the Emotional Audio System for the mobile app (beyond the current guided sessions).
 - RevenueCat integration for monetization.
 - CMS integration for Blog/Studies.
-- Debug the persistent translation issue for session descriptions in the  component of the mobile app (this was fixed in the trajectory).
-- Ensure mobile app's voice chat and TTS features are fully functional and reliably connect to the backend (delay was addressed, but overall functionality might need further checks).
+- Admin dashboard is present but requires further development and integration to be fully functional.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was implementing a Guided Session feature for the mobile app in . This feature involves Luna speaking each step, automatic card progression based on time, and looping for a set duration. The UI for starting the guided session and a progress indicator have been added, along with associated CSS styles.
+Immediately prior to this summary, the AI engineer was working on integrating Firebase authentication into the mobile application. The core Firebase setup has been completed, and  has been created to manage the authentication state across the app, including conditional navigation between authenticated (main tabs) and unauthenticated () states.
 
-However, during this implementation, an error was encountered where the  function was declared twice, leading to a conflict and application crash. This conflict arose because  was used both for general background music (from ) and for the Text-to-Speech (TTS) functionality guiding the session. The engineer identified this specific conflict as the root cause of the crash.
+The most recent work involved refining the  screen. Initially, a temporary Login/Cadastro button was added for testing the new Firebase authentication flow. After the user successfully created an account, this temporary button was replaced. The current state of  conditionally displays either a user information section (showing the authenticated user's email and Firebase UID along with a Logout button) or a Login/Cadastro button if no user is currently logged in.
+
+The engineer was in the process of restarting the Expo frontend to apply these latest UI changes and was about to provide a final summary of the authentication implementation.
 </current_work>
 
 <optional_next_step>
-Resolve the  function naming conflict in  by renaming one of the functions or using a more distinct naming convention.
+Synchronize the Firebase User ID (UID) with the backend system for the authenticated user.
 </optional_next_step>
