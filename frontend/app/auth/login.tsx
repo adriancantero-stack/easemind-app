@@ -17,9 +17,9 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithCredential
+  signInWithCredential,
+  signInWithPopup
 } from 'firebase/auth';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { auth } from '../../config/firebase';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
