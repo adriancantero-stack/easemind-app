@@ -8,26 +8,29 @@ export default function RootLayout() {
   const currentTheme = isDarkMode ? theme.dark : theme.light;
 
   return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: currentTheme.card,
-        },
-        headerTintColor: currentTheme.text,
-        headerShadowVisible: false,
-        contentStyle: {
-          backgroundColor: currentTheme.bg,
-        },
-      }}
-    >
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen 
-        name="session-detail" 
-        options={{ 
-          title: 'Session',
-          presentation: 'card',
-        }} 
-      />
-    </Stack>
+    <AuthProvider>
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: currentTheme.card,
+          },
+          headerTintColor: currentTheme.text,
+          headerShadowVisible: false,
+          contentStyle: {
+            backgroundColor: currentTheme.bg,
+          },
+        }}
+      >
+        <Stack.Screen name="auth/login" />
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen 
+          name="session-detail" 
+          options={{ 
+            title: 'Session',
+            presentation: 'card',
+          }} 
+        />
+      </Stack>
+    </AuthProvider>
   );
 }
