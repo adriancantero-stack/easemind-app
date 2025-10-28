@@ -17,8 +17,7 @@ import {
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
-  signInWithCredential,
-  signInWithPopup
+  signInWithCredential
 } from 'firebase/auth';
 import { auth } from '../../config/firebase';
 import { useStore } from '../../store/useStore';
