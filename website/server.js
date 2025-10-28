@@ -20,7 +20,11 @@ app.use(session({
   secret: 'easemind-admin-secret-2025',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 horas
+  cookie: { 
+    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    httpOnly: true,
+    sameSite: 'lax'
+  }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
