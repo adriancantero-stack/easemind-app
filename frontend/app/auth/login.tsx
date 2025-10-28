@@ -37,12 +37,17 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  // Configurar Google Sign-In ao montar o componente
+  // Configurar Google Sign-In apenas para plataformas nativas
   useEffect(() => {
-    GoogleSignin.configure({
-      webClientId: '771193870049-8eac2802119b6dfe5009a0.apps.googleusercontent.com', // Web Client ID do Firebase
-      offlineAccess: true,
-    });
+    if (Platform.OS !== 'web') {
+      // Importação dinâmica apenas para plataformas nativas
+      import('@react-native-google-signin/google-signin').then(({ GoogleSignin }) => {
+        GoogleSignin.configure({
+          webClientId: '771193870049-qv0qmj1h8eac2802119b6dfe5009a0.apps.googleusercontent.com',
+          offlineAccess: true,
+        });
+      });
+    }
   }, []);
 
   const handleEmailAuth = async () => {
