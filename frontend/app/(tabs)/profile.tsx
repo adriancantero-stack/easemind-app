@@ -18,6 +18,30 @@ export default function ProfileScreen() {
   const setThemeMode = useStore((state) => state.setThemeMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const router = useRouter();
+  const { user, isAuthenticated } = useAuth();
+
+  const handleLogout = async () => {
+    Alert.alert(
+      t('profile.logout'),
+      t('profile.logoutConfirm'),
+      [
+        { text: t('profile.cancel'), style: 'cancel' },
+        {
+          text: t('profile.logout'),
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await signOut(auth);
+              Alert.alert(t('profile.success'), t('profile.logoutSuccess'));
+            } catch (error) {
+              console.error('Erro ao fazer logout:', error);
+              Alert.alert(t('profile.error'), t('profile.logoutError'));
+            }
+          },
+        },
+      ]
+    );
+  };
 
   const languages = [
     { code: 'en', name: 'English' },
