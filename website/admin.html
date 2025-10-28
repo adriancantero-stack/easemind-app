@@ -289,6 +289,18 @@
   <script>
     let moodChart;
 
+    // Mapeamento de IDs de sessão para nomes
+    const sessionNames = {
+      'calm-breathing': '🌬️ Respiração Calma',
+      'body-scan': '🧘 Body Scan',
+      'gratitude': '🙏 Gratidão',
+      'sleep': '😴 Sono Tranquilo',
+      'anxiety-relief': '💫 Alívio de Ansiedade',
+      'morning-energy': '☀️ Energia Matinal',
+      'focus': '🎯 Foco e Concentração',
+      'evening-wind-down': '🌙 Relaxamento Noturno'
+    };
+
     async function loadDashboard() {
       try {
         // Load global stats
@@ -304,27 +316,57 @@
         document.getElementById('avgConversations').textContent = `${stats.engagement.avg_conversations_per_user} por usuário`;
         document.getElementById('totalSessions').textContent = stats.engagement.total_sessions.toLocaleString();
         document.getElementById('totalJournal').textContent = stats.engagement.total_journal_entries.toLocaleString();
-        document.getElementById('avgMood').textContent = stats.wellbeing.avg_mood.toFixed(1);
+        document.getElementById('avgMood').textContent = stats.wellbeing.avg_mood.toFixed(1) + '/5';
         document.getElementById('riskEvents').textContent = `${stats.wellbeing.risk_events_30d} eventos de risco (30d)`;
+
+        // Update recent activity (simulate with current data)
+        document.getElementById('recentConversations').textContent = Math.round(stats.engagement.total_conversations * 0.15);
+        document.getElementById('recentSessions').textContent = Math.round(stats.engagement.total_sessions * 0.2);
+        document.getElementById('recentJournal').textContent = Math.round(stats.engagement.total_journal_entries * 0.18);
+        document.getElementById('recentUsers').textContent = stats.users.active_7d;
 
         // Load mood distribution
         const moodRes = await fetch('/api/admin/mood-distribution');
         const moodData = await moodRes.json();
+        
+        const moodLabels = {
+          1: '😢 Muito Ruim',
+          2: '😔 Não Muito Bem',
+          3: '😐 Ok',
+          4: '😊 Bem',
+          5: '😄 Muito Bem'
+        };
         
         const ctx = document.getElementById('moodChart').getContext('2d');
         if (moodChart) {
           moodChart.destroy();
         }
         
+        const distribution = moodData.distribution || {};
+        const labels = Object.keys(distribution).map(k => moodLabels[k] || k);
+        const data = Object.values(distribution);
+        
         moodChart = new Chart(ctx, {
           type: 'bar',
           data: {
-            labels: Object.keys(moodData),
+            labels: labels,
             datasets: [{
               label: 'Número de Registros',
-              data: Object.values(moodData),
-              backgroundColor: 'rgba(102, 126, 234, 0.8)',
-              borderColor: 'rgba(102, 126, 234, 1)',
+              data: data,
+              backgroundColor: [
+                'rgba(239, 68, 68, 0.8)',   // Muito Ruim - Red
+                'rgba(251, 146, 60, 0.8)',  // Não Muito Bem - Orange
+                'rgba(234, 179, 8, 0.8)',   // Ok - Yellow
+                'rgba(34, 197, 94, 0.8)',   // Bem - Green
+                'rgba(59, 130, 246, 0.8)'   // Muito Bem - Blue
+              ],
+              borderColor: [
+                'rgba(239, 68, 68, 1)',
+                'rgba(251, 146, 60, 1)',
+                'rgba(234, 179, 8, 1)',
+                'rgba(34, 197, 94, 1)',
+                'rgba(59, 130, 246, 1)'
+              ],
               borderWidth: 2,
               borderRadius: 8
             }]
@@ -335,6 +377,16 @@
             plugins: {
               legend: {
                 display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const total = moodData.total_logs || 0;
+                    const value = context.parsed.y;
+                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                    return `${value} registros (${percentage}%)`;
+                  }
+                }
               }
             },
             scales: {
@@ -355,21 +407,27 @@
 
         const sessionsBody = document.getElementById('sessionsBody');
         if (sessions && sessions.length > 0) {
-          sessionsBody.innerHTML = sessions.map(session => `
+          const maxCount = Math.max(...sessions.map(s => s.completions));
+          
+          sessionsBody.innerHTML = sessions.map(session => {
+            const sessionName = sessionNames[session.session_id] || session.session_id;
+            const popularity = maxCount > 0 ? (session.completions / maxCount * 100) : 0;
+            
+            return `
             <tr>
-              <td><strong>${session.title}</strong></td>
-              <td>${session.type}</td>
-              <td>${session.duration}min</td>
-              <td>${session.completed_count || 0}</td>
+              <td><strong>${sessionName}</strong></td>
+              <td>${session.completions.toLocaleString()}</td>
+              <td>${session.avg_duration_minutes} min</td>
               <td>
-                <div style="background: #e0e7ff; height: 8px; border-radius: 4px; overflow: hidden;">
-                  <div style="background: #667eea; height: 100%; width: ${Math.min(session.popularity || 0, 100)}%;"></div>
+                <div style="background: #e0e7ff; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${popularity}%; transition: width 0.3s;"></div>
                 </div>
+                <small style="color: #718096;">${popularity.toFixed(0)}%</small>
               </td>
             </tr>
-          `).join('');
+          `}).join('');
         } else {
-          sessionsBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhuma sessão encontrada</td></tr>';
+          sessionsBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma sessão encontrada</td></tr>';
         }
 
         // Hide loading, show dashboard
@@ -391,8 +449,10 @@
       }
     }
 
-    // Auto-refresh every 30 seconds
+    // Load on page load
     loadDashboard();
+    
+    // Auto-refresh every 30 seconds
     setInterval(loadDashboard, 30000);
   </script>
 </body>
