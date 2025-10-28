@@ -337,7 +337,14 @@
         document.getElementById('recentUsers').textContent = stats.users.active_7d;
 
         // Load mood distribution
-        const moodRes = await fetch('/api/admin/mood-distribution');
+        const moodRes = await fetch('/api/admin/mood-distribution', {
+          credentials: 'same-origin'
+        });
+        
+        if (!moodRes.ok) {
+          throw new Error(`HTTP error! status: ${moodRes.status}`);
+        }
+        
         const moodData = await moodRes.json();
         
         const moodLabels = {
