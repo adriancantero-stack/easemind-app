@@ -233,27 +233,52 @@
         </div>
       </div>
 
-      <!-- Mood Distribution Chart -->
-      <div class="chart-container">
-        <h2>Distribuição de Humor</h2>
-        <canvas id="moodChart" height="80"></canvas>
+      <!-- Charts Grid -->
+      <div class="stats-grid">
+        <!-- Mood Distribution Chart -->
+        <div class="chart-container" style="grid-column: span 2;">
+          <h2>📊 Distribuição de Humor</h2>
+          <canvas id="moodChart" height="80"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="table-container" style="margin-bottom: 2rem;">
+        <h2>📈 Atividade Recente (Últimos 7 dias)</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Novas Conversas</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentConversations">-</div>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Sessões Completadas</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentSessions">-</div>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Entradas de Diário</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentJournal">-</div>
+          </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Usuários Únicos</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentUsers">-</div>
+          </div>
+        </div>
       </div>
 
       <!-- Popular Sessions Table -->
       <div class="table-container">
-        <h2>Sessões Guiadas Mais Populares</h2>
+        <h2>🔥 Sessões Guiadas Mais Populares</h2>
         <table id="sessionsTable">
           <thead>
             <tr>
               <th>Sessão</th>
-              <th>Tipo</th>
-              <th>Duração</th>
               <th>Completadas</th>
+              <th>Duração Média</th>
               <th>Popularidade</th>
             </tr>
           </thead>
           <tbody id="sessionsBody">
-            <tr><td colspan="5" style="text-align: center;">Carregando...</td></tr>
+            <tr><td colspan="4" style="text-align: center;">Carregando...</td></tr>
           </tbody>
         </table>
       </div>
