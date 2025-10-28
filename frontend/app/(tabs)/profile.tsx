@@ -22,20 +22,23 @@ export default function ProfileScreen() {
 
   const handleLogout = async () => {
     Alert.alert(
-      t('profile.logout'),
-      t('profile.logoutConfirm'),
+      'Sair da Conta',
+      'Tem certeza que deseja sair?',
       [
-        { text: t('profile.cancel'), style: 'cancel' },
+        { text: 'Cancelar', style: 'cancel' },
         {
-          text: t('profile.logout'),
+          text: 'Sair',
           style: 'destructive',
           onPress: async () => {
             try {
+              console.log('🚪 Iniciando logout...');
               await signOut(auth);
-              Alert.alert(t('profile.success'), t('profile.logoutSuccess'));
+              console.log('✅ Logout realizado com sucesso');
+              // O AuthContext detectará automaticamente a mudança de estado
+              // e atualizará a UI
             } catch (error) {
-              console.error('Erro ao fazer logout:', error);
-              Alert.alert(t('profile.error'), t('profile.logoutError'));
+              console.error('❌ Erro ao fazer logout:', error);
+              Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
             }
           },
         },
