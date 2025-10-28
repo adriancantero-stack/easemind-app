@@ -37,7 +37,7 @@ def test_firebase_user_sync():
         "firebase_uid": test_firebase_uid,
         "email": test_email,
         "display_name": test_display_name,
-        "photo_url": None
+        "photo_url": ""
     }
     
     try:
