@@ -419,7 +419,14 @@
         });
 
         // Load popular sessions
-        const sessionsRes = await fetch('/api/admin/popular-sessions');
+        const sessionsRes = await fetch('/api/admin/popular-sessions', {
+          credentials: 'same-origin'
+        });
+        
+        if (!sessionsRes.ok) {
+          throw new Error(`HTTP error! status: ${sessionsRes.status}`);
+        }
+        
         const sessionsData = await sessionsRes.json();
         const sessions = sessionsData.sessions;
 
