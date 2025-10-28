@@ -507,7 +507,7 @@ class JournalManager:
     """Gerencia entradas de diário"""
     
     @staticmethod
-    def create_entry(user_id: str, title: str, content: str, mood: int, tags: List[str] = None):
+    def create_entry(user_id: str, title: str, content: str, mood: int, tags: List[str] = None, custom_date: datetime = None):
         """
         Cria nova entrada de diário
         """
@@ -517,6 +517,7 @@ class JournalManager:
             "content": content,
             "mood": mood,
             "tags": tags or [],
+            "date": custom_date or datetime.utcnow(),  # Use custom date or current date
             "created_at": datetime.utcnow(),
             "updated_at": datetime.utcnow()
         }
