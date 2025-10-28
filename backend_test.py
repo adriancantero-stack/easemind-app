@@ -1,26 +1,21 @@
 #!/usr/bin/env python3
 """
-EaseMind Unified Proxy Server & Backend API Testing Suite
-Tests the unified proxy server routing and backend API endpoints
+EaseMind Backend Testing - Firebase User Sync
+Tests the new Firebase UID synchronization endpoints
 """
 
 import requests
 import json
 import sys
-import os
-import time
-from typing import Dict, Any
+from datetime import datetime
+import uuid
 
-# Test configuration - Testing the unified proxy server
-PROXY_URL = "http://localhost:8080"
-BACKEND_URL = "http://localhost:8001"
-WEBSITE_URL = "http://localhost:9000"
-FRONTEND_URL = "http://localhost:3000"
+# Get backend URL from environment
+BACKEND_URL = "https://calmspace-38.preview.emergentagent.com/api"
 
-print(f"Testing unified proxy server at: {PROXY_URL}")
-print(f"Backend direct: {BACKEND_URL}")
-print(f"Website direct: {WEBSITE_URL}")
-print(f"Frontend direct: {FRONTEND_URL}")
+print(f"🌐 Testing Backend URL: {BACKEND_URL}")
+print(f"⏰ Test Time: {datetime.now().isoformat()}")
+print()
 
 class UnifiedProxyTester:
     def __init__(self):
