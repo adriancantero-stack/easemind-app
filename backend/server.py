@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Request, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
+from typing import Optional
 from dotenv import load_dotenv
 import os
 from emergentintegrations.llm.chat import LlmChat, UserMessage
