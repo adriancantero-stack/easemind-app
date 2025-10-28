@@ -1,11 +1,15 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch, Linking } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, StyleSheet, Switch, Linking, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
 import { useTranslation } from 'react-i18next';
 import i18n, { setStoredLanguage } from '../../utils/i18n';
 import { useRouter } from 'expo-router';
+import { useAuth } from '../../contexts/AuthContext';
+import { signOut } from 'firebase/auth';
+import { auth } from '../../config/firebase';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function ProfileScreen() {
   const { t } = useTranslation();
