@@ -863,3 +863,81 @@ async def get_sos_history(user_id: str, limit: int = 10):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+# ====================================
+# FIREBASE USER SYNC
+# ====================================
+
+class UserSyncRequest(BaseModel):
+    firebase_uid: str
+    email: str
+    display_name: str = None
+    photo_url: str = None
+
+@app.post("/api/user/sync")
+async def sync_firebase_user(request: UserSyncRequest):
+    """
+    Sincroniza usuário do Firebase com o backend
+    Cria ou atualiza o registro do usuário no MongoDB
+    """
+    try:
+        from orchestrator import users_collection
+        from datetime import datetime
+        
+        logger.info(f"🔐 Syncing Firebase user: {request.firebase_uid} ({request.email})")
+        
+        # Verificar se usuário já existe
+        existing_user = users_collection.find_one({"firebase_uid": request.firebase_uid})
+        
+        if existing_user:
+            # Atualizar informações do usuário existente
+            users_collection.update_one(
+                {"firebase_uid": request.firebase_uid},
+                {
+                    "$set": {
+                        "email": request.email,
+                        "display_name": request.display_name or existing_user.get("display_name", "Usuário"),
+                        "photo_url": request.photo_url,
+                        "last_login": datetime.utcnow()
+                    }
+                }
+            )
+            logger.info(f"✅ Updated existing user: {request.firebase_uid}")
+            
+            return {
+                "success": True,
+                "message": "User updated successfully",
+                "user_id": request.firebase_uid,
+                "is_new_user": False
+            }
+        else:
+            # Criar novo usuário
+            new_user = {
+                "firebase_uid": request.firebase_uid,
+                "user_id": request.firebase_uid,  # Usar firebase_uid como user_id também
+                "email": request.email,
+                "display_name": request.display_name or "Usuário",
+                "photo_url": request.photo_url,
+                "language": "pt-BR",
+                "country": "BR",
+                "goals": [],
+                "prefers_voice": True,
+                "sos_contacts": [],
+                "created_at": datetime.utcnow(),
+                "last_login": datetime.utcnow()
+            }
+            
+            users_collection.insert_one(new_user)
+            logger.info(f"✅ Created new user: {request.firebase_uid}")
+            
+            return {
+                "success": True,
+                "message": "User created successfully",
+                "user_id": request.firebase_uid,
+                "is_new_user": True
+            }
+            
+    except Exception as e:
+        logger.error(f"Error syncing user: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to sync user: {str(e)}")
+
+
