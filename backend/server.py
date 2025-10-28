@@ -882,8 +882,8 @@ async def get_sos_history(user_id: str, limit: int = 10):
 class UserSyncRequest(BaseModel):
     firebase_uid: str
     email: str
-    display_name: str = None
-    photo_url: str = None
+    display_name: Optional[str] = None
+    photo_url: Optional[str] = None
 
 @app.post("/api/user/sync")
 async def sync_firebase_user(request: UserSyncRequest):
