@@ -589,18 +589,30 @@ class JournalCreateRequest(BaseModel):
     content: str
     mood: int  # 1-5
     tags: list = []
+    date: str = None  # Optional custom date (ISO format)
 
 @app.post("/api/journal")
 async def create_journal_entry(request: JournalCreateRequest):
     """Create new journal entry"""
     try:
         from orchestrator import JournalManager
+        from datetime import datetime
+        
+        # Parse custom date if provided
+        custom_date = None
+        if request.date:
+            try:
+                custom_date = datetime.fromisoformat(request.date.replace('Z', '+00:00'))
+            except:
+                custom_date = None
+        
         entry_id = JournalManager.create_entry(
             request.user_id,
             request.title,
             request.content,
             request.mood,
-            request.tags
+            request.tags,
+            custom_date
         )
         return {"success": True, "entry_id": entry_id}
     except Exception as e:
