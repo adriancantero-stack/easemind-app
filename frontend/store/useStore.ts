@@ -97,6 +97,33 @@ export const useStore = create<AppState>((set, get) => ({
   userId: '', // Will be generated on first use
 
   getUserId: async () => {
+    // Primeiro, verificar se há um Firebase user autenticado
+    try {
+      const { auth } = require('../config/firebase');
+      const currentFirebaseUser = auth.currentUser;
+      
+      if (currentFirebaseUser?.uid) {
+        // Usuário autenticado - retornar Firebase UID
+        const firebaseUid = currentFirebaseUser.uid;
+        
+        // Atualizar store se necessário
+        const currentUserId = get().userId;
+        if (currentUserId !== firebaseUid) {
+          set({ userId: firebaseUid });
+          try {
+            await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, firebaseUid);
+          } catch {}
+        }
+        
+        console.log('👤 Using Firebase UID:', firebaseUid);
+        return firebaseUid;
+      }
+    } catch (error) {
+      // Firebase não disponível ou erro - continuar com fallback
+      console.log('⚠️ Firebase not available, using local user ID');
+    }
+    
+    // Fallback: usar ID local
     const currentUserId = get().userId;
     if (currentUserId) {
       return currentUserId;
@@ -111,14 +138,15 @@ export const useStore = create<AppState>((set, get) => ({
       }
     } catch {}
     
-    // Generate new UUID
-    const newUserId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    // Generate new UUID (modo visitante)
+    const newUserId = `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     set({ userId: newUserId });
     
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, newUserId);
     } catch {}
     
+    console.log('👤 Generated guest ID:', newUserId);
     return newUserId;
   },
 
