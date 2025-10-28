@@ -1,6 +1,7 @@
 import { Stack } from 'expo-router';
 import { useStore } from '../store/useStore';
 import { theme } from '../utils/theme';
+import { AuthProvider } from '../contexts/AuthContext';
 
 export default function RootLayout() {
   const isDarkMode = useStore((state) => state.isDarkMode);
