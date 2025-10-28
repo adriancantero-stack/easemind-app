@@ -700,7 +700,14 @@ app.post('/admin/login', (req, res) => {
   
   if (password === ADMIN_PASSWORD) {
     req.session.isAdmin = true;
-    res.json({ success: true });
+    req.session.save((err) => {
+      if (err) {
+        console.error('Error saving session:', err);
+        return res.status(500).json({ success: false, message: 'Erro ao salvar sessão' });
+      }
+      console.log('✅ Admin session created successfully');
+      res.json({ success: true });
+    });
   } else {
     res.status(401).json({ success: false, message: 'Senha incorreta' });
   }
