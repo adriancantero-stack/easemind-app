@@ -92,13 +92,38 @@ export default function LoginScreen() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
+      // Verificar se o Play Services está disponível
+      await GoogleSignin.hasPlayServices();
+      
+      // Fazer login no Google
+      const userInfo = await GoogleSignin.signIn();
+      
+      // Obter o ID token do Google
+      const { idToken } = userInfo.data!;
+      
+      // Criar credencial do Firebase com o token do Google
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      
+      // Fazer sign in no Firebase com a credencial do Google
+      await signInWithCredential(auth, googleCredential);
+      
       console.log('✅ Login com Google realizado');
       router.replace('/(tabs)/');
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
-      Alert.alert(t('auth.error'), t('auth.googleSignInError'));
+      
+      // Tratar diferentes tipos de erro
+      if (error.code === 'SIGN_IN_CANCELLED') {
+        // Usuário cancelou o login
+        console.log('Login cancelado pelo usuário');
+      } else if (error.code === 'IN_PROGRESS') {
+        // Login já em andamento
+        console.log('Login já está em andamento');
+      } else if (error.code === 'PLAY_SERVICES_NOT_AVAILABLE') {
+        Alert.alert(t('auth.error'), 'Google Play Services não disponível');
+      } else {
+        Alert.alert(t('auth.error'), t('auth.googleSignInError'));
+      }
     } finally {
       setLoading(false);
     }
