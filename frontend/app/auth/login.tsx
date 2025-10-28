@@ -37,6 +37,14 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Configurar Google Sign-In ao montar o componente
+  useEffect(() => {
+    GoogleSignin.configure({
+      webClientId: '771193870049-8eac2802119b6dfe5009a0.apps.googleusercontent.com', // Web Client ID do Firebase
+      offlineAccess: true,
+    });
+  }, []);
+
   const handleEmailAuth = async () => {
     if (!email || !password) {
       Alert.alert(t('auth.error'), t('auth.fillAllFields'));
