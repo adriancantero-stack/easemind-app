@@ -97,29 +97,43 @@ export default function LoginScreen() {
   const handleGoogleSignIn = async () => {
     setLoading(true);
     try {
-      // Verificar se o Play Services está disponível
-      await GoogleSignin.hasPlayServices();
+      if (Platform.OS === 'web') {
+        // Implementação para Web
+        const provider = new GoogleAuthProvider();
+        await signInWithPopup(auth, provider);
+        console.log('✅ Login com Google realizado (Web)');
+      } else {
+        // Implementação para Native (iOS/Android)
+        const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
+        
+        // Verificar se o Play Services está disponível
+        await GoogleSignin.hasPlayServices();
+        
+        // Fazer login no Google
+        const userInfo = await GoogleSignin.signIn();
+        
+        // Obter o ID token do Google
+        const { idToken } = userInfo.data!;
+        
+        // Criar credencial do Firebase com o token do Google
+        const googleCredential = GoogleAuthProvider.credential(idToken);
+        
+        // Fazer sign in no Firebase com a credencial do Google
+        await signInWithCredential(auth, googleCredential);
+        
+        console.log('✅ Login com Google realizado (Native)');
+      }
       
-      // Fazer login no Google
-      const userInfo = await GoogleSignin.signIn();
-      
-      // Obter o ID token do Google
-      const { idToken } = userInfo.data!;
-      
-      // Criar credencial do Firebase com o token do Google
-      const googleCredential = GoogleAuthProvider.credential(idToken);
-      
-      // Fazer sign in no Firebase com a credencial do Google
-      await signInWithCredential(auth, googleCredential);
-      
-      console.log('✅ Login com Google realizado');
       router.replace('/(tabs)/');
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
       
       // Tratar diferentes tipos de erro
-      if (error.code === 'SIGN_IN_CANCELLED') {
-        // Usuário cancelou o login
+      if (error.code === 'auth/popup-closed-by-user') {
+        // Usuário fechou o popup (web)
+        console.log('Login cancelado pelo usuário');
+      } else if (error.code === 'SIGN_IN_CANCELLED') {
+        // Usuário cancelou o login (native)
         console.log('Login cancelado pelo usuário');
       } else if (error.code === 'IN_PROGRESS') {
         // Login já em andamento
