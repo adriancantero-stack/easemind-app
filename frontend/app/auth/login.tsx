@@ -39,6 +39,22 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+  // Verificar resultado de redirect do Google (para web)
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      getRedirectResult(auth)
+        .then((result) => {
+          if (result) {
+            console.log('✅ Login com Google realizado via redirect');
+            router.replace('/(tabs)/');
+          }
+        })
+        .catch((error) => {
+          console.error('❌ Erro no redirect:', error);
+        });
+    }
+  }, []);
+
   // Configurar Google Sign-In apenas para plataformas nativas
   useEffect(() => {
     if (Platform.OS !== 'web') {
