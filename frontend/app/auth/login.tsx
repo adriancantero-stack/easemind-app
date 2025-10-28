@@ -95,48 +95,46 @@ export default function LoginScreen() {
   };
 
   const handleGoogleSignIn = async () => {
+    // Por enquanto, desabilitar Google Sign-In no web devido a limitações
+    // Funciona apenas em apps nativos (iOS/Android)
+    if (Platform.OS === 'web') {
+      Alert.alert(
+        'Login com Google',
+        'O login com Google está disponível apenas no app nativo. Por favor, use Email/Senha ou clique em "Continuar sem conta" para usar como visitante.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
     setLoading(true);
     try {
-      if (Platform.OS === 'web') {
-        // Implementação para Web
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
-        console.log('✅ Login com Google realizado (Web)');
-      } else {
-        // Implementação para Native (iOS/Android)
-        const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
-        
-        // Verificar se o Play Services está disponível
-        await GoogleSignin.hasPlayServices();
-        
-        // Fazer login no Google
-        const userInfo = await GoogleSignin.signIn();
-        
-        // Obter o ID token do Google
-        const { idToken } = userInfo.data!;
-        
-        // Criar credencial do Firebase com o token do Google
-        const googleCredential = GoogleAuthProvider.credential(idToken);
-        
-        // Fazer sign in no Firebase com a credencial do Google
-        await signInWithCredential(auth, googleCredential);
-        
-        console.log('✅ Login com Google realizado (Native)');
-      }
+      // Implementação para Native (iOS/Android)
+      const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
       
+      // Verificar se o Play Services está disponível
+      await GoogleSignin.hasPlayServices();
+      
+      // Fazer login no Google
+      const userInfo = await GoogleSignin.signIn();
+      
+      // Obter o ID token do Google
+      const { idToken } = userInfo.data!;
+      
+      // Criar credencial do Firebase com o token do Google
+      const googleCredential = GoogleAuthProvider.credential(idToken);
+      
+      // Fazer sign in no Firebase com a credencial do Google
+      await signInWithCredential(auth, googleCredential);
+      
+      console.log('✅ Login com Google realizado (Native)');
       router.replace('/(tabs)/');
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
       
       // Tratar diferentes tipos de erro
-      if (error.code === 'auth/popup-closed-by-user') {
-        // Usuário fechou o popup (web)
-        console.log('Login cancelado pelo usuário');
-      } else if (error.code === 'SIGN_IN_CANCELLED') {
-        // Usuário cancelou o login (native)
+      if (error.code === 'SIGN_IN_CANCELLED') {
         console.log('Login cancelado pelo usuário');
       } else if (error.code === 'IN_PROGRESS') {
-        // Login já em andamento
         console.log('Login já está em andamento');
       } else if (error.code === 'PLAY_SERVICES_NOT_AVAILABLE') {
         Alert.alert(t('auth.error'), 'Google Play Services não disponível');
