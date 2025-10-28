@@ -67,15 +67,41 @@ export default function ProfileScreen() {
       </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {/* Auth Section - BOTÃO PARA TESTAR LOGIN */}
-        <TouchableOpacity 
-          style={[styles.loginButton, { backgroundColor: currentTheme.accent1 }]}
-          onPress={() => router.push('/auth/login')}
-        >
-          <Text style={styles.loginButtonText}>
-            🔐 Login / Cadastro (Firebase)
-          </Text>
-        </TouchableOpacity>
+        {/* Auth Section */}
+        {isAuthenticated ? (
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <View style={styles.userInfo}>
+              <Ionicons name="person-circle" size={48} color={currentTheme.accent1} />
+              <View style={styles.userDetails}>
+                <Text style={[styles.userName, { color: currentTheme.text }]}>
+                  {user?.email}
+                </Text>
+                <Text style={[styles.userStatus, { color: currentTheme.textSecondary }]}>
+                  ✅ Conta verificada
+                </Text>
+              </View>
+            </View>
+            <TouchableOpacity
+              style={[styles.logoutButton, { backgroundColor: '#FF6B6B' }]}
+              onPress={handleLogout}
+            >
+              <Ionicons name="log-out-outline" size={20} color="#FFF" />
+              <Text style={styles.logoutButtonText}>
+                Sair da Conta
+              </Text>
+            </TouchableOpacity>
+          </View>
+        ) : (
+          <TouchableOpacity 
+            style={[styles.loginButton, { backgroundColor: currentTheme.accent1 }]}
+            onPress={() => router.push('/auth/login')}
+          >
+            <Ionicons name="log-in-outline" size={20} color="#FFF" />
+            <Text style={styles.loginButtonText}>
+              Entrar / Cadastrar
+            </Text>
+          </TouchableOpacity>
+        )}
 
         {/* Theme Section */}
         <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
