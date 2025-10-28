@@ -39,6 +39,16 @@ export default function ProfileScreen() {
       </View>
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+        {/* Auth Section - BOTÃO PARA TESTAR LOGIN */}
+        <TouchableOpacity 
+          style={[styles.loginButton, { backgroundColor: currentTheme.accent1 }]}
+          onPress={() => router.push('/auth/login')}
+        >
+          <Text style={styles.loginButtonText}>
+            🔐 Login / Cadastro (Firebase)
+          </Text>
+        </TouchableOpacity>
+
         {/* Theme Section */}
         <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
           <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
