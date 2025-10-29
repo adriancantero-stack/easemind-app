@@ -311,6 +311,20 @@ const styles = StyleSheet.create({
   userStatus: {
     fontSize: 14,
   },
+  editProfileButton: {
+    padding: 12,
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  editProfileButtonText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '600',
+  },
   logoutButton: {
     padding: 12,
     borderRadius: 8,
