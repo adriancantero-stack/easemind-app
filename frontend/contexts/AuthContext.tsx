@@ -48,6 +48,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Sincronizar com backend
         try {
           console.log('📡 Syncing user with backend:', firebaseUser.uid);
+          console.log('📡 Backend URL:', backendUrl);
+          console.log('📡 User data:', {
+            firebase_uid: firebaseUser.uid,
+            email: firebaseUser.email || '',
+            display_name: firebaseUser.displayName || 'Usuário',
+            photo_url: firebaseUser.photoURL || null,
+          });
+          
           const response = await fetch(`${backendUrl}/api/user/sync`, {
             method: 'POST',
             headers: {
@@ -61,8 +69,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             }),
           });
 
+          console.log('📡 Response status:', response.status);
+          const responseText = await response.text();
+          console.log('📡 Response body:', responseText);
+          
           if (response.ok) {
-            const data = await response.json();
+            const data = JSON.parse(responseText);
             console.log('✅ User synced with backend:', data);
             
             // Atualizar userId no store com o Firebase UID
