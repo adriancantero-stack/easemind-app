@@ -28,7 +28,11 @@ export default function AboutScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
         {/* Header */}
         <View style={styles.header}>
-          <Text style={[styles.emoji, { fontSize: 48 }]}>🪷</Text>
+          <Image 
+            source={isDarkMode ? require('../../assets/images/logo-easemind-dark.png') : require('../../assets/images/logo-easemind.png')} 
+            style={styles.logo}
+            resizeMode="contain"
+          />
           <Text style={[styles.title, { color: currentTheme.text }]}>
             {t('about.title')}
           </Text>
