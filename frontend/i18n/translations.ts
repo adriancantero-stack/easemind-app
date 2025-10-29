@@ -24,6 +24,11 @@ export const translations = {
         calm: 'Calm now',
         note: 'Write thought',
       },
+      quickMessages: {
+        breathe: 'I need help with breathing',
+        calm: 'I need to calm down right now',
+        note: 'I want to write down my thoughts',
+      },
     },
     panic: {
       title: 'Breathe with Me',
