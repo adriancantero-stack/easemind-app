@@ -84,7 +84,7 @@ export default function HomeScreen() {
     await sendMessage(actionTexts[action]);
   };
 
-  const sendMessage = async (text: string) => {
+  const sendMessage = async (text: string, fromVoice: boolean = false) => {
     if (!text.trim() || isLoading) return;
 
     const userMessage = text.trim();
@@ -97,6 +97,7 @@ export default function HomeScreen() {
       console.log('🚀 Backend URL:', backendUrl);
       console.log('🚀 Full endpoint:', `${backendUrl}/api/chat`);
       console.log('🆔 User ID:', userId);
+      console.log('🎤 From voice:', fromVoice);
       
       // Filter messages from last 24 hours
       const twentyFourHoursAgo = Date.now() - (24 * 60 * 60 * 1000);
@@ -141,9 +142,13 @@ export default function HomeScreen() {
         addMessage('assistant', data.response);
         console.log('✅ Message added successfully');
         
-        // Start TTS immediately
-        console.log('🎤 Starting TTS playback');
-        handlePlayAudio(messageId, data.response);
+        // Only play audio if message was sent via voice
+        if (fromVoice) {
+          console.log('🎤 Starting TTS playback (from voice input)');
+          handlePlayAudio(messageId, data.response);
+        } else {
+          console.log('✍️ Text-only response (from text input)');
+        }
       }
     } catch (error) {
       console.error('❌ Chat error:', error);
