@@ -162,7 +162,11 @@ class MemoryManager:
                 "language": user.get("language", "pt-BR"),
                 "country": user.get("country", "BR"),
                 "goals": ", ".join(user.get("goals", [])) or "Não definidos",
-                "prefers_voice": user.get("prefers_voice", True)
+                "prefers_voice": user.get("prefers_voice", True),
+                "notification_enabled": user.get("notification_enabled", True),
+                "preferred_time": user.get("preferred_time", "morning"),
+                "age_range": user.get("age_range"),
+                "gender": user.get("gender")
             },
             "ai_memories": {
                 "last_1": memory_texts[0],
