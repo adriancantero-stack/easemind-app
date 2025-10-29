@@ -944,6 +944,11 @@ async def sync_firebase_user(request: UserSyncRequest):
                 "country": "BR",
                 "goals": [],
                 "prefers_voice": True,
+                "notification_enabled": True,
+                "preferred_time": "morning",
+                "age_range": None,
+                "gender": None,
+                "profile_photo": None,
                 "sos_contacts": [],
                 "created_at": datetime.utcnow(),
                 "last_login": datetime.utcnow()
@@ -962,5 +967,120 @@ async def sync_firebase_user(request: UserSyncRequest):
     except Exception as e:
         logger.error(f"Error syncing user: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to sync user: {str(e)}")
+
+
+@app.put("/api/user/profile")
+async def update_user_profile(request: UserProfileUpdateRequest):
+    """
+    Atualiza perfil completo do usuário
+    Usado pela tela de "Editar Perfil"
+    """
+    try:
+        from orchestrator import users_collection
+        from datetime import datetime
+        
+        logger.info(f"👤 Updating profile for user: {request.firebase_uid}")
+        
+        # Verificar se usuário existe
+        user = users_collection.find_one({"firebase_uid": request.firebase_uid})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Preparar dados de atualização
+        update_data = {
+            "updated_at": datetime.utcnow()
+        }
+        
+        if request.display_name is not None:
+            update_data["display_name"] = request.display_name
+        
+        if request.profile_photo is not None:
+            update_data["profile_photo"] = request.profile_photo
+        
+        if request.goals is not None:
+            update_data["goals"] = request.goals
+        
+        if request.notification_enabled is not None:
+            update_data["notification_enabled"] = request.notification_enabled
+        
+        if request.preferred_time is not None:
+            update_data["preferred_time"] = request.preferred_time
+        
+        if request.age_range is not None:
+            update_data["age_range"] = request.age_range
+        
+        if request.gender is not None:
+            update_data["gender"] = request.gender
+        
+        # Atualizar no MongoDB
+        users_collection.update_one(
+            {"firebase_uid": request.firebase_uid},
+            {"$set": update_data}
+        )
+        
+        logger.info(f"✅ Profile updated for user: {request.firebase_uid}")
+        
+        # Retornar perfil atualizado
+        updated_user = users_collection.find_one({"firebase_uid": request.firebase_uid})
+        updated_user["_id"] = str(updated_user["_id"])  # Converter ObjectId para string
+        
+        return {
+            "success": True,
+            "message": "Profile updated successfully",
+            "user": {
+                "firebase_uid": updated_user.get("firebase_uid"),
+                "display_name": updated_user.get("display_name"),
+                "profile_photo": updated_user.get("profile_photo"),
+                "goals": updated_user.get("goals", []),
+                "notification_enabled": updated_user.get("notification_enabled", True),
+                "preferred_time": updated_user.get("preferred_time", "morning"),
+                "age_range": updated_user.get("age_range"),
+                "gender": updated_user.get("gender")
+            }
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating profile: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to update profile: {str(e)}")
+
+
+@app.get("/api/user/profile/{firebase_uid}")
+async def get_user_profile(firebase_uid: str):
+    """
+    Obtém perfil completo do usuário
+    """
+    try:
+        from orchestrator import users_collection
+        
+        logger.info(f"👤 Getting profile for user: {firebase_uid}")
+        
+        user = users_collection.find_one({"firebase_uid": firebase_uid})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        user["_id"] = str(user["_id"])
+        
+        return {
+            "success": True,
+            "user": {
+                "firebase_uid": user.get("firebase_uid"),
+                "email": user.get("email"),
+                "display_name": user.get("display_name"),
+                "profile_photo": user.get("profile_photo"),
+                "goals": user.get("goals", []),
+                "notification_enabled": user.get("notification_enabled", True),
+                "preferred_time": user.get("preferred_time", "morning"),
+                "age_range": user.get("age_range"),
+                "gender": user.get("gender")
+            }
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error getting profile: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to get profile: {str(e)}")
 
 
