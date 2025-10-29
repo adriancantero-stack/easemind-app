@@ -189,11 +189,20 @@ class MemoryManager:
         """
         Injeta o contexto dinâmico no prompt da Luna
         """
+        # Montar descrição dos objetivos do usuário
+        goals_text = context['user_profile']['goals']
+        if goals_text and goals_text != "Não definidos":
+            goals_instruction = f"\n⭐ O usuário compartilhou que seus objetivos são: {goals_text}. Adapte suas respostas e sugestões para ajudá-lo com esses objetivos específicos."
+        else:
+            goals_instruction = ""
+        
         context_section = f"""
 
 [CONTEXTO DO USUÁRIO]
-Perfil: {context['user_profile']['display_name']}, idioma {context['user_profile']['language']}, país {context['user_profile']['country']}
-Objetivos: {context['user_profile']['goals']}
+Nome: {context['user_profile']['display_name']}
+💡 Use o nome "{context['user_profile']['display_name']}" quando se dirigir ao usuário de forma natural e empática.
+Idioma: {context['user_profile']['language']}
+País: {context['user_profile']['country']}{goals_instruction}
 Prefere voz: {context['user_profile']['prefers_voice']}
 
 [ENTRADAS DO DIÁRIO - ÚLTIMAS 5]
