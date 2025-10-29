@@ -62,15 +62,15 @@ O Emergent vai:
 
 Após deploy, teste na URL do Emergent:
 ```
-https://calmspace-38.preview.emergentagent.com/
+https://easemind-cloud.preview.emergentagent.com/
    ↓
    Deve mostrar: Website Institucional (Home do EaseMind)
 
-https://calmspace-38.preview.emergentagent.com/app
+https://easemind-cloud.preview.emergentagent.com/app
    ↓
    Deve mostrar: App Mobile (Expo)
 
-https://calmspace-38.preview.emergentagent.com/api/health
+https://easemind-cloud.preview.emergentagent.com/api/health
    ↓
    Deve retornar: 200 OK
 ```

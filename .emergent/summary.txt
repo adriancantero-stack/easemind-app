@@ -1,101 +1,76 @@
 <analysis>
-The AI engineer's work in this trajectory reflects a comprehensive, iterative, and user-feedback-driven development process across both the website and the Expo mobile application. Initial efforts addressed website fixes, including translation standardizations, responsive design for key pages (FAQ, Contact, How-it-works, Legal), and the creation of an Admin Dashboard with analytics integration.
-
-Mobile app development focused on enhancing the user experience. Key areas included optimizing AI chat TTS for responsiveness and implementing a word-by-word typing animation (though later a Luna orb animation was added and then removed based on feedback). A significant portion of the work revolved around the Guided Session feature, which involved fixing a  naming conflict, debugging complex asynchronous logic with  and React closures (leading to the introduction of  for state synchronization), and implementing variable durations and custom background audio for different guided sessions. The UI was refined by removing manual navigation, repositioning buttons, and adjusting card sizes.
-
-A major new feature was the SOS session, implemented with parallel audio (guided voice and calming music), a breathing animation, dynamic emergency contact information, and locale-specific audio. The Journal feature received a UI overhaul, removing the title, adding date and mood selection, and crucially, integrating journal entries into Luna's AI context. Finally, a Journal Statistics tab was added with basic charts for emotional trends, and a Firebase-based Email/Password and Google Sign-In authentication system was integrated, with an  and conditional routing. The immediate work involves refining the authenticated profile view and preparing for backend integration of the Firebase UID.
+The AI engineer's work in this trajectory was highly iterative, addressing a wide range of features, fixes, and architectural adjustments across the Expo mobile app and the institutional website. Initial efforts focused on integrating Firebase authentication (Email/Password, Google Sign-In) and synchronizing user UIDs with the backend. This involved extensive debugging of platform-specific behaviors (web vs. native) for Firebase and UI elements like logout. Concurrently, the Admin Dashboard was enhanced to display real-time analytics, leading to a complex migration of backend data from local MongoDB to MongoDB Atlas and adapting backend APIs for Vercel serverless deployment. Other mobile app improvements included Luna's audio response logic, quick action button translations, and chat date separators. The process demonstrated strong problem-solving, utilizing troubleshooting agents when stuck, and thorough communication with the user regarding deployment complexities and next steps. The final action involved creating a detailed guide for serverless backend deployment.
 </analysis>
 
 <product_requirements>
-The EaseMind application is a mobile-first emotional support tool with an AI chat (Luna), panic button, guided sessions, and a journal, supporting multi-language and light/dark modes with an Apple-like serenity design. The institutional website (easemind.io) offers public pages and an Admin Dashboard.
-
-Recent work aimed to:
-1.  **Website**: Enhance responsiveness, standardize translations, redesign FAQ, implement an Admin Dashboard with analytics, fix image display, and improve favicon/logo consistency.
-2.  **Mobile App - AI Chat**: Optimize TTS audio delivery, implement word-by-word typing animation (later removed in favor of simpler UI)
-3.  **Mobile App - Guided Sessions**: Implement guided sessions where Luna speaks steps, cards advance automatically (now with custom timings/audio per session), ensure full translation, and UI/UX refinements (remove manual navigation, animate orb, resize cards).
-4.  **Mobile App - Panic Button (SOS)**: Create an SOS session with guided voice, calming music, breathing animation, locale-specific emergency contacts, and a clear call to action.
-5.  **Mobile App - Journal**: Redesign the journal entry flow (date, mood, direct text, no title), enable Luna to learn from journal entries, and add emotional trend charts/statistics.
-6.  **Mobile App - Authentication**: Implement user registration and login using Firebase (Email/Password and Google Sign-In).
+The EaseMind application is a mobile-first emotional support tool featuring an AI chat (Luna), guided sessions, a panic button, and a journal, designed with multi-language support and an Apple-like serenity aesthetic. The accompanying institutional website (easemind.io) provides public pages and an Admin Dashboard. Recent development cycles addressed:
+1.  **Website Enhancements**: Improved responsiveness, standardized translations, a redesigned FAQ, and a new Admin Dashboard with analytics integration.
+2.  **Mobile App AI Chat**: Optimized TTS, initial word-by-word animation (later simplified), chat date separators, and translated quick action messages.
+3.  **Guided Sessions**: Implemented with custom timings, background audio, and UI/UX refinements.
+4.  **Panic Button (SOS)**: Developed an SOS session with guided voice, calming music, breathing animation, and locale-specific emergency contacts.
+5.  **Journal Features**: Redesigned entry flow, integrated journal entries into Luna's AI context, and added emotional trend statistics.
+6.  **Authentication**: Integrated Firebase Email/Password and Google Sign-In, including backend UID synchronization and mandatory login.
+7.  **Admin Dashboard**: To display real-time user statistics, session data, and mood distribution on the  page, connected to a cloud MongoDB.
 </product_requirements>
 
 <key_technical_concepts>
-- **Expo Router**: File-based routing for mobile navigation.
-- **React Native**: Core mobile UI framework.
-- **FastAPI**: Backend API development (used for analytics and LLM context).
-- **Express.js**: Website server, handling routes, translations, and API proxying.
-- **, **: Multi-language support.
-- ****: State management for mobile.
-- ****: User authentication (Email/Password, Google Sign-In).
-- **, **: For rendering charts in Journal Stats.
-- ****: React hook crucial for managing mutable state in closures (guided sessions).
+-   **Expo Router**: File-based routing for mobile.
+-   **React Native**: Core mobile UI framework.
+-   **FastAPI**: Python backend API.
+-   **Express.js**: Node.js server for website.
+-   **MongoDB**: Database (local and Atlas for cloud).
+-   **Firebase Auth**: User authentication (Email/Password, Google Sign-In).
+-   **Vercel Serverless Functions**: For deploying Python backend APIs on Vercel.
+-   **Zustand**: State management for mobile.
+-   **i18n-js, expo-localization**: Multi-language support.
+-   **useRef**: React hook for state synchronization.
 </key_technical_concepts>
 
 <code_architecture>
 
 
--   ****: FastAPI backend. Consumes analytics APIs; no direct changes in this trajectory, but its  endpoint was crucial for mobile app and  for journal integration.
--   ****: Contains  and .
-    -   **Changes**:  was modified to fetch the last 5 journal entries.  was updated to include these entries for Luna's AI.
--   ****: Mobile app's main chat screen. TTS delay reduced. Luna orb and typing animation logic were experimented with and later removed or refactored away from this file.
--   ****: Mobile chat message component. Temporarily used  and Luna orb, later reverted.
--   ****: Custom hook for typing animation. Modified for word-by-word animation.
--   ****: Zustand store. Added  and  for typing animation, later refactored.
--   ****: Defines themes. Added  for readability.
--   ****: Session summary component. Updated  styling and  usage.
--   ****: Mobile app translations.
-    -   **Changes**: Extensively updated for guided sessions (detailed steps for 8 sessions). Added keys for PanicModal, Journal UI, and Journal Stats. Modified to remove SOS -  prefix and adjust guided session step content.
--   ****: Guided session screen.
-    -   **Changes**: Renamed local  to  to resolve conflict. Fixed TTS API URL (from  to ). Debugged and fixed state synchronization issues (currentStep, isGuidedMode) using . Implemented custom audio, variable step durations, and total session durations for sessions 1, 2, 3, 5, 6. Removed TTS calls, manual navigation buttons, and Luna speaking indicator. UI adjusted for smaller card, button repositioning, and orb animation for specific sessions.
--   ****: Audio playback hook.
-    -   **Changes**: Improved error handling for stopping already-finished sounds.
--   ****: Breathing animation component.
-    -   **Changes**: Implemented breathing animation (expand/contract) synchronized with session steps.
--   ****: Placeholder for panic screen. No direct changes, but it's the entry point for .
--   ****: Reimplemented for SOS session.
-    -   **Changes**: Now handles initial text, dual audio playback (voice + music with custom volumes/fades/loops), breathing animation, post-audio message, dynamic emergency contacts based on locale, and locale-specific audio files for Luna's voice.
--   ****: About page.
-    -   **Changes**: Added dynamic emergency contacts for Europe, Spain, and Latin America.
--   ****: Journal screen.
-    -   **Changes**: Journal entry modal re-architected: date first, mood selection, no title input (auto-generated), text input with placeholder. Added a Statistics tab. Integrated  component. Fixed placeholder translation issue using .
--   ****: New component created for journal statistics.
-    -   **Changes**: Implements UI for Last 7 days, Last 30 days, Last 3 months tabs. Displays mood distribution (emoji counts) and a line chart of mood over time (using ).
--   ****: New file for Firebase configuration.
-    -   **Changes**: Initializes Firebase app, corrected persistence import for React Native environment.
--   ****: New file for authentication UI.
-    -   **Changes**: Implements screens for user login and registration with Email/Password and Google Sign-In options.
--   ****: New file.
-    -   **Changes**: Provides an authentication context using Firebase, managing  state and loading status.
--   ****: Main app layout.
-    -   **Changes**: Wrapped children with . Implemented conditional navigation to redirect to  if no user is logged in, otherwise renders tabs.
--   ****: Profile screen.
-    -   **Changes**: Added a temporary Login/Cadastro button for testing authentication. Replaced with conditional display: user info (email, UID) and Logout button if authenticated, Login/Cadastro button if not.
--   ****: Express.js server for website.
-    -   **Changes**: Applied translations to download buttons, FAQ, Contact form. Fixed responsive display of images, adjusted button styles. Implemented Admin Dashboard with login, logout, and proxy routes to backend analytics. Corrected favicon for legal pages.
--   ****: Website CSS.
-    -   **Changes**: Added styles for FAQ accordion, responsive Contact form, image display on mobile, download button colors, legal page formatting, and increased mobile logo size.
--   ****: Supervisor config for website.
-    -   **Changes**: New file created to manage the  process on port 9000.
+-   ****: Added  endpoint and updated  model.
+-   ****:  and  methods updated to use .
+-   ****: Modified Luna's audio response logic, translated quick action messages, and added chat date separators. Updated logo image.
+-   ****: Updated to use the custom  logo.
+-   ****: **New component** to display date separators in chat.
+-   ****: Implemented platform-specific Google Sign-In, removed Continuar sem Conta button.
+-   ****: Logout button uses platform-specific confirmation and  translations.
+-   ****: Automatically synchronizes Firebase UID with backend. Corrected  construction.
+-   ****: Added missing translations for auth and quick action messages.
+-   ****: Prioritizes .
+-   ****: Enforces mandatory authentication.
+-   ****: Adjusted session cookie settings and added admin login redirect.
+-   ****: Enhanced to display real-time analytics and user list from Vercel Serverless APIs. Corrected API paths and added favicon.
+-   ****: Configured to include Python serverless functions for admin APIs.
+-   ****: **New directory**. Contains serverless versions of admin APIs: , , , .
+-   ****: **New image file**, custom heart logo.
+-   ****: **New image file**, favicon for admin.
+-   ****: **New documentation** for MongoDB Atlas setup and migration.
+-   ****: **New documentation** for deploying backend to Vercel Serverless.
 </code_architecture>
 
 <pending_tasks>
-- Frontend integration of Google Sign-In (Email/Password is implemented, but specific Google Sign-In button/logic needs to be verified/completed).
-- Implement Apple Sign-In (skipped for now due to missing Apple Developer Account).
-- Sync Firebase UID with the Backend (identified as a next step after auth setup).
-- Implement route protection to force login for specific app sections.
-- Implement remaining visual redesign elements for website (iPhone mockup in Hero, micro-animations for sections, full page review).
-- RevenueCat integration for monetization.
-- CMS integration for Blog/Studies.
-- Admin dashboard is present but requires further development and integration to be fully functional.
+-   Implement Apple Sign-In.
+-   Complete backend migration for complex APIs (TTS, LLM) to Vercel Serverless.
+-   Implement remaining website visual redesign (iPhone mockup, micro-animations, full page review).
+-   RevenueCat integration for monetization.
+-   CMS integration for Blog/Studies.
+-   Configure OAuth Consent Screen in Google Cloud Console for custom app name/logo in Google Sign-In.
+-   Configure custom email (e.g., ).
+-   Final testing of Google Sign-In on a physical device (requires native build and SHA-1 setup).
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was working on integrating Firebase authentication into the mobile application. The core Firebase setup has been completed, and  has been created to manage the authentication state across the app, including conditional navigation between authenticated (main tabs) and unauthenticated () states.
+Immediately prior to this summary, the AI engineer was working on migrating the backend APIs to Vercel Serverless Functions to serve the Admin Dashboard on  and other APIs. The core idea was to consolidate all services (website and backend APIs) under the Vercel platform using  paths.
 
-The most recent work involved refining the  screen. Initially, a temporary Login/Cadastro button was added for testing the new Firebase authentication flow. After the user successfully created an account, this temporary button was replaced. The current state of  conditionally displays either a user information section (showing the authenticated user's email and Firebase UID along with a Logout button) or a Login/Cadastro button if no user is currently logged in.
+The engineer successfully created serverless function files for basic admin analytics (, , , ) within  and updated  to route these Python functions. Critical steps included migrating local MongoDB data to MongoDB Atlas and configuring the  environment variable in Vercel.
 
-The engineer was in the process of restarting the Expo frontend to apply these latest UI changes and was about to provide a final summary of the authentication implementation.
+However, during the effort to migrate the *entire* backend to Vercel Serverless, it was identified that complex operations like Text-to-Speech (TTS) and LLM interactions, which rely on external APIs (ElevenLabs, OpenAI Whisper) and have specific API key requirements, might face limitations (e.g., 10-second request timeout on Vercel Hobby plan).
+
+The work concluded with the creation of , a detailed guide outlining the steps for a full serverless backend deployment strategy, rather than immediately implementing all remaining complex APIs as serverless functions. This guide is intended to prepare the user for future production deployment decisions.
 </current_work>
 
 <optional_next_step>
-Synchronize the Firebase User ID (UID) with the backend system for the authenticated user.
+Present the  to the user and confirm the preferred strategy for deploying the production backend.
 </optional_next_step>
