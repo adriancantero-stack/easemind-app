@@ -6,11 +6,19 @@
       "use": "@vercel/node"
     },
     {
+      "src": "api/*.py",
+      "use": "@vercel/python"
+    },
+    {
       "src": "styles/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/api/(admin_stats|mood_distribution|popular_sessions)",
+      "dest": "/api/$1.py"
+    },
     {
       "src": "/styles/(.*)",
       "dest": "/styles/$1"
