@@ -263,18 +263,35 @@ export default function HomeScreen() {
 
             {messages.length === 0 && <GreetingCard />}
 
-          {messages.map((msg, index) => (
-            <ChatBubble 
-              key={index} 
-              role={msg.role} 
-              content={msg.content}
-              isLatest={index === messages.length - 1}
-              messageId={msg.timestamp.toString()}
-              onPlayAudio={msg.role === 'assistant' ? handlePlayAudio : undefined}
-              isPlayingAudio={playingMessageId === msg.timestamp.toString() && isPlaying}
-              isLoadingAudio={playingMessageId === msg.timestamp.toString() && isLoadingAudio}
-            />
-          ))}
+            {messages.map((msg, index) => {
+              // Check if we need to show a date separator
+              const showDateSeparator = index === 0 || (() => {
+                const prevMsg = messages[index - 1];
+                const prevDate = new Date(prevMsg.timestamp);
+                const currDate = new Date(msg.timestamp);
+                
+                // Reset hours for day comparison
+                prevDate.setHours(0, 0, 0, 0);
+                currDate.setHours(0, 0, 0, 0);
+                
+                return prevDate.getTime() !== currDate.getTime();
+              })();
+
+              return (
+                <React.Fragment key={index}>
+                  {showDateSeparator && <DateSeparator timestamp={msg.timestamp} />}
+                  <ChatBubble 
+                    role={msg.role} 
+                    content={msg.content}
+                    isLatest={index === messages.length - 1}
+                    messageId={msg.timestamp.toString()}
+                    onPlayAudio={msg.role === 'assistant' ? handlePlayAudio : undefined}
+                    isPlayingAudio={playingMessageId === msg.timestamp.toString() && isPlaying}
+                    isLoadingAudio={playingMessageId === msg.timestamp.toString() && isLoadingAudio}
+                  />
+                </React.Fragment>
+              );
+            })}
 
           {isLoading && (
             <View style={styles.loadingContainer}>
