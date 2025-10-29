@@ -53,6 +53,30 @@ backend:
         agent: "testing"
         comment: "✅ POST /api/chat endpoint working with Firebase UID. Luna receives enhanced context including user's journal entries and profile data. Chat responses include proper correlation_id and response content."
 
+  - task: "User Profile Management API"
+    implemented: true
+    working: "pending_test"
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "✅ Implemented PUT /api/user/profile and GET /api/user/profile/{firebase_uid}. Endpoints support updating display_name, profile_photo (base64), goals, notification_enabled, preferred_time, age_range, and gender. Pending backend testing."
+
+  - task: "Luna Personalization with User Profile"
+    implemented: true
+    working: "pending_test"
+    file: "backend/orchestrator.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "✅ Updated inject_context_in_prompt() to use user's display_name and goals in conversations. Luna now addresses users by their preferred name and adapts responses based on selected goals. Pending integration testing."
+
 frontend:
   - task: "Firebase Authentication Integration"
     implemented: true
