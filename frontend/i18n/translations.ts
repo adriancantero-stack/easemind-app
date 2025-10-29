@@ -218,7 +218,7 @@ export const translations = {
       goalReduceAnxiety: 'Reduce anxiety',
       goalImproveSleep: 'Improve sleep',
       goalIncreaseFocus: 'Increase focus',
-      goalRegulateM mood: 'Regulate mood',
+      goalRegulateMood: 'Regulate mood',
       preferences: 'Preferences',
       notificationsEnabled: 'Notifications',
       preferredTime: 'Preferred Time',
