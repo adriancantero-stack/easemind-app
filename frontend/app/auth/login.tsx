@@ -295,12 +295,6 @@ export default function LoginScreen() {
             </Text>
           </TouchableOpacity>
 
-          {/* Skip Button */}
-          <TouchableOpacity onPress={handleSkip} style={styles.skipButton}>
-            <Text style={[styles.skipText, { color: currentTheme.textSecondary }]}>
-              {t('auth.skip')}
-            </Text>
-          </TouchableOpacity>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
