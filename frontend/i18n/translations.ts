@@ -195,6 +195,13 @@ export const translations = {
       lightMode: 'Light Mode',
       voiceEnabled: 'Enable Luna\'s natural voice',
       voiceDescription: 'Portuguese (Brasil) – natural female voice',
+      logout: 'Logout',
+      logoutConfirm: 'Are you sure you want to logout?',
+      logoutError: 'Could not logout. Please try again.',
+      cancel: 'Cancel',
+      signInUp: 'Sign In / Sign Up',
+      verified: 'Verified account',
+      error: 'Error',
     },
     about: {
       title: 'About EaseMind',
