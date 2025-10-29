@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { MoodPicker } from '../../components/MoodPicker';
 import { GreetingCard } from '../../components/GreetingCard';
 import { ChatBubble } from '../../components/ChatBubble';
+import { DateSeparator } from '../../components/DateSeparator';
 import { VoiceButton } from '../../components/VoiceButton';
 import { LunaAvatar } from '../../components/LunaAvatar';
 import { useVoiceRecording } from '../../hooks/useVoiceRecording';
