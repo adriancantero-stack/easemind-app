@@ -150,6 +150,8 @@ test_plan:
     - "User Context Retrieval with Firebase UID"
     - "Journal Integration with Firebase UID"
     - "Chat Integration with Firebase UID Context"
+    - "User Profile Management API" (NEW)
+    - "Luna Personalization with User Profile" (NEW)
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
