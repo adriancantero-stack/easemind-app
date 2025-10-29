@@ -102,6 +102,42 @@ frontend:
         agent: "testing"
         comment: "Frontend testing not performed as per system limitations. useStore.ts modified to prioritize Firebase UID over local guest ID."
 
+  - task: "Edit Profile Screen"
+    implemented: true
+    working: "pending_test"
+    file: "frontend/app/profile/edit-profile.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "✅ Created full profile editing screen with: display name input, profile photo upload (base64), multi-select goals, notification toggle, preferred time picker, age range and gender selectors. All fields use i18n translations in 3 languages. Integrated with PUT /api/user/profile endpoint. Pending frontend testing."
+
+  - task: "Profile Page Edit Button"
+    implemented: true
+    working: "pending_test"
+    file: "frontend/app/(tabs)/profile.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "✅ Added 'Edit Profile' button to profile page that navigates to /profile/edit-profile. Button only visible for authenticated users. Pending frontend testing."
+
+  - task: "i18n Translations for Profile Editing"
+    implemented: true
+    working: "pending_test"
+    file: "frontend/i18n/translations.ts"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "✅ Added complete translations for profile editing in English, Portuguese (BR), and Spanish. Includes all field labels, placeholders, options (goals, time preferences, age ranges, genders), and success/error messages. Pending frontend testing."
+
 metadata:
   created_by: "main_agent"
   version: "2.0"
