@@ -100,6 +100,18 @@ export default function ProfileScreen() {
                 </Text>
               </View>
             </View>
+            
+            {/* Botão Editar Perfil */}
+            <TouchableOpacity
+              style={[styles.editProfileButton, { backgroundColor: currentTheme.accent1 }]}
+              onPress={() => router.push('/profile/edit-profile')}
+            >
+              <Ionicons name="create-outline" size={20} color="#FFF" />
+              <Text style={styles.editProfileButtonText}>
+                {t('profile.editProfile')}
+              </Text>
+            </TouchableOpacity>
+            
             <TouchableOpacity
               style={[styles.logoutButton, { backgroundColor: '#FF6B6B' }]}
               onPress={handleLogout}
