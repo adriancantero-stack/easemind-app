@@ -195,10 +195,6 @@ export default function LoginScreen() {
     }
   };
 
-  const handleSkip = () => {
-    router.replace('/(tabs)/');
-  };
-
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]}>
       <KeyboardAvoidingView 
