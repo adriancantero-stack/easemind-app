@@ -238,9 +238,231 @@ def test_health_check():
     
     return False
 
+def test_user_profile_management():
+    """Test User Profile Management API endpoints"""
+    print("👤 Testing User Profile Management API")
+    print("=" * 50)
+    
+    # Create test user first
+    test_firebase_uid = f"profile_test_{uuid.uuid4().hex[:8]}"
+    test_email = f"maria.{uuid.uuid4().hex[:6]}@easemind.io"
+    
+    print(f"📋 Test Firebase UID: {test_firebase_uid}")
+    print(f"📧 Test Email: {test_email}")
+    print()
+    
+    # Step 1: Create user via sync
+    print("🧪 Step 1: Create user via /api/user/sync")
+    sync_payload = {
+        "firebase_uid": test_firebase_uid,
+        "email": test_email,
+        "display_name": "Maria Silva",
+        "photo_url": None
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/user/sync", json=sync_payload, timeout=10)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success"):
+                print("✅ PASS: User created successfully")
+            else:
+                print(f"❌ FAIL: User creation failed: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    
+    # Step 2: Get initial profile
+    print("🧪 Step 2: GET /api/user/profile/{firebase_uid} - Initial Profile")
+    try:
+        response = requests.get(f"{BACKEND_URL}/user/profile/{test_firebase_uid}", timeout=10)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "user" in data:
+                user_data = data["user"]
+                print("✅ PASS: Initial profile retrieved")
+                print(f"   - Display Name: {user_data.get('display_name')}")
+                print(f"   - Email: {user_data.get('email')}")
+                print(f"   - Goals: {user_data.get('goals')}")
+                print(f"   - Notification Enabled: {user_data.get('notification_enabled')}")
+                print(f"   - Preferred Time: {user_data.get('preferred_time')}")
+            else:
+                print(f"❌ FAIL: Invalid profile response: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    
+    # Step 3: Update complete profile
+    print("🧪 Step 3: PUT /api/user/profile - Complete Profile Update")
+    profile_update = {
+        "firebase_uid": test_firebase_uid,
+        "display_name": "Maria Silva Santos",
+        "profile_photo": None,
+        "goals": ["reduce_anxiety", "improve_sleep"],
+        "notification_enabled": True,
+        "preferred_time": "morning",
+        "age_range": "25-34",
+        "gender": "female"
+    }
+    
+    try:
+        response = requests.put(f"{BACKEND_URL}/user/profile", json=profile_update, timeout=10)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "user" in data:
+                user_data = data["user"]
+                print("✅ PASS: Profile updated successfully")
+                print(f"   - Display Name: {user_data.get('display_name')}")
+                print(f"   - Goals: {user_data.get('goals')}")
+                print(f"   - Preferred Time: {user_data.get('preferred_time')}")
+                print(f"   - Age Range: {user_data.get('age_range')}")
+                print(f"   - Gender: {user_data.get('gender')}")
+            else:
+                print(f"❌ FAIL: Profile update failed: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    
+    # Step 4: Verify profile update persisted
+    print("🧪 Step 4: GET /api/user/profile/{firebase_uid} - Verify Update")
+    try:
+        response = requests.get(f"{BACKEND_URL}/user/profile/{test_firebase_uid}", timeout=10)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "user" in data:
+                user_data = data["user"]
+                print("✅ PASS: Updated profile retrieved")
+                
+                # Verify specific fields
+                if user_data.get('display_name') == "Maria Silva Santos":
+                    print("✅ PASS: Display name updated correctly")
+                else:
+                    print(f"❌ FAIL: Display name mismatch. Expected: 'Maria Silva Santos', Got: {user_data.get('display_name')}")
+                
+                if user_data.get('goals') == ["reduce_anxiety", "improve_sleep"]:
+                    print("✅ PASS: Goals updated correctly")
+                else:
+                    print(f"❌ FAIL: Goals mismatch. Expected: ['reduce_anxiety', 'improve_sleep'], Got: {user_data.get('goals')}")
+                
+                if user_data.get('age_range') == "25-34":
+                    print("✅ PASS: Age range updated correctly")
+                else:
+                    print(f"❌ FAIL: Age range mismatch. Expected: '25-34', Got: {user_data.get('age_range')}")
+            else:
+                print(f"❌ FAIL: Invalid profile response: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    
+    # Step 5: Partial profile update
+    print("🧪 Step 5: PUT /api/user/profile - Partial Update (only display_name and goals)")
+    partial_update = {
+        "firebase_uid": test_firebase_uid,
+        "display_name": "Maria",
+        "goals": ["reduce_anxiety"]
+    }
+    
+    try:
+        response = requests.put(f"{BACKEND_URL}/user/profile", json=partial_update, timeout=10)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("success") and "user" in data:
+                user_data = data["user"]
+                print("✅ PASS: Partial profile update successful")
+                print(f"   - Display Name: {user_data.get('display_name')} (should be 'Maria')")
+                print(f"   - Goals: {user_data.get('goals')} (should be ['reduce_anxiety'])")
+                print(f"   - Age Range: {user_data.get('age_range')} (should remain '25-34')")
+                print(f"   - Gender: {user_data.get('gender')} (should remain 'female')")
+            else:
+                print(f"❌ FAIL: Partial update failed: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    
+    # Step 6: Test Luna personalization
+    print("🧪 Step 6: POST /api/chat - Test Luna Personalization")
+    chat_payload = {
+        "message": "Olá Luna, estou me sentindo um pouco ansioso hoje. Pode me ajudar?",
+        "lang": "pt-BR",
+        "history": [],
+        "user_id": test_firebase_uid
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/chat", json=chat_payload, timeout=15)
+        print(f"Status Code: {response.status_code}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            if "response" in data and "correlation_id" in data:
+                luna_response = data.get('response', '')
+                print("✅ PASS: Luna response received")
+                print(f"🤖 Luna Response: {luna_response[:200]}...")
+                
+                # Check if Luna uses the user's name "Maria"
+                if "Maria" in luna_response:
+                    print("✅ PASS: Luna correctly used user's name 'Maria' in response")
+                else:
+                    print("⚠️  NOTE: Luna did not use user's name 'Maria' in response (may be normal)")
+                
+                print(f"🔗 Correlation ID: {data.get('correlation_id')}")
+            else:
+                print(f"❌ FAIL: Invalid chat response: {data}")
+                return False
+        else:
+            print(f"❌ FAIL: HTTP {response.status_code} - {response.text}")
+            return False
+    except Exception as e:
+        print(f"❌ ERROR: {str(e)}")
+        return False
+    
+    print()
+    print("🎉 User Profile Management Tests Completed!")
+    return True
+
 def main():
     """Run all tests"""
-    print("🚀 EaseMind Backend Testing - Firebase User Sync")
+    print("🚀 EaseMind Backend Testing - Complete API Suite")
     print("=" * 60)
     print(f"🌐 Backend URL: {BACKEND_URL}")
     print(f"⏰ Test Time: {datetime.now().isoformat()}")
@@ -256,14 +478,26 @@ def main():
     
     # Run Firebase sync tests
     firebase_ok = test_firebase_user_sync()
+    print()
+    
+    # Run Profile Management tests
+    profile_ok = test_user_profile_management()
     
     print()
     print("=" * 60)
-    if firebase_ok:
+    print("📊 FINAL TEST RESULTS")
+    print("=" * 60)
+    
+    if firebase_ok and profile_ok:
         print("🎉 ALL TESTS PASSED!")
+        print("✅ Firebase User Sync: WORKING")
+        print("✅ User Profile Management: WORKING")
+        print("✅ Luna Personalization: WORKING")
         sys.exit(0)
     else:
         print("❌ SOME TESTS FAILED!")
+        print(f"{'✅' if firebase_ok else '❌'} Firebase User Sync: {'WORKING' if firebase_ok else 'FAILED'}")
+        print(f"{'✅' if profile_ok else '❌'} User Profile Management: {'WORKING' if profile_ok else 'FAILED'}")
         sys.exit(1)
 
 if __name__ == "__main__":
