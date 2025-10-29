@@ -474,6 +474,42 @@
           sessionsBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma sessão encontrada</td></tr>';
         }
 
+        // Load users list
+        const usersRes = await fetch('/api/list_users', {
+          credentials: 'same-origin'
+        });
+        
+        if (!usersRes.ok) {
+          throw new Error(`HTTP error! status: ${usersRes.status}`);
+        }
+        
+        const usersData = await usersRes.json();
+        const users = usersData.users;
+
+        const usersBody = document.getElementById('usersBody');
+        if (users && users.length > 0) {
+          usersBody.innerHTML = users.map(user => {
+            const createdDate = user.created_at ? new Date(user.created_at).toLocaleDateString('pt-BR') : '-';
+            const lastLogin = user.last_login ? new Date(user.last_login).toLocaleDateString('pt-BR') : '-';
+            const languageFlag = {
+              'pt-BR': '🇧🇷',
+              'en': '🇺🇸',
+              'es': '🇪🇸'
+            }[user.language] || '🌍';
+            
+            return `
+            <tr>
+              <td><strong>${user.email || '-'}</strong></td>
+              <td>${user.display_name || 'Usuário'}</td>
+              <td>${languageFlag} ${user.language || '-'}</td>
+              <td><small>${createdDate}</small></td>
+              <td><small>${lastLogin}</small></td>
+            </tr>
+          `}).join('');
+        } else {
+          usersBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>';
+        }
+
         // Hide loading, show dashboard
         document.getElementById('loading').style.display = 'none';
         document.getElementById('dashboard').style.display = 'block';
