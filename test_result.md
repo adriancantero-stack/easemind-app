@@ -165,3 +165,5 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "✅ ALL FIREBASE USER SYNC TESTS PASSED! Backend endpoints working correctly: 1) /api/user/sync creates/updates users properly 2) /api/user-context/{firebase_uid} retrieves context successfully 3) /api/journal endpoints work with Firebase UID 4) /api/chat integrates Firebase UID context. All 6 test scenarios completed successfully. Firebase UID synchronization is fully functional."
+  - agent: "testing"
+    message: "🎉 NEW PROFILE ENDPOINTS TESTING COMPLETE - ALL WORKING PERFECTLY! Comprehensive testing of user profile management system: ✅ GET /api/user/profile/{firebase_uid} - retrieves complete profiles with all fields ✅ PUT /api/user/profile - handles both complete and partial updates correctly ✅ Luna personalization - uses display_name ('Maria', 'João Silva') and adapts to user goals (reduce_anxiety, improve_sleep) ✅ All data persists correctly in MongoDB ✅ Enhanced system prompt injection working ✅ User context integration functioning properly. The EaseMind profile system is fully operational and ready for production use!"
