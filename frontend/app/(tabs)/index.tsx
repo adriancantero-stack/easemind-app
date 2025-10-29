@@ -194,8 +194,8 @@ export default function HomeScreen() {
         const transcribedText = await transcribeAudio(audioUri, backendUrl);
         console.log('📝 Transcription result:', transcribedText);
         if (transcribedText) {
-          // Auto-send transcribed text
-          await sendMessage(transcribedText);
+          // Auto-send transcribed text WITH voice flag (true)
+          await sendMessage(transcribedText, true);
         } else {
           Alert.alert('Erro', 'Não foi possível transcrever o áudio.');
         }
