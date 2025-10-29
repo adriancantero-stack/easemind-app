@@ -77,9 +77,9 @@ export default function HomeScreen() {
 
   const handleQuickAction = async (action: string) => {
     const actionTexts: Record<string, string> = {
-      breathe: 'I need help with breathing',
-      calm: 'I need to calm down right now',
-      note: 'I want to write down my thoughts',
+      breathe: t('home.quickMessages.breathe'),
+      calm: t('home.quickMessages.calm'),
+      note: t('home.quickMessages.note'),
     };
     await sendMessage(actionTexts[action]);
   };
