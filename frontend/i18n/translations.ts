@@ -455,6 +455,13 @@ export const translations = {
       termsOfUse: 'Termos de Uso',
       darkMode: 'Modo Escuro',
       lightMode: 'Modo Claro',
+      logout: 'Sair da Conta',
+      logoutConfirm: 'Tem certeza que deseja sair?',
+      logoutError: 'Não foi possível sair da conta. Tente novamente.',
+      cancel: 'Cancelar',
+      signInUp: 'Entrar / Cadastrar',
+      verified: 'Conta verificada',
+      error: 'Erro',
     },
     about: {
       title: 'Sobre EaseMind',
