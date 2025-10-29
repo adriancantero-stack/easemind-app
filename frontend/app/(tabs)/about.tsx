@@ -29,7 +29,7 @@ export default function AboutScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Image 
-            source={require('../../assets/images/icon.png')} 
+            source={require('../../assets/images/icone-easemind.png')} 
             style={styles.logo}
             resizeMode="contain"
           />
