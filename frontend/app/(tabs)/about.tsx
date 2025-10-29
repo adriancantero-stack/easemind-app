@@ -29,7 +29,7 @@ export default function AboutScreen() {
         {/* Header */}
         <View style={styles.header}>
           <Image 
-            source={isDarkMode ? require('../../assets/images/logo-easemind-dark.png') : require('../../assets/images/logo-easemind.png')} 
+            source={require('../../assets/images/icon.png')} 
             style={styles.logo}
             resizeMode="contain"
           />
