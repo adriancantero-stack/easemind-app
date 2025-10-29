@@ -886,6 +886,16 @@ class UserSyncRequest(BaseModel):
     display_name: Optional[str] = None
     photo_url: Optional[str] = None
 
+class UserProfileUpdateRequest(BaseModel):
+    firebase_uid: str
+    display_name: Optional[str] = None
+    profile_photo: Optional[str] = None  # base64
+    goals: Optional[list] = []
+    notification_enabled: Optional[bool] = True
+    preferred_time: Optional[str] = "morning"
+    age_range: Optional[str] = None
+    gender: Optional[str] = None
+
 @app.post("/api/user/sync")
 async def sync_firebase_user(request: UserSyncRequest):
     """
