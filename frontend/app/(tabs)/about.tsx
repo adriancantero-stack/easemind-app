@@ -178,6 +178,11 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     textAlign: 'center',
   },
+  logo: {
+    width: 80,
+    height: 80,
+    marginBottom: 16,
+  },
   section: {
     padding: 20,
     borderRadius: 16,
