@@ -291,6 +291,11 @@ export const translations = {
         calm: 'Acalmar agora',
         note: 'Anotar pensamento',
       },
+      quickMessages: {
+        breathe: 'Preciso de ajuda com respiração',
+        calm: 'Preciso me acalmar agora',
+        note: 'Quero anotar meus pensamentos',
+      },
     },
     panic: {
       title: 'Respire Comigo',
