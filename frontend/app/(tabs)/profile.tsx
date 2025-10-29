@@ -96,7 +96,7 @@ export default function ProfileScreen() {
                   {user?.email}
                 </Text>
                 <Text style={[styles.userStatus, { color: currentTheme.textSecondary }]}>
-                  ✅ Conta verificada
+                  ✅ {t('profile.verified')}
                 </Text>
               </View>
             </View>
@@ -106,7 +106,7 @@ export default function ProfileScreen() {
             >
               <Ionicons name="log-out-outline" size={20} color="#FFF" />
               <Text style={styles.logoutButtonText}>
-                Sair da Conta
+                {t('profile.logout')}
               </Text>
             </TouchableOpacity>
           </View>
@@ -117,7 +117,7 @@ export default function ProfileScreen() {
           >
             <Ionicons name="log-in-outline" size={20} color="#FFF" />
             <Text style={styles.loginButtonText}>
-              Entrar / Cadastrar
+              {t('profile.signInUp')}
             </Text>
           </TouchableOpacity>
         )}
