@@ -24,7 +24,7 @@ export default function ProfileScreen() {
     // Platform-specific confirmation
     if (Platform.OS === 'web') {
       // Use browser confirm dialog for web
-      const confirmed = window.confirm('Tem certeza que deseja sair?');
+      const confirmed = window.confirm(t('profile.logoutConfirm'));
       if (!confirmed) return;
       
       try {
@@ -34,17 +34,17 @@ export default function ProfileScreen() {
         // O AuthContext detectará automaticamente a mudança de estado
       } catch (error) {
         console.error('❌ Erro ao fazer logout:', error);
-        window.alert('Não foi possível sair da conta. Tente novamente.');
+        window.alert(t('profile.logoutError'));
       }
     } else {
       // Use native Alert for mobile
       Alert.alert(
-        'Sair da Conta',
-        'Tem certeza que deseja sair?',
+        t('profile.logout'),
+        t('profile.logoutConfirm'),
         [
-          { text: 'Cancelar', style: 'cancel' },
+          { text: t('profile.cancel'), style: 'cancel' },
           {
-            text: 'Sair',
+            text: t('profile.logout'),
             style: 'destructive',
             onPress: async () => {
               try {
@@ -53,7 +53,7 @@ export default function ProfileScreen() {
                 console.log('✅ Logout realizado com sucesso');
               } catch (error) {
                 console.error('❌ Erro ao fazer logout:', error);
-                Alert.alert('Erro', 'Não foi possível sair da conta. Tente novamente.');
+                Alert.alert(t('profile.error'), t('profile.logoutError'));
               }
             },
           },
