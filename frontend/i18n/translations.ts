@@ -472,6 +472,8 @@ export const translations = {
       error: 'Erro',
       fillContent: 'Por favor, escreva como você se sente',
       saveFailed: 'Falha ao salvar entrada',
+      success: 'Sucesso',
+      entrySaved: 'Entrada salva com sucesso!',
       completed: 'Completou',
       session: 'sessão',
       sessions: 'sessões',
