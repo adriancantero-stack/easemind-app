@@ -115,11 +115,23 @@ export default function ProfileScreen() {
         {isAuthenticated ? (
           <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
             <View style={styles.userInfo}>
-              <Ionicons name="person-circle" size={48} color={currentTheme.accent1} />
+              {userProfile?.profile_photo ? (
+                <Image 
+                  source={{ uri: userProfile.profile_photo }} 
+                  style={styles.profileAvatar}
+                />
+              ) : (
+                <Ionicons name="person-circle" size={48} color={currentTheme.accent1} />
+              )}
               <View style={styles.userDetails}>
                 <Text style={[styles.userName, { color: currentTheme.text }]}>
-                  {user?.email}
+                  {userProfile?.display_name || user?.email}
                 </Text>
+                {userProfile?.display_name && (
+                  <Text style={[styles.userEmail, { color: currentTheme.textMuted }]}>
+                    {user?.email}
+                  </Text>
+                )}
                 <Text style={[styles.userStatus, { color: currentTheme.textSecondary }]}>
                   ✅ {t('profile.verified')}
                 </Text>
