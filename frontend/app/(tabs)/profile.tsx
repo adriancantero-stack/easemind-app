@@ -19,6 +19,31 @@ export default function ProfileScreen() {
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
+  
+  const [userProfile, setUserProfile] = React.useState<any>(null);
+
+  // Buscar perfil do usuário
+  React.useEffect(() => {
+    const fetchProfile = async () => {
+      if (!user?.uid) return;
+      
+      try {
+        const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL;
+        const response = await fetch(`${backendUrl}/api/user/profile/${user.uid}`);
+        
+        if (response.ok) {
+          const data = await response.json();
+          setUserProfile(data.user);
+        }
+      } catch (error) {
+        console.error('Erro ao buscar perfil:', error);
+      }
+    };
+
+    if (isAuthenticated) {
+      fetchProfile();
+    }
+  }, [user?.uid, isAuthenticated]);
 
   const handleLogout = async () => {
     // Platform-specific confirmation
