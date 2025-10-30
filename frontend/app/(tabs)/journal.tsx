@@ -163,8 +163,19 @@ export default function JournalScreen() {
       });
 
       console.log('📓 Response status:', response.status);
-      const responseData = await response.json();
-      console.log('📓 Response data:', responseData);
+      
+      // Verificar se a resposta é JSON válida
+      const contentType = response.headers.get('content-type');
+      let responseData;
+      
+      if (contentType && contentType.includes('application/json')) {
+        responseData = await response.json();
+        console.log('📓 Response data:', responseData);
+      } else {
+        const textResponse = await response.text();
+        console.log('📓 Response text:', textResponse);
+        responseData = { detail: textResponse };
+      }
 
       if (response.ok) {
         console.log('✅ Journal entry created successfully');
