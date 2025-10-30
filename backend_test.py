@@ -584,7 +584,7 @@ def test_luna_display_name_fix():
         if response.status_code == 200:
             data = response.json()
             context = data.get("context", {})
-            profile = context.get("profile", {})
+            profile = context.get("user_profile", {})
             context_display_name = profile.get("display_name")
             
             if context_display_name == custom_display_name:
