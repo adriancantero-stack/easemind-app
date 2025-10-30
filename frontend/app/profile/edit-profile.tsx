@@ -158,7 +158,7 @@ export default function EditProfileScreen() {
         throw new Error('Usuário não autenticado');
       }
 
-      const backendUrl = Constants.expoConfig?.extra?.EXPO_PACKAGER_PROXY_URL;
+      const backendUrl = Constants.expoConfig?.extra?.EXPO_PACKAGER_HOSTNAME;
       const response = await fetch(`${backendUrl}/api/user/profile`, {
         method: 'PUT',
         headers: {
