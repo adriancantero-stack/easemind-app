@@ -207,8 +207,8 @@ export default function LoginScreen() {
           <View style={styles.header}>
             <Image 
               source={isDarkMode 
-                ? require('../../assets/images/logo-easemind-dark.png')
-                : require('../../assets/images/logo-easemind-new.png')
+                ? require('../../assets/images/logo-easemind-dark-new.png')
+                : require('../../assets/images/logo-easemind-light.png')
               }
               style={styles.logoImage}
               resizeMode="contain"
