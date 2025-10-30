@@ -205,7 +205,14 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={styles.scrollContent}>
           {/* Logo/Header */}
           <View style={styles.header}>
-            <Text style={[styles.logo, { color: currentTheme.accent1 }]}>EaseMind</Text>
+            <Image 
+              source={isDarkMode 
+                ? require('../../assets/images/logo-easemind-dark.png')
+                : require('../../assets/images/logo-easemind-new.png')
+              }
+              style={styles.logoImage}
+              resizeMode="contain"
+            />
             <Text style={[styles.subtitle, { color: currentTheme.textSecondary }]}>
               {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
             </Text>
