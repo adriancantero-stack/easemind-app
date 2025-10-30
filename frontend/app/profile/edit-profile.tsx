@@ -159,6 +159,18 @@ export default function EditProfileScreen() {
       }
 
       const backendUrl = Constants.expoConfig?.extra?.EXPO_PACKAGER_HOSTNAME;
+      console.log('🔍 Backend URL:', backendUrl);
+      console.log('🔍 Firebase UID:', user.uid);
+      console.log('🔍 Dados do perfil:', {
+        firebase_uid: user.uid,
+        display_name: displayName,
+        goals: selectedGoals,
+        notification_enabled: notificationEnabled,
+        preferred_time: preferredTime,
+        age_range: ageRange,
+        gender: gender,
+      });
+
       const response = await fetch(`${backendUrl}/api/user/profile`, {
         method: 'PUT',
         headers: {
@@ -176,11 +188,17 @@ export default function EditProfileScreen() {
         }),
       });
 
+      console.log('📡 Response status:', response.status);
+      console.log('📡 Response ok:', response.ok);
+
       if (!response.ok) {
+        const errorText = await response.text();
+        console.error('❌ Erro na resposta:', errorText);
         throw new Error('Falha ao salvar perfil');
       }
 
       const data = await response.json();
+      console.log('✅ Perfil salvo:', data);
 
       if (Platform.OS === 'web') {
         window.alert(t('profile.saveSuccess'));
@@ -190,7 +208,7 @@ export default function EditProfileScreen() {
       
       router.back();
     } catch (error) {
-      console.error('Erro ao salvar perfil:', error);
+      console.error('❌ Erro ao salvar perfil:', error);
       
       if (Platform.OS === 'web') {
         window.alert(t('profile.saveError'));
