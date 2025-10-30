@@ -1,53 +1,58 @@
 <analysis>
-The AI engineer's work in this trajectory was highly iterative, addressing a wide range of features, fixes, and architectural adjustments across the Expo mobile app and the institutional website. Initial efforts focused on integrating Firebase authentication (Email/Password, Google Sign-In) and synchronizing user UIDs with the backend. This involved extensive debugging of platform-specific behaviors (web vs. native) for Firebase and UI elements like logout. Concurrently, the Admin Dashboard was enhanced to display real-time analytics, leading to a complex migration of backend data from local MongoDB to MongoDB Atlas and adapting backend APIs for Vercel serverless deployment. Other mobile app improvements included Luna's audio response logic, quick action button translations, and chat date separators. The process demonstrated strong problem-solving, utilizing troubleshooting agents when stuck, and thorough communication with the user regarding deployment complexities and next steps. The final action involved creating a detailed guide for serverless backend deployment.
+The AI engineer's work in this trajectory centered on implementing a new user profile customization feature for the EaseMind app, as requested by the user. Initially, the focus was on establishing the feature's scope, including user-defined names, photos, goals, and notification preferences, accessible via an Edit Profile button. The implementation followed a structured plan: backend updates for user data persistence, frontend development for the profile editing UI in three languages, and integrating this data into Luna's AI context.
+
+Significant challenges arose during frontend integration, primarily with environment variable access ( vs. ) and ensuring  was installed. The AI meticulously debugged these issues using logs and user feedback, correcting URL construction and variable access in  and . Finally, UI refinements were made to display the chosen name and profile picture on the profile screen. The trajectory concluded with the user reporting that Luna was incorrectly using the full name instead of the specified display name, indicating a remaining issue with Luna's context utilization.
 </analysis>
 
 <product_requirements>
-The EaseMind application is a mobile-first emotional support tool featuring an AI chat (Luna), guided sessions, a panic button, and a journal, designed with multi-language support and an Apple-like serenity aesthetic. The accompanying institutional website (easemind.io) provides public pages and an Admin Dashboard. Recent development cycles addressed:
-1.  **Website Enhancements**: Improved responsiveness, standardized translations, a redesigned FAQ, and a new Admin Dashboard with analytics integration.
-2.  **Mobile App AI Chat**: Optimized TTS, initial word-by-word animation (later simplified), chat date separators, and translated quick action messages.
-3.  **Guided Sessions**: Implemented with custom timings, background audio, and UI/UX refinements.
-4.  **Panic Button (SOS)**: Developed an SOS session with guided voice, calming music, breathing animation, and locale-specific emergency contacts.
-5.  **Journal Features**: Redesigned entry flow, integrated journal entries into Luna's AI context, and added emotional trend statistics.
-6.  **Authentication**: Integrated Firebase Email/Password and Google Sign-In, including backend UID synchronization and mandatory login.
-7.  **Admin Dashboard**: To display real-time user statistics, session data, and mood distribution on the  page, connected to a cloud MongoDB.
+The EaseMind application is a mobile-first emotional support tool featuring an AI chat (Luna), guided sessions, a panic button, and a journal, designed with multi-language support and an Apple-like serenity aesthetic. The institutional website provides public pages and an Admin Dashboard with analytics.
+
+**Explicit User Request (New Feature - User Profile):**
+The user requested a customizable profile section where users can:
+- Define a .
+- Upload an optional .
+- Select multiple  (e.g., reduce anxiety, improve sleep, increase focus, regulate mood).
+- Configure  (enable/disable, preferred time).
+- Optionally provide  and .
+
+This profile should be accessible via an Edit Profile button (not mandatory onboarding). Luna should use this information to personalize conversations (using display name, adapting responses, suggesting sessions based on goals). Notification preferences should be saved but not immediately implement push notifications. The design must follow the existing minimalist style and be implemented in 3 languages (PT-BR, EN, ES).
 </product_requirements>
 
 <key_technical_concepts>
--   **Expo Router**: File-based routing for mobile.
--   **React Native**: Core mobile UI framework.
--   **FastAPI**: Python backend API.
--   **Express.js**: Node.js server for website.
--   **MongoDB**: Database (local and Atlas for cloud).
--   **Firebase Auth**: User authentication (Email/Password, Google Sign-In).
--   **Vercel Serverless Functions**: For deploying Python backend APIs on Vercel.
--   **Zustand**: State management for mobile.
--   **i18n-js, expo-localization**: Multi-language support.
--   **useRef**: React hook for state synchronization.
+-   **Expo Router**: For file-based routing in the mobile application.
+-   **React Native**: Core framework for mobile UI development.
+-   **FastAPI**: Python backend for API endpoints and business logic.
+-   **MongoDB**: Database for user and application data.
+-   **Firebase Auth**: Used for user authentication.
+-   **i18n-js, expo-localization**: For multi-language support.
+-   **expo-image-picker**: Library for handling image uploads.
+-   **Environment Variables**:  for backend API calls.
 </key_technical_concepts>
 
 <code_architecture>
 
 
--   ****: Added  endpoint and updated  model.
--   ****:  and  methods updated to use .
--   ****: Modified Luna's audio response logic, translated quick action messages, and added chat date separators. Updated logo image.
--   ****: Updated to use the custom  logo.
--   ****: **New component** to display date separators in chat.
--   ****: Implemented platform-specific Google Sign-In, removed Continuar sem Conta button.
--   ****: Logout button uses platform-specific confirmation and  translations.
--   ****: Automatically synchronizes Firebase UID with backend. Corrected  construction.
--   ****: Added missing translations for auth and quick action messages.
--   ****: Prioritizes .
--   ****: Enforces mandatory authentication.
--   ****: Adjusted session cookie settings and added admin login redirect.
--   ****: Enhanced to display real-time analytics and user list from Vercel Serverless APIs. Corrected API paths and added favicon.
--   ****: Configured to include Python serverless functions for admin APIs.
--   ****: **New directory**. Contains serverless versions of admin APIs: , , , .
--   ****: **New image file**, custom heart logo.
--   ****: **New image file**, favicon for admin.
--   ****: **New documentation** for MongoDB Atlas setup and migration.
--   ****: **New documentation** for deploying backend to Vercel Serverless.
+-   ****:
+    -   **Importance**: Defines the backend API endpoints for the application.
+    -   **Changes**: Added  Pydantic model for validating incoming profile update requests and a  endpoint to handle updating user profiles in MongoDB.
+-   ****:
+    -   **Importance**: Manages the core logic for Luna's AI interactions, including user context and prompt generation.
+    -   **Changes**: Modified  to retrieve new profile fields (, , , , , ) from the user's document. Updated  to include  and  for personalized Luna responses.
+-   ****:
+    -   **Importance**: Centralized file for all multi-language strings used in the frontend.
+    -   **Changes**: Added new translation keys for profile fields (e.g., , , ), notification settings, age range, gender, and relevant button texts across Portuguese, English, and Spanish.
+-   ****:
+    -   **Importance**: Displays the user's main profile information.
+    -   **Changes**: Added an ✏️ Editar Perfil button that navigates to the new  screen. Modified to fetch and display the user's  and  (as a circular avatar) if available, falling back to the default icon and email.
+-   ** (New file)**:
+    -   **Importance**: Provides the UI for users to customize and update their profile details.
+    -   **Changes**: Created this new screen with input fields for ,  (using ), multi-selection for , a toggle for notification preferences with a time picker, and dropdowns for  and . Implemented  and  functions to interact with the backend API.
+-   ****:
+    -   **Importance**: Configuration file for the Expo application, including extra properties like environment variables.
+    -   **Changes**: Ensured  is correctly exposed via  for frontend access.
+-   ****:
+    -   **Importance**: Manages frontend dependencies.
+    -   **Changes**:  was added as a dependency during debugging.
 </code_architecture>
 
 <pending_tasks>
@@ -59,18 +64,26 @@ The EaseMind application is a mobile-first emotional support tool featuring an A
 -   Configure OAuth Consent Screen in Google Cloud Console for custom app name/logo in Google Sign-In.
 -   Configure custom email (e.g., ).
 -   Final testing of Google Sign-In on a physical device (requires native build and SHA-1 setup).
+-   Address the issue of Luna using the full name instead of the specified display name in chat conversations.
 </pending_tasks>
 
 <current_work>
-Immediately prior to this summary, the AI engineer was working on migrating the backend APIs to Vercel Serverless Functions to serve the Admin Dashboard on  and other APIs. The core idea was to consolidate all services (website and backend APIs) under the Vercel platform using  paths.
+Immediately prior to this summary request, the AI engineer was engaged in two main areas: firstly, implementing the user profile customization feature as requested by the user, and secondly, debugging issues encountered during this implementation.
 
-The engineer successfully created serverless function files for basic admin analytics (, , , ) within  and updated  to route these Python functions. Critical steps included migrating local MongoDB data to MongoDB Atlas and configuring the  environment variable in Vercel.
+The user profile feature involved:
+1.  **Backend updates**: Adding a  endpoint and updating the user model in  and  to store fields like , , , , , and .
+2.  **Frontend development**: Creating  with UI elements for all new profile fields, including  for photo upload, and adding an Editar Perfil button to . Internationalization for these new elements was added to .
+3.  **Luna Integration**: Modifying  to ensure Luna uses the user's  and  for personalized interactions.
 
-However, during the effort to migrate the *entire* backend to Vercel Serverless, it was identified that complex operations like Text-to-Speech (TTS) and LLM interactions, which rely on external APIs (ElevenLabs, OpenAI Whisper) and have specific API key requirements, might face limitations (e.g., 10-second request timeout on Vercel Hobby plan).
+During testing, several issues arose:
+-   An initial error due to  not being installed, which was resolved by installing the package.
+-   A persistent issue where the profile data was not saving, caused by incorrect environment variable usage ( instead of , and then  not being exposed, leading to  being the correct one). This involved multiple debugging rounds, adding logs, and modifying  and verifying .
 
-The work concluded with the creation of , a detailed guide outlining the steps for a full serverless backend deployment strategy, rather than immediately implementing all remaining complex APIs as serverless functions. This guide is intended to prepare the user for future production deployment decisions.
+After successfully resolving the saving issue, the AI implemented UI improvements on  to display the user's  as an avatar and their  instead of the email.
+
+The most recent feedback from the user is that while the profile display updates correctly, Luna is still using the user's full name (e.g., Adrian Cantero) in chat, rather than the  (e.g., Adrian) configured in the profile. The AI engineer was last attempting to debug this by checking backend logs and then trying to directly inspect the MongoDB.
 </current_work>
 
 <optional_next_step>
-Present the  to the user and confirm the preferred strategy for deploying the production backend.
+Investigate why Luna is using the full name (Adrian Cantero) instead of the configured display name (Adrian) by examining how user context is passed to the LLM.
 </optional_next_step>
