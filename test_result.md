@@ -74,7 +74,7 @@ backend:
     file: "backend/orchestrator.py, backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "pending_test"
         agent: "main"
@@ -85,6 +85,9 @@ backend:
       - working: "fixed"
         agent: "main"
         comment: "🔧 FIXED: User reported Luna using full name ('Adrian Cantero') instead of customized display_name ('Adrian'). Root cause: /api/user/sync endpoint was overwriting customized display_name with Google's full name on every login. Solution: Modified sync endpoint to preserve user's customized display_name - only updates if it's still the default 'Usuário' value. This ensures user profile customizations are preserved across logins. Tested MongoDB update and context retrieval - now shows correct display_name."
+      - working: true
+        agent: "testing"
+        comment: "✅ LUNA DISPLAY NAME FIX VERIFIED! Comprehensive testing completed with actual user data (Firebase UID: VRHGdfIvf2PsbsVuh31uGVwWhkE3): 1) Profile Update & Preservation - Custom display_name 'Adrian' preserved after Google Sign-In sync with full name 'Adrian Cantero'. 2) Luna Context Retrieval - /api/user-context correctly returns custom display_name in user_profile. 3) Chat Integration - Luna uses correct personalized display_name in conversations. 4) Default Name Behavior - Verified that default 'Usuário' names are still updated from Google on first login. 5) All 6 test scenarios passed successfully. The fix ensures user profile customizations persist across logins while allowing initial setup from Google profile data."
 
 frontend:
   - task: "Firebase Authentication Integration"
