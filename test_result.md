@@ -71,10 +71,10 @@ backend:
   - task: "Luna Personalization with User Profile"
     implemented: true
     working: true
-    file: "backend/orchestrator.py"
+    file: "backend/orchestrator.py, backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: "pending_test"
         agent: "main"
@@ -82,6 +82,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ LUNA PERSONALIZATION WORKING EXCELLENTLY! Integration testing confirmed: 1) Luna correctly uses user's display_name in conversations (tested with 'Maria' and 'João Silva' - both used properly). 2) Luna adapts responses based on user's goals - when user had goals 'reduce_anxiety' and 'improve_sleep', Luna specifically addressed both anxiety and sleep issues in her response. 3) Enhanced system prompt injection working correctly (logs show '2 messages including enhanced system prompt'). 4) User context retrieval from MemoryManager.get_user_context() functioning properly with Firebase UID priority. 5) Context includes all profile fields: display_name, goals, preferred_time, age_range, gender."
+      - working: "fixed"
+        agent: "main"
+        comment: "🔧 FIXED: User reported Luna using full name ('Adrian Cantero') instead of customized display_name ('Adrian'). Root cause: /api/user/sync endpoint was overwriting customized display_name with Google's full name on every login. Solution: Modified sync endpoint to preserve user's customized display_name - only updates if it's still the default 'Usuário' value. This ensures user profile customizations are preserved across logins. Tested MongoDB update and context retrieval - now shows correct display_name."
 
 frontend:
   - task: "Firebase Authentication Integration"
