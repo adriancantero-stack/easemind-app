@@ -137,34 +137,49 @@ export default function JournalScreen() {
     setIsSaving(true);
     try {
       const userId = await getUserId();
+      console.log('📓 Creating journal entry for user:', userId);
+      
       // Gerar título automático baseado na data
       const autoTitle = format(selectedDate, "d MMM yyyy");
+      
+      const payload = {
+        user_id: userId,
+        title: autoTitle,
+        content: newContent,
+        mood: newMood,
+        tags: [],
+        date: selectedDate.toISOString(),
+      };
+      
+      console.log('📓 Journal payload:', JSON.stringify(payload));
+      console.log('📓 Backend URL:', `${backendUrl}/api/journal`);
       
       const response = await fetch(`${backendUrl}/api/journal`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          user_id: userId,
-          title: autoTitle,
-          content: newContent,
-          mood: newMood,
-          tags: [],
-          date: selectedDate.toISOString(),
-        }),
+        body: JSON.stringify(payload),
       });
 
+      console.log('📓 Response status:', response.status);
+      const responseData = await response.json();
+      console.log('📓 Response data:', responseData);
+
       if (response.ok) {
-        console.log('📓 Journal entry created');
+        console.log('✅ Journal entry created successfully');
+        Alert.alert(t('journal.success'), t('journal.entrySaved'));
         setShowNewEntryModal(false);
         setNewContent('');
         setNewMood(3);
         setSelectedDate(new Date());
-        loadEntries();
+        await loadEntries();
+      } else {
+        console.error('❌ Failed to create journal entry:', responseData);
+        Alert.alert(t('journal.error'), responseData.detail || t('journal.saveFailed'));
       }
     } catch (error) {
-      console.error('Failed to create entry:', error);
+      console.error('❌ Exception creating entry:', error);
       Alert.alert(t('journal.error'), t('journal.saveFailed'));
     } finally {
       setIsSaving(false);
