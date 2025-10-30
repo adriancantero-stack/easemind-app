@@ -168,6 +168,8 @@ export const translations = {
       error: 'Error',
       fillContent: 'Please write how you feel',
       saveFailed: 'Failed to save entry',
+      success: 'Success',
+      entrySaved: 'Entry saved successfully!',
       completed: 'Completed',
       session: 'session',
       sessions: 'sessions',
