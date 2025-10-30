@@ -913,16 +913,24 @@ async def sync_firebase_user(request: UserSyncRequest):
         
         if existing_user:
             # Atualizar informações do usuário existente
+            # IMPORTANTE: Não sobrescrever display_name customizado pelo usuário
+            # Só atualizar se ainda for "Usuário" (valor padrão) ou se não existir
+            current_display_name = existing_user.get("display_name", "Usuário")
+            should_update_name = current_display_name == "Usuário" and request.display_name
+            
+            update_fields = {
+                "email": request.email,
+                "photo_url": request.photo_url,
+                "last_login": datetime.utcnow()
+            }
+            
+            # Só atualizar display_name se ainda for o padrão
+            if should_update_name:
+                update_fields["display_name"] = request.display_name
+            
             users_collection.update_one(
                 {"firebase_uid": request.firebase_uid},
-                {
-                    "$set": {
-                        "email": request.email,
-                        "display_name": request.display_name or existing_user.get("display_name", "Usuário"),
-                        "photo_url": request.photo_url,
-                        "last_login": datetime.utcnow()
-                    }
-                }
+                {"$set": update_fields}
             )
             logger.info(f"✅ Updated existing user: {request.firebase_uid}")
             
