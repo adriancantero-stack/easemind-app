@@ -90,7 +90,8 @@ export default function EditProfileScreen() {
     try {
       if (!user?.uid) return;
 
-      const backendUrl = Constants.expoConfig?.extra?.EXPO_PACKAGER_HOSTNAME;
+      const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL;
+      console.log('🔍 Fetching profile - Backend URL:', backendUrl);
       const response = await fetch(`${backendUrl}/api/user/profile/${user.uid}`);
       
       if (response.ok) {
