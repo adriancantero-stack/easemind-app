@@ -348,6 +348,15 @@ const styles = StyleSheet.create({
   userStatus: {
     fontSize: 14,
   },
+  userEmail: {
+    fontSize: 13,
+    marginBottom: 2,
+  },
+  profileAvatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+  },
   editProfileButton: {
     padding: 12,
     borderRadius: 8,
