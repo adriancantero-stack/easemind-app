@@ -774,6 +774,8 @@ export const translations = {
       error: 'Error',
       fillContent: 'Por favor, escribe cómo te sientes',
       saveFailed: 'Error al guardar entrada',
+      success: 'Éxito',
+      entrySaved: '¡Entrada guardada con éxito!',
       completed: 'Completó',
       session: 'sesión',
       sessions: 'sesiones',
