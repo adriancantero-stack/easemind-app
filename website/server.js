@@ -63,7 +63,7 @@ function detectLanguage(req) {
 function generateHTML(page, lang, t) {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
-  const appPreviewUrl = 'https://easemind-cloud.preview.emergentagent.com';
+  const appPreviewUrl = 'https://easemind-profile.preview.emergentagent.com';
   
   let content = '';
   

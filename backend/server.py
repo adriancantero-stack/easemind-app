@@ -28,7 +28,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
-        "https://easemind-cloud.preview.emergentagent.com",
+        "https://easemind-profile.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],
