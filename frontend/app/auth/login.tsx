@@ -325,6 +325,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 48,
   },
+  logoImage: {
+    width: 200,
+    height: 80,
+    marginBottom: 16,
+  },
   logo: {
     fontSize: 42,
     fontWeight: '700',
