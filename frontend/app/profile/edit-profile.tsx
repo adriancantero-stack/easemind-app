@@ -159,7 +159,7 @@ export default function EditProfileScreen() {
         throw new Error('Usuário não autenticado');
       }
 
-      const backendUrl = Constants.expoConfig?.extra?.EXPO_PACKAGER_HOSTNAME;
+      const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL;
       console.log('🔍 Backend URL:', backendUrl);
       console.log('🔍 Firebase UID:', user.uid);
       console.log('🔍 Dados do perfil:', {
