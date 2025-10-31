@@ -8,7 +8,6 @@ from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Tuple
 import os
 import re
-from emergentintegrations.llm.chat import LlmChat, UserMessage
 import logging
 
 logger = logging.getLogger(__name__)
