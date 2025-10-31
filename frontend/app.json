@@ -16,12 +16,18 @@
       "bundleIdentifier": "io.easemind.app"
     },
     "android": {
+      "package": "io.easemind.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#0E1A2B"
       },
-      "edgeToEdgeEnabled": true,
-      "package": "io.easemind.app"
+      "permissions": [
+        "INTERNET",
+        "ACCESS_NETWORK_STATE",
+        "RECORD_AUDIO"
+      ],
+      "edgeToEdgeEnabled": true
     },
     "web": {
       "bundler": "metro",
