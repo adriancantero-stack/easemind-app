@@ -207,19 +207,37 @@ export default function SessionDetailsScreen() {
       // Iniciar timer principal (conta tempo total)
       const sessionDuration = getSessionDuration(id as string);
       const startTime = Date.now();
+      const fadeOutDuration = 5000; // 5 segundos de fade out
       
       console.log('⏱️ Timer principal iniciado, duração:', sessionDuration, 'ms (', sessionDuration/1000, 'segundos )');
       
-      guidedTimerRef.current = setInterval(() => {
+      guidedTimerRef.current = setInterval(async () => {
         const elapsed = Date.now() - startTime;
         setElapsedTime(elapsed);
+        
+        // Calcular tempo restante
+        const timeRemaining = sessionDuration - elapsed;
+        
+        // Iniciar fade out nos últimos 5 segundos
+        if (timeRemaining <= fadeOutDuration && timeRemaining > 0 && sound) {
+          // Calcular volume baseado no tempo restante (de 0.5 a 0)
+          const fadeProgress = timeRemaining / fadeOutDuration;
+          const newVolume = 0.5 * fadeProgress; // Volume inicial era 0.5
+          
+          try {
+            await sound.setVolumeAsync(newVolume);
+            console.log('🔉 Fade out - Volume ajustado para:', newVolume.toFixed(2));
+          } catch (error) {
+            console.error('Erro ao ajustar volume:', error);
+          }
+        }
         
         // Se completou a duração, parar
         if (elapsed >= sessionDuration) {
           console.log('⏰ Tempo da sessão completado, parando...');
           stopGuidedSession();
         }
-      }, 1000); // Atualiza a cada segundo
+      }, 100); // Atualiza a cada 100ms para fade out suave
       
       // Agendar primeiro avanço de step (duração baseada na sessão)
       const stepDuration = getStepDuration(id as string, 0);
