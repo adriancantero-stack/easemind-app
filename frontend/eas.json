@@ -8,13 +8,15 @@
       "distribution": "internal",
       "android": {
         "gradleCommand": ":app:assembleDebug"
-      }
+      },
+      "node": "22.11.0"
     },
     "preview": {
       "distribution": "internal",
       "android": {
         "buildType": "apk"
-      }
+      },
+      "node": "22.11.0"
     },
     "production": {
       "android": {
@@ -22,7 +24,8 @@
       },
       "env": {
         "EXPO_PUBLIC_BACKEND_URL": "https://web-production-8d0fb.up.railway.app"
-      }
+      },
+      "node": "22.11.0"
     }
   },
   "submit": {
