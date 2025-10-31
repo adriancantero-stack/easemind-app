@@ -130,7 +130,11 @@ export default function JournalScreen() {
 
   const createEntry = async () => {
     if (!newContent.trim()) {
-      Alert.alert(t('journal.error'), t('journal.fillContent'));
+      if (Platform.OS === 'web') {
+        window.alert(`${t('journal.error')}\n\n${t('journal.fillContent')}`);
+      } else {
+        Alert.alert(t('journal.error'), t('journal.fillContent'));
+      }
       return;
     }
 
@@ -183,27 +187,44 @@ export default function JournalScreen() {
 
       if (response.ok) {
         console.log('✅ Journal entry created successfully');
-        Alert.alert(t('journal.success'), t('journal.entrySaved'));
+        console.log('📓 Closing modal and reloading entries...');
+        
+        // Usar window.alert na web e Alert nativo em mobile
+        if (Platform.OS === 'web') {
+          window.alert(`${t('journal.success')}\n\n${t('journal.entrySaved')}`);
+        } else {
+          Alert.alert(t('journal.success'), t('journal.entrySaved'));
+        }
+        
         setShowNewEntryModal(false);
         setNewContent('');
         setNewMood(3);
         setSelectedDate(new Date());
+        
+        console.log('📓 Calling loadEntries()...');
         await loadEntries();
+        console.log('📓 Entry list reloaded!');
       } else {
         console.error('❌ Failed to create journal entry. Status:', response.status);
         console.error('❌ Response data:', responseData);
-        Alert.alert(
-          t('journal.error'), 
-          `${t('journal.saveFailed')}\n\nStatus: ${response.status}\n${responseData.detail || JSON.stringify(responseData)}`
-        );
+        
+        const errorMsg = `${t('journal.saveFailed')}\n\nStatus: ${response.status}\n${responseData.detail || JSON.stringify(responseData)}`;
+        if (Platform.OS === 'web') {
+          window.alert(`${t('journal.error')}\n\n${errorMsg}`);
+        } else {
+          Alert.alert(t('journal.error'), errorMsg);
+        }
       }
     } catch (error: any) {
       console.error('❌ Exception creating entry:', error);
       console.error('❌ Error stack:', error.stack);
-      Alert.alert(
-        t('journal.error'), 
-        `${t('journal.saveFailed')}\n\n${error.message || 'Unknown error'}`
-      );
+      
+      const errorMsg = `${t('journal.saveFailed')}\n\n${error.message || 'Unknown error'}`;
+      if (Platform.OS === 'web') {
+        window.alert(`${t('journal.error')}\n\n${errorMsg}`);
+      } else {
+        Alert.alert(t('journal.error'), errorMsg);
+      }
     } finally {
       setIsSaving(false);
     }
