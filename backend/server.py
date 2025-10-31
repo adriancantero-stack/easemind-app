@@ -5,7 +5,6 @@ from pydantic import BaseModel
 from typing import Optional
 from dotenv import load_dotenv
 import os
-from emergentintegrations.llm.chat import LlmChat, UserMessage
 import asyncio
 import uuid
 import logging
