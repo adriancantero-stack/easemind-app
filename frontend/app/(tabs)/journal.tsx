@@ -53,8 +53,8 @@ export default function JournalScreen() {
   const [activeTab, setActiveTab] = useState<'entries' | 'stats'>('entries');
 
   const backendUrl =
-    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     process.env.EXPO_PUBLIC_BACKEND_URL ||
+    Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
     'http://localhost:8001';
 
   const moods = [
