@@ -137,10 +137,11 @@ export default function JournalScreen() {
     setIsSaving(true);
     try {
       const userId = await getUserId();
-      console.log('📓 Creating journal entry for user:', userId);
+      console.log('📓 [1/5] User ID obtained:', userId);
       
       // Gerar título automático baseado na data
       const autoTitle = format(selectedDate, "d MMM yyyy");
+      console.log('📓 [2/5] Title generated:', autoTitle);
       
       const payload = {
         user_id: userId,
@@ -151,8 +152,9 @@ export default function JournalScreen() {
         date: selectedDate.toISOString(),
       };
       
-      console.log('📓 Journal payload:', JSON.stringify(payload));
-      console.log('📓 Backend URL:', `${backendUrl}/api/journal`);
+      console.log('📓 [3/5] Payload created:', JSON.stringify(payload, null, 2));
+      console.log('📓 [4/5] Backend URL:', `${backendUrl}/api/journal`);
+      console.log('📓 [4.1/5] Full backend URL from env:', backendUrl);
       
       const response = await fetch(`${backendUrl}/api/journal`, {
         method: 'POST',
@@ -162,7 +164,9 @@ export default function JournalScreen() {
         body: JSON.stringify(payload),
       });
 
-      console.log('📓 Response status:', response.status);
+      console.log('📓 [5/5] Response received - status:', response.status, 'ok:', response.ok);
+      console.log('📓 Response URL:', response.url);
+      console.log('📓 Response headers:', JSON.stringify([...response.headers.entries()]));
       
       // Verificar se a resposta é JSON válida
       const contentType = response.headers.get('content-type');
@@ -170,10 +174,10 @@ export default function JournalScreen() {
       
       if (contentType && contentType.includes('application/json')) {
         responseData = await response.json();
-        console.log('📓 Response data:', responseData);
+        console.log('✅ Response data (JSON):', JSON.stringify(responseData, null, 2));
       } else {
         const textResponse = await response.text();
-        console.log('📓 Response text:', textResponse);
+        console.log('⚠️ Response data (TEXT):', textResponse);
         responseData = { detail: textResponse };
       }
 
@@ -186,12 +190,20 @@ export default function JournalScreen() {
         setSelectedDate(new Date());
         await loadEntries();
       } else {
-        console.error('❌ Failed to create journal entry:', responseData);
-        Alert.alert(t('journal.error'), responseData.detail || t('journal.saveFailed'));
+        console.error('❌ Failed to create journal entry. Status:', response.status);
+        console.error('❌ Response data:', responseData);
+        Alert.alert(
+          t('journal.error'), 
+          `${t('journal.saveFailed')}\n\nStatus: ${response.status}\n${responseData.detail || JSON.stringify(responseData)}`
+        );
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('❌ Exception creating entry:', error);
-      Alert.alert(t('journal.error'), t('journal.saveFailed'));
+      console.error('❌ Error stack:', error.stack);
+      Alert.alert(
+        t('journal.error'), 
+        `${t('journal.saveFailed')}\n\n${error.message || 'Unknown error'}`
+      );
     } finally {
       setIsSaving(false);
     }
