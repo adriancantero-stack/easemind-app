@@ -6,6 +6,7 @@ import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
 import { useTranslation } from 'react-i18next';
 import { PanicModal } from '../../components/PanicModal';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import '../../utils/i18n';
 
 export default function TabLayout() {
@@ -15,6 +16,7 @@ export default function TabLayout() {
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const [showPanicModal, setShowPanicModal] = useState(false);
   const pulseAnim = React.useRef(new Animated.Value(1)).current;
+  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     loadFromStorage();
@@ -54,8 +56,9 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: currentTheme.card,
             borderTopColor: currentTheme.border,
-            height: 60,
-            paddingBottom: 8,
+            height: 60 + insets.bottom,
+            paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+            paddingTop: 8,
           },
           headerShown: false,
         }}

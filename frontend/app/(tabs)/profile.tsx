@@ -16,6 +16,7 @@ export default function ProfileScreen() {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const themeMode = useStore((state) => state.themeMode);
   const setThemeMode = useStore((state) => state.setThemeMode);
+  const setLanguage = useStore((state) => state.setLanguage);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const router = useRouter();
   const { user, isAuthenticated } = useAuth();
@@ -96,6 +97,9 @@ export default function ProfileScreen() {
   const handleLanguageChange = async (code: string) => {
     await i18n.changeLanguage(code);
     await setStoredLanguage(code);
+    // CORREÇÃO: Sincronizar com useStore para que PanicModal use o idioma correto
+    await setLanguage(code);
+    console.log('🌐 Idioma alterado para:', code);
   };
 
   const openExternalLink = (url: string) => {
