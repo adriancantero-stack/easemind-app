@@ -29,10 +29,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       // No web, usar proxy /api (configurado no metro/nginx)
       return '';
     }
-    // No mobile, usar URL completa
-    return Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-      process.env.EXPO_PUBLIC_BACKEND_URL ||
-      'http://localhost:8001';
+    // No mobile, usar URL completa - PRIORIZAR process.env
+    return process.env.EXPO_PUBLIC_BACKEND_URL ||
+      Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
+      'https://app-builder-1036.preview.emergentagent.com';
   };
 
   const backendUrl = getBackendUrl();
