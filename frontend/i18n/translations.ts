@@ -936,6 +936,8 @@ export const translations = {
       invalidCredentials: 'Email o contraseña inválidos',
       weakPassword: 'La contraseña es muy débil',
       googleSignInError: 'Error al iniciar sesión con Google',
+      unavailable: 'No disponible',
+      googleSignInRequiresBuild: 'El inicio de sesión con Google requiere una versión personalizada de la app. Usa email y contraseña por ahora.',
       unknownError: 'Ocurrió un error desconocido',
     },
     mood: {
