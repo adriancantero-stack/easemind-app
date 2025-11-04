@@ -15,6 +15,8 @@ import { useVoiceRecording } from '../../hooks/useVoiceRecording';
 import { useAudioPlayer } from '../../hooks/useAudioPlayer';
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 type AvatarState = 'idle' | 'listening' | 'thinking' | 'speaking' | 'error';
 
