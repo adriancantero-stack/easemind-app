@@ -346,30 +346,61 @@ export default function VoiceChatScreen() {
 
   const playAudioResponse = async (base64Audio: string) => {
     try {
-      // Decode base64 to audio
+      console.log('🔊 Playing audio response...');
+      
+      // Clean up previous sound
+      if (soundRef.current) {
+        await soundRef.current.unloadAsync();
+        soundRef.current = null;
+      }
+      
+      // Set audio mode for playback
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+      });
+      
+      // Create and load sound
       const sound = new Audio.Sound();
       await sound.loadAsync({
-        uri: `data:audio/mp3;base64,${base64Audio}`
+        uri: `data:audio/pcm;base64,${base64Audio}`
       });
       
       soundRef.current = sound;
-      await sound.playAsync();
       
-      // Wait for playback to finish
+      // Set up playback status updates
       sound.setOnPlaybackStatusUpdate((status) => {
         if (status.isLoaded && status.didJustFinish) {
+          console.log('✅ Audio playback finished');
           sound.unloadAsync();
           setIsSpeaking(false);
+          setStatusMessage('');
         }
       });
+      
+      // Start playback
+      await sound.playAsync();
+      console.log('🔊 Audio playing...');
       
     } catch (error) {
       console.error('Failed to play audio:', error);
       setIsSpeaking(false);
+      setStatusMessage('');
+      
+      // Try to display text response if audio fails
+      if (lunaResponse) {
+        Alert.alert(
+          'Luna',
+          lunaResponse,
+          [{ text: 'OK' }]
+        );
+      }
     }
   };
 
   const toggleConnection = () => {
+    if (isConnecting) return; // Prevent multiple connection attempts
+    
     if (isConnected) {
       disconnectWebSocket();
     } else {
@@ -380,8 +411,16 @@ export default function VoiceChatScreen() {
   const handleMicrophonePress = () => {
     if (!isConnected) {
       Alert.alert(
-        t('not_connected') || 'Not Connected',
-        t('connect_first') || 'Please connect first'
+        t('voiceChat.notConnected') || 'Não Conectado',
+        t('voiceChat.connectFirst') || 'Por favor, conecte primeiro'
+      );
+      return;
+    }
+    
+    if (isSpeaking) {
+      Alert.alert(
+        t('voiceChat.wait') || 'Aguarde',
+        t('voiceChat.lunaIsSpeaking') || 'Luna está falando, aguarde terminar'
       );
       return;
     }
