@@ -58,27 +58,27 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingVertical: 12,
     alignItems: 'center',
   },
   title: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: '600',
-    marginBottom: 16,
+    marginBottom: 12,
     textAlign: 'center',
   },
   buttonsContainer: {
     flexDirection: 'row',
     width: '100%',
-    gap: 12,
+    gap: 10,
     justifyContent: 'center',
   },
   button: {
     flex: 1,
-    maxWidth: 150,
-    borderRadius: 12,
-    paddingVertical: 16,
-    paddingHorizontal: 12,
+    maxWidth: 120,
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
     elevation: 2,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -93,10 +93,10 @@ const styles = StyleSheet.create({
   },
   buttonContent: {
     alignItems: 'center',
-    gap: 8,
+    gap: 6,
   },
   buttonTitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '700',
     color: '#fff',
   },
