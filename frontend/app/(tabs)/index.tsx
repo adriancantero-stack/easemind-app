@@ -384,7 +384,7 @@ const styles = StyleSheet.create({
   centeredContent: {
     flexGrow: 1,
     justifyContent: 'center',
-    paddingTop: 60,
+    paddingBottom: 100,
   },
   loadingContainer: {
     padding: theme.spacing.md,
