@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, UploadFile, File
+from fastapi import FastAPI, HTTPException, Request, UploadFile, File, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, StreamingResponse
 from pydantic import BaseModel
@@ -13,6 +13,9 @@ from elevenlabs import save
 import tempfile
 from pathlib import Path
 from openai import OpenAI
+import json
+import base64
+from google import genai
 
 load_dotenv()
 
