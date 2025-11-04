@@ -18,7 +18,7 @@ export const translations = {
       greeting: 'Hello',
       howAreYou: 'How are you today?',
       placeholder: 'Write how you feel...',
-      emptyStateMessage: 'Hi, I\'m Luna 🌿. I\'m here to listen. How are you feeling today?',
+      emptyStateMessage: 'Hi, I\'m Luna. I\'m here to listen.',
       quickActions: {
         breathe: 'Breathe 2 min',
         calm: 'Calm now',
