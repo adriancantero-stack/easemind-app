@@ -43,6 +43,13 @@ export const translations = {
       permissionRequired: 'Permission Required',
       microphonePermission: 'Microphone access is required for voice chat',
     },
+    modeSelector: {
+      title: 'How would you like to talk?',
+      writeButton: 'Write',
+      writeDescription: 'Text chat',
+      voiceButton: 'Speak',
+      voiceDescription: 'Voice chat',
+    },
     panic: {
       title: 'Breathe with Me',
       initialMessage: 'Breathe with me. It\'s okay. We\'ll get through this together.',
