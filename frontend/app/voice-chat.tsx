@@ -75,6 +75,15 @@ export default function VoiceChatScreen() {
 
   const connectWebSocket = async () => {
     try {
+      // Por enquanto, mostrar mensagem que está em desenvolvimento
+      Alert.alert(
+        t('voiceChat.comingSoon') || 'Em Breve',
+        t('voiceChat.comingSoonMessage') || 'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone na conversa.',
+        [{ text: 'OK', onPress: () => router.back() }]
+      );
+      return;
+      
+      /* IMPLEMENTAÇÃO FUTURA - Gemini Live WebSocket
       const wsUrl = backendUrl.replace('http', 'ws').replace('https', 'wss') + '/ws/gemini-live';
       
       const ws = new WebSocket(wsUrl);
