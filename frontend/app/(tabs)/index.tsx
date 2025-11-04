@@ -312,35 +312,6 @@ export default function HomeScreen() {
           )}
         </ScrollView>
 
-        <View style={[styles.quickActions, { backgroundColor: currentTheme.bg }]}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity
-              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
-              onPress={() => handleQuickAction('breathe')}
-            >
-              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
-                {t('home.quickActions.breathe')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
-              onPress={() => handleQuickAction('calm')}
-            >
-              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
-                {t('home.quickActions.calm')}
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.chipButton, { backgroundColor: currentTheme.card }]}
-              onPress={() => handleQuickAction('note')}
-            >
-              <Text style={[styles.chipText, { color: currentTheme.accent1 }]}>
-                {t('home.quickActions.note')}
-              </Text>
-            </TouchableOpacity>
-          </ScrollView>
-        </View>
-
         {/* Input bar - only show when text mode is selected or there are messages */}
         {(modeSelected === 'text' || messages.length > 0) && (
           <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
