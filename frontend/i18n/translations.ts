@@ -342,7 +342,7 @@ export const translations = {
       greeting: 'Olá',
       howAreYou: 'Como você está hoje?',
       placeholder: 'Escreva como você se sente...',
-      emptyStateMessage: 'Olá, eu sou a Luna 🌿. Estou aqui para te ouvir. Como você está se sentindo agora?',
+      emptyStateMessage: 'Olá, eu sou a Luna. Estou aqui para te ouvir.',
       quickActions: {
         breathe: 'Respiração 2 min',
         calm: 'Acalmar agora',
