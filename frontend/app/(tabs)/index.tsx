@@ -300,6 +300,23 @@ export default function HomeScreen() {
           )}
         </ScrollView>
 
+        {/* Recording overlay - WhatsApp style */}
+        {isRecording && (
+          <View style={styles.recordingOverlay}>
+            <View style={styles.recordingBubble}>
+              <Ionicons name="mic" size={24} color="#FF5252" />
+              <Text style={styles.recordingText}>
+                {t('home.recording') || 'Mantenha pressionado para gravar'}
+              </Text>
+              <View style={styles.recordingDots}>
+                <View style={[styles.dot, styles.dotAnimated]} />
+                <View style={[styles.dot, styles.dotAnimated]} />
+                <View style={[styles.dot, styles.dotAnimated]} />
+              </View>
+            </View>
+          </View>
+        )}
+
         {/* Input bar - always visible */}
         <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
 
