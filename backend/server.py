@@ -1094,7 +1094,7 @@ async def get_user_profile(firebase_uid: str):
 
 
 # Gemini Live WebSocket endpoint
-@app.websocket("/ws/gemini-live")
+@app.websocket("/api/ws/gemini-live")
 async def gemini_live_endpoint(websocket: WebSocket):
     """
     WebSocket endpoint for Gemini Live voice chat
