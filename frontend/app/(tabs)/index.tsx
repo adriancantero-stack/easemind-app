@@ -347,27 +347,40 @@ export default function HomeScreen() {
           </ScrollView>
         </View>
 
-        <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
-          <TextInput
-            style={[styles.input, { color: currentTheme.text }]}
-            value={inputText}
-            onChangeText={setInputText}
-            onKeyPress={handleKeyPress}
-            placeholder={t('home.placeholder')}
-            placeholderTextColor={currentTheme.textMuted}
-            multiline
-            maxLength={500}
-            onSubmitEditing={() => sendMessage(inputText)}
-            blurOnSubmit={false}
-          />
-          <VoiceButton
-            isRecording={isRecording}
-            isTranscribing={isTranscribing}
-            onPressIn={handleStartRecording}
-            onPressOut={handleStopRecording}
-          />
-          <TouchableOpacity
-            style={[styles.sendButton, { backgroundColor: currentTheme.accent1, opacity: inputText.trim() ? 1 : 0.5 }]}
+        {/* Input bar - only show when text mode is selected or there are messages */}
+        {(modeSelected === 'text' || messages.length > 0) && (
+          <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
+            <TextInput
+              style={[styles.input, { color: currentTheme.text }]}
+              value={inputText}
+              onChangeText={setInputText}
+              onKeyPress={handleKeyPress}
+              placeholder={t('home.placeholder')}
+              placeholderTextColor={currentTheme.textMuted}
+              multiline
+              maxLength={500}
+              onSubmitEditing={() => sendMessage(inputText)}
+              blurOnSubmit={false}
+            />
+            <VoiceButton
+              isRecording={isRecording}
+              isTranscribing={isTranscribing}
+              onPressIn={handleStartRecording}
+              onPressOut={handleStopRecording}
+            />
+            <TouchableOpacity
+              style={[styles.sendButton, { backgroundColor: currentTheme.accent1, opacity: inputText.trim() ? 1 : 0.5 }]}
+              onPress={() => sendMessage(inputText)}
+              disabled={!inputText.trim() || isLoading}
+            >
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#fff" />
+              ) : (
+                <Text style={styles.sendButtonText}>→</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+        )}
             onPress={() => sendMessage(inputText)}
             disabled={!inputText.trim() || isLoading}
           >
