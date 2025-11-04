@@ -367,6 +367,13 @@ export const translations = {
       permissionRequired: 'Permissão Necessária',
       microphonePermission: 'Acesso ao microfone é necessário para o chat de voz',
     },
+    modeSelector: {
+      title: 'Como você prefere conversar?',
+      writeButton: 'Escrever',
+      writeDescription: 'Chat de texto',
+      voiceButton: 'Falar',
+      voiceDescription: 'Chat de voz',
+    },
     panic: {
       title: 'Respire Comigo',
       initialMessage: 'Respire comigo. Está tudo bem. Vamos passar por isso juntos.',
