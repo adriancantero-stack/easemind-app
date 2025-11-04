@@ -35,6 +35,7 @@ export default function HomeScreen() {
   const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [userId, setUserId] = useState<string>('');
+  const [modeSelected, setModeSelected] = useState<'text' | 'voice' | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const isAnimatingRef = useRef(false); // Prevent multiple animations
 
