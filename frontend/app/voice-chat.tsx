@@ -598,6 +598,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
   },
+  statusTextMuted: {
+    fontSize: 16,
+    color: '#8B7FFF',
+    textAlign: 'center',
+    fontWeight: '400',
+    opacity: 0.7,
+  },
   transcriptionContainer: {
     marginTop: 20,
     backgroundColor: 'rgba(200, 182, 255, 0.1)',
