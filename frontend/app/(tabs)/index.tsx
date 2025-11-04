@@ -263,14 +263,6 @@ export default function HomeScreen() {
             </View> */}
 
             {messages.length === 0 && <GreetingCard />}
-            
-            {!modeSelected && (
-              <ModeSelector
-                onSelectText={() => setModeSelected('text')}
-                onSelectVoice={() => router.push('/voice-chat')}
-                isDarkMode={isDarkMode}
-              />
-            )}
 
             {messages.map((msg, index) => {
               // Check if we need to show a date separator
