@@ -370,6 +370,8 @@ export const translations = {
       you: 'Você',
       permissionRequired: 'Permissão Necessária',
       microphonePermission: 'Acesso ao microfone é necessário para o chat de voz',
+      comingSoon: 'Em Breve',
+      comingSoonMessage: 'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone nas conversas.',
     },
     modeSelector: {
       title: 'Como você prefere conversar?',
