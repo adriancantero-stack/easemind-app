@@ -42,6 +42,8 @@ export const translations = {
       you: 'You',
       permissionRequired: 'Permission Required',
       microphonePermission: 'Microphone access is required for voice chat',
+      comingSoon: 'Coming Soon',
+      comingSoonMessage: 'Voice chat with Gemini Live is under development. For now, use text chat or the microphone button in conversations.',
     },
     modeSelector: {
       title: 'How would you like to talk?',
