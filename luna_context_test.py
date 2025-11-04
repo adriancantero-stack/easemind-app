@@ -7,7 +7,7 @@ import requests
 import json
 import uuid
 
-BACKEND_URL = "https://app-builder-1036.preview.emergentagent.com/api"
+BACKEND_URL = "https://speech-chat-app.preview.emergentagent.com/api"
 
 def test_luna_context_injection():
     """Test that Luna receives and uses user context properly"""

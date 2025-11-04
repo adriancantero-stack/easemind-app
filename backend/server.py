@@ -30,7 +30,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
-        "https://app-builder-1036.preview.emergentagent.com",
+        "https://speech-chat-app.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],

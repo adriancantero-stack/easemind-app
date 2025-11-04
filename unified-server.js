@@ -86,7 +86,7 @@ server.listen(PORT, '0.0.0.0', () => {
   `);
   
   console.log('✅ Proxy server ready to route traffic');
-  console.log('🌐 Public URL: https://app-builder-1036.preview.emergentagent.com');
+  console.log('🌐 Public URL: https://speech-chat-app.preview.emergentagent.com');
   console.log('🔒 Custom Domain: https://easemind.io (SSL pending)\n');
 });
 

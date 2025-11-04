@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // No mobile, usar URL completa - PRIORIZAR process.env
     return process.env.EXPO_PUBLIC_BACKEND_URL ||
       Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-      'https://app-builder-1036.preview.emergentagent.com';
+      'https://speech-chat-app.preview.emergentagent.com';
   };
 
   const backendUrl = getBackendUrl();
