@@ -308,6 +308,8 @@ export const translations = {
       invalidCredentials: 'Invalid email or password',
       weakPassword: 'Password is too weak',
       googleSignInError: 'Error signing in with Google',
+      unavailable: 'Unavailable',
+      googleSignInRequiresBuild: 'Google Sign-In requires a custom app build. Please use email and password for now.',
       unknownError: 'An unknown error occurred',
     },
     mood: {
