@@ -258,38 +258,76 @@ export default function VoiceChatScreen() {
 
   const stopListening = async () => {
     try {
-      if (!recordingRef.current) return;
+      console.log('🛑 Stopping recording...');
+      
+      // Clear streaming interval
+      if (audioStreamIntervalRef.current) {
+        clearInterval(audioStreamIntervalRef.current);
+        audioStreamIntervalRef.current = null;
+      }
+      
+      if (!recordingRef.current) {
+        console.log('No active recording');
+        return;
+      }
       
       setIsListening(false);
-      setTranscription('Processing...');
+      setTranscription(t('voiceChat.processing') || 'Processando...');
+      setStatusMessage(t('voiceChat.processing') || 'Processando...');
       
       // Stop recording
       await recordingRef.current.stopAndUnloadAsync();
       const uri = recordingRef.current.getURI();
       recordingRef.current = null;
       
+      // Reset audio mode
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+      });
+      
       if (!uri) {
         console.error('No recording URI');
+        setStatusMessage('');
         return;
       }
       
       console.log('✅ Recording stopped:', uri);
       
+      // Check if WebSocket is connected
+      if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+        Alert.alert(
+          t('error') || 'Erro',
+          t('voiceChat.notConnected') || 'Não conectado'
+        );
+        setStatusMessage('');
+        return;
+      }
+      
       // Read audio file and convert to base64
+      console.log('📖 Reading audio file...');
       const response = await fetch(uri);
       const blob = await response.blob();
+      
       const reader = new FileReader();
       
       reader.onloadend = () => {
         const base64data = reader.result?.toString().split(',')[1];
+        
         if (base64data && wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
+          console.log('📤 Sending audio to backend:', base64data.length, 'bytes');
+          
           // Send audio to backend
           wsRef.current.send(JSON.stringify({
             type: 'audio',
             data: base64data
           }));
           
-          setTranscription('Sent to Luna...');
+          setTranscription(t('voiceChat.sentToLuna') || 'Enviado para Luna...');
+          setStatusMessage(t('voiceChat.waitingResponse') || 'Aguardando resposta...');
+        } else {
+          console.error('Cannot send audio: WebSocket not ready');
+          setStatusMessage('');
         }
       };
       
@@ -297,8 +335,12 @@ export default function VoiceChatScreen() {
       
     } catch (error) {
       console.error('Failed to stop recording:', error);
-      Alert.alert('Error', 'Could not process recording');
+      Alert.alert(
+        t('error') || 'Erro',
+        t('voiceChat.processingError') || 'Não foi possível processar a gravação'
+      );
       setIsListening(false);
+      setStatusMessage('');
     }
   };
 
