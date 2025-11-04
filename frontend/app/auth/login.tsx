@@ -210,6 +210,7 @@ export default function LoginScreen() {
     } finally {
       setLoading(false);
     }
+    */
   };
 
   return (
