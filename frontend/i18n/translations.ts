@@ -632,6 +632,8 @@ export const translations = {
       invalidCredentials: 'Email ou senha inválidos',
       weakPassword: 'A senha é muito fraca',
       googleSignInError: 'Erro ao entrar com Google',
+      unavailable: 'Indisponível',
+      googleSignInRequiresBuild: 'O login com Google requer uma versão personalizada do app. Use email e senha por enquanto.',
       unknownError: 'Ocorreu um erro desconhecido',
     },
     mood: {
