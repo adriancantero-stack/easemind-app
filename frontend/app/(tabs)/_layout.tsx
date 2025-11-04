@@ -57,7 +57,7 @@ export default function TabLayout() {
             backgroundColor: currentTheme.card,
             borderTopColor: currentTheme.border,
             height: 60 + insets.bottom,
-            paddingBottom: insets.bottom > 0 ? insets.bottom : 8,
+            paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
             paddingTop: 8,
           },
           headerShown: false,
