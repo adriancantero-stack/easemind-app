@@ -121,6 +121,15 @@ export default function LoginScreen() {
   };
 
   const handleGoogleSignIn = async () => {
+    // TEMPORARIAMENTE DESABILITADO - Requer build customizado
+    Alert.alert(
+      t('auth.unavailable') || 'Indisponível',
+      t('auth.googleSignInRequiresBuild') || 'O login com Google requer um build customizado do app. Por favor, use email e senha por enquanto.',
+      [{ text: 'OK' }]
+    );
+    return;
+    
+    /* CÓDIGO ORIGINAL - SERÁ REATIVADO NO BUILD DE PRODUÇÃO
     setLoading(true);
     try {
       if (Platform.OS === 'web') {
