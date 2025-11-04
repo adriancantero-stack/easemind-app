@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Alert,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StatusBar } from 'expo-status-bar';
@@ -21,38 +22,32 @@ import { BlurView } from 'expo-blur';
 
 export default function VoiceChatScreen() {
   const { user } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const userProfile = useStore((state) => state.userProfile);
   
+  const [isConnecting, setIsConnecting] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
   const [isListening, setIsListening] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [transcription, setTranscription] = useState('');
   const [lunaResponse, setLunaResponse] = useState('');
+  const [statusMessage, setStatusMessage] = useState('');
   
   const wsRef = useRef<WebSocket | null>(null);
   const recordingRef = useRef<Audio.Recording | null>(null);
   const soundRef = useRef<Audio.Sound | null>(null);
+  const audioStreamIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
                      Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
                      'http://localhost:8001';
 
+  // Cleanup on unmount
   useEffect(() => {
-    // Mostrar mensagem de "Em Breve" e voltar imediatamente
-    const timer = setTimeout(() => {
-      Alert.alert(
-        'Em Breve',
-        'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone nas conversas.',
-        [{ 
-          text: 'OK', 
-          onPress: () => router.back() 
-        }],
-        { cancelable: false }
-      );
-    }, 300); // Pequeno delay para garantir que a tela foi montada
-    
-    return () => clearTimeout(timer);
+    return () => {
+      disconnectWebSocket();
+      stopListening();
+    };
   }, []);
 
   const connectWebSocket = async () => {
