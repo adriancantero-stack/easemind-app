@@ -1098,62 +1098,153 @@ async def get_user_profile(firebase_uid: str):
 async def gemini_live_endpoint(websocket: WebSocket):
     """
     WebSocket endpoint for Gemini Live voice chat
+    Real-time bidirectional audio streaming with Gemini 2.5 Flash
     """
     await websocket.accept()
     correlation_id = str(uuid.uuid4())
     logger.info(f"[{correlation_id}] Gemini Live: WebSocket connection established")
     
+    gemini_session = None
+    user_id = None
+    user_name = "amigo"
+    user_lang = "pt-BR"
+    
     try:
         # Get API key
         gemini_api_key = os.getenv("GEMINI_API_KEY")
         if not gemini_api_key:
-            await websocket.send_json({"error": "Gemini API key not configured"})
+            await websocket.send_json({"type": "error", "message": "Gemini API key not configured"})
             await websocket.close()
             return
         
         # Initialize Gemini client
         client = genai.Client(api_key=gemini_api_key)
-        
-        # Configuration for Gemini 2.0 Live model
-        model_id = "models/gemini-2.0-flash-exp"
-        config = {
-            "generation_config": {
-                "response_modalities": ["AUDIO"],
-                "speech_config": {
-                    "voice_config": {
-                        "prebuilt_voice_config": {
-                            "voice_name": "Aoede"  # Natural female voice
-                        }
-                    }
-                }
-            }
-        }
-        
-        # Get user info from first message
-        user_id = None
-        user_name = None
+        logger.info(f"[{correlation_id}] Gemini Live: Client initialized")
         
         # Listen for messages from frontend
         async for message in websocket.iter_json():
             try:
                 msg_type = message.get("type")
+                logger.info(f"[{correlation_id}] Received message type: {msg_type}")
                 
                 if msg_type == "init":
                     # Initialize session with user context
-                    user_id = message.get("user_id")
+                    user_id = message.get("user_id", "guest")
                     user_name = message.get("user_name", "amigo")
+                    user_lang = message.get("lang", "pt-BR")
                     
-                    logger.info(f"[{correlation_id}] Gemini Live: Session initialized for user {user_id}")
+                    logger.info(f"[{correlation_id}] Initializing session for user: {user_id} ({user_name}) lang: {user_lang}")
                     
-                    # Send confirmation
+                    # Get user profile for personalization
+                    from orchestrator import users_collection
+                    user_profile = users_collection.find_one({"firebase_uid": user_id}) or users_collection.find_one({"user_id": user_id})
+                    
+                    goals = []
+                    if user_profile:
+                        goals = user_profile.get("goals", [])
+                        logger.info(f"[{correlation_id}] User goals: {goals}")
+                    
+                    # Build system instruction based on language and goals
+                    if user_lang == "pt-BR":
+                        system_instruction = f"""Você é Luna, terapeuta virtual do aplicativo EaseMind.
+O usuário se chama {user_name}."""
+                        
+                        if goals:
+                            goals_text = ", ".join([
+                                "reduzir ansiedade" if g == "reduce_anxiety" else
+                                "melhorar sono" if g == "improve_sleep" else
+                                "aumentar foco" if g == "increase_focus" else
+                                "regular humor" if g == "regulate_mood" else g
+                                for g in goals
+                            ])
+                            system_instruction += f"\nObjetivos do usuário: {goals_text}."
+                        
+                        system_instruction += """
+
+Seja acolhedora, empática e natural como uma terapeuta humana.
+Ofereça apoio emocional, exercícios de respiração, práticas de mindfulness e reflexões baseadas em TCC.
+Mantenha respostas curtas e conversacionais (1-2 frases), como em uma conversa real.
+Use tom calmo, gentil e encorajador.
+
+IMPORTANTE: Nunca diagnostique, prescreva medicamentos ou substitua profissionais.
+Se detectar risco, incentive a buscar ajuda (CVV 188 no Brasil)."""
+
+                    elif user_lang == "es":
+                        system_instruction = f"""Eres Luna, terapeuta virtual de la aplicación EaseMind.
+El usuario se llama {user_name}."""
+                        
+                        if goals:
+                            goals_text = ", ".join([
+                                "reducir ansiedad" if g == "reduce_anxiety" else
+                                "mejorar sueño" if g == "improve_sleep" else
+                                "aumentar concentración" if g == "increase_focus" else
+                                "regular humor" if g == "regulate_mood" else g
+                                for g in goals
+                            ])
+                            system_instruction += f"\nObjetivos del usuario: {goals_text}."
+                        
+                        system_instruction += """
+
+Sé acogedora, empática y natural como una terapeuta humana.
+Ofrece apoyo emocional, ejercicios de respiración, prácticas de mindfulness y reflexiones basadas en TCC.
+Mantén respuestas cortas y conversacionales (1-2 frases), como en una conversación real.
+Usa tono calmado, gentil y alentador.
+
+IMPORTANTE: Nunca diagnostiques, prescribas medicamentos o sustituyas a profesionales.
+Si detectas riesgo, anima a buscar ayuda profesional."""
+
+                    else:  # en
+                        system_instruction = f"""You are Luna, virtual therapist from the EaseMind app.
+The user's name is {user_name}."""
+                        
+                        if goals:
+                            goals_text = ", ".join([
+                                "reduce anxiety" if g == "reduce_anxiety" else
+                                "improve sleep" if g == "improve_sleep" else
+                                "increase focus" if g == "increase_focus" else
+                                "regulate mood" if g == "regulate_mood" else g
+                                for g in goals
+                            ])
+                            system_instruction += f"\nUser's goals: {goals_text}."
+                        
+                        system_instruction += """
+
+Be warm, empathetic, and natural like a human therapist.
+Offer emotional support, breathing exercises, mindfulness practices, and CBT-based reflections.
+Keep responses short and conversational (1-2 sentences), like in a real conversation.
+Use a calm, gentle, and encouraging tone.
+
+IMPORTANT: Never diagnose, prescribe medications, or replace professionals.
+If you detect risk, encourage seeking professional help."""
+
+                    # Configure Gemini Live session
+                    config = {
+                        "generation_config": {
+                            "response_modalities": ["AUDIO"],
+                        },
+                        "system_instruction": {"parts": [{"text": system_instruction}]},
+                    }
+                    
+                    logger.info(f"[{correlation_id}] Opening Gemini Live session...")
+                    
+                    # Connect to Gemini Live
+                    gemini_session = await client.aio.live.connect(model="models/gemini-2.0-flash-exp", config=config).__aenter__()
+                    
+                    logger.info(f"[{correlation_id}] Gemini Live session connected successfully")
+                    
+                    # Send confirmation to client
                     await websocket.send_json({
                         "type": "ready",
-                        "message": "Gemini Live session started"
+                        "message": "Voice chat ready"
                     })
                     
                 elif msg_type == "audio":
-                    # Receive audio chunk from frontend
-                    audio_data = message.get("data")  # Base64 encoded audio
+                    if not gemini_session:
+                        await websocket.send_json({"type": "error", "message": "Session not initialized. Send 'init' first."})
+                        continue
+                    
+                    # Receive audio chunk from frontend (base64 encoded)
+                    audio_data = message.get("data")
                     
                     if not audio_data:
                         continue
@@ -1161,85 +1252,76 @@ async def gemini_live_endpoint(websocket: WebSocket):
                     # Decode base64 audio
                     audio_bytes = base64.b64decode(audio_data)
                     
-                    # Send to Gemini Live
-                    logger.info(f"[{correlation_id}] Gemini Live: Processing audio chunk ({len(audio_bytes)} bytes)")
+                    logger.info(f"[{correlation_id}] Received audio chunk: {len(audio_bytes)} bytes")
                     
-                    # Create session with Gemini
-                    async with client.aio.live.connect(model=model_id, config=config) as session:
-                        # Set system instruction with Luna persona
-                        system_instruction = f"""Você é Luna, terapeuta virtual do EaseMind.
+                    # Send audio to Gemini Live
+                    await gemini_session.send({"data": audio_bytes, "mime_type": "audio/pcm"})
+                    
+                    logger.info(f"[{correlation_id}] Audio sent to Gemini, waiting for response...")
+                    
+                    # Receive and forward responses
+                    async for response in gemini_session.receive():
+                        logger.info(f"[{correlation_id}] Received response from Gemini")
                         
-O usuário se chama {user_name}. Seja acolhedora, empática e natural.
-Ofereça apoio emocional, práticas de mindfulness e reflexões baseadas em TCC.
-
-Responda de forma conversacional, como em uma sessão de terapia real.
-Mantenha respostas concisas (2-3 frases) para conversação natural."""
-
-                        await session.send(system_instruction, end_of_turn=True)
+                        # Check for audio response
+                        if hasattr(response, 'data') and response.data:
+                            audio_response = base64.b64encode(response.data).decode('utf-8')
+                            await websocket.send_json({
+                                "type": "audio_response",
+                                "data": audio_response
+                            })
+                            logger.info(f"[{correlation_id}] Sent audio response: {len(response.data)} bytes")
                         
-                        # Send audio input
-                        await session.send({
-                            "mime_type": "audio/pcm",
-                            "data": audio_bytes
-                        }, end_of_turn=True)
+                        # Check for text transcription
+                        if hasattr(response, 'text') and response.text:
+                            await websocket.send_json({
+                                "type": "transcription",
+                                "text": response.text
+                            })
+                            logger.info(f"[{correlation_id}] Sent transcription: {response.text[:50]}...")
                         
-                        # Receive response
-                        async for response in session.receive():
-                            if response.data:
-                                # Send audio response back to frontend
-                                audio_response = base64.b64encode(response.data).decode('utf-8')
-                                
-                                await websocket.send_json({
-                                    "type": "audio_response",
-                                    "data": audio_response
-                                })
-                                
-                                logger.info(f"[{correlation_id}] Gemini Live: Sent audio response ({len(response.data)} bytes)")
-                            
-                            if response.text:
-                                # Also send transcription if available
-                                await websocket.send_json({
-                                    "type": "transcription",
-                                    "text": response.text
-                                })
-                                
-                                # Save to conversation history
-                                if user_id:
-                                    from orchestrator import save_memory
-                                    try:
-                                        # Extract user message and Luna response
-                                        await save_memory(user_id, "User (voice)", response.text, "pt-BR")
-                                    except Exception as e:
-                                        logger.error(f"[{correlation_id}] Failed to save memory: {e}")
+                        # Break after first complete response
+                        if hasattr(response, 'server_content') and response.server_content and response.server_content.turn_complete:
+                            logger.info(f"[{correlation_id}] Turn complete, breaking")
+                            break
                 
                 elif msg_type == "end":
-                    logger.info(f"[{correlation_id}] Gemini Live: Session ended by client")
+                    logger.info(f"[{correlation_id}] Session ended by client")
                     break
                     
             except Exception as e:
-                logger.error(f"[{correlation_id}] Gemini Live: Error processing message: {e}", exc_info=True)
+                logger.error(f"[{correlation_id}] Error processing message: {e}", exc_info=True)
                 await websocket.send_json({
                     "type": "error",
-                    "message": str(e)
+                    "message": f"Error: {str(e)}"
                 })
         
     except WebSocketDisconnect:
-        logger.info(f"[{correlation_id}] Gemini Live: WebSocket disconnected")
+        logger.info(f"[{correlation_id}] WebSocket disconnected")
     except Exception as e:
-        logger.error(f"[{correlation_id}] Gemini Live: Fatal error: {e}", exc_info=True)
+        logger.error(f"[{correlation_id}] Fatal error: {e}", exc_info=True)
         try:
             await websocket.send_json({
                 "type": "error",
-                "message": str(e)
+                "message": f"Fatal error: {str(e)}"
             })
         except:
             pass
     finally:
+        # Clean up Gemini session
+        if gemini_session:
+            try:
+                await gemini_session.__aexit__(None, None, None)
+                logger.info(f"[{correlation_id}] Gemini session closed")
+            except:
+                pass
+        
         try:
             await websocket.close()
         except:
             pass
-        logger.info(f"[{correlation_id}] Gemini Live: Connection closed")
+        
+        logger.info(f"[{correlation_id}] Connection closed")
 
         raise HTTPException(status_code=500, detail=f"Failed to get profile: {str(e)}")
 
