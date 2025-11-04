@@ -300,9 +300,9 @@ export default function HomeScreen() {
           )}
         </ScrollView>
 
-        {/* Input bar - only show when text mode is selected or there are messages */}
-        {(modeSelected === 'text' || messages.length > 0) && (
-          <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
+        {/* Input bar - always visible */}
+        <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
+
             <TextInput
               style={[styles.input, { color: currentTheme.text }]}
               value={inputText}
