@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, ScrollView, TextInput, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform, ActivityIndicator, Alert, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
 import { useTranslation } from 'react-i18next';
