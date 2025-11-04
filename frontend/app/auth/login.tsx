@@ -58,6 +58,10 @@ export default function LoginScreen() {
 
   // Configurar Google Sign-In apenas para plataformas nativas
   useEffect(() => {
+    // TEMPORARIAMENTE DESABILITADO - Requer build customizado
+    // Google Sign-In não funciona com Expo Go
+    // Será habilitado após build de produção
+    /*
     if (Platform.OS !== 'web') {
       // Importação dinâmica apenas para plataformas nativas
       import('@react-native-google-signin/google-signin').then(({ GoogleSignin }) => {
@@ -65,8 +69,11 @@ export default function LoginScreen() {
           webClientId: '771193870049-qv0qmj1h8eac2802119b6dfe5009a0.apps.googleusercontent.com',
           offlineAccess: true,
         });
+      }).catch((error) => {
+        console.log('Google Sign-In not available in this build');
       });
     }
+    */
   }, []);
 
   const handleEmailAuth = async () => {
