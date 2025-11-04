@@ -30,12 +30,9 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
           activeOpacity={0.8}
         >
           <View style={styles.buttonContent}>
-            <Ionicons name="chatbubble-ellipses" size={32} color="#fff" />
+            <Ionicons name="chatbubble-ellipses" size={24} color="#fff" />
             <Text style={styles.buttonTitle}>
               {t('modeSelector.writeButton') || 'Escrever'}
-            </Text>
-            <Text style={styles.buttonSubtitle}>
-              {t('modeSelector.writeDescription') || 'Chat de texto'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -47,12 +44,9 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
           activeOpacity={0.8}
         >
           <View style={styles.buttonContent}>
-            <Ionicons name="mic" size={32} color="#fff" />
+            <Ionicons name="mic" size={24} color="#fff" />
             <Text style={styles.buttonTitle}>
               {t('modeSelector.voiceButton') || 'Falar'}
-            </Text>
-            <Text style={styles.buttonSubtitle}>
-              {t('modeSelector.voiceDescription') || 'Chat de voz'}
             </Text>
           </View>
         </TouchableOpacity>
@@ -64,28 +58,32 @@ export const ModeSelector: React.FC<ModeSelectorProps> = ({
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingVertical: 30,
+    paddingVertical: 20,
     alignItems: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: '600',
-    marginBottom: 30,
+    marginBottom: 16,
     textAlign: 'center',
   },
   buttonsContainer: {
+    flexDirection: 'row',
     width: '100%',
-    gap: 16,
+    gap: 12,
+    justifyContent: 'center',
   },
   button: {
-    width: '100%',
-    borderRadius: 16,
-    padding: 24,
-    elevation: 3,
+    flex: 1,
+    maxWidth: 150,
+    borderRadius: 12,
+    paddingVertical: 16,
+    paddingHorizontal: 12,
+    elevation: 2,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: 3,
   },
   textButton: {
     backgroundColor: '#8B7FFF',
@@ -98,14 +96,8 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   buttonTitle: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: '700',
     color: '#fff',
-    marginTop: 8,
-  },
-  buttonSubtitle: {
-    fontSize: 14,
-    color: 'rgba(255, 255, 255, 0.9)',
-    fontWeight: '500',
   },
 });
