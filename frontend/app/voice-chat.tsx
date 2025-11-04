@@ -39,12 +39,20 @@ export default function VoiceChatScreen() {
                      'http://localhost:8001';
 
   useEffect(() => {
-    // Mostrar mensagem de "Em Breve" e voltar
-    Alert.alert(
-      t('voiceChat.comingSoon') || 'Em Breve',
-      t('voiceChat.comingSoonMessage') || 'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone nas conversas.',
-      [{ text: 'OK', onPress: () => router.back() }]
-    );
+    // Mostrar mensagem de "Em Breve" e voltar imediatamente
+    const timer = setTimeout(() => {
+      Alert.alert(
+        'Em Breve',
+        'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone nas conversas.',
+        [{ 
+          text: 'OK', 
+          onPress: () => router.back() 
+        }],
+        { cancelable: false }
+      );
+    }, 300); // Pequeno delay para garantir que a tela foi montada
+    
+    return () => clearTimeout(timer);
   }, []);
 
   const connectWebSocket = async () => {
