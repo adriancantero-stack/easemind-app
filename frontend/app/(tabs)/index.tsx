@@ -375,12 +375,6 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
         )}
-            onPress={() => sendMessage(inputText)}
-            disabled={!inputText.trim() || isLoading}
-          >
-            <Text style={styles.sendButtonText}>➤</Text>
-          </TouchableOpacity>
-        </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
     </LinearGradient>
