@@ -35,17 +35,8 @@ export default function HomeScreen() {
   const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [userId, setUserId] = useState<string>('');
-  const [modeSelected, setModeSelected] = useState<'text' | 'voice' | null>(null);
   const scrollViewRef = useRef<ScrollView>(null);
   const isAnimatingRef = useRef(false); // Prevent multiple animations
-  
-  // Reset mode when screen is focused (quando volta para o tab)
-  useFocusEffect(
-    React.useCallback(() => {
-      // Reset mode to show buttons again
-      setModeSelected(null);
-    }, [])
-  );
 
   // Get backend URL - prioritize environment variable
   const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
