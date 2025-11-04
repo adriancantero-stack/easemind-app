@@ -263,8 +263,6 @@ export default function HomeScreen() {
               <LunaAvatar state={avatarState} size={120} />
             </View> */}
 
-            <MoodPicker />
-
             {messages.length === 0 && <GreetingCard />}
             
             {messages.length === 0 && !modeSelected && (
