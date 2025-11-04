@@ -265,7 +265,7 @@ export default function HomeScreen() {
 
             {messages.length === 0 && <GreetingCard />}
             
-            {messages.length === 0 && !modeSelected && (
+            {!modeSelected && (
               <ModeSelector
                 onSelectText={() => setModeSelected('text')}
                 onSelectVoice={() => router.push('/voice-chat')}
