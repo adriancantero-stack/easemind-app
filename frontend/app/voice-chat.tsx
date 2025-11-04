@@ -39,38 +39,12 @@ export default function VoiceChatScreen() {
                      'http://localhost:8001';
 
   useEffect(() => {
-    // Request audio permissions
-    (async () => {
-      const { status } = await Audio.requestPermissionsAsync();
-      if (status !== 'granted') {
-        Alert.alert(
-          t('permission_required') || 'Permission Required',
-          t('microphone_permission') || 'Microphone access is required for voice chat'
-        );
-      }
-    })();
-
-    // Configure audio mode
-    Audio.setAudioModeAsync({
-      allowsRecordingIOS: true,
-      playsInSilentModeIOS: true,
-      staysActiveInBackground: false,
-      shouldDuckAndroid: true,
-      playThroughEarpieceAndroid: false,
-    });
-
-    return () => {
-      // Cleanup
-      if (wsRef.current) {
-        wsRef.current.close();
-      }
-      if (recordingRef.current) {
-        recordingRef.current.stopAndUnloadAsync();
-      }
-      if (soundRef.current) {
-        soundRef.current.unloadAsync();
-      }
-    };
+    // Mostrar mensagem de "Em Breve" e voltar
+    Alert.alert(
+      t('voiceChat.comingSoon') || 'Em Breve',
+      t('voiceChat.comingSoonMessage') || 'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone nas conversas.',
+      [{ text: 'OK', onPress: () => router.back() }]
+    );
   }, []);
 
   const connectWebSocket = async () => {
