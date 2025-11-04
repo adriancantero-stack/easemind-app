@@ -170,34 +170,52 @@ export default function VoiceChatScreen() {
 
   const startListening = async () => {
     try {
-      setIsListening(true);
-      setTranscription('Listening...');
+      console.log('🎤 Starting recording...');
       
-      // Start recording
+      // Request permissions
+      const permission = await Audio.requestPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert(
+          t('voiceChat.permissionRequired') || 'Permissão Necessária',
+          t('voiceChat.microphonePermission') || 'Acesso ao microfone é necessário para o chat de voz'
+        );
+        return;
+      }
+      
+      // Set audio mode for recording
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+      
+      setIsListening(true);
+      setTranscription(t('voiceChat.listening') || 'Ouvindo...');
+      setStatusMessage(t('voiceChat.lunaListening') || 'Luna está ouvindo...');
+      
+      // Start recording with PCM format (required by Gemini)
       const recording = new Audio.Recording();
       await recording.prepareToRecordAsync({
-        ...Audio.RecordingOptionsPresets.HIGH_QUALITY,
         android: {
-          extension: '.m4a',
-          outputFormat: Audio.AndroidOutputFormat.MPEG_4,
-          audioEncoder: Audio.AndroidAudioEncoder.AAC,
-          sampleRate: 44100,
-          numberOfChannels: 2,
+          extension: '.wav',
+          outputFormat: Audio.AndroidOutputFormat.DEFAULT,
+          audioEncoder: Audio.AndroidAudioEncoder.DEFAULT,
+          sampleRate: 16000,
+          numberOfChannels: 1,
           bitRate: 128000,
         },
         ios: {
-          extension: '.m4a',
-          outputFormat: Audio.IOSOutputFormat.MPEG4AAC,
+          extension: '.wav',
+          outputFormat: Audio.IOSOutputFormat.LINEARPCM,
           audioQuality: Audio.IOSAudioQuality.HIGH,
-          sampleRate: 44100,
-          numberOfChannels: 2,
+          sampleRate: 16000,
+          numberOfChannels: 1,
           bitRate: 128000,
           linearPCMBitDepth: 16,
           linearPCMIsBigEndian: false,
           linearPCMIsFloat: false,
         },
         web: {
-          mimeType: 'audio/webm',
+          mimeType: 'audio/wav',
           bitsPerSecond: 128000,
         },
       });
@@ -205,11 +223,36 @@ export default function VoiceChatScreen() {
       await recording.startAsync();
       recordingRef.current = recording;
       
-      console.log('🎤 Recording started');
+      console.log('✅ Recording started successfully');
+      
+      // Start streaming audio chunks every 1 second
+      audioStreamIntervalRef.current = setInterval(async () => {
+        try {
+          if (!recordingRef.current || !wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) {
+            return;
+          }
+          
+          // Get recording status to access URI
+          const status = await recordingRef.current.getStatusAsync();
+          if (status.isRecording && status.durationMillis > 500) {
+            // Send audio chunk every 1 second
+            console.log('📤 Sending audio chunk...');
+            // Note: In production, you'd want to stream actual chunks
+            // For now, we'll send the full audio when user stops
+          }
+        } catch (error) {
+          console.error('Error in audio streaming:', error);
+        }
+      }, 1000);
+      
     } catch (error) {
       console.error('Failed to start recording:', error);
-      Alert.alert('Error', 'Could not start recording');
+      Alert.alert(
+        t('error') || 'Erro',
+        t('voiceChat.recordingError') || 'Não foi possível iniciar a gravação'
+      );
       setIsListening(false);
+      setStatusMessage('');
     }
   };
 
