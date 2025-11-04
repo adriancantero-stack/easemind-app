@@ -462,31 +462,31 @@ export default function VoiceChatScreen() {
         </View>
 
         {/* Status text */}
-        {isConnected && (
-          <View style={styles.statusContainer}>
-            {isSpeaking && (
-              <Text style={styles.statusText}>
-                🗣️ {t('luna_speaking') || 'Luna está falando...'}
-              </Text>
-            )}
-            {isListening && (
-              <Text style={styles.statusText}>
-                👂 {t('luna_listening') || 'Luna está ouvindo...'}
-              </Text>
-            )}
-            {!isListening && !isSpeaking && (
-              <Text style={styles.statusText}>
-                ✨ {t('press_to_speak') || 'Pressione para falar'}
-              </Text>
-            )}
-          </View>
-        )}
+        <View style={styles.statusContainer}>
+          {statusMessage && (
+            <Text style={styles.statusText}>
+              {statusMessage}
+            </Text>
+          )}
+          
+          {!statusMessage && isConnected && !isListening && !isSpeaking && (
+            <Text style={styles.statusText}>
+              ✨ {t('voiceChat.pressToSpeak') || 'Pressione para falar'}
+            </Text>
+          )}
+          
+          {!isConnected && !isConnecting && (
+            <Text style={styles.statusTextMuted}>
+              {t('voiceChat.tapConnectToStart') || 'Toque em "Conectar" para começar'}
+            </Text>
+          )}
+        </View>
 
         {/* Transcription */}
         {transcription && (
           <View style={styles.transcriptionContainer}>
             <Text style={styles.transcriptionLabel}>
-              {t('you') || 'Você'}:
+              {t('voiceChat.you') || 'Você'}:
             </Text>
             <Text style={styles.transcriptionText}>{transcription}</Text>
           </View>
@@ -507,33 +507,44 @@ export default function VoiceChatScreen() {
             style={[
               styles.micButton,
               isListening && styles.micButtonActive,
-              !isConnected && styles.micButtonDisabled
+              (!isConnected || isSpeaking || isConnecting) && styles.micButtonDisabled
             ]}
             onPress={handleMicrophonePress}
-            disabled={!isConnected || isSpeaking}
+            disabled={!isConnected || isSpeaking || isConnecting}
           >
-            <Ionicons 
-              name={isListening ? "mic" : "mic-outline"} 
-              size={40} 
-              color="#fff" 
-            />
+            {isListening ? (
+              <Ionicons name="mic" size={40} color="#fff" />
+            ) : (
+              <Ionicons name="mic-outline" size={40} color="#fff" />
+            )}
           </TouchableOpacity>
 
           {/* Connection toggle */}
           <TouchableOpacity
             style={[
               styles.connectionButton,
-              isConnected && styles.connectionButtonActive
+              isConnected && styles.connectionButtonActive,
+              isConnecting && styles.connectionButtonConnecting
             ]}
             onPress={toggleConnection}
+            disabled={isConnecting}
           >
-            <Ionicons 
-              name={isConnected ? "wifi" : "wifi-outline"} 
-              size={24} 
-              color="#fff" 
-            />
+            {isConnecting ? (
+              <ActivityIndicator size="small" color="#fff" />
+            ) : (
+              <Ionicons 
+                name={isConnected ? "wifi" : "wifi-outline"} 
+                size={24} 
+                color="#fff" 
+              />
+            )}
             <Text style={styles.connectionButtonText}>
-              {isConnected ? t('disconnect') || 'Disconnect' : t('connect') || 'Connect'}
+              {isConnecting 
+                ? (t('voiceChat.connecting') || 'Conectando...')
+                : isConnected 
+                  ? (t('voiceChat.disconnect') || 'Desconectar') 
+                  : (t('voiceChat.connect') || 'Conectar')
+              }
             </Text>
           </TouchableOpacity>
         </View>
