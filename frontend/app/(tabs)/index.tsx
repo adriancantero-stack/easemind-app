@@ -247,12 +247,6 @@ export default function HomeScreen() {
               style={styles.logo}
               resizeMode="contain"
             />
-            <TouchableOpacity
-              style={styles.voiceChatButton}
-              onPress={() => router.push('/voice-chat')}
-            >
-              <Ionicons name="mic-outline" size={24} color="#C8B6FF" />
-            </TouchableOpacity>
           </View>
 
           <ScrollView 
