@@ -52,48 +52,71 @@ export default function VoiceChatScreen() {
 
   const connectWebSocket = async () => {
     try {
-      // Por enquanto, mostrar mensagem que está em desenvolvimento
-      Alert.alert(
-        t('voiceChat.comingSoon') || 'Em Breve',
-        t('voiceChat.comingSoonMessage') || 'O chat de voz com Gemini Live está em desenvolvimento. Por enquanto, use o chat de texto ou o botão de microfone na conversa.',
-        [{ text: 'OK', onPress: () => router.back() }]
-      );
-      return;
+      setIsConnecting(true);
+      setStatusMessage(t('voiceChat.connecting') || 'Conectando...');
       
-      /* IMPLEMENTAÇÃO FUTURA - Gemini Live WebSocket
-      const wsUrl = backendUrl.replace('http', 'ws').replace('https', 'wss') + '/ws/gemini-live';
+      console.log('🎤 Connecting to WebSocket...');
+      console.log('Backend URL:', backendUrl);
+      
+      // Build WebSocket URL
+      const wsUrl = backendUrl.replace('http', 'ws').replace('https', 'wss') + '/api/ws/gemini-live';
+      console.log('WebSocket URL:', wsUrl);
       
       const ws = new WebSocket(wsUrl);
       
       ws.onopen = () => {
-        console.log('🎤 WebSocket connected');
+        console.log('✅ WebSocket connected');
         setIsConnected(true);
+        setIsConnecting(false);
+        setStatusMessage(t('voiceChat.connected') || 'Conectado');
         
         // Send initialization message
-        ws.send(JSON.stringify({
+        const initMessage = {
           type: 'init',
           user_id: user?.uid || 'guest',
-          user_name: userProfile?.display_name || user?.displayName || 'amigo'
-        }));
+          user_name: userProfile?.display_name || user?.displayName || 'amigo',
+          lang: i18n.language || 'pt-BR'
+        };
+        
+        console.log('📤 Sending init message:', initMessage);
+        ws.send(JSON.stringify(initMessage));
       };
       
       ws.onmessage = async (event) => {
         try {
           const data = JSON.parse(event.data);
+          console.log('📥 Received message:', data.type);
           
           if (data.type === 'ready') {
             console.log('✅ Gemini Live session ready');
+            setStatusMessage(t('voiceChat.ready') || 'Pronto');
+            Alert.alert(
+              t('voiceChat.ready') || 'Pronto!',
+              t('voiceChat.readyMessage') || 'Pode começar a falar! Pressione o botão do microfone.',
+              [{ text: 'OK' }]
+            );
           } else if (data.type === 'audio_response') {
             // Play audio response from Luna
+            console.log('🔊 Received audio response');
             setIsSpeaking(true);
+            setIsListening(false);
+            setStatusMessage(t('voiceChat.lunaSpeaking') || 'Luna está falando...');
             await playAudioResponse(data.data);
             setIsSpeaking(false);
+            setStatusMessage('');
           } else if (data.type === 'transcription') {
             // Display transcription
+            console.log('📝 Received transcription:', data.text);
             setLunaResponse(data.text);
           } else if (data.type === 'error') {
             console.error('❌ Error from server:', data.message);
-            Alert.alert('Error', data.message);
+            Alert.alert(
+              t('error') || 'Erro',
+              data.message
+            );
+            setStatusMessage('');
+            setIsListening(false);
+            setIsSpeaking(false);
           }
         } catch (error) {
           console.error('Error parsing WebSocket message:', error);
@@ -102,20 +125,37 @@ export default function VoiceChatScreen() {
       
       ws.onerror = (error) => {
         console.error('❌ WebSocket error:', error);
-        Alert.alert('Connection Error', 'Failed to connect to voice chat');
+        Alert.alert(
+          t('error') || 'Erro',
+          t('voiceChat.connectionError') || 'Não foi possível conectar ao chat de voz'
+        );
         setIsConnected(false);
+        setIsConnecting(false);
+        setStatusMessage('');
       };
       
       ws.onclose = () => {
         console.log('🔌 WebSocket disconnected');
         setIsConnected(false);
+        setIsConnecting(false);
+        setStatusMessage('');
+        
+        // Stop listening if active
+        if (isListening) {
+          stopListening();
+        }
       };
       
       wsRef.current = ws;
-      */
+      
     } catch (error) {
       console.error('Failed to connect WebSocket:', error);
-      Alert.alert('Error', 'Could not establish connection');
+      Alert.alert(
+        t('error') || 'Erro',
+        t('voiceChat.connectionFailed') || 'Não foi possível estabelecer conexão'
+      );
+      setIsConnecting(false);
+      setStatusMessage('');
     }
   };
 
