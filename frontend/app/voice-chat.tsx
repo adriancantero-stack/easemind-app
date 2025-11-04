@@ -135,6 +135,7 @@ export default function VoiceChatScreen() {
       };
       
       wsRef.current = ws;
+      */
     } catch (error) {
       console.error('Failed to connect WebSocket:', error);
       Alert.alert('Error', 'Could not establish connection');
