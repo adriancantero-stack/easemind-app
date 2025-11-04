@@ -705,6 +705,7 @@ export const translations = {
       howAreYou: '¿Cómo estás hoy?',
       placeholder: 'Escribe cómo te sientes...',
       emptyStateMessage: 'Hola, soy Luna 🌿. Estoy aquí para escucharte. ¿Cómo te sientes hoy?',
+      recording: 'Mantén presionado para grabar',
       quickActions: {
         breathe: 'Respirar 2 min',
         calm: 'Calmar ahora',
