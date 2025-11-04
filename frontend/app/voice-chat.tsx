@@ -667,6 +667,9 @@ const styles = StyleSheet.create({
   connectionButtonActive: {
     backgroundColor: 'rgba(139, 127, 255, 0.3)',
   },
+  connectionButtonConnecting: {
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+  },
   connectionButtonText: {
     color: '#fff',
     fontSize: 14,
