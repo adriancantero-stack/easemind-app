@@ -333,7 +333,6 @@ export default function HomeScreen() {
               )}
             </TouchableOpacity>
           </View>
-        )}
       </KeyboardAvoidingView>
     </SafeAreaView>
     </LinearGradient>
