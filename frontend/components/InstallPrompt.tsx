@@ -29,23 +29,41 @@ export const InstallPrompt: React.FC = () => {
     // Verificar se já foi instalado ou dismissed
     const checkInstallStatus = async () => {
       try {
-        const dismissed = await AsyncStorage.getItem('install_prompt_dismissed');
+        // Verifica se o app já está instalado (modo standalone)
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches;
         
-        // Se já está instalado ou foi dismissed, não mostrar
-        if (isStandalone || dismissed === 'true') {
+        // Se já está instalado, nunca mostrar
+        if (isStandalone) {
+          console.log('✅ App já está instalado, não mostrando prompt');
           return;
+        }
+
+        // Verificar se foi dismissed e quando
+        const dismissedData = await AsyncStorage.getItem('install_prompt_dismissed');
+        
+        if (dismissedData) {
+          const { timestamp } = JSON.parse(dismissedData);
+          const daysSinceDismissed = (Date.now() - timestamp) / (1000 * 60 * 60 * 24);
+          
+          // Mostrar novamente após 7 dias
+          if (daysSinceDismissed < 7) {
+            console.log(`⏰ Prompt dismissed há ${Math.round(daysSinceDismissed)} dias, aguardando...`);
+            return;
+          } else {
+            console.log('🔄 Já se passaram 7 dias, mostrando prompt novamente');
+          }
         }
 
         // Detectar se é mobile
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         
         if (isMobile) {
+          console.log('📱 Dispositivo mobile detectado, mostrando prompt de instalação');
           setShowPrompt(true);
           animateIn();
         }
       } catch (error) {
-        console.error('Error checking install status:', error);
+        console.error('❌ Error checking install status:', error);
       }
     };
 
