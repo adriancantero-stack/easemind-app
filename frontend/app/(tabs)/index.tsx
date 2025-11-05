@@ -12,6 +12,8 @@ import { ChatBubble } from '../../components/ChatBubble';
 import { DateSeparator } from '../../components/DateSeparator';
 import { VoiceButton } from '../../components/VoiceButton';
 import { LunaAvatar } from '../../components/LunaAvatar';
+import { FixedSOSButton } from '../../components/FixedSOSButton';
+import { PanicModal } from '../../components/PanicModal';
 import { useVoiceRecording } from '../../hooks/useVoiceRecording';
 import { useAudioPlayer } from '../../hooks/useAudioPlayer';
 import Constants from 'expo-constants';
