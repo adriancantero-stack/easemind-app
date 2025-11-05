@@ -15,7 +15,8 @@ logger = logging.getLogger(__name__)
 # Conexão com MongoDB
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017")
 client = MongoClient(MONGO_URL)
-db = client.easemind
+DB_NAME = os.getenv("DB_NAME", "easemind")
+db = client[DB_NAME]
 
 # Collections
 users_collection = db.users
