@@ -125,13 +125,26 @@ export const useAudioPlayer = () => {
     try {
       console.log('🔊 Playing audio from URI...', Platform.OS);
       console.log('📱 User agent:', typeof window !== 'undefined' ? window.navigator.userAgent : 'N/A');
+      console.log('🔓 Audio context unlocked:', audioContextUnlocked);
       
       // Use HTML5 Audio API for web (better PWA support)
       if (Platform.OS === 'web') {
         console.log('🌐 Using HTML5 Audio for web');
         
-        // Use window.Audio to avoid conflict with expo-av Audio
-        const audio = new window.Audio();
+        // Reuse global audio element if exists and context is unlocked
+        let audio: HTMLAudioElement;
+        
+        if (audioContextUnlocked && globalAudioElement) {
+          console.log('♻️ Reusing unlocked audio element');
+          audio = globalAudioElement;
+          // Stop any currently playing audio
+          audio.pause();
+          audio.currentTime = 0;
+        } else {
+          console.log('🆕 Creating new audio element');
+          audio = new window.Audio();
+          audioRef.current = audio;
+        }
         
         // Critical for mobile: set attributes before setting src
         audio.setAttribute('playsinline', 'true');
