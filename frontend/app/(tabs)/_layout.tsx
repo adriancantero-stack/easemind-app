@@ -21,35 +21,34 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <ResponsiveContainer>
+    <View style={{ flex: 1 }}>
       <InstallPrompt />
-      <View style={{ flex: 1, backgroundColor: currentTheme.bg }}>
-        {/* Custom Header with Logo and Hamburger Menu */}
-        <CustomHeader />
-        
-        {/* Stack Navigator for all screens */}
-        <Stack
-          screenOptions={{
-            headerShown: false,
-            contentStyle: {
-              backgroundColor: currentTheme.bg,
-            },
-          }}
-        >
-          <Stack.Screen name="index" />
-          <Stack.Screen name="sessions" />
-          <Stack.Screen name="journal" />
-          <Stack.Screen name="profile" />
-          <Stack.Screen name="about" />
-          <Stack.Screen name="panic" options={{ presentation: 'modal' }} />
-        </Stack>
-
-        {/* Fixed SOS Button at Bottom */}
-        <FixedSOSButton onPress={() => setShowPanicModal(true)} />
-        
-        {/* Panic Modal */}
-        <PanicModal visible={showPanicModal} onClose={() => setShowPanicModal(false)} />
-      </View>
-    </ResponsiveContainer>
+      <ResponsiveContainer>
+        <View style={{ flex: 1, backgroundColor: currentTheme.bg }}>
+          {/* Custom Header with Logo and Hamburger Menu */}
+          <CustomHeader onSOSPress={() => setShowPanicModal(true)} />
+          
+          {/* Stack Navigator for all screens */}
+          <Stack
+            screenOptions={{
+              headerShown: false,
+              contentStyle: {
+                backgroundColor: currentTheme.bg,
+              },
+            }}
+          >
+            <Stack.Screen name="index" />
+            <Stack.Screen name="sessions" />
+            <Stack.Screen name="journal" />
+            <Stack.Screen name="profile" />
+            <Stack.Screen name="about" />
+            <Stack.Screen name="panic" options={{ presentation: 'modal' }} />
+          </Stack>
+          
+          {/* Panic Modal */}
+          <PanicModal visible={showPanicModal} onClose={() => setShowPanicModal(false)} />
+        </View>
+      </ResponsiveContainer>
+    </View>
   );
 }
