@@ -65,15 +65,19 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: 1,
   },
+  spacer: {
+    width: 44, // Same width as menu button for balance
+  },
   logoContainer: {
     flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   logo: {
-    width: 140,
-    height: 36,
+    width: 180,
+    height: 48,
   },
   menuButton: {
     padding: 8,
-    marginLeft: 12,
   },
 });
