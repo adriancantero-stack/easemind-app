@@ -50,7 +50,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ visible, onClose }
     { id: 'sessions', label: t('tabs.sessions'), icon: 'leaf', route: '/(tabs)/sessions' },
     { id: 'journal', label: t('tabs.journal'), icon: 'book', route: '/(tabs)/journal' },
     { id: 'profile', label: t('tabs.profile'), icon: 'person', route: '/(tabs)/profile' },
-    { id: 'about', label: t('tabs.about'), icon: 'information-circle', route: '/(tabs)/about' },
+    { id: 'about', label: t('profile.about'), icon: 'information-circle', route: '/(tabs)/about' },
   ];
 
   const handleNavigate = (route: string) => {
