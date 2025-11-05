@@ -653,7 +653,10 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
-    minHeight: '70%',
+    maxHeight: '85%',
+  },
+  scrollModalContent: {
+    paddingBottom: 20,
   },
   modalTitle: {
     fontSize: 24,
