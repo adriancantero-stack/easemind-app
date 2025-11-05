@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Audio } from 'expo-av';
 import { Platform } from 'react-native';
 
@@ -6,12 +6,58 @@ interface AudioCache {
   [key: string]: string; // messageId -> data URI
 }
 
+// Global flag to track if audio context is unlocked
+let audioContextUnlocked = false;
+let globalAudioElement: HTMLAudioElement | null = null;
+
 export const useAudioPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const soundRef = useRef<Audio.Sound | null>(null);
   const cacheRef = useRef<AudioCache>({});
   const [audioDuration, setAudioDuration] = useState<number>(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  // Unlock audio context on mount for web/mobile
+  useEffect(() => {
+    if (Platform.OS === 'web' && !audioContextUnlocked) {
+      const unlockAudio = () => {
+        console.log('🔓 Attempting to unlock audio context...');
+        
+        // Create and play silent audio to unlock
+        if (!globalAudioElement) {
+          globalAudioElement = new window.Audio();
+          globalAudioElement.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA';
+          globalAudioElement.setAttribute('playsinline', 'true');
+          globalAudioElement.setAttribute('webkit-playsinline', 'true');
+        }
+        
+        globalAudioElement.play()
+          .then(() => {
+            console.log('✅ Audio context unlocked!');
+            audioContextUnlocked = true;
+            // Clean up event listeners
+            document.removeEventListener('touchstart', unlockAudio);
+            document.removeEventListener('touchend', unlockAudio);
+            document.removeEventListener('click', unlockAudio);
+          })
+          .catch(err => {
+            console.log('⚠️ Audio unlock failed (will retry):', err);
+          });
+      };
+
+      // Listen for first user interaction
+      document.addEventListener('touchstart', unlockAudio, { once: true });
+      document.addEventListener('touchend', unlockAudio, { once: true });
+      document.addEventListener('click', unlockAudio, { once: true });
+
+      return () => {
+        document.removeEventListener('touchstart', unlockAudio);
+        document.removeEventListener('touchend', unlockAudio);
+        document.removeEventListener('click', unlockAudio);
+      };
+    }
+  }, []);
 
   const playAudio = async (messageId: string, text: string, lang: string, backendUrl: string, onProgress?: (progress: number) => void) => {
     try {
