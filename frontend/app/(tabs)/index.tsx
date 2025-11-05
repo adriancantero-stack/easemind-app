@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.md,
     borderTopWidth: 1,
-    marginBottom: theme.spacing.md, // Eleva a barra
+    marginBottom: 90, // Espaço para botão SOS (70px botão + 20px margem)
   },
   input: {
     flex: 1,
