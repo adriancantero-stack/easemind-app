@@ -31,6 +31,13 @@ export const translations = {
         note: 'I want to write down my thoughts',
       },
     },
+    installPrompt: {
+      title: 'Install EaseMind',
+      subtitle: 'Quick access from your home screen',
+      install: 'Install',
+      iosInstructions: 'To install:\n1. Tap the "Share" button ⬆️\n2. Scroll down\n3. Tap "Add to Home Screen"',
+      androidInstructions: 'To install:\n1. Tap the 3 dots (menu)\n2. Tap "Add to home screen" or "Install app"',
+    },
     voiceChat: {
       title: 'Voice Chat with Luna',
       connect: 'Connect',
