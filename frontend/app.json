@@ -32,7 +32,25 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/favicon.png",
+      "name": "EaseMind",
+      "shortName": "EaseMind",
+      "lang": "pt-BR",
+      "scope": "/",
+      "startUrl": "/",
+      "backgroundColor": "#0E1A2B",
+      "themeColor": "#C8B6FF",
+      "display": "standalone",
+      "orientation": "portrait-primary",
+      "description": "Ease your mind. Heal your day. Mental health support app for anxiety and stress.",
+      "dir": "auto",
+      "preferRelatedApplications": false,
+      "dangerous": {
+        "permissions": [
+          "INTERNET",
+          "RECORD_AUDIO"
+        ]
+      }
     },
     "plugins": [
       "expo-router",
