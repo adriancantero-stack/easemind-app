@@ -157,6 +157,8 @@ export const useStore = create<AppState>((set, get) => ({
     set({ themeMode: mode, isDarkMode: isDark });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.THEME_MODE, mode);
+      // Sync with backend
+      get().syncPreferencesWithBackend();
     } catch {}
   },
 
@@ -164,6 +166,8 @@ export const useStore = create<AppState>((set, get) => ({
     set({ language: value });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.LANGUAGE, value);
+      // Sync with backend
+      get().syncPreferencesWithBackend();
     } catch {}
   },
 
