@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { PanicModal } from '../../components/PanicModal';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
+import { InstallPrompt } from '../../components/InstallPrompt';
 import '../../utils/i18n';
 
 export default function TabLayout() {
