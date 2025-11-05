@@ -119,6 +119,14 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
     }
   };
 
+  const getAudioUrl = (audioFile: any) => {
+    // For web, get the resolved URL
+    if (Platform.OS === 'web' && typeof audioFile === 'object' && audioFile.uri) {
+      return audioFile.uri;
+    }
+    return audioFile;
+  };
+
   const startSOSSession = async () => {
     console.log('🆘 Iniciando sessão SOS...');
     setIsPlaying(true);
