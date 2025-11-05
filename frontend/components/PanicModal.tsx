@@ -367,6 +367,17 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
                   <BreathAnimation />
                 </View>
                 
+                {!isPlaying && (
+                  <TouchableOpacity
+                    style={[styles.startButton, { backgroundColor: currentTheme.accent1 }]}
+                    onPress={startSOSSession}
+                  >
+                    <Text style={styles.startButtonText}>
+                      {t('panic.startExercise') || '▶ Iniciar Exercício'}
+                    </Text>
+                  </TouchableOpacity>
+                )}
+                
                 {isPlaying && (
                   <Text style={[styles.phaseText, { color: currentTheme.accent1 }]}>
                     {currentText}
