@@ -51,6 +51,7 @@ export default function TabLayout() {
 
   return (
     <ResponsiveContainer>
+      <InstallPrompt />
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: currentTheme.accent1,
