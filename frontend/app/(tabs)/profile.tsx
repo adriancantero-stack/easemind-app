@@ -270,29 +270,6 @@ export default function ProfileScreen() {
           </Text>
         </View>
 
-        {/* Legal Section */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            {t('profile.privacy')}
-          </Text>
-
-          <TouchableOpacity 
-            style={styles.linkItem}
-            onPress={() => openExternalLink('https://easemind.io/privacy')}
-          >
-            <Text style={[styles.linkText, { color: currentTheme.text }]}>🔐 {t('profile.privacyPolicy')}</Text>
-            <Text style={[styles.linkArrow, { color: currentTheme.textSecondary }]}>›</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.linkItem}
-            onPress={() => openExternalLink('https://easemind.io/terms')}
-          >
-            <Text style={[styles.linkText, { color: currentTheme.text }]}>📄 {t('profile.termsOfUse')}</Text>
-            <Text style={[styles.linkArrow, { color: currentTheme.textSecondary }]}>›</Text>
-          </TouchableOpacity>
-        </View>
-
         <Text style={[styles.version, { color: currentTheme.textMuted }]}>
           EaseMind v1.0.0
         </Text>
