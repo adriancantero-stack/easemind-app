@@ -486,6 +486,23 @@ const styles = StyleSheet.create({
     marginTop: theme.spacing.lg,
     textAlign: 'center',
   },
+  startButton: {
+    marginTop: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.xl * 2,
+    paddingVertical: theme.spacing.lg,
+    borderRadius: theme.radius * 2,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  startButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
+  },
   closeButton: {
     marginTop: theme.spacing.xl,
     paddingHorizontal: theme.spacing.lg,
