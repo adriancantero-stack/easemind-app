@@ -28,6 +28,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
+        "https://app.easemind.io",
         "https://speech-chat-app.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
