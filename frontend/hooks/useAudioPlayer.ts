@@ -98,6 +98,7 @@ export const useAudioPlayer = () => {
         
         await audio.play();
         console.log('✅ Audio playing (HTML5)');
+        setIsLoading(false);
       } else {
         // Use expo-av for native
         const { sound } = await Audio.Sound.createAsync(
@@ -123,10 +124,12 @@ export const useAudioPlayer = () => {
         });
 
         console.log('✅ Audio playing (expo-av)');
+        setIsLoading(false);
       }
     } catch (err) {
       console.error('❌ Failed to play audio', err);
       setIsPlaying(false);
+      setIsLoading(false);
     }
   };
 
