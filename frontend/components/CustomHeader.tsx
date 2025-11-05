@@ -24,7 +24,10 @@ export const CustomHeader: React.FC = () => {
           },
         ]}
       >
-        {/* Logo */}
+        {/* Spacer for alignment */}
+        <View style={styles.spacer} />
+
+        {/* Logo - Centered and Larger */}
         <View style={styles.logoContainer}>
           <Image
             source={
