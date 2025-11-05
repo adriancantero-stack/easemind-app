@@ -299,7 +299,88 @@ export const useStore = create<AppState>((set, get) => ({
         voiceEnabled: voiceEnabled !== null ? JSON.parse(voiceEnabled) : true, // Default true
         userId: userId || '', // Load userId from storage or default to empty string
       });
+      
+      // Load preferences from backend after loading from local storage
+      await get().loadPreferencesFromBackend();
     } catch {}
+  },
+
+  syncPreferencesWithBackend: async () => {
+    try {
+      const { auth } = require('../config/firebase');
+      const currentFirebaseUser = auth.currentUser;
+      
+      if (!currentFirebaseUser?.uid) {
+        console.log('⚠️ Not syncing preferences: User not logged in');
+        return;
+      }
+
+      const { themeMode, language } = get();
+      const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+      
+      console.log('🔄 Syncing preferences with backend...', { themeMode, language });
+      
+      const response = await fetch(`${backendUrl}/api/user/profile/update`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firebase_uid: currentFirebaseUser.uid,
+          theme: themeMode,
+          language: language,
+        }),
+      });
+
+      if (response.ok) {
+        console.log('✅ Preferences synced with backend');
+      } else {
+        console.error('❌ Failed to sync preferences with backend');
+      }
+    } catch (error) {
+      console.error('❌ Error syncing preferences:', error);
+    }
+  },
+
+  loadPreferencesFromBackend: async () => {
+    try {
+      const { auth } = require('../config/firebase');
+      const currentFirebaseUser = auth.currentUser;
+      
+      if (!currentFirebaseUser?.uid) {
+        console.log('⚠️ Not loading preferences: User not logged in');
+        return;
+      }
+
+      const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
+      
+      console.log('📥 Loading preferences from backend...');
+      
+      const response = await fetch(`${backendUrl}/api/user/profile?firebase_uid=${currentFirebaseUser.uid}`);
+
+      if (response.ok) {
+        const data = await response.json();
+        const user = data.user;
+        
+        if (user.theme) {
+          const mode = user.theme as ThemeMode;
+          const isDark = getIsDarkMode(mode);
+          set({ themeMode: mode, isDarkMode: isDark });
+          await AsyncStorage.setItem(STORAGE_KEYS.THEME_MODE, mode);
+          console.log('✅ Theme loaded from backend:', mode);
+        }
+        
+        if (user.language) {
+          set({ language: user.language });
+          await AsyncStorage.setItem(STORAGE_KEYS.LANGUAGE, user.language);
+          console.log('✅ Language loaded from backend:', user.language);
+        }
+      } else {
+        console.log('⚠️ Could not load preferences from backend');
+      }
+    } catch (error) {
+      console.error('❌ Error loading preferences from backend:', error);
+    }
   },
 }));
 
