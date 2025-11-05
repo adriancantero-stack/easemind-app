@@ -775,13 +775,6 @@ export const translations = {
       voiceButton: 'Hablar',
       voiceDescription: 'Chat de voz',
     },
-    installPrompt: {
-      title: 'Instalar EaseMind',
-      subtitle: 'Acceso rápido desde tu pantalla de inicio',
-      install: 'Instalar',
-      iosInstructions: 'Para instalar:\n1. Toca el botón "Compartir" ⬆️\n2. Desplázate hacia abajo\n3. Toca "Agregar a pantalla de inicio"',
-      androidInstructions: 'Para instalar:\n1. Toca los 3 puntos (menú)\n2. Toca "Agregar a pantalla de inicio" o "Instalar app"',
-    },
     panic: {
       title: 'Respira Conmigo',
       initialMessage: 'Respira conmigo. Está bien. Pasaremos por esto juntos.',
