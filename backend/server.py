@@ -1052,7 +1052,9 @@ async def update_user_profile(request: UserProfileUpdateRequest):
                 "notification_enabled": updated_user.get("notification_enabled", True),
                 "preferred_time": updated_user.get("preferred_time", "morning"),
                 "age_range": updated_user.get("age_range"),
-                "gender": updated_user.get("gender")
+                "gender": updated_user.get("gender"),
+                "theme": updated_user.get("theme", "system"),
+                "language": updated_user.get("language", "pt-BR")
             }
         }
         
