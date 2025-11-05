@@ -14,8 +14,6 @@ import tempfile
 from pathlib import Path
 from openai import OpenAI
 import json
-import base64
-from google import genai
 
 load_dotenv()
 
