@@ -1,61 +1,94 @@
 <analysis>
-The AI engineer's trajectory focused on two main areas: resolving critical EAS build and Google Play Console upload issues, and enhancing the EaseMind app's chat functionality with a hybrid text/voice interface. Initial efforts addressed  conflicts in ,  configuration for Node.js versions, and a missing  file. The  was instrumental in diagnosing build failures and syncing local/remote configurations.
-
-Subsequently, the AI tackled frontend UI/UX, including fixing Android safe area overlap in  and resolving  dependency issues for local preview. A significant user request was to implement a hybrid chat experience, leading to the creation of a dedicated Voice Chat screen (), an animated Luna orb (), and a mode selection component () on the main chat screen (). This involved integrating a Gemini Live WebSocket endpoint in the backend () and updating frontend components and translations.
-
-The process involved iterative debugging, notably fixing  JSX errors, commenting out native Google Sign-In for Expo Go compatibility, and correcting environment variable loading for the backend URL. The complex Gemini Live integration was temporarily replaced with an Em Breve message in the voice chat, which the user is currently debugging. UI refinements, such as button sizing, removal of quick actions, and centering content, were also completed.
+The AI engineer's work trajectory focused initially on integrating a Gemini Live voice chat, which was later deemed too complex and replaced with the existing voice messaging functionality. A significant portion of the work then shifted to deploying the frontend as a Progressive Web App (PWA) on Vercel, correcting URL configurations between the frontend and backend (Railway), and ensuring seamless user synchronization with MongoDB Atlas. This involved extensive debugging of CORS, environment variables, and database connection discrepancies. UI/UX was improved with responsive design for web views and PWA installation features (icons, manifest, install banner). The current unresolved issue is the non-functional Google Sign-In button on the PWA login page.
 </analysis>
 
 <product_requirements>
-The EaseMind application is a mobile-first emotional support tool featuring an AI chat (Luna), guided sessions, a panic button, and a journal, designed with multi-language support and an Apple-like serenity aesthetic. An institutional website provides public pages and an Admin Dashboard. The core problem is to provide a fully functional, user-friendly mobile application.
+The EaseMind application is a mobile-first emotional support tool with an AI chat (Luna), guided sessions, a panic button, and a journal, designed for multi-language support and an Apple-like serenity aesthetic. The primary problem is to deliver a fully functional, user-friendly mobile application.
 
-**Implemented User Requests (New Features & Fixes):**
-1.  **User Profile Customization**: Users can define a , upload a , select multiple , and configure .  and  are optional. This data is used by Luna for personalization.
-2.  **Luna Display Name Correction**: Luna now correctly uses the user's  from their profile instead of the full name from Google Sign-In.
-3.  **Login Page Visual Update**: The login page now features the EaseMind logo, adapting to both light and dark themes.
-4.  **Journal Save Functionality**: The journal now reliably saves entries, with correct frontend-to-backend API communication, proper JSON response handling, and user feedback.
-5.  **Guided Sessions Audio Fade Out**: Music in guided sessions now fades out gradually and stops automatically with the session timer.
-6.  **Backend Production Deployment (Railway)**: The FastAPI backend and MongoDB are successfully migrated and deployed to Railway, providing a stable production environment.
-7.  **Google Play Store Build Preparation & Fixes**: Configuration files (, ) are prepared, and multiple build issues (Node.js version, splash screen, missing dependencies,  conflicts) were diagnosed and resolved, resulting in a successful  bundle generation.
-8.  **Bottom Navigation Safe Area Fix**: The app's bottom navigation menu no longer overlaps with Android system navigation buttons.
-9.  **SOS AI Voice Language Sync**: The AI's voice in SOS sessions now correctly matches the language selected in the user's profile.
+**Implemented User Requests (New Features & Fixes in this trajectory):**
+1.  **Voice Chat Functionality**: Initially planned with Gemini Live, then reverted to existing voice message recording and TTS response, with a visual indicator (WhatsApp style).
+2.  **Keyboard Overlap Fix**: Resolved keyboard covering the save button in the journal entry modal using  and .
+3.  **Backend Optimization**: Removed unused Gemini Live WebSocket endpoint and related imports from the backend for a leaner codebase.
+4.  **PWA Deployment & Domain Setup**: Configured the frontend (Expo app) for deployment as a PWA on Vercel, pointing  to it, and ensuring  correctly points to the FastAPI backend on Railway.
+5.  **User Sync & Database Unification**: Fixed critical issues with user registration and data synchronization between Firebase, the backend, and the MongoDB Atlas database. This involved correcting CORS policies, environment variables (, ), and ensuring both the backend and admin panel used the same MongoDB Atlas instance.
+6.  **PWA Installation & Icon Fixes**: Implemented a PWA installation banner, configured  and  for proper PWA manifest generation, optimized icons, and resolved issues with the app icon not appearing and manual naming during installation.
+7.  **Responsive Web Layout**: Introduced a  to provide a max-width, centered, tablet-like view for the web PWA, including the login screen.
+8.  **TTS Audio on PWA**: Addressed issues where Luna's audio responses were not playing on the mobile PWA by switching to HTML5 Audio API.
+9.  **Microphone Permission Flow**: Fixed the audio recording flow by ensuring microphone permission is requested only once.
 </product_requirements>
 
 <key_technical_concepts>
 -   **Expo Router**: File-based routing for React Native.
 -   **React Native**: Core framework for mobile UI development.
 -   **FastAPI**: Python backend API.
--   **MongoDB**: Database.
--   **Firebase Auth**: User authentication, particularly Google Sign-In.
--   **i18n-js, expo-localization**: Multi-language support and synchronization.
--   **expo-image-picker**: Image uploads.
--   **EAS CLI**: Expo Application Services for native app builds.
--   **Railway**: Cloud platform for backend/database hosting.
--   **react-native-reanimated, react-native-worklets**: For animations and gesture handling, requiring specific dependency management.
--   **Safe Area Insets**: Handling UI layout for device-specific safe areas.
--   **Google Gemini API**: Integration for AI voice chat.
--   **WebSocket**: For real-time voice chat communication.
+-   **MongoDB Atlas**: Cloud-hosted database, unified for backend and admin.
+-   **Firebase Auth**: User authentication.
+-   **Vercel**: Frontend (PWA) deployment.
+-   **Railway**: Backend (FastAPI) deployment.
+-   **Progressive Web App (PWA)**: Web app installable on mobile.
+-   **CORS**: Cross-Origin Resource Sharing for API security.
+-   **HTML5 Audio API**: For audio playback in web environments.
 </key_technical_concepts>
 
 <code_architecture>
 
-
--   ****: Main Expo configuration.  was incremented multiple times (from 1 to 2) and  updated (from 1.0.0 to 1.0.1) to address Google Play Console upload errors.  section configured for Google Play build.
--   ****: Expo EAS Build config. Updated Node.js version to  for builds, and added  to address build configuration sync issues.
--   ****: New file created to reduce the project archive size for EAS builds, ignoring , build artifacts, test files, and other unnecessary directories.
--   ****: Defines the layout for the tab navigation. Modified to include  to add  to , preventing the bottom navigation from overlapping with Android system navigation buttons.
--   ****:  was added to dependencies to resolve build failures and preview issues related to worklet plugin.
--   ****: Defines backend API endpoints. Modified to add necessary imports for Google Generative AI (, , usage: websockets [--version | <uri>]) and a new WebSocket endpoint () for Gemini Live voice chat.
--   ****: Environment variables for the backend.  was added to store the user-provided API key for Gemini.
--   ****: Python dependencies.  was added to support Gemini API integration.
--   ****: New component created to display an animated orb representing Luna, intended for the voice chat interface.
--   ****: New screen created for the voice chat functionality. Initially intended for Gemini Live integration, it was later simplified to display a Em Breve (Coming Soon) message due to complexity. Includes logic for WebSocket connection (currently commented out/simplified) and UI elements for a voice interaction.
--   ****: The main chat screen. Substantially modified to integrate  for selecting between text and voice chat. The initial greeting, quick action links, and old microphone button were removed. The input bar now only appears after text mode is selected or messages exist. Styles were adjusted for centering and responsiveness.
--   ****: New component created to present two large buttons (Text/Voice) to the user, allowing them to choose their interaction mode.
--   ****: Centralized translations. New keys were added for the  screen and  component (e.g., Coming Soon, Speak, Write, Chat, Voice). Existing translations related to the initial greeting were modified or removed.
--   ****: The component responsible for the initial greeting message. Modified to remove the Como você está hoje? text and associated emojis, simplifying the welcome experience.
--   ****: Manages authentication state and backend URL access. Corrected the loading of  from  to ensure the correct value is used instead of a template string literal, resolving Network request failed errors for user synchronization.
--   ****: Login screen. The Google Sign-In related imports and  function were temporarily commented out to prevent crashes when running the app in Expo Go, as native Google Sign-In requires a custom native build.
+-   ****:
+    -   **Importance**: Core FastAPI backend, defines API endpoints.
+    -   **Changes**: Initially included Gemini Live WebSocket endpoint, which was later removed. CORS policy was updated to explicitly allow  as an origin. Imports for  and usage: websockets [--version | <uri>] were removed.
+-   ****:
+    -   **Importance**: Environment variables for backend configuration.
+    -   **Changes**:  was added (then became unused).  was configured to point to the shared MongoDB Atlas instance.  was added to ensure correct database selection.
+-   ****:
+    -   **Importance**: Manages MongoDB connections and collections.
+    -   **Changes**: Corrected hardcoded database name to use  environment variable, ensuring consistency with MongoDB Atlas.
+-   ****:
+    -   **Importance**: Main Expo configuration, controls app build and web manifest.
+    -   **Changes**: Updated  section for PWA support, including , , , and various  sizes ( was added/updated to be the main icon), and  screen.  and  paths were also updated.
+-   ** & **:
+    -   **Importance**: Frontend environment variables.
+    -   **Changes**:  updated to  to point to the correct deployed backend.
+-   ****:
+    -   **Importance**: Animated component for voice chat UI.
+    -   **Changes**: Not directly modified in this trajectory, but its context within voice chat was altered (e.g., Gemini Live removal).
+-   ****:
+    -   **Importance**: Main chat screen.
+    -   **Changes**:  and  integration removed. Reverted to a single chat interface supporting both text input and voice messaging. Added UI for voice recording status (WhatsApp style). Styles adjusted to use app theme colors.
+-   ****:
+    -   **Importance**: Journal entry screen.
+    -   **Changes**: Implemented  and  within the modal to prevent the keyboard from obscuring the Save button.
+-   ****:
+    -   **Importance**: Defines tab navigation layout.
+    -   **Changes**: Wrapped content with  to apply responsive design (max-width, centered) for web.
+-   ****:
+    -   **Importance**: Login screen.
+    -   **Changes**: Wrapped content with  to apply responsive design for web. Google Sign-In button interaction is currently not working.
+-   ****:
+    -   **Importance**: Component for selecting text/voice chat.
+    -   **Changes**: Created, then later removed from  as the voice chat live integration was abandoned.
+-   ****:
+    -   **Importance**: New component for responsive web layout.
+    -   **Changes**: Created to apply , , , and shadows for a tablet-like view on desktop.
+-   ****:
+    -   **Importance**: New component for PWA installation banner.
+    -   **Changes**: Created to display a prompt to install the PWA, utilizing  event.
+-   ****:
+    -   **Importance**: Centralized multi-language translations.
+    -   **Changes**: Added/updated keys for voice chat elements, mode selection,  banner, and other UI strings across English, Portuguese, and Spanish.
+-   ****:
+    -   **Importance**: Manages authentication state and backend URL.
+    -   **Changes**: Fixed logic for deriving  to correctly use  for web, resolving Failed to sync user issues.
+-   ****:
+    -   **Importance**: Handles audio playback for TTS responses.
+    -   **Changes**: Modified to use HTML5 Audio API for web PWA compatibility, addressing Luna's audio not playing on mobile browsers.
+-   ****:
+    -   **Importance**: Manages audio recording.
+    -   **Changes**: Fixed microphone permission logic to prompt only once, preventing recording interruptions.
+-   ** directory**:
+    -   **Importance**: Stores static assets for web PWA (favicon, manifest, icons).
+    -   **Changes**: , ,  created and optimized.  updated to link .  created with PWA configuration (, , , , ).
+-   ****:
+    -   **Importance**: Vercel deployment configuration for the frontend.
+    -   **Changes**: Added  to handle single-page application (SPA) routing and prevent 404 errors on direct access to routes, ensuring all requests fall back to .
 </code_architecture>
 
 <pending_tasks>
@@ -71,22 +104,14 @@ The EaseMind application is a mobile-first emotional support tool featuring an A
 -   Address warnings about duplicate dependencies and major/minor version mismatches.
 -   Assist user with GitHub authentication for  (still intermittently failing).
 -   Ensure first successful upload of the .aab to Google Play Console's production track.
--   Google Auth not functioning on mobile (requires SHA-1/SHA-256 setup).
--   Users not appearing in  panel (backend admin panel is not yet confirmed to exist).
--   Guide the user to download the successfully uploaded  and upload it to the Google Play Console's Production track first.
 </pending_tasks>
 
 <current_work>
-Immediately before this summary request, the AI engineer was focused on resolving issues with the newly implemented voice chat feature. The user reported that when entering the voice chat mode, it displays a message, but nothing happens (Chat Message 368).
+Immediately before this summary request, the AI engineer was addressing issues with the Google Sign-In functionality on the PWA. The user reported (Chat Message 548) that when clicking the Login with Gmail button on , nothing happens. The button appears to be unresponsive, suggesting a potential JavaScript error, misconfiguration, or an issue with the event handler.
 
-The AI engineer had previously implemented a hybrid chat solution: a text chat powered by Luna (GPT-4o-mini) and a voice chat that was intended to use Google Gemini Live. However, due to the complexity of integrating Gemini Live's WebSocket API and persistent issues, the voice chat screen () was temporarily modified to display an Em Breve (Coming Soon) message.
-
-The user's most recent feedback indicates that this Em Breve alert itself might not be appearing correctly, or the user is expecting more than just the alert. The AI's last action (Chat Message 371) was to simplify the  component to ensure the Em Breve alert is displayed immediately and reliably upon opening the screen. This suggests a potential issue with the  hook or the overall rendering logic within the  component that prevented the Coming Soon message from being immediately visible.
-
-The text chat (Luna) is confirmed to be working well (Chat Message 368), and several UI/UX refinements for the main chat screen, button layout, and initial greeting have been completed successfully. Critical bugs such as the  environment variable loading and Google Sign-In crashes on Expo Go have also been addressed.
+Previously, the AI engineer had verified that the Google Sign-In code was present and active in  (Chat Message 544) and that Firebase was configured in . The next logical step was to ensure  was authorized in the Firebase Console. However, the user's latest feedback indicates that even with these checks, the button remains unresponsive. The AI's last action was to acknowledge the issue and state the intent to investigate using DevTools, specifically checking for errors when the button is clicked.
 </current_work>
 
 <optional_next_step>
-Ensure the Em Breve alert appears correctly in the voice chat screen and then propose a path forward for the voice chat functionality.
+Investigate why the Login with Gmail button is unresponsive.
 </optional_next_step>
-
