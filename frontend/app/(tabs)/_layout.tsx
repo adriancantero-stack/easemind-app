@@ -1,159 +1,55 @@
-import { Tabs } from 'expo-router';
+import { Stack } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { Animated, Easing, Image, Text, View } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View } from 'react-native';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
-import { useTranslation } from 'react-i18next';
 import { PanicModal } from '../../components/PanicModal';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 import { InstallPrompt } from '../../components/InstallPrompt';
+import { CustomHeader } from '../../components/CustomHeader';
+import { FixedSOSButton } from '../../components/FixedSOSButton';
 import '../../utils/i18n';
 
 export default function TabLayout() {
-  const { t } = useTranslation();
   const isDarkMode = useStore((state) => state.isDarkMode);
   const loadFromStorage = useStore((state) => state.loadFromStorage);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
   const [showPanicModal, setShowPanicModal] = useState(false);
-  const pulseAnim = React.useRef(new Animated.Value(1)).current;
-  const insets = useSafeAreaInsets();
 
   useEffect(() => {
     loadFromStorage();
   }, []);
 
-  // Breathing animation for SOS button (inhale/exhale rhythm)
-  useEffect(() => {
-    // Realistic breathing: 4.5s inhale, 4.5s exhale (1.0 → 1.08)
-    const breathe = Animated.loop(
-      Animated.sequence([
-        // Inhale
-        Animated.timing(pulseAnim, {
-          toValue: 1.08,
-          duration: 4500,
-          useNativeDriver: true,
-          easing: Easing.bezier(0.4, 0.0, 0.2, 1), // Smooth ease-in-out
-        }),
-        // Exhale
-        Animated.timing(pulseAnim, {
-          toValue: 1,
-          duration: 4500,
-          useNativeDriver: true,
-          easing: Easing.bezier(0.4, 0.0, 0.2, 1),
-        }),
-      ])
-    );
-    breathe.start();
-    return () => breathe.stop();
-  }, []);
-
   return (
     <ResponsiveContainer>
       <InstallPrompt />
-      <Tabs
-        screenOptions={{
-          tabBarActiveTintColor: currentTheme.accent1,
-          tabBarInactiveTintColor: currentTheme.textMuted,
-          tabBarStyle: {
-            backgroundColor: currentTheme.card,
-            borderTopColor: currentTheme.border,
-            height: 60 + insets.bottom,
-            paddingBottom: insets.bottom > 0 ? insets.bottom : 10,
-            paddingTop: 8,
-          },
-          headerShown: false,
-        }}
-      >
-        <Tabs.Screen
-          name="index"
-          options={{
-            title: t('tabs.chat'),
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="chatbubbles-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="sessions"
-          options={{
-            title: t('tabs.sessions'),
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="leaf-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="panic"
-          options={{
-            title: t('tabs.sos'),
-            tabBarIcon: ({ focused }) => (
-              <Animated.View
-                style={{
-                  transform: [{ scale: pulseAnim }],
-                  marginTop: -20,
-                  alignItems: 'center',
-                }}
-              >
-                <Image
-                  source={require('../../assets/images/panic-button.png')}
-                  style={{
-                    width: 70,
-                    height: 70,
-                    resizeMode: 'contain',
-                  }}
-                />
-                <Text
-                  style={{
-                    fontSize: 10,
-                    fontWeight: '600',
-                    color: '#BDAAFF',
-                    marginTop: 2,
-                    letterSpacing: 1,
-                    opacity: 0.8,
-                  }}
-                >
-                  SOS
-                </Text>
-              </Animated.View>
-            ),
-            tabBarLabel: () => null,
-          }}
-          listeners={{
-            tabPress: (e) => {
-              e.preventDefault(); // Previne navegação
-              setShowPanicModal(true); // Abre o modal
+      <View style={{ flex: 1, backgroundColor: currentTheme.bg }}>
+        {/* Custom Header with Logo and Hamburger Menu */}
+        <CustomHeader />
+        
+        {/* Stack Navigator for all screens */}
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: currentTheme.bg,
             },
           }}
-        />
-        <Tabs.Screen
-          name="journal"
-          options={{
-            title: t('tabs.journal'),
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="book-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="profile"
-          options={{
-            title: t('tabs.profile'),
-            tabBarIcon: ({ color, size }) => (
-              <Ionicons name="person-outline" size={size} color={color} />
-            ),
-          }}
-        />
-        <Tabs.Screen
-          name="about"
-          options={{
-            href: null, // Esconde da tab bar
-          }}
-        />
-      </Tabs>
+        >
+          <Stack.Screen name="index" />
+          <Stack.Screen name="sessions" />
+          <Stack.Screen name="journal" />
+          <Stack.Screen name="profile" />
+          <Stack.Screen name="about" />
+          <Stack.Screen name="panic" options={{ presentation: 'modal' }} />
+        </Stack>
 
-      <PanicModal visible={showPanicModal} onClose={() => setShowPanicModal(false)} />
+        {/* Fixed SOS Button at Bottom */}
+        <FixedSOSButton onPress={() => setShowPanicModal(true)} />
+        
+        {/* Panic Modal */}
+        <PanicModal visible={showPanicModal} onClose={() => setShowPanicModal(false)} />
+      </View>
     </ResponsiveContainer>
   );
 }
