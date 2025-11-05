@@ -32,7 +32,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/icone-easemind.png",
+      "favicon": "./assets/images/icone-app.png",
       "name": "EaseMind",
       "shortName": "EaseMind",
       "lang": "pt-BR",
