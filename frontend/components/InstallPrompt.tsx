@@ -127,7 +127,13 @@ export const InstallPrompt: React.FC = () => {
 
   const handleDismiss = async () => {
     try {
-      await AsyncStorage.setItem('install_prompt_dismissed', 'true');
+      // Salvar timestamp de quando foi dismissed
+      const dismissData = {
+        timestamp: Date.now(),
+        dismissed: true
+      };
+      await AsyncStorage.setItem('install_prompt_dismissed', JSON.stringify(dismissData));
+      console.log('⏸️ Prompt dismissed, não mostrará pelos próximos 7 dias');
       animateOut(() => setShowPrompt(false));
     } catch (error) {
       console.error('Error dismissing prompt:', error);
