@@ -78,6 +78,7 @@ export const useAudioPlayer = () => {
   const playFromUri = async (uri: string) => {
     try {
       console.log('🔊 Playing audio from URI...', Platform.OS);
+      console.log('📱 User agent:', typeof window !== 'undefined' ? window.navigator.userAgent : 'N/A');
       
       // Use HTML5 Audio API for web (better PWA support)
       if (Platform.OS === 'web') {
@@ -86,14 +87,29 @@ export const useAudioPlayer = () => {
         // Use window.Audio to avoid conflict with expo-av Audio
         const audio = new window.Audio();
         
+        // Critical for mobile: set attributes before setting src
+        audio.setAttribute('playsinline', 'true');
+        audio.setAttribute('webkit-playsinline', 'true');
+        audio.preload = 'auto';
+        
+        console.log('📱 Mobile-friendly attributes set');
+        
         // Set up event listeners BEFORE setting src
         audio.onloadedmetadata = () => {
           console.log('✅ Audio metadata loaded, duration:', audio.duration);
           setAudioDuration(audio.duration * 1000);
         };
         
+        audio.onloadeddata = () => {
+          console.log('✅ Audio data loaded');
+        };
+        
         audio.oncanplay = () => {
           console.log('✅ Audio can play');
+        };
+        
+        audio.oncanplaythrough = () => {
+          console.log('✅ Audio can play through');
         };
         
         audio.onplay = () => {
@@ -108,29 +124,58 @@ export const useAudioPlayer = () => {
         };
         
         audio.onerror = (e) => {
-          console.error('❌ Audio error:', e, audio.error);
+          console.error('❌ Audio error:', e);
+          if (audio.error) {
+            console.error('❌ Audio error code:', audio.error.code);
+            console.error('❌ Audio error message:', audio.error.message);
+          }
           setIsPlaying(false);
           setIsLoading(false);
         };
         
+        audio.onstalled = () => {
+          console.warn('⚠️ Audio stalled');
+        };
+        
+        audio.onsuspend = () => {
+          console.warn('⚠️ Audio suspended');
+        };
+        
         // Now set the src
         audio.src = uri;
+        console.log('🔊 Audio src set, data URI length:', uri.length);
         
         // Load and play
         try {
           // load() is synchronous, doesn't return promise
           audio.load();
-          console.log('🔊 Audio loaded, attempting to play...');
+          console.log('🔊 Audio load() called');
+          
+          // Wait a bit for mobile devices
+          await new Promise(resolve => setTimeout(resolve, 100));
           
           // play() returns a promise
+          console.log('🔊 Attempting to play...');
           const playPromise = audio.play();
           
           if (playPromise !== undefined) {
             await playPromise;
-            console.log('✅ Audio play() called successfully');
+            console.log('✅ Audio play() promise resolved');
+          } else {
+            console.log('✅ Audio play() called (no promise)');
           }
-        } catch (playError) {
+        } catch (playError: any) {
           console.error('❌ Error calling play():', playError);
+          console.error('❌ Error name:', playError.name);
+          console.error('❌ Error message:', playError.message);
+          
+          // Try one more time after user interaction (for mobile)
+          if (playError.name === 'NotAllowedError' || playError.name === 'NotSupportedError') {
+            console.log('⚠️ Autoplay blocked, will retry...');
+            // Store audio reference for manual retry if needed
+            (window as any).__pendingAudio = audio;
+          }
+          
           setIsLoading(false);
           setIsPlaying(false);
         }
