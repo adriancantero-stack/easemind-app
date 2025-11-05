@@ -49,7 +49,7 @@ export default function TabLayout() {
   }, []);
 
   return (
-    <>
+    <ResponsiveContainer>
       <Tabs
         screenOptions={{
           tabBarActiveTintColor: currentTheme.accent1,
