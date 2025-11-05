@@ -35,6 +35,7 @@ export default function HomeScreen() {
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [playingMessageId, setPlayingMessageId] = useState<string | null>(null);
+  const [showPanicModal, setShowPanicModal] = useState(false);
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [userId, setUserId] = useState<string>('');
   const scrollViewRef = useRef<ScrollView>(null);
