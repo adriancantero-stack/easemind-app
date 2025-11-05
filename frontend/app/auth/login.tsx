@@ -325,6 +325,7 @@ export default function LoginScreen() {
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
+    </ResponsiveContainer>
   );
 }
 
