@@ -382,6 +382,13 @@ export const translations = {
         note: 'Quero anotar meus pensamentos',
       },
     },
+    installPrompt: {
+      title: 'Instalar EaseMind',
+      subtitle: 'Acesso rápido da sua tela inicial',
+      install: 'Instalar',
+      iosInstructions: 'Para instalar:\n1. Toque no botão "Compartilhar" ⬆️\n2. Role para baixo\n3. Toque em "Adicionar à Tela de Início"',
+      androidInstructions: 'Para instalar:\n1. Toque nos 3 pontos (menu)\n2. Toque em "Adicionar à tela inicial" ou "Instalar app"',
+    },
     voiceChat: {
       title: 'Chat de Voz com Luna',
       connect: 'Conectar',
