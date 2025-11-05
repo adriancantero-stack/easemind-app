@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Modal, StyleSheet, TouchableOpacity, Animated, Linking } from 'react-native';
+import { View, Text, Modal, StyleSheet, TouchableOpacity, Animated, Linking, Platform } from 'react-native';
 import { BlurView } from 'expo-blur';
 import { Audio } from 'expo-av';
 import { useStore } from '../store/useStore';
