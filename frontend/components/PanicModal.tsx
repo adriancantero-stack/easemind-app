@@ -180,36 +180,85 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
         } catch (playError) {
           console.error('❌ Erro ao tocar áudios:', playError);
         }
-
-      // Monitorar progresso da voz para sincronizar textos
-      voiceSound.current.setOnPlaybackStatusUpdate((status) => {
-        if (status.isLoaded && status.isPlaying) {
-          const positionMs = status.positionMillis;
-          
-          // Sincronizar textos baseado na posição do áudio
-          // Ajuste esses tempos conforme o áudio real
-          if (positionMs < 10000) {
+        
+        // Monitorar progresso para web
+        const updateTextInterval = setInterval(() => {
+          if (voiceAudio.currentTime < 10) {
             setCurrentText(t('panic.inhale'));
-          } else if (positionMs < 20000) {
+          } else if (voiceAudio.currentTime < 20) {
             setCurrentText(t('panic.hold'));
-          } else if (positionMs < 30000) {
+          } else if (voiceAudio.currentTime < 30) {
             setCurrentText(t('panic.exhale'));
-          } else if (positionMs < 40000) {
+          } else if (voiceAudio.currentTime < 40) {
             setCurrentText(t('panic.inhale'));
-          } else if (positionMs < 50000) {
+          } else if (voiceAudio.currentTime < 50) {
             setCurrentText(t('panic.hold'));
-          } else if (positionMs < 60000) {
+          } else if (voiceAudio.currentTime < 60) {
             setCurrentText(t('panic.exhale'));
           } else {
             setCurrentText(t('panic.relax'));
           }
-        }
-
-        if (status.isLoaded && status.didJustFinish) {
-          console.log('✅ Voz guiada finalizada');
+        }, 1000);
+        
+        // Evento quando áudio termina
+        voiceAudio.onended = () => {
+          clearInterval(updateTextInterval);
+          console.log('✅ Voz guiada finalizada (web)');
           handleSessionComplete();
-        }
-      });
+        };
+        
+      } else {
+        // Native: usar expo-av
+        console.log('📱 Usando expo-av para native');
+        
+        const [voiceResult, musicResult] = await Promise.all([
+          Audio.Sound.createAsync(
+            voiceAudioSource,
+            { shouldPlay: true, volume: 1.0 }
+          ),
+          Audio.Sound.createAsync(
+            require('../assets/audio/432hz_calmante.mp3'),
+            { 
+              shouldPlay: true, 
+              volume: 0.35,
+              isLooping: true
+            }
+          ),
+        ]);
+
+        voiceSound.current = voiceResult.sound;
+        musicSound.current = musicResult.sound;
+
+        console.log('✅ Áudios iniciados em paralelo (native)');
+
+        // Monitorar progresso da voz para sincronizar textos
+        voiceSound.current.setOnPlaybackStatusUpdate((status) => {
+          if (status.isLoaded && status.isPlaying) {
+            const positionMs = status.positionMillis;
+            
+            if (positionMs < 10000) {
+              setCurrentText(t('panic.inhale'));
+            } else if (positionMs < 20000) {
+              setCurrentText(t('panic.hold'));
+            } else if (positionMs < 30000) {
+              setCurrentText(t('panic.exhale'));
+            } else if (positionMs < 40000) {
+              setCurrentText(t('panic.inhale'));
+            } else if (positionMs < 50000) {
+              setCurrentText(t('panic.hold'));
+            } else if (positionMs < 60000) {
+              setCurrentText(t('panic.exhale'));
+            } else {
+              setCurrentText(t('panic.relax'));
+            }
+          }
+
+          if (status.isLoaded && status.didJustFinish) {
+            console.log('✅ Voz guiada finalizada (native)');
+            handleSessionComplete();
+          }
+        });
+      }
 
     } catch (error) {
       console.error('❌ Erro ao iniciar sessão SOS:', error);
