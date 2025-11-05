@@ -136,26 +136,50 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
       const voiceAudioSource = getVoiceAudio();
       console.log('🎙️ Áudio selecionado para idioma:', useStore.getState().language);
 
-      // Carregar áudios em paralelo
-      const [voiceResult, musicResult] = await Promise.all([
-        Audio.Sound.createAsync(
-          voiceAudioSource,
-          { shouldPlay: true, volume: 1.0 }
-        ),
-        Audio.Sound.createAsync(
-          require('../assets/audio/432hz_calmante.mp3'),
-          { 
-            shouldPlay: true, 
-            volume: 0.35,
-            isLooping: true
-          }
-        ),
-      ]);
-
-      voiceSound.current = voiceResult.sound;
-      musicSound.current = musicResult.sound;
-
-      console.log('✅ Áudios iniciados em paralelo');
+      if (Platform.OS === 'web') {
+        console.log('🌐 Usando HTML5 Audio para web/mobile');
+        
+        // Criar elementos de áudio HTML5
+        const voiceAudio = new window.Audio();
+        const musicAudio = new window.Audio();
+        
+        // Configurar atributos mobile-friendly
+        voiceAudio.setAttribute('playsinline', 'true');
+        voiceAudio.setAttribute('webkit-playsinline', 'true');
+        voiceAudio.preload = 'auto';
+        
+        musicAudio.setAttribute('playsinline', 'true');
+        musicAudio.setAttribute('webkit-playsinline', 'true');
+        musicAudio.preload = 'auto';
+        musicAudio.loop = true;
+        musicAudio.volume = 0.35;
+        
+        // Definir sources
+        voiceAudio.src = voiceAudioSource;
+        musicAudio.src = require('../assets/audio/432hz_calmante.mp3');
+        
+        voiceAudioWeb.current = voiceAudio;
+        musicAudioWeb.current = musicAudio;
+        
+        console.log('🔊 Carregando áudios...');
+        
+        // Carregar áudios
+        voiceAudio.load();
+        musicAudio.load();
+        
+        // Aguardar um pouco para garantir carregamento
+        await new Promise(resolve => setTimeout(resolve, 200));
+        
+        // Tocar áudios
+        try {
+          await Promise.all([
+            voiceAudio.play(),
+            musicAudio.play()
+          ]);
+          console.log('✅ Áudios iniciados em paralelo (web)');
+        } catch (playError) {
+          console.error('❌ Erro ao tocar áudios:', playError);
+        }
 
       // Monitorar progresso da voz para sincronizar textos
       voiceSound.current.setOnPlaybackStatusUpdate((status) => {
