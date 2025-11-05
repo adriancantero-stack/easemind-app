@@ -54,6 +54,8 @@ interface AppState {
   loadFromStorage: () => Promise<void>;
   detectSystemSettings: () => void;
   getUserId: () => Promise<string>;
+  syncPreferencesWithBackend: () => Promise<void>;
+  loadPreferencesFromBackend: () => Promise<void>;
 }
 
 const STORAGE_KEYS = {
