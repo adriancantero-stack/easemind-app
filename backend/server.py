@@ -896,6 +896,8 @@ class UserProfileUpdateRequest(BaseModel):
     preferred_time: Optional[str] = "morning"
     age_range: Optional[str] = None
     gender: Optional[str] = None
+    theme: Optional[str] = None  # 'light', 'dark', 'system'
+    language: Optional[str] = None  # 'en', 'pt-BR', 'es'
 
 @app.post("/api/user/sync")
 async def sync_firebase_user(request: UserSyncRequest):
