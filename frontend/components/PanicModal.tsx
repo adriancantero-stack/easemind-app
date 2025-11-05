@@ -26,6 +26,8 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const voiceSound = useRef<Audio.Sound | null>(null);
   const musicSound = useRef<Audio.Sound | null>(null);
+  const voiceAudioWeb = useRef<HTMLAudioElement | null>(null);
+  const musicAudioWeb = useRef<HTMLAudioElement | null>(null);
 
   // Configurar modo de áudio
   useEffect(() => {
