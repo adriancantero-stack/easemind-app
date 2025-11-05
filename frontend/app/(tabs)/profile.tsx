@@ -270,19 +270,11 @@ export default function ProfileScreen() {
           </Text>
         </View>
 
-        {/* About & Legal Section */}
+        {/* Legal Section */}
         <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
           <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            {t('profile.about')}
+            {t('profile.privacy')}
           </Text>
-          
-          <TouchableOpacity 
-            style={styles.linkItem}
-            onPress={() => router.push('/about')}
-          >
-            <Text style={[styles.linkText, { color: currentTheme.text }]}>🪷 {t('profile.aboutEasemind')}</Text>
-            <Text style={[styles.linkArrow, { color: currentTheme.textSecondary }]}>›</Text>
-          </TouchableOpacity>
 
           <TouchableOpacity 
             style={styles.linkItem}
