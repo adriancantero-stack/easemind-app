@@ -459,8 +459,7 @@ function generateHTML(page, lang, t) {
         <div class="footer-links">
           <h4>${t.footer.download}</h4>
           <ul>
-            <li><a href="${appStoreUrl}" target="_blank" rel="noopener">${t.footer.appStore}</a></li>
-            <li><a href="${playStoreUrl}" target="_blank" rel="noopener">${t.footer.googlePlay}</a></li>
+            <li><a href="${pwaUrl}" target="_blank" rel="noopener">${t.cta.downloadApp || 'Baixar APP'}</a></li>
           </ul>
         </div>
       </div>
