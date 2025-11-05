@@ -449,7 +449,6 @@ const styles = StyleSheet.create({
   recordingBubble: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.85)',
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 30,
@@ -458,9 +457,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 5,
+    borderWidth: 1,
+    borderColor: 'rgba(189, 170, 255, 0.3)',
   },
   recordingText: {
-    color: '#fff',
     fontSize: 14,
     fontWeight: '600',
     marginLeft: 10,
@@ -474,7 +474,6 @@ const styles = StyleSheet.create({
     width: 6,
     height: 6,
     borderRadius: 3,
-    backgroundColor: '#FF5252',
   },
   dotAnimated: {
     opacity: 0.8,
