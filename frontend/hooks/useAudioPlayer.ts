@@ -77,64 +77,55 @@ export const useAudioPlayer = () => {
 
   const playFromUri = async (uri: string) => {
     try {
-      console.log('🔊 playFromUri called with uri length:', uri.length);
+      console.log('🔊 Playing audio from URI...');
       
-      // Stop and cleanup any currently playing sound
-      if (soundRef.current) {
-        console.log('🛑 Stopping previous sound...');
-        try {
-          const status = await soundRef.current.getStatusAsync();
-          if (status.isLoaded) {
-            await soundRef.current.stopAsync();
-            await soundRef.current.unloadAsync();
-          }
-        } catch (e) {
-          console.log('⚠️ Error stopping previous sound (ignorado):', e);
-        }
-        soundRef.current = null;
-      }
-
-      // Set audio mode
-      await Audio.setAudioModeAsync({
-        allowsRecordingIOS: false,
-        playsInSilentModeIOS: true,
-        shouldDuckAndroid: true,
-        playThroughEarpieceAndroid: false,
-        staysActiveInBackground: false,
-      });
-
-      console.log('🔊 Creating new sound from data URI...');
-      
-      // Create sound without autoplay first
-      const { sound } = await Audio.Sound.createAsync(
-        { uri },
-        { shouldPlay: false }, // Don't autoplay yet
-        onPlaybackStatusUpdate
-      );
-
-      soundRef.current = sound;
-      console.log('✅ Sound created successfully');
-      
-      // Check if sound is loaded
-      const status = await sound.getStatusAsync();
-      console.log('📊 Sound status:', status);
-      
-      if (status.isLoaded) {
-        console.log('▶️ Playing sound now...');
-        await sound.playAsync();
-        setIsPlaying(true);
-        console.log('✅ Sound playing!');
+      // Use HTML5 Audio API for web (better PWA support)
+      if (Platform.OS === 'web') {
+        const audio = new Audio(uri);
+        audio.onloadedmetadata = () => {
+          setAudioDuration(audio.duration * 1000);
+        };
+        audio.onplay = () => {
+          setIsPlaying(true);
+        };
+        audio.onended = () => {
+          setIsPlaying(false);
+        };
+        audio.onerror = (e) => {
+          console.error('❌ Audio error:', e);
+          setIsPlaying(false);
+        };
+        
+        await audio.play();
+        console.log('✅ Audio playing (HTML5)');
       } else {
-        throw new Error('Sound failed to load');
+        // Use expo-av for native
+        const { sound } = await Audio.Sound.createAsync(
+          { uri },
+          { shouldPlay: true },
+          (status) => {
+            if (status.isLoaded && status.durationMillis) {
+              setAudioDuration(status.durationMillis);
+            }
+          }
+        );
+
+        soundRef.current = sound;
+        setIsPlaying(true);
+
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.isLoaded) {
+            if (status.didJustFinish) {
+              setIsPlaying(false);
+              sound.unloadAsync();
+            }
+          }
+        });
+
+        console.log('✅ Audio playing (expo-av)');
       }
-      
-      setIsLoading(false);
-    } catch (error) {
-      console.error('❌ Failed to play audio:', error);
-      if (error instanceof Error) {
-        console.error('❌ Error details:', error.message, error.stack);
-      }
-      setIsLoading(false);
+    } catch (err) {
+      console.error('❌ Failed to play audio', err);
       setIsPlaying(false);
     }
   };
