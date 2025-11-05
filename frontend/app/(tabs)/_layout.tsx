@@ -152,6 +152,6 @@ export default function TabLayout() {
       </Tabs>
 
       <PanicModal visible={showPanicModal} onClose={() => setShowPanicModal(false)} />
-    </>
+    </ResponsiveContainer>
   );
 }
