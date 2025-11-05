@@ -455,85 +455,95 @@ export default function JournalScreen() {
         transparent={true}
         onRequestClose={() => setShowNewEntryModal(false)}
       >
-        <View style={styles.modalContainer}>
+        <KeyboardAvoidingView 
+          style={styles.modalContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+        >
           <View style={[styles.modalContent, { backgroundColor: currentTheme.card }]}>
-            <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
-              {t('journal.newEntryTitle')}
-            </Text>
-
-            {/* Data */}
-            <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
-              📅 {t('journal.dateLabel')}
-            </Text>
-            <TouchableOpacity 
-              style={[styles.dateButton, { backgroundColor: currentTheme.bg }]}
-              onPress={() => {
-                // Aqui poderia abrir um DatePicker, mas por simplicidade vamos usar a data atual
-              }}
+            <ScrollView 
+              showsVerticalScrollIndicator={false}
+              keyboardShouldPersistTaps="handled"
+              contentContainerStyle={styles.scrollModalContent}
             >
-              <Text style={[styles.dateText, { color: currentTheme.text }]}>
-                {format(selectedDate, "d MMM yyyy")}
+              <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
+                {t('journal.newEntryTitle')}
               </Text>
-            </TouchableOpacity>
 
-            {/* Mood Selector */}
-            <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
-              😊 {t('journal.moodLabel')}
-            </Text>
-            <View style={styles.moodPicker}>
-              {moods.map((mood) => (
-                <TouchableOpacity
-                  key={mood.value}
-                  style={[
-                    styles.moodButton,
-                    { backgroundColor: currentTheme.bg },
-                    newMood === mood.value && { backgroundColor: currentTheme.accent1, transform: [{ scale: 1.1 }] },
-                  ]}
-                  onPress={() => setNewMood(mood.value)}
-                >
-                  <Text style={styles.moodEmoji}>{mood.emoji}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-
-            {/* Content */}
-            <TextInput
-              style={[styles.textArea, { backgroundColor: currentTheme.bg, color: currentTheme.text }]}
-              placeholder={t('journal.howFeeling')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={newContent}
-              onChangeText={setNewContent}
-              multiline
-              numberOfLines={8}
-              textAlignVertical="top"
-            />
-
-            <View style={styles.modalButtons}>
-              <TouchableOpacity
-                style={[styles.modalButton, { backgroundColor: currentTheme.textSecondary + '30' }]}
-                onPress={() => setShowNewEntryModal(false)}
-                disabled={isSaving}
+              {/* Data */}
+              <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
+                📅 {t('journal.dateLabel')}
+              </Text>
+              <TouchableOpacity 
+                style={[styles.dateButton, { backgroundColor: currentTheme.bg }]}
+                onPress={() => {
+                  // Aqui poderia abrir um DatePicker, mas por simplicidade vamos usar a data atual
+                }}
               >
-                <Text style={[styles.modalButtonText, { color: currentTheme.text }]}>
-                  {t('journal.cancel')}
+                <Text style={[styles.dateText, { color: currentTheme.text }]}>
+                  {format(selectedDate, "d MMM yyyy")}
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.modalButton, { backgroundColor: currentTheme.accent1 }]}
-                onPress={createEntry}
-                disabled={isSaving}
-              >
-                {isSaving ? (
-                  <ActivityIndicator color="#FFF" />
-                ) : (
-                  <Text style={[styles.modalButtonText, { color: '#FFF' }]}>
-                    {t('journal.save')}
+
+              {/* Mood Selector */}
+              <Text style={[styles.sectionLabel, { color: currentTheme.text }]}>
+                😊 {t('journal.moodLabel')}
+              </Text>
+              <View style={styles.moodPicker}>
+                {moods.map((mood) => (
+                  <TouchableOpacity
+                    key={mood.value}
+                    style={[
+                      styles.moodButton,
+                      { backgroundColor: currentTheme.bg },
+                      newMood === mood.value && { backgroundColor: currentTheme.accent1, transform: [{ scale: 1.1 }] },
+                    ]}
+                    onPress={() => setNewMood(mood.value)}
+                  >
+                    <Text style={styles.moodEmoji}>{mood.emoji}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* Content */}
+              <TextInput
+                style={[styles.textArea, { backgroundColor: currentTheme.bg, color: currentTheme.text }]}
+                placeholder={t('journal.howFeeling')}
+                placeholderTextColor={currentTheme.textSecondary}
+                value={newContent}
+                onChangeText={setNewContent}
+                multiline
+                numberOfLines={8}
+                textAlignVertical="top"
+              />
+
+              <View style={styles.modalButtons}>
+                <TouchableOpacity
+                  style={[styles.modalButton, { backgroundColor: currentTheme.textSecondary + '30' }]}
+                  onPress={() => setShowNewEntryModal(false)}
+                  disabled={isSaving}
+                >
+                  <Text style={[styles.modalButtonText, { color: currentTheme.text }]}>
+                    {t('journal.cancel')}
                   </Text>
-                )}
-              </TouchableOpacity>
-            </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[styles.modalButton, { backgroundColor: currentTheme.accent1 }]}
+                  onPress={createEntry}
+                  disabled={isSaving}
+                >
+                  {isSaving ? (
+                    <ActivityIndicator color="#FFF" />
+                  ) : (
+                    <Text style={[styles.modalButtonText, { color: '#FFF' }]}>
+                      {t('journal.save')}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </SafeAreaView>
   );
