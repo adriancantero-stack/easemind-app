@@ -1023,6 +1023,12 @@ async def update_user_profile(request: UserProfileUpdateRequest):
         if request.gender is not None:
             update_data["gender"] = request.gender
         
+        if request.theme is not None:
+            update_data["theme"] = request.theme
+        
+        if request.language is not None:
+            update_data["language"] = request.language
+        
         # Atualizar no MongoDB
         users_collection.update_one(
             {"firebase_uid": request.firebase_uid},
