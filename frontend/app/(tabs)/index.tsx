@@ -344,6 +344,15 @@ export default function HomeScreen() {
             </TouchableOpacity>
           </View>
       </KeyboardAvoidingView>
+      
+      {/* Fixed SOS Button */}
+      <FixedSOSButton onPress={() => setShowPanicModal(true)} />
+      
+      {/* Panic Modal */}
+      <PanicModal 
+        visible={showPanicModal} 
+        onClose={() => setShowPanicModal(false)} 
+      />
     </SafeAreaView>
     </LinearGradient>
   );
