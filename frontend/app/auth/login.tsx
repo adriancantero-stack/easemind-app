@@ -122,15 +122,6 @@ export default function LoginScreen() {
   };
 
   const handleGoogleSignIn = async () => {
-    // TEMPORARIAMENTE DESABILITADO - Requer build customizado
-    Alert.alert(
-      t('auth.unavailable') || 'Indisponível',
-      t('auth.googleSignInRequiresBuild') || 'O login com Google requer um build customizado do app. Por favor, use email e senha por enquanto.',
-      [{ text: 'OK' }]
-    );
-    return;
-    
-    /* CÓDIGO ORIGINAL - SERÁ REATIVADO NO BUILD DE PRODUÇÃO
     setLoading(true);
     try {
       if (Platform.OS === 'web') {
@@ -140,12 +131,15 @@ export default function LoginScreen() {
           prompt: 'select_account'
         });
         
+        console.log('🔐 Tentando login com Google...');
+        
         try {
           // Tentar popup primeiro
-          await signInWithPopup(auth, provider);
-          console.log('✅ Login com Google realizado (Popup)');
+          const result = await signInWithPopup(auth, provider);
+          console.log('✅ Login com Google realizado (Popup)', result.user.email);
           router.replace('/(tabs)/');
         } catch (popupError: any) {
+          console.error('❌ Erro no popup:', popupError);
           // Se popup foi bloqueado, usar redirect
           if (popupError.code === 'auth/popup-blocked' || 
               popupError.code === 'auth/popup-closed-by-user' ||
@@ -158,26 +152,12 @@ export default function LoginScreen() {
           }
         }
       } else {
-        // Implementação para Native (iOS/Android)
-        const { GoogleSignin } = await import('@react-native-google-signin/google-signin');
-        
-        // Verificar se o Play Services está disponível
-        await GoogleSignin.hasPlayServices();
-        
-        // Fazer login no Google
-        const userInfo = await GoogleSignin.signIn();
-        
-        // Obter o ID token do Google
-        const { idToken } = userInfo.data!;
-        
-        // Criar credencial do Firebase com o token do Google
-        const googleCredential = GoogleAuthProvider.credential(idToken);
-        
-        // Fazer sign in no Firebase com a credencial do Google
-        await signInWithCredential(auth, googleCredential);
-        
-        console.log('✅ Login com Google realizado (Native)');
-        router.replace('/(tabs)/');
+        // Para Native: Mostrar alert informando que requer build customizado
+        Alert.alert(
+          t('auth.unavailable') || 'Indisponível',
+          'O login com Google em dispositivos nativos requer um build customizado. Use a versão web ou email/senha.',
+          [{ text: 'OK' }]
+        );
       }
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
@@ -185,33 +165,27 @@ export default function LoginScreen() {
       // Tratar diferentes tipos de erro
       if (error.code === 'auth/popup-closed-by-user') {
         console.log('Login cancelado pelo usuário');
-      } else if (error.code === 'SIGN_IN_CANCELLED') {
-        console.log('Login cancelado pelo usuário');
-      } else if (error.code === 'IN_PROGRESS') {
-        console.log('Login já está em andamento');
-      } else if (error.code === 'PLAY_SERVICES_NOT_AVAILABLE') {
-        if (Platform.OS === 'web') {
-          window.alert('Google Play Services não disponível');
-        } else {
-          Alert.alert(t('auth.error'), 'Google Play Services não disponível');
-        }
+        // Não mostrar erro se usuário cancelou
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        console.log('Requisição de popup cancelada');
       } else if (error.code === 'auth/unauthorized-domain') {
         if (Platform.OS === 'web') {
-          window.alert('Domínio não autorizado no Firebase Console. Configure o domínio no Firebase.');
+          window.alert('Domínio não autorizado no Firebase Console. Por favor, adicione este domínio nas configurações do Firebase.');
         } else {
           Alert.alert(t('auth.error'), 'Domínio não autorizado');
         }
       } else {
+        // Mostrar erro genérico
+        const errorMsg = t('auth.googleSignInError') || 'Erro ao fazer login com Google';
         if (Platform.OS === 'web') {
-          window.alert(t('auth.googleSignInError') + ': ' + error.message);
+          window.alert(errorMsg + ': ' + error.message);
         } else {
-          Alert.alert(t('auth.error'), t('auth.googleSignInError'));
+          Alert.alert(t('auth.error'), errorMsg);
         }
       }
     } finally {
       setLoading(false);
     }
-    */
   };
 
   return (
