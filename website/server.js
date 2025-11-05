@@ -61,8 +61,9 @@ function detectLanguage(req) {
 
 // Helper: Generate HTML template (PREMIUM DESIGN)
 function generateHTML(page, lang, t) {
-  const appStoreUrl = 'https://apps.apple.com/app/easemind';
-  const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
+  const pwaUrl = 'https://app.easemind.io';
+  const appStoreUrl = 'https://apps.apple.com/app/easemind';  // Legacy
+  const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';  // Legacy
   const appPreviewUrl = 'https://voice-chat-app-44.preview.emergentagent.com';
   
   let content = '';
