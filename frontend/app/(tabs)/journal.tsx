@@ -11,6 +11,7 @@ import {
   Alert,
   Dimensions,
   Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useStore } from '../../store/useStore';
