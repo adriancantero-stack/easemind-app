@@ -77,30 +77,58 @@ export const useAudioPlayer = () => {
 
   const playFromUri = async (uri: string) => {
     try {
-      console.log('🔊 Playing audio from URI...');
+      console.log('🔊 Playing audio from URI...', Platform.OS);
       
       // Use HTML5 Audio API for web (better PWA support)
       if (Platform.OS === 'web') {
-        const audio = new Audio(uri);
+        console.log('🌐 Using HTML5 Audio for web');
+        
+        const audio = new Audio();
+        
+        // Set up event listeners BEFORE setting src
         audio.onloadedmetadata = () => {
+          console.log('✅ Audio metadata loaded, duration:', audio.duration);
           setAudioDuration(audio.duration * 1000);
         };
+        
+        audio.oncanplay = () => {
+          console.log('✅ Audio can play');
+        };
+        
         audio.onplay = () => {
+          console.log('✅ Audio started playing');
           setIsPlaying(true);
+          setIsLoading(false);
         };
+        
         audio.onended = () => {
-          setIsPlaying(false);
-        };
-        audio.onerror = (e) => {
-          console.error('❌ Audio error:', e);
+          console.log('✅ Audio finished playing');
           setIsPlaying(false);
         };
         
-        await audio.play();
-        console.log('✅ Audio playing (HTML5)');
-        setIsLoading(false);
+        audio.onerror = (e) => {
+          console.error('❌ Audio error:', e, audio.error);
+          setIsPlaying(false);
+          setIsLoading(false);
+        };
+        
+        // Now set the src
+        audio.src = uri;
+        
+        // Load and play
+        try {
+          await audio.load();
+          console.log('🔊 Audio loaded, attempting to play...');
+          await audio.play();
+          console.log('✅ Audio play() called successfully');
+        } catch (playError) {
+          console.error('❌ Error calling play():', playError);
+          setIsLoading(false);
+          setIsPlaying(false);
+        }
       } else {
         // Use expo-av for native
+        console.log('📱 Using expo-av for native');
         const { sound } = await Audio.Sound.createAsync(
           { uri },
           { shouldPlay: true },
