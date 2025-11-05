@@ -1093,6 +1093,3 @@ async def get_user_profile(firebase_uid: str):
         logger.error(f"Error getting profile: {e}", exc_info=True)
 
 
-# Health check endpoint for monitoring
-async def gemini_live_endpoint(websocket: WebSocket):
-
