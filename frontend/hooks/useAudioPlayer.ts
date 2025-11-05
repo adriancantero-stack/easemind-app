@@ -118,10 +118,17 @@ export const useAudioPlayer = () => {
         
         // Load and play
         try {
-          await audio.load();
+          // load() is synchronous, doesn't return promise
+          audio.load();
           console.log('🔊 Audio loaded, attempting to play...');
-          await audio.play();
-          console.log('✅ Audio play() called successfully');
+          
+          // play() returns a promise
+          const playPromise = audio.play();
+          
+          if (playPromise !== undefined) {
+            await playPromise;
+            console.log('✅ Audio play() called successfully');
+          }
         } catch (playError) {
           console.error('❌ Error calling play():', playError);
           setIsLoading(false);
