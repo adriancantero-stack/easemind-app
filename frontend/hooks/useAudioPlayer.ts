@@ -83,7 +83,8 @@ export const useAudioPlayer = () => {
       if (Platform.OS === 'web') {
         console.log('🌐 Using HTML5 Audio for web');
         
-        const audio = new Audio();
+        // Use window.Audio to avoid conflict with expo-av Audio
+        const audio = new window.Audio();
         
         // Set up event listeners BEFORE setting src
         audio.onloadedmetadata = () => {
