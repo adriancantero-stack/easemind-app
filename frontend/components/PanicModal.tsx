@@ -75,15 +75,30 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
 
   const stopAllAudio = async () => {
     try {
-      if (voiceSound.current) {
-        await voiceSound.current.stopAsync();
-        await voiceSound.current.unloadAsync();
-        voiceSound.current = null;
-      }
-      if (musicSound.current) {
-        await musicSound.current.stopAsync();
-        await musicSound.current.unloadAsync();
-        musicSound.current = null;
+      if (Platform.OS === 'web') {
+        // Web: usar HTML5 Audio
+        if (voiceAudioWeb.current) {
+          voiceAudioWeb.current.pause();
+          voiceAudioWeb.current.currentTime = 0;
+          voiceAudioWeb.current = null;
+        }
+        if (musicAudioWeb.current) {
+          musicAudioWeb.current.pause();
+          musicAudioWeb.current.currentTime = 0;
+          musicAudioWeb.current = null;
+        }
+      } else {
+        // Native: usar expo-av
+        if (voiceSound.current) {
+          await voiceSound.current.stopAsync();
+          await voiceSound.current.unloadAsync();
+          voiceSound.current = null;
+        }
+        if (musicSound.current) {
+          await musicSound.current.stopAsync();
+          await musicSound.current.unloadAsync();
+          musicSound.current = null;
+        }
       }
     } catch (error) {
       console.error('Erro ao parar áudio:', error);
