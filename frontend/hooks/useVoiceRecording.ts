@@ -20,12 +20,19 @@ export const useVoiceRecording = () => {
         recordingRef.current = null;
       }
 
-      console.log('🎙️ Requesting permissions...');
-      const permission = await Audio.requestPermissionsAsync();
+      // Check permission status first (não mostra popup se já concedido)
+      const permissionResponse = await Audio.getPermissionsAsync();
       
-      if (permission.status !== 'granted') {
-        console.error('❌ Permission denied');
-        return false;
+      if (permissionResponse.status !== 'granted') {
+        console.log('🎙️ Requesting permissions...');
+        const permission = await Audio.requestPermissionsAsync();
+        
+        if (permission.status !== 'granted') {
+          console.error('❌ Permission denied');
+          return false;
+        }
+      } else {
+        console.log('✅ Permission already granted');
       }
 
       await Audio.setAudioModeAsync({
