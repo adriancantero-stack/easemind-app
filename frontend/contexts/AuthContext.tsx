@@ -23,16 +23,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // Backend URL - usar proxy /api quando estiver no web
+  // Backend URL - usar URL completa para produção
   const getBackendUrl = () => {
-    if (Platform.OS === 'web') {
-      // No web, usar proxy /api (configurado no metro/nginx)
-      return '';
-    }
-    // No mobile, usar URL completa - PRIORIZAR process.env
+    // Sempre usar URL completa do backend (web e mobile)
     return process.env.EXPO_PUBLIC_BACKEND_URL ||
       Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL ||
-      'https://speech-chat-app.preview.emergentagent.com';
+      'https://api.easemind.io';
   };
 
   const backendUrl = getBackendUrl();
