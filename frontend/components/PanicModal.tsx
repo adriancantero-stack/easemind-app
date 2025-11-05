@@ -66,10 +66,8 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       } catch {}
 
-      // Iniciar sessão SOS automaticamente após 1 segundo
-      setTimeout(() => {
-        startSOSSession();
-      }, 1000);
+      // NO mobile: Não iniciar automaticamente - aguarda interação do usuário
+      // O botão "Iniciar" chamará startSOSSession()
     }
   }, [visible]);
 
