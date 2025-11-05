@@ -40,10 +40,18 @@ export default function LoginScreen() {
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isHydrated, setIsHydrated] = useState(Platform.OS !== 'web');
+
+  // Fix hydration error for web
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      setIsHydrated(true);
+    }
+  }, []);
 
   // Verificar resultado de redirect do Google (para web)
   useEffect(() => {
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' && isHydrated) {
       getRedirectResult(auth)
         .then((result) => {
           if (result) {
@@ -55,7 +63,7 @@ export default function LoginScreen() {
           console.error('❌ Erro no redirect:', error);
         });
     }
-  }, []);
+  }, [isHydrated]);
 
   // Configurar Google Sign-In apenas para plataformas nativas
   useEffect(() => {
