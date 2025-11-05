@@ -292,17 +292,26 @@ export default function LoginScreen() {
             <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
           </View>
 
-          {/* Google Sign-In */}
-          <TouchableOpacity
-            style={[styles.socialButton, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30' }]}
-            onPress={handleGoogleSignIn}
-            disabled={loading}
-          >
-            <Ionicons name="logo-google" size={24} color="#EA4335" />
-            <Text style={[styles.socialButtonText, { color: currentTheme.text }]}>
-              {t('auth.continueWithGoogle')}
-            </Text>
-          </TouchableOpacity>
+          {/* Google Sign-In - Only render after hydration */}
+          {isHydrated ? (
+            <TouchableOpacity
+              style={[styles.socialButton, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30' }]}
+              onPress={handleGoogleSignIn}
+              disabled={loading}
+            >
+              <Ionicons name="logo-google" size={24} color="#EA4335" />
+              <Text style={[styles.socialButtonText, { color: currentTheme.text }]}>
+                {t('auth.continueWithGoogle')}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={[styles.socialButton, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30', opacity: 0.5 }]}>
+              <Ionicons name="logo-google" size={24} color="#EA4335" />
+              <Text style={[styles.socialButtonText, { color: currentTheme.text }]}>
+                {t('auth.continueWithGoogle')}
+              </Text>
+            </View>
+          )}
 
         </ScrollView>
       </KeyboardAvoidingView>
