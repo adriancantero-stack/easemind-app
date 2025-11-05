@@ -237,17 +237,6 @@ export default function HomeScreen() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 0}
         >
-          <View style={styles.header}>
-            <Image
-              source={isDarkMode 
-                ? require('../../assets/images/logo-easemind-dark.png')
-                : require('../../assets/images/logo-easemind.png')
-              }
-              style={styles.logo}
-              resizeMode="contain"
-            />
-          </View>
-
           <ScrollView 
             ref={scrollViewRef}
             style={styles.chatContainer}
