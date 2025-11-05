@@ -28,6 +28,7 @@ import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
 
 export default function LoginScreen() {
   const { t } = useTranslation();
