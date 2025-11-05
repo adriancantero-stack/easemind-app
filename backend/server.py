@@ -1093,8 +1093,7 @@ async def get_user_profile(firebase_uid: str):
         logger.error(f"Error getting profile: {e}", exc_info=True)
 
 
-# Gemini Live WebSocket endpoint
-@app.websocket("/api/ws/gemini-live")
+# Health check endpoint for monitoring
 async def gemini_live_endpoint(websocket: WebSocket):
     """
     WebSocket endpoint for Gemini Live voice chat
