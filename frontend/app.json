@@ -19,7 +19,7 @@
       "package": "io.easemind.app",
       "versionCode": 2,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/icone-app.png",
         "backgroundColor": "#0E1A2B"
       },
       "permissions": [
