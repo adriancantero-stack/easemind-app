@@ -41,6 +41,7 @@ export default function LoginScreen() {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [isHydrated, setIsHydrated] = useState(Platform.OS !== 'web');
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
 
   // Fix hydration error for web
   useEffect(() => {
