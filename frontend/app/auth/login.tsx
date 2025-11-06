@@ -332,6 +332,18 @@ export default function LoginScreen() {
             </TouchableOpacity>
           </View>
 
+          {/* Forgot Password Link */}
+          {isLogin && (
+            <TouchableOpacity 
+              onPress={() => setShowForgotPassword(true)}
+              style={styles.forgotPasswordContainer}
+            >
+              <Text style={[styles.forgotPasswordText, { color: currentTheme.accent1 }]}>
+                {t('auth.forgotPassword')}
+              </Text>
+            </TouchableOpacity>
+          )}
+
           {/* Login/Signup Button */}
           <TouchableOpacity
             style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
