@@ -441,6 +441,7 @@ export const translations = {
       title: 'Respire Comigo',
       initialMessage: 'Respire comigo. Está tudo bem. Vamos passar por isso juntos.',
       breatheWithMe: 'Respire comigo',
+      startExercise: '▶ Iniciar Exercício',
       inhale: 'Inspire...',
       hold: 'Segure...',
       exhale: 'Expire...',
