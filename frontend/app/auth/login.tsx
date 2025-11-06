@@ -199,6 +199,47 @@ export default function LoginScreen() {
     }
   };
 
+  const handleForgotPassword = async () => {
+    if (!email) {
+      if (Platform.OS === 'web') {
+        window.alert(t('auth.fillAllFields'));
+      } else {
+        Alert.alert(t('auth.error'), t('auth.fillAllFields'));
+      }
+      return;
+    }
+    
+    setLoading(true);
+    try {
+      // Configure language for Firebase emails based on user's app language
+      const language = useStore.getState().language;
+      auth.languageCode = language;
+      
+      console.log(`📧 Sending password reset email to ${email} in ${language}`);
+      await sendPasswordResetEmail(auth, email);
+      
+      console.log('✅ Password reset email sent');
+      
+      if (Platform.OS === 'web') {
+        window.alert(t('auth.resetEmailSent'));
+      } else {
+        Alert.alert(t('auth.resetPassword'), t('auth.resetEmailSent'));
+      }
+      
+      setShowForgotPassword(false);
+    } catch (error: any) {
+      console.error('❌ Reset password error:', error);
+      
+      if (Platform.OS === 'web') {
+        window.alert(t('auth.resetEmailError'));
+      } else {
+        Alert.alert(t('auth.error'), t('auth.resetEmailError'));
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <ResponsiveContainer>
       <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]}>
