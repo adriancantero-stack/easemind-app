@@ -263,6 +263,36 @@ export default function LoginScreen() {
             </Text>
           </View>
 
+          {/* Google Sign-In - FIRST AND LARGER */}
+          {isHydrated ? (
+            <TouchableOpacity
+              style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.accent1 }]}
+              onPress={handleGoogleSignIn}
+              disabled={loading}
+            >
+              <Ionicons name="logo-google" size={32} color="#EA4335" />
+              <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
+                {t('auth.continueWithGoogle')}
+              </Text>
+            </TouchableOpacity>
+          ) : (
+            <View style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30', opacity: 0.5 }]}>
+              <Ionicons name="logo-google" size={32} color="#EA4335" />
+              <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
+                {t('auth.continueWithGoogle')}
+              </Text>
+            </View>
+          )}
+
+          {/* Divider */}
+          <View style={styles.divider}>
+            <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
+            <Text style={[styles.dividerText, { color: currentTheme.textSecondary }]}>
+              {t('auth.orContinueWith')}
+            </Text>
+            <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
+          </View>
+
           {/* Email Input */}
           <View style={styles.inputContainer}>
             <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
