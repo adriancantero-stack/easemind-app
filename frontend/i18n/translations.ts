@@ -79,6 +79,7 @@ export const translations = {
       title: 'Breathe with Me',
       initialMessage: 'Breathe with me. It\'s okay. We\'ll get through this together.',
       breatheWithMe: 'Breathe with me',
+      startExercise: '▶ Start Exercise',
       inhale: 'Inhale...',
       hold: 'Hold...',
       exhale: 'Exhale...',
