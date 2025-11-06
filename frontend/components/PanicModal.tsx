@@ -373,7 +373,7 @@ export const PanicModal: React.FC<PanicModalProps> = ({ visible, onClose }) => {
                     onPress={startSOSSession}
                   >
                     <Text style={styles.startButtonText}>
-                      {t('panic.startExercise') || '▶ Iniciar Exercício'}
+                      {t('panic.startExercise')}
                     </Text>
                   </TouchableOpacity>
                 )}
