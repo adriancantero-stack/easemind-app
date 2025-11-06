@@ -372,6 +372,61 @@ export default function LoginScreen() {
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
+
+    {/* Forgot Password Modal */}
+    <Modal
+      visible={showForgotPassword}
+      animationType="slide"
+      transparent={true}
+      onRequestClose={() => setShowForgotPassword(false)}
+    >
+      <View style={styles.modalOverlay}>
+        <View style={[styles.modalContent, { backgroundColor: currentTheme.card }]}>
+          <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
+            {t('auth.resetPasswordTitle')}
+          </Text>
+          <Text style={[styles.modalMessage, { color: currentTheme.textSecondary }]}>
+            {t('auth.resetPasswordMessage')}
+          </Text>
+
+          <View style={styles.inputContainer}>
+            <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
+            <TextInput
+              style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.bg }]}
+              placeholder={t('auth.email')}
+              placeholderTextColor={currentTheme.textSecondary}
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
+          </View>
+
+          <TouchableOpacity
+            style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
+            onPress={handleForgotPassword}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.buttonText}>{t('auth.sendResetLink')}</Text>
+            )}
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.modalCancelButton}
+            onPress={() => setShowForgotPassword(false)}
+          >
+            <Text style={[styles.modalCancelText, { color: currentTheme.textSecondary }]}>
+              {t('auth.backToLogin')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Modal>
+
     </ResponsiveContainer>
   );
 }
