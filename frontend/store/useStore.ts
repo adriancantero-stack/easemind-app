@@ -195,11 +195,14 @@ export const useStore = create<AppState>((set, get) => ({
     } catch {}
   },
 
-  addMessage: async (role: 'user' | 'assistant', content: string) => {
+  addMessage: async (role: 'user' | 'assistant', content: string, timestamp?: string, isVoice?: boolean, audioUri?: string, audioDuration?: number) => {
     const newMessage: Message = {
       role,
       content,
-      timestamp: Date.now(),
+      timestamp: timestamp ? new Date(timestamp).getTime() : Date.now(),
+      isVoice: isVoice || false,
+      audioUri: audioUri,
+      audioDuration: audioDuration,
     };
     const messages = [...get().messages, newMessage];
     set({ messages });
