@@ -16,10 +16,9 @@ function RootLayoutNav() {
 
     const inAuthGroup = segments[0] === 'auth';
 
-    if (!isAuthenticated && !inAuthGroup) {
-      // Redirect to login if not authenticated and not in auth group
-      router.replace('/auth/login');
-    } else if (isAuthenticated && inAuthGroup) {
+    // Allow guest/visitor mode - don't force login
+    // Only redirect authenticated users away from auth screens
+    if (isAuthenticated && inAuthGroup) {
       // Redirect to app if authenticated and in auth group
       router.replace('/(tabs)/');
     }
