@@ -89,18 +89,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: theme.spacing.sm,
   },
-  recordingOverlay: {
-    position: 'absolute',
-    bottom: 60,
-    left: -150,
-    right: -10,
-    padding: theme.spacing.sm,
-    borderRadius: theme.radius,
-    alignItems: 'center',
-    zIndex: 10,
-  },
-  recordingText: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
 });
