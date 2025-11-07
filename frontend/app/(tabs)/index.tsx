@@ -199,29 +199,42 @@ export default function HomeScreen() {
   };
 
   const handleStopRecording = async () => {
-    console.log('🛑 handleStopRecording called');
+    console.log('🛑 [handleStopRecording] Chamada recebida');
+    console.log('📱 [handleStopRecording] isRecording atual:', isRecording);
+    console.log('📱 [handleStopRecording] isTranscribing atual:', isTranscribing);
+    
     try {
+      console.log('🛑 [handleStopRecording] Chamando stopRecording...');
       const audioUri = await stopRecording();
-      console.log('🛑 stopRecording result:', audioUri);
+      console.log('🛑 [handleStopRecording] Resultado:', audioUri);
       
       if (!audioUri) {
-        console.log('⚠️ No audio URI returned from recording');
+        console.log('⚠️ [handleStopRecording] Nenhuma URI de áudio retornada');
         return;
       }
       
-      console.log('📝 Starting transcription...');
+      console.log('📝 [handleStopRecording] Iniciando transcrição...');
+      console.log('📝 [handleStopRecording] Backend URL:', backendUrl);
+      
       // Transcribe audio
       const transcribedText = await transcribeAudio(audioUri, backendUrl);
-      console.log('📝 Transcription result:', transcribedText);
+      console.log('📝 [handleStopRecording] Texto transcrito:', transcribedText);
       
       if (transcribedText) {
+        console.log('✅ [handleStopRecording] Enviando mensagem com flag de voz...');
         // Auto-send transcribed text WITH voice flag (true)
         await sendMessage(transcribedText, true);
+        console.log('✅ [handleStopRecording] Mensagem enviada!');
       } else {
+        console.log('❌ [handleStopRecording] Transcrição falhou, mostrando alerta');
         Alert.alert('Erro', 'Não foi possível transcrever o áudio.');
       }
     } catch (error) {
-      console.error('❌ handleStopRecording error:', error);
+      console.error('❌ [handleStopRecording] Erro capturado:', error);
+      if (error instanceof Error) {
+        console.error('❌ [handleStopRecording] Mensagem do erro:', error.message);
+        console.error('❌ [handleStopRecording] Stack trace:', error.stack);
+      }
       Alert.alert('Erro', 'Ocorreu um erro ao processar o áudio.');
     }
   };
