@@ -100,51 +100,42 @@
       "period": "Grátis para sempre",
       "price": "R$ 0",
       "features": [
-        "Conversas ilimitadas com Luna",
-        "3 sessões guiadas por semana",
-        "Botão SOS básico",
-        "Diário emocional"
+        "7 mensagens com Luna por dia",
+        "1 sessão guiada por dia",
+        "3 entradas no diário por dia",
+        "Botão SOS ilimitado"
       ]
     },
     "monthly": {
       "title": "Premium Mensal",
       "price": "R$ 29,90",
-      "period": "por mês",
+      "period": "por mês • 7 dias grátis",
       "features": [
-        "Sessões ilimitadas com música",
+        "Chat ilimitado com Luna",
+        "Sessões guiadas ilimitadas",
+        "Diário ilimitado",
         "Voz natural da Luna (TTS)",
-        "SOS avançado com respiração",
-        "Diário completo + tendências",
-        "Suporte prioritário",
-        "Conteúdo exclusivo"
+        "SOS avançado",
+        "Suporte prioritário"
       ]
     },
     "yearly": {
       "title": "Premium Anual",
       "price": "R$ 299,00",
-      "period": "~R$ 24,92/mês • economize 17%",
+      "period": "~R$ 24,92/mês • economize 17% • 7 dias grátis",
       "badge": "✨ Mais econômico",
       "features": [
-        "Sessões ilimitadas com música",
+        "Chat ilimitado com Luna",
+        "Sessões guiadas ilimitadas",
+        "Diário ilimitado",
         "Voz natural da Luna (TTS)",
-        "SOS avançado com respiração",
-        "Diário completo + tendências",
-        "Suporte prioritário",
-        "Conteúdo exclusivo"
-      ]
-    },
-    "legal": "Assinaturas com renovação automática. Cancele na App Store ou Google Play. Impostos locais podem se aplicar.",
-    "payment": "Aceitamos cartões de crédito, débito e PIX • Dados protegidos",
-    "premium": {
-      "features": [
-        "Sessões ilimitadas com música",
-        "Voz natural da Luna (TTS)",
-        "Diário completo + histórico de humor",
-        "Biblioteca 'Aprender' completa",
+        "SOS avançado",
         "Suporte prioritário"
       ]
     },
-    "legal": "Assinaturas com renovação automática. Cancele na App Store ou Google Play. Impostos locais podem se aplicar."
+    "legal": "Assinaturas com renovação automática. Cancele a qualquer momento através do Stripe. 7 dias de teste grátis. Impostos locais podem se aplicar.",
+    "payment": "Pagamento seguro via Stripe • Cartões de crédito e débito aceitos",
+    "trial": "🎁 7 dias grátis para testar"
   },
   "faq": {
     "h1": "Perguntas Frequentes",
