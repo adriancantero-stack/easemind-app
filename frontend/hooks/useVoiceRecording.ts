@@ -57,24 +57,30 @@ export const useVoiceRecording = () => {
 
   const stopRecording = async () => {
     if (!recordingRef.current) {
+      console.log('⚠️ No active recording to stop');
+      setIsRecording(false);
       return null;
     }
 
     try {
       console.log('🛑 Stopping recording...');
-      setIsRecording(false);
+      const uri = recordingRef.current.getURI();
+      
       await recordingRef.current.stopAndUnloadAsync();
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
       });
 
-      const uri = recordingRef.current.getURI();
       recordingRef.current = null;
+      setIsRecording(false);
 
       console.log('✅ Recording stopped:', uri);
       return uri;
     } catch (err) {
       console.error('❌ Failed to stop recording', err);
+      // Force reset state even on error
+      recordingRef.current = null;
+      setIsRecording(false);
       return null;
     }
   };
