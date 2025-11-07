@@ -312,34 +312,30 @@ export default function HomeScreen() {
 
         {/* Input bar - always visible */}
         <View style={[styles.inputContainer, { backgroundColor: currentTheme.card, borderTopColor: currentTheme.border }]}>
-          {!inputText.trim() ? (
-            // Show WhatsApp-style voice button when no text
-            <WhatsAppVoiceButton
-              onStartRecording={startRecording}
-              onStopRecording={stopRecording}
-              onSendVoice={handleSendVoice}
-              disabled={isLoading}
+
+            <TextInput
+              style={[styles.input, { color: currentTheme.text }]}
+              value={inputText}
+              onChangeText={setInputText}
+              onKeyPress={handleKeyPress}
+              placeholder={t('home.placeholder')}
+              placeholderTextColor={currentTheme.textMuted}
+              multiline
+              maxLength={500}
+              onSubmitEditing={() => sendMessage(inputText)}
+              blurOnSubmit={false}
             />
-          ) : (
-            // Show text input and send button when typing
-            <>
-              <TextInput
-                style={[styles.input, { color: currentTheme.text }]}
-                value={inputText}
-                onChangeText={setInputText}
-                onKeyPress={handleKeyPress}
-                placeholder={t('home.placeholder')}
-                placeholderTextColor={currentTheme.textMuted}
-                multiline
-                maxLength={500}
-                onSubmitEditing={() => sendMessage(inputText)}
-                blurOnSubmit={false}
-              />
-              <TouchableOpacity
-                style={[styles.sendButton, { backgroundColor: currentTheme.accent1, opacity: inputText.trim() ? 1 : 0.5 }]}
-                onPress={() => sendMessage(inputText)}
-                disabled={!inputText.trim() || isLoading}
-              >
+            <VoiceButton
+              isRecording={isRecording}
+              isTranscribing={isTranscribing}
+              onPressIn={handleStartRecording}
+              onPressOut={handleStopRecording}
+            />
+            <TouchableOpacity
+              style={[styles.sendButton, { backgroundColor: currentTheme.accent1, opacity: inputText.trim() ? 1 : 0.5 }]}
+              onPress={() => sendMessage(inputText)}
+              disabled={!inputText.trim() || isLoading}
+            >
               {isLoading ? (
                 <ActivityIndicator size="small" color="#fff" />
               ) : (
