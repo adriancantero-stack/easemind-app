@@ -62,6 +62,12 @@ export const useVoiceRecording = () => {
 
     try {
       console.log('🛑 Stopping recording...');
+      
+      // Get status before stopping to capture duration
+      const status = await recordingRef.current.getStatusAsync();
+      const durationMillis = status.durationMillis || 0;
+      const durationSeconds = Math.floor(durationMillis / 1000);
+      
       setIsRecording(false);
       await recordingRef.current.stopAndUnloadAsync();
       await Audio.setAudioModeAsync({
@@ -71,8 +77,8 @@ export const useVoiceRecording = () => {
       const uri = recordingRef.current.getURI();
       recordingRef.current = null;
 
-      console.log('✅ Recording stopped:', uri);
-      return uri;
+      console.log('✅ Recording stopped:', uri, `Duration: ${durationSeconds}s`);
+      return { uri, duration: durationSeconds };
     } catch (err) {
       console.error('❌ Failed to stop recording', err);
       return null;
