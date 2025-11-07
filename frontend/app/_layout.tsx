@@ -1,28 +1,11 @@
-import { Stack, useRouter, useSegments } from 'expo-router';
-import { useEffect } from 'react';
+import { Stack } from 'expo-router';
 import { useStore } from '../store/useStore';
 import { theme } from '../utils/theme';
-import { AuthProvider, useAuth } from '../contexts/AuthContext';
+import { AuthProvider } from '../contexts/AuthContext';
 
 function RootLayoutNav() {
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
-  const { isAuthenticated, loading } = useAuth();
-  const segments = useSegments();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (loading) return; // Wait for auth to load
-
-    const inAuthGroup = segments[0] === 'auth';
-
-    // Allow guest/visitor mode - don't force login
-    // Only redirect authenticated users away from auth screens
-    if (isAuthenticated && inAuthGroup) {
-      // Redirect to app if authenticated and in auth group
-      router.replace('/(tabs)/');
-    }
-  }, [isAuthenticated, loading, segments]);
 
   return (
     <Stack
