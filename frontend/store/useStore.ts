@@ -9,6 +9,9 @@ interface Message {
   timestamp: number;
   isTyping?: boolean; // Para efeito de digitação
   fullContent?: string; // Conteúdo completo quando está em modo typing
+  isVoice?: boolean; // Se é mensagem de voz
+  audioUri?: string; // URI/base64 do áudio
+  audioDuration?: number; // Duração em segundos
 }
 
 interface MoodEntry {
