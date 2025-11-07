@@ -84,31 +84,55 @@ export const useVoiceRecording = () => {
   };
 
   const stopRecording = async () => {
+    console.log('🛑 [stopRecording] Iniciando parada da gravação...');
+    
     if (!recordingRef.current) {
-      console.log('⚠️ No active recording to stop');
+      console.log('⚠️ [stopRecording] Nenhuma gravação ativa para parar');
       setIsRecording(false);
       return null;
     }
 
     try {
-      console.log('🛑 Stopping recording...');
+      console.log('🛑 [stopRecording] Obtendo URI...');
       const uri = recordingRef.current.getURI();
+      console.log('📍 [stopRecording] URI obtida:', uri);
       
+      console.log('🛑 [stopRecording] Parando e descarregando gravação...');
       await recordingRef.current.stopAndUnloadAsync();
+      
+      console.log('🔄 [stopRecording] Resetando modo de áudio...');
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: false,
+        playsInSilentModeIOS: true,
+        shouldDuckAndroid: false,
       });
+
+      // Small delay to ensure audio system is ready
+      await new Promise(resolve => setTimeout(resolve, 100));
 
       recordingRef.current = null;
       setIsRecording(false);
 
-      console.log('✅ Recording stopped:', uri);
+      console.log('✅ [stopRecording] Gravação parada com sucesso!');
       return uri;
     } catch (err) {
-      console.error('❌ Failed to stop recording', err);
+      console.error('❌ [stopRecording] Erro ao parar gravação:', err);
+      if (err instanceof Error) {
+        console.error('❌ [stopRecording] Detalhes do erro:', err.message);
+      }
       // Force reset state even on error
       recordingRef.current = null;
       setIsRecording(false);
+      
+      // Try to reset audio mode even on error
+      try {
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+        });
+      } catch (resetErr) {
+        console.error('❌ [stopRecording] Erro ao resetar modo de áudio:', resetErr);
+      }
+      
       return null;
     }
   };
