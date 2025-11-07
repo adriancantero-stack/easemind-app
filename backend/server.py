@@ -807,10 +807,6 @@ Para responder, envie um email para: {email}
         logger.error(f"❌ Error sending email: {email_error}")
         # Don't fail - email is sent in background
 
-    except Exception as e:
-        logger.error(f"Error getting mood distribution: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
 # SOS Endpoints
 class SOSTriggerRequest(BaseModel):
     user_id: str
