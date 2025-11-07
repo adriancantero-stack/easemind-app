@@ -341,10 +341,8 @@ export default function HomeScreen() {
               ) : (
                 <Text style={styles.sendButtonText}>→</Text>
               )}
-              </TouchableOpacity>
-            </>
-          )}
-        </View>
+            </TouchableOpacity>
+          </View>
       </KeyboardAvoidingView>
       
       {/* Fixed SOS Button */}
