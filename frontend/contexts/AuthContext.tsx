@@ -39,77 +39,87 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       console.log('⏰ Auth timeout reached - setting loading to false');
       setLoading(false);
       setUser(null); // Set to null to continue as guest
-    }, 3000); // 3 seconds timeout
+    }, 2000); // 2 seconds timeout
+
+    let unsubscribe: () => void;
 
     try {
-      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+      unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         console.log('🔐 Auth state changed:', firebaseUser ? 'Logged in' : 'Logged out');
         
         // Clear timeout since we got a response
         clearTimeout(timeoutId);
         
         if (firebaseUser) {
-        // Usuário logado com Firebase
-        setUser(firebaseUser);
-        
-        // Sincronizar com backend
-        try {
-          console.log('📡 Syncing user with backend:', firebaseUser.uid);
-          console.log('📡 Backend URL:', backendUrl);
-          console.log('📡 User data:', {
-            firebase_uid: firebaseUser.uid,
-            email: firebaseUser.email || '',
-            display_name: firebaseUser.displayName || 'Usuário',
-            photo_url: firebaseUser.photoURL || null,
-          });
+          // Usuário logado com Firebase
+          setUser(firebaseUser);
           
-          const response = await fetch(`${backendUrl}/api/user/sync`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
+          // Sincronizar com backend
+          try {
+            console.log('📡 Syncing user with backend:', firebaseUser.uid);
+            console.log('📡 Backend URL:', backendUrl);
+            console.log('📡 User data:', {
               firebase_uid: firebaseUser.uid,
               email: firebaseUser.email || '',
               display_name: firebaseUser.displayName || 'Usuário',
               photo_url: firebaseUser.photoURL || null,
-            }),
-          });
-
-          console.log('📡 Response status:', response.status);
-          const responseText = await response.text();
-          console.log('📡 Response body:', responseText);
-          
-          if (response.ok) {
-            const data = JSON.parse(responseText);
-            console.log('✅ User synced with backend:', data);
+            });
             
-            // Atualizar userId no store com o Firebase UID
-            const store = useStore.getState();
-            if (store.userId !== firebaseUser.uid) {
-              console.log('📝 Atualizando userId no store:', firebaseUser.uid);
-              // Aqui poderíamos migrar dados locais para o usuário Firebase
-              // Por enquanto, apenas atualiza o userId
-              store.userId = firebaseUser.uid;
+            const response = await fetch(`${backendUrl}/api/user/sync`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                firebase_uid: firebaseUser.uid,
+                email: firebaseUser.email || '',
+                display_name: firebaseUser.displayName || 'Usuário',
+                photo_url: firebaseUser.photoURL || null,
+              }),
+            });
+
+            console.log('📡 Response status:', response.status);
+            const responseText = await response.text();
+            console.log('📡 Response body:', responseText);
+            
+            if (response.ok) {
+              const data = JSON.parse(responseText);
+              console.log('✅ User synced with backend:', data);
+              
+              // Atualizar userId no store com o Firebase UID
+              const store = useStore.getState();
+              if (store.userId !== firebaseUser.uid) {
+                console.log('📝 Atualizando userId no store:', firebaseUser.uid);
+                // Aqui poderíamos migrar dados locais para o usuário Firebase
+                // Por enquanto, apenas atualiza o userId
+                store.userId = firebaseUser.uid;
+              }
+            } else {
+              console.error('❌ Failed to sync user with backend');
             }
-          } else {
-            console.error('❌ Failed to sync user with backend');
+          } catch (error) {
+            console.error('❌ Error syncing user:', error);
           }
-        } catch (error) {
-          console.error('❌ Error syncing user:', error);
+        } else {
+          // Usuário não logado - usar modo visitante
+          setUser(null);
+          console.log('👤 Modo visitante ativo');
         }
-      } else {
-        // Usuário não logado - usar modo visitante
-        setUser(null);
-        console.log('👤 Modo visitante ativo');
-      }
-      
+        
+        setLoading(false);
+      });
+    } catch (error) {
+      console.error('❌ Firebase auth initialization error:', error);
+      // If Firebase fails, continue as guest
       setLoading(false);
-    });
+      setUser(null);
+    }
 
     return () => {
       clearTimeout(timeoutId);
-      unsubscribe();
+      if (unsubscribe) {
+        unsubscribe();
+      }
     };
   }, [backendUrl]);
 
