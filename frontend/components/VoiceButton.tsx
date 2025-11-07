@@ -54,39 +54,29 @@ export const VoiceButton: React.FC<VoiceButtonProps> = ({
   }, [isRecording]);
 
   return (
-    <View>
-      {isRecording && (
-        <View style={[styles.recordingOverlay, { backgroundColor: currentTheme.accent1 + '33' }]}>
-          <Text style={[styles.recordingText, { color: currentTheme.text }]}>
-            🎙️ Gravando... fale livremente
-          </Text>
-        </View>
+    <TouchableOpacity
+      onPressIn={handlePressIn}
+      onPressOut={handlePressOut}
+      style={[
+        styles.button,
+        {
+          backgroundColor: isRecording ? currentTheme.accent1 : currentTheme.card,
+        },
+      ]}
+      disabled={isTranscribing}
+    >
+      {isTranscribing ? (
+        <Ionicons name="hourglass-outline" size={24} color={currentTheme.accent1} />
+      ) : (
+        <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
+          <Ionicons
+            name={isRecording ? 'stop-circle' : 'mic'}
+            size={24}
+            color={isRecording ? '#FFFFFF' : currentTheme.accent1}
+          />
+        </Animated.View>
       )}
-      
-      <TouchableOpacity
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
-        style={[
-          styles.button,
-          {
-            backgroundColor: isRecording ? currentTheme.accent1 : currentTheme.card,
-          },
-        ]}
-        disabled={isTranscribing}
-      >
-        {isTranscribing ? (
-          <Ionicons name="hourglass-outline" size={24} color={currentTheme.accent1} />
-        ) : (
-          <Animated.View style={{ transform: [{ scale: pulseAnim }] }}>
-            <Ionicons
-              name={isRecording ? 'stop-circle' : 'mic'}
-              size={24}
-              color={isRecording ? '#FFFFFF' : currentTheme.accent1}
-            />
-          </Animated.View>
-        )}
-      </TouchableOpacity>
-    </View>
+    </TouchableOpacity>
   );
 };
 
