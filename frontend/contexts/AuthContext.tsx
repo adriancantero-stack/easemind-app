@@ -34,8 +34,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const backendUrl = getBackendUrl();
 
   useEffect(() => {
+    // Safety timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      console.log('⏰ Auth timeout reached - setting loading to false');
+      setLoading(false);
+    }, 3000); // 3 seconds timeout
+
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       console.log('🔐 Auth state changed:', firebaseUser ? 'Logged in' : 'Logged out');
+      
+      // Clear timeout since we got a response
+      clearTimeout(timeoutId);
       
       if (firebaseUser) {
         // Usuário logado com Firebase
@@ -96,7 +105,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      clearTimeout(timeoutId);
+      unsubscribe();
+    };
   }, [backendUrl]);
 
   return (
