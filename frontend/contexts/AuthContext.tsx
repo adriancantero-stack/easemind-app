@@ -38,15 +38,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const timeoutId = setTimeout(() => {
       console.log('⏰ Auth timeout reached - setting loading to false');
       setLoading(false);
+      setUser(null); // Set to null to continue as guest
     }, 3000); // 3 seconds timeout
 
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
-      console.log('🔐 Auth state changed:', firebaseUser ? 'Logged in' : 'Logged out');
-      
-      // Clear timeout since we got a response
-      clearTimeout(timeoutId);
-      
-      if (firebaseUser) {
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+        console.log('🔐 Auth state changed:', firebaseUser ? 'Logged in' : 'Logged out');
+        
+        // Clear timeout since we got a response
+        clearTimeout(timeoutId);
+        
+        if (firebaseUser) {
         // Usuário logado com Firebase
         setUser(firebaseUser);
         
