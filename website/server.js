@@ -481,7 +481,7 @@ function generateHTML(page, lang, t) {
       const data = Object.fromEntries(formData);
       
       try {
-        const res = await fetch('/api/website/contact', {
+        const res = await fetch('https://api.easemind.io/api/website/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(data)
