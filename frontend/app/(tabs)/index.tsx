@@ -179,18 +179,6 @@ export default function HomeScreen() {
   const handleStartRecording = async () => {
     console.log('🎙️ handleStartRecording called');
     try {
-      // Unlock audio context on first interaction (for iOS Safari)
-      if (Platform.OS === 'web' && typeof window !== 'undefined') {
-        try {
-          const silentAudio = new window.Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAAABkYXRhAgAAAAEA');
-          await silentAudio.play();
-          silentAudio.pause();
-          console.log('🔓 Audio context unlocked via voice button');
-        } catch (e) {
-          console.log('⚠️ Audio unlock attempt (safe to ignore):', e);
-        }
-      }
-      
       const success = await startRecording();
       console.log('🎙️ startRecording result:', success);
       if (!success) {
