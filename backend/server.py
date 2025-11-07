@@ -779,8 +779,8 @@ Para responder, envie um email para: {request.email}
                 msg.attach(MIMEText(text_body, 'plain'))
                 msg.attach(MIMEText(html_body, 'html'))
                 
-                # Send email
-                with smtplib.SMTP(smtp_host, smtp_port) as server:
+                # Send email with timeout
+                with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
                     server.starttls()
                     server.login(smtp_user, smtp_pass)
                     server.send_message(msg)
