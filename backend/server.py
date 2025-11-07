@@ -711,20 +711,34 @@ async def website_contact(request: ContactRequest):
         ========================================
         """)
         
-        # Send email notification to support@easemind.io
-        try:
-            import smtplib
-            from email.mime.text import MIMEText
-            from email.mime.multipart import MIMEMultipart
-            from datetime import datetime
-            
-            # Get SMTP credentials from environment
-            smtp_host = os.getenv('SMTP_HOST', 'smtp.gmail.com')
-            smtp_port = int(os.getenv('SMTP_PORT', '587'))
-            smtp_user = os.getenv('SMTP_USER')  # support@easemind.io
-            smtp_pass = os.getenv('SMTP_PASS')
-            
-            if smtp_user and smtp_pass:
+        # Send email notification to support@easemind.io (non-blocking)
+        import asyncio
+        asyncio.create_task(send_contact_email(request.name, request.email, request.message))
+        
+        # Return success immediately (don't wait for email)
+        return {
+            "success": True,
+            "message": "Contact form submitted successfully"
+        }
+    except Exception as e:
+        logger.error(f"Error processing contact form: {e}")
+        raise HTTPException(status_code=500, detail="Failed to process contact form")
+
+async def send_contact_email(name: str, email: str, message: str):
+    """Send contact form email asynchronously"""
+    try:
+        import smtplib
+        from email.mime.text import MIMEText
+        from email.mime.multipart import MIMEMultipart
+        from datetime import datetime
+        
+        # Get SMTP credentials from environment
+        smtp_host = os.getenv('SMTP_HOST', 'smtp.gmail.com')
+        smtp_port = int(os.getenv('SMTP_PORT', '587'))
+        smtp_user = os.getenv('SMTP_USER')
+        smtp_pass = os.getenv('SMTP_PASS')
+        
+        if smtp_user and smtp_pass:
                 # Create email
                 msg = MIMEMultipart('alternative')
                 msg['From'] = smtp_user
