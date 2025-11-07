@@ -10,47 +10,75 @@ export const useVoiceRecording = () => {
 
   const startRecording = async () => {
     try {
+      console.log('🎙️ [startRecording] Iniciando processo...');
+      
       // Stop any existing recording first
       if (recordingRef.current) {
+        console.log('🧹 [startRecording] Limpando gravação anterior...');
         try {
           await recordingRef.current.stopAndUnloadAsync();
         } catch (e) {
-          console.log('Cleaning up previous recording');
+          console.log('⚠️ [startRecording] Erro ao limpar gravação anterior (ignorado):', e);
         }
         recordingRef.current = null;
       }
 
+      // Reset audio mode first to ensure clean state
+      console.log('🔄 [startRecording] Resetando modo de áudio...');
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: false,
+        playsInSilentModeIOS: false,
+      });
+
+      // Small delay to let audio system reset
+      await new Promise(resolve => setTimeout(resolve, 100));
+
       // Check permission status first (não mostra popup se já concedido)
+      console.log('🔐 [startRecording] Verificando permissões...');
       const permissionResponse = await Audio.getPermissionsAsync();
       
       if (permissionResponse.status !== 'granted') {
-        console.log('🎙️ Requesting permissions...');
+        console.log('🎙️ [startRecording] Solicitando permissões...');
         const permission = await Audio.requestPermissionsAsync();
         
         if (permission.status !== 'granted') {
-          console.error('❌ Permission denied');
+          console.error('❌ [startRecording] Permissão negada');
           return false;
         }
       } else {
-        console.log('✅ Permission already granted');
+        console.log('✅ [startRecording] Permissão já concedida');
       }
 
+      // Set audio mode for recording
+      console.log('🎚️ [startRecording] Configurando modo de gravação...');
       await Audio.setAudioModeAsync({
         allowsRecordingIOS: true,
         playsInSilentModeIOS: true,
+        shouldDuckAndroid: true,
+        playThroughEarpieceAndroid: false,
+        staysActiveInBackground: false,
       });
 
-      console.log('🎙️ Starting recording...');
+      // Another small delay for mobile
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      console.log('🎙️ [startRecording] Criando gravação...');
       const { recording } = await Audio.Recording.createAsync(
         Audio.RecordingOptionsPresets.HIGH_QUALITY
       );
 
       recordingRef.current = recording;
       setIsRecording(true);
-      console.log('✅ Recording started');
+      console.log('✅ [startRecording] Gravação iniciada com sucesso!');
       return true;
     } catch (err) {
-      console.error('❌ Failed to start recording', err);
+      console.error('❌ [startRecording] Erro ao iniciar gravação:', err);
+      if (err instanceof Error) {
+        console.error('❌ [startRecording] Detalhes do erro:', err.message);
+      }
+      // Force reset state
+      recordingRef.current = null;
+      setIsRecording(false);
       return false;
     }
   };
