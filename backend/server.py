@@ -14,8 +14,12 @@ import tempfile
 from pathlib import Path
 from openai import OpenAI
 import json
+import stripe
 
 load_dotenv()
+
+# Initialize Stripe
+stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
