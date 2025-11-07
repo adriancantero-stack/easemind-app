@@ -215,6 +215,51 @@ export default function HomeScreen() {
     }
   };
 
+  // WhatsApp-style voice message handler
+  const handleSendVoice = async (audioUri: string, duration: number) => {
+    console.log('🎤 handleSendVoice called:', { audioUri, duration });
+    
+    try {
+      setIsLoading(true);
+      
+      // Convert audio to base64
+      let audioBase64 = '';
+      
+      if (Platform.OS === 'web') {
+        const response = await fetch(audioUri);
+        const blob = await response.blob();
+        const reader = new FileReader();
+        audioBase64 = await new Promise((resolve) => {
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(blob);
+        });
+      } else {
+        audioBase64 = await FileSystem.readAsStringAsync(audioUri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        audioBase64 = `data:audio/m4a;base64,${audioBase64}`;
+      }
+      
+      // Add voice message to chat
+      const timestamp = new Date().toISOString();
+      addMessage('user', `[Voice ${duration}s]`, timestamp, true, audioBase64, duration);
+      
+      // Send to backend for transcription and response
+      const transcribedText = await transcribeAudio(audioUri, backendUrl);
+      
+      if (transcribedText) {
+        // Get AI response
+        await sendMessage(transcribedText, true);
+      }
+      
+      setIsLoading(false);
+    } catch (error) {
+      console.error('❌ handleSendVoice error:', error);
+      Alert.alert('Erro', 'Não foi possível enviar a mensagem de voz.');
+      setIsLoading(false);
+    }
+  };
+
   // Audio playback handler
   const handlePlayAudio = async (messageId: string, text: string) => {
     try {
