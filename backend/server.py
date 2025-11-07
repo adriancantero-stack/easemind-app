@@ -739,81 +739,73 @@ async def send_contact_email(name: str, email: str, message: str):
         smtp_pass = os.getenv('SMTP_PASS')
         
         if smtp_user and smtp_pass:
-                # Create email
-                msg = MIMEMultipart('alternative')
-                msg['From'] = smtp_user
-                msg['To'] = 'support@easemind.io'
-                msg['Subject'] = f'[EaseMind] Nova mensagem de contato de {request.name}'
-                msg['Reply-To'] = request.email
-                
-                # Create HTML body
-                html_body = f"""
-                <html>
-                  <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
-                    <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
-                      <h2 style="color: #6366f1; margin-top: 0;">Nova Mensagem de Contato</h2>
-                      <p style="color: #666; font-size: 14px;">Recebido em: {datetime.now().strftime('%d/%m/%Y às %H:%M')}</p>
-                      
-                      <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                        <p style="margin: 5px 0;"><strong>Nome:</strong> {request.name}</p>
-                        <p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:{request.email}">{request.email}</a></p>
-                      </div>
-                      
-                      <div style="margin-top: 20px;">
-                        <h3 style="color: #333; font-size: 16px;">Mensagem:</h3>
-                        <div style="background-color: #fff; padding: 15px; border-left: 4px solid #6366f1; margin-top: 10px;">
-                          <p style="margin: 0; white-space: pre-wrap;">{request.message}</p>
-                        </div>
-                      </div>
-                      
-                      <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; color: #999; font-size: 12px;">
-                        <p>Esta é uma mensagem automática do formulário de contato do site EaseMind.</p>
-                        <p>Para responder, use o botão "Responder" no seu cliente de email.</p>
-                      </div>
+            # Create email
+            msg = MIMEMultipart('alternative')
+            msg['From'] = smtp_user
+            msg['To'] = 'support@easemind.io'
+            msg['Subject'] = f'[EaseMind] Nova mensagem de contato de {name}'
+            msg['Reply-To'] = email
+            
+            # Create HTML body
+            html_body = f"""
+            <html>
+              <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+                  <h2 style="color: #6366f1; margin-top: 0;">Nova Mensagem de Contato</h2>
+                  <p style="color: #666; font-size: 14px;">Recebido em: {datetime.now().strftime('%d/%m/%Y às %H:%M')}</p>
+                  
+                  <div style="background-color: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+                    <p style="margin: 5px 0;"><strong>Nome:</strong> {name}</p>
+                    <p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:{email}">{email}</a></p>
+                  </div>
+                  
+                  <div style="margin-top: 20px;">
+                    <h3 style="color: #333; font-size: 16px;">Mensagem:</h3>
+                    <div style="background-color: #fff; padding: 15px; border-left: 4px solid #6366f1; margin-top: 10px;">
+                      <p style="margin: 0; white-space: pre-wrap;">{message}</p>
                     </div>
-                  </body>
-                </html>
-                """
-                
-                # Plain text version
-                text_body = f"""
+                  </div>
+                  
+                  <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0; text-align: center; color: #999; font-size: 12px;">
+                    <p>Esta é uma mensagem automática do formulário de contato do site EaseMind.</p>
+                    <p>Para responder, use o botão "Responder" no seu cliente de email.</p>
+                  </div>
+                </div>
+              </body>
+            </html>
+            """
+            
+            # Plain text version
+            text_body = f"""
 Nova Mensagem de Contato - EaseMind
 Recebido em: {datetime.now().strftime('%d/%m/%Y às %H:%M')}
 
-Nome: {request.name}
-Email: {request.email}
+Nome: {name}
+Email: {email}
 
 Mensagem:
-{request.message}
+{message}
 
 ---
-Para responder, envie um email para: {request.email}
-                """
-                
-                msg.attach(MIMEText(text_body, 'plain'))
-                msg.attach(MIMEText(html_body, 'html'))
-                
-                # Send email with timeout
-                with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
-                    server.starttls()
-                    server.login(smtp_user, smtp_pass)
-                    server.send_message(msg)
-                
-                logger.info(f"✅ Email sent to support@easemind.io from {request.email}")
-            else:
-                logger.warning("SMTP credentials not configured - email not sent")
-                
-        except Exception as email_error:
-            logger.error(f"❌ Error sending email: {email_error}")
-            # Don't fail the request if email fails, just log it
-        
-        return {
-            "success": True,
-            "message": "Contact form submitted successfully"
-        }
-    except Exception as e:
-        logger.error(f"Error processing contact form: {e}")
-        raise HTTPException(status_code=500, detail="Failed to process contact form")
+Para responder, envie um email para: {email}
+            """
+            
+            msg.attach(MIMEText(text_body, 'plain'))
+            msg.attach(MIMEText(html_body, 'html'))
+            
+            # Send email with timeout
+            with smtplib.SMTP(smtp_host, smtp_port, timeout=10) as server:
+                server.starttls()
+                server.login(smtp_user, smtp_pass)
+                server.send_message(msg)
+            
+            logger.info(f"✅ Email sent to support@easemind.io from {email}")
+        else:
+            logger.warning("SMTP credentials not configured - email not sent")
+            
+    except Exception as email_error:
+        logger.error(f"❌ Error sending email: {email_error}")
+        # Don't fail - email is sent in background
 
     except Exception as e:
         logger.error(f"Error getting mood distribution: {e}")
