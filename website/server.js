@@ -285,6 +285,11 @@ function generateHTML(page, lang, t) {
       break;
       
     case 'plans':
+      const priceIds = {
+        'pt-BR': { monthly: 'price_1SQuOBGTSuUfa5RFczi9AZ0H', yearly: 'price_1SQuOBGTSuUfa5RFlOp0k3AG' },
+        'en': { monthly: 'price_1SQuOCGTSuUfa5RFWMbzxxRl', yearly: 'price_1SQuOCGTSuUfa5RF1iGAHDsr' },
+        'es': { monthly: 'price_1SQuOCGTSuUfa5RFWMbzxxRl', yearly: 'price_1SQuOCGTSuUfa5RF1iGAHDsr' }
+      };
       content = `
         <section class="pricing">
           <div class="container">
@@ -300,7 +305,7 @@ function generateHTML(page, lang, t) {
                 <ul class="pricing-features">
                   ${t.plans.free.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
-                <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.startFree || 'Começar grátis'}</a>
+                <a href="${pwaUrl}" class="btn btn-secondary">${t.cta.startFree || 'Começar grátis'}</a>
               </div>
               
               <!-- ANNUAL PLAN - FEATURED -->
@@ -312,7 +317,7 @@ function generateHTML(page, lang, t) {
                 <ul class="pricing-features">
                   ${t.plans.yearly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
-                <a href="${appPreviewUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
+                <button onclick="subscribe('${priceIds[lang].yearly}')" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</button>
               </div>
               
               <!-- MONTHLY PLAN -->
@@ -323,7 +328,7 @@ function generateHTML(page, lang, t) {
                 <ul class="pricing-features">
                   ${t.plans.monthly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
-                <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
+                <button onclick="subscribe('${priceIds[lang].monthly}')" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</button>
               </div>
             </div>
             
@@ -333,6 +338,32 @@ function generateHTML(page, lang, t) {
             </div>
           </div>
         </section>
+        
+        <script>
+          async function subscribe(priceId) {
+            try {
+              const response = await fetch('https://api.easemind.io/api/stripe/create-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  price_id: priceId,
+                  success_url: window.location.origin + '/success',
+                  cancel_url: window.location.origin + '/plans?lang=${lang}'
+                })
+              });
+              
+              const data = await response.json();
+              if (data.checkout_url) {
+                window.location.href = data.checkout_url;
+              } else {
+                alert('Erro ao criar sessão de pagamento');
+              }
+            } catch (error) {
+              console.error(error);
+              alert('Erro ao processar pagamento');
+            }
+          }
+        </script>
       `;
       break;
       
