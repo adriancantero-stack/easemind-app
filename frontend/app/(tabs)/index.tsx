@@ -177,15 +177,23 @@ export default function HomeScreen() {
 
   // Voice recording handlers
   const handleStartRecording = async () => {
-    console.log('🎙️ handleStartRecording called');
+    console.log('🎙️ [handleStartRecording] Chamada recebida');
+    console.log('📱 [handleStartRecording] Platform:', Platform.OS);
+    console.log('📱 [handleStartRecording] isRecording atual:', isRecording);
+    console.log('📱 [handleStartRecording] isTranscribing atual:', isTranscribing);
+    
     try {
       const success = await startRecording();
-      console.log('🎙️ startRecording result:', success);
+      console.log('🎙️ [handleStartRecording] Resultado:', success);
+      
       if (!success) {
+        console.log('❌ [handleStartRecording] Gravação não iniciou, mostrando alerta');
         Alert.alert('Permissão necessária', 'Por favor, ative o acesso ao microfone para usar a função de voz.');
+      } else {
+        console.log('✅ [handleStartRecording] Gravação iniciada com sucesso!');
       }
     } catch (error) {
-      console.error('❌ handleStartRecording error:', error);
+      console.error('❌ [handleStartRecording] Erro capturado:', error);
       Alert.alert('Erro', 'Não foi possível iniciar a gravação.');
     }
   };
