@@ -811,6 +811,79 @@ Para responder, envie um email para: {email}
         logger.error(f"❌ Error sending email: {email_error}")
         # Don't fail - email is sent in background
 
+# Stripe Checkout Endpoints
+class CheckoutRequest(BaseModel):
+    price_id: str
+    success_url: str
+    cancel_url: str
+    customer_email: Optional[str] = None
+
+@app.post("/api/stripe/create-checkout")
+async def create_checkout_session(request: CheckoutRequest):
+    """Create a Stripe Checkout session"""
+    try:
+        logger.info(f"Creating checkout session for price: {request.price_id}")
+        
+        checkout_session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price': request.price_id,
+                'quantity': 1,
+            }],
+            mode='subscription',
+            success_url=request.success_url,
+            cancel_url=request.cancel_url,
+            customer_email=request.customer_email,
+            allow_promotion_codes=True,
+            billing_address_collection='required',
+            subscription_data={
+                'trial_period_days': 7,
+            },
+        )
+        
+        logger.info(f"✅ Checkout session created: {checkout_session.id}")
+        
+        return {
+            "checkout_url": checkout_session.url,
+            "session_id": checkout_session.id
+        }
+    except stripe.error.StripeError as e:
+        logger.error(f"❌ Stripe error: {e}")
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception as e:
+        logger.error(f"❌ Error creating checkout session: {e}")
+        raise HTTPException(status_code=500, detail="Failed to create checkout session")
+
+@app.get("/api/stripe/subscription-status/{customer_email}")
+async def get_subscription_status(customer_email: str):
+    """Check subscription status for a customer"""
+    try:
+        # Search for customer by email
+        customers = stripe.Customer.list(email=customer_email, limit=1)
+        
+        if not customers.data:
+            return {"status": "free", "has_subscription": False}
+        
+        customer = customers.data[0]
+        
+        # Get customer's subscriptions
+        subscriptions = stripe.Subscription.list(customer=customer.id, limit=1)
+        
+        if not subscriptions.data:
+            return {"status": "free", "has_subscription": False}
+        
+        subscription = subscriptions.data[0]
+        
+        return {
+            "status": subscription.status,
+            "has_subscription": True,
+            "plan": "premium" if subscription.status == "active" else "free",
+            "current_period_end": subscription.current_period_end,
+        }
+    except Exception as e:
+        logger.error(f"❌ Error checking subscription: {e}")
+        return {"status": "free", "has_subscription": False}
+
 # SOS Endpoints
 class SOSTriggerRequest(BaseModel):
     user_id: str
