@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Get backend URL from environment
-BACKEND_URL = "https://voice-chat-app-44.preview.emergentagent.com/api"
+BACKEND_URL = "https://input-mic-buttons.preview.emergentagent.com/api"
 
 print(f"🌐 Testing Backend URL: {BACKEND_URL}")
 print(f"⏰ Test Time: {datetime.now().isoformat()}")

@@ -29,7 +29,7 @@ app.add_middleware(
     allow_origins=[
         "*",
         "https://app.easemind.io",
-        "https://voice-chat-app-44.preview.emergentagent.com",
+        "https://input-mic-buttons.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],

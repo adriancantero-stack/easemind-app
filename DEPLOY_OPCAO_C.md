@@ -62,15 +62,15 @@ O Emergent vai:
 
 Após deploy, teste na URL do Emergent:
 ```
-https://voice-chat-app-44.preview.emergentagent.com/
+https://input-mic-buttons.preview.emergentagent.com/
    ↓
    Deve mostrar: Website Institucional (Home do EaseMind)
 
-https://voice-chat-app-44.preview.emergentagent.com/app
+https://input-mic-buttons.preview.emergentagent.com/app
    ↓
    Deve mostrar: App Mobile (Expo)
 
-https://voice-chat-app-44.preview.emergentagent.com/api/health
+https://input-mic-buttons.preview.emergentagent.com/api/health
    ↓
    Deve retornar: 200 OK
 ```
