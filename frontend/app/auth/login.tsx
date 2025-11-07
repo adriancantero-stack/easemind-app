@@ -151,6 +151,49 @@ export default function LoginScreen() {
           router.replace('/(tabs)/');
         } catch (popupError: any) {
           console.error('❌ Erro no popup:', popupError);
+          
+          // Verificar se é erro de conta já existente
+          if (popupError.code === 'auth/account-exists-with-different-credential') {
+            console.log('⚠️ Conta já existe com credencial diferente');
+            
+            // Oferecer vincular contas
+            if (Platform.OS === 'web') {
+              const shouldLink = window.confirm(
+                'Você já possui uma conta com este email usando outro método de login. ' +
+                'Deseja vincular sua conta do Google a esta conta existente? ' +
+                'Você precisará fazer login com email e senha primeiro.'
+              );
+              
+              if (shouldLink) {
+                const emailInput = window.prompt('Digite seu email:');
+                const passwordInput = window.prompt('Digite sua senha:');
+                
+                if (emailInput && passwordInput) {
+                  try {
+                    // Fazer login com email/senha primeiro
+                    const credential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
+                    console.log('✅ Login com email/senha realizado');
+                    
+                    // Agora vincular com Google
+                    const googleCredential = GoogleAuthProvider.credential(
+                      popupError.customData._tokenResponse.oauthIdToken
+                    );
+                    
+                    await credential.user.linkWithCredential(googleCredential);
+                    console.log('✅ Contas vinculadas com sucesso!');
+                    
+                    window.alert('Contas vinculadas! Agora você pode fazer login com Google ou email/senha.');
+                    router.replace('/(tabs)/');
+                  } catch (linkError: any) {
+                    console.error('❌ Erro ao vincular contas:', linkError);
+                    window.alert('Erro ao vincular contas: ' + linkError.message);
+                  }
+                }
+              }
+            }
+            return;
+          }
+          
           // Se popup foi bloqueado, usar redirect
           if (popupError.code === 'auth/popup-blocked' || 
               popupError.code === 'auth/popup-closed-by-user' ||
