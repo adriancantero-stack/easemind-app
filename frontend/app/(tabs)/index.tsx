@@ -207,17 +207,22 @@ export default function HomeScreen() {
     try {
       const audioUri = await stopRecording();
       console.log('🛑 stopRecording result:', audioUri);
-      if (audioUri) {
-        console.log('📝 Starting transcription...');
-        // Transcribe audio
-        const transcribedText = await transcribeAudio(audioUri, backendUrl);
-        console.log('📝 Transcription result:', transcribedText);
-        if (transcribedText) {
-          // Auto-send transcribed text WITH voice flag (true)
-          await sendMessage(transcribedText, true);
-        } else {
-          Alert.alert('Erro', 'Não foi possível transcrever o áudio.');
-        }
+      
+      if (!audioUri) {
+        console.log('⚠️ No audio URI returned from recording');
+        return;
+      }
+      
+      console.log('📝 Starting transcription...');
+      // Transcribe audio
+      const transcribedText = await transcribeAudio(audioUri, backendUrl);
+      console.log('📝 Transcription result:', transcribedText);
+      
+      if (transcribedText) {
+        // Auto-send transcribed text WITH voice flag (true)
+        await sendMessage(transcribedText, true);
+      } else {
+        Alert.alert('Erro', 'Não foi possível transcrever o áudio.');
       }
     } catch (error) {
       console.error('❌ handleStopRecording error:', error);
