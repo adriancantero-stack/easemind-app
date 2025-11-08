@@ -1261,4 +1261,56 @@ async def get_user_profile(firebase_uid: str):
     except Exception as e:
         logger.error(f"Error getting profile: {e}", exc_info=True)
 
+# Usage Limits Endpoints
+@app.get("/api/user/usage-limits/{user_id}")
+async def get_usage_limits(user_id: str, action_type: str):
+    """
+    Verifica limites de uso para um usuário
+    action_type: 'message', 'session', 'journal'
+    """
+    try:
+        from orchestrator import SubscriptionManager
+        
+        logger.info(f"📊 Checking usage limits: {user_id} - {action_type}")
+        limits = SubscriptionManager.check_usage_limits(user_id, action_type)
+        
+        return {
+            "success": True,
+            **limits
+        }
+    except Exception as e:
+        logger.error(f"Error checking usage limits: {e}")
+        raise HTTPException(status_code=500, detail="Failed to check usage limits")
+
+@app.post("/api/user/increment-usage/{user_id}")
+async def increment_usage(user_id: str, action_type: str):
+    """
+    Incrementa contador de uso
+    action_type: 'message', 'session', 'journal'
+    """
+    try:
+        from orchestrator import SubscriptionManager
+        
+        SubscriptionManager.increment_usage(user_id, action_type)
+        
+        return {"success": True}
+    except Exception as e:
+        logger.error(f"Error incrementing usage: {e}")
+        raise HTTPException(status_code=500, detail="Failed to increment usage")
+
+@app.post("/api/user/upgrade-premium/{user_id}")
+async def upgrade_to_premium(user_id: str, stripe_subscription_id: str):
+    """
+    Atualiza usuário para premium após pagamento Stripe
+    """
+    try:
+        from orchestrator import SubscriptionManager
+        
+        SubscriptionManager.upgrade_to_premium(user_id, stripe_subscription_id)
+        
+        return {"success": True, "plan": "premium"}
+    except Exception as e:
+        logger.error(f"Error upgrading user: {e}")
+        raise HTTPException(status_code=500, detail="Failed to upgrade user")
+
 
