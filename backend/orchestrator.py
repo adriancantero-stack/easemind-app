@@ -584,8 +584,7 @@ class SubscriptionManager:
     @staticmethod
     def check_premium_status(user_id: str) -> Dict:
         """
-        Verifica se usuário tem acesso premium
-        Por enquanto, todos têm acesso (preparado para RevenueCat)
+        Verifica se usuário tem acesso premium via Stripe
         """
         user = users_collection.find_one({"user_id": user_id})
         
@@ -596,22 +595,145 @@ class SubscriptionManager:
                 "features": ["basic_chat", "panic_button"]
             }
         
-        # Por enquanto todos têm acesso premium (MVP)
-        # Futuramente integrar com RevenueCat
-        return {
-            "is_premium": True,
-            "plan": "premium_trial",
-            "features": [
-                "basic_chat",
-                "panic_button",
-                "guided_sessions",
-                "journal",
-                "mood_tracking",
-                "ai_memory",
-                "voice_chat"
-            ],
-            "trial_days_remaining": 30
+        # Verificar se tem plano premium ativo via Stripe
+        plan = user.get("plan", "free")
+        is_premium = plan == "premium"
+        
+        if is_premium:
+            return {
+                "is_premium": True,
+                "plan": "premium",
+                "features": [
+                    "unlimited_chat",
+                    "unlimited_sessions",
+                    "unlimited_journal",
+                    "panic_button",
+                    "voice_chat",
+                    "ai_memory",
+                    "priority_support"
+                ]
+            }
+        else:
+            return {
+                "is_premium": False,
+                "plan": "free",
+                "features": ["limited_chat", "limited_sessions", "limited_journal", "panic_button"],
+                "limits": {
+                    "daily_messages": 7,
+                    "daily_sessions": 1,
+                    "daily_journal": 3
+                }
+            }
+    
+    @staticmethod
+    def check_usage_limits(user_id: str, action_type: str) -> Dict:
+        """
+        Verifica se o usuário pode realizar uma ação baseado nas limitações do plano FREE
+        action_type: 'message', 'session', 'journal'
+        
+        Returns: {
+            "allowed": bool,
+            "remaining": int,
+            "limit": int,
+            "reset_at": datetime
         }
+        """
+        user = users_collection.find_one({"user_id": user_id})
+        
+        if not user:
+            # Novo usuário, criar registro
+            user = {
+                "user_id": user_id,
+                "plan": "free",
+                "daily_message_count": 0,
+                "daily_session_count": 0,
+                "daily_journal_count": 0,
+                "last_reset_date": datetime.utcnow().date().isoformat(),
+                "created_at": datetime.utcnow()
+            }
+            users_collection.insert_one(user)
+        
+        # Se é premium, sempre permitido
+        if user.get("plan") == "premium":
+            return {
+                "allowed": True,
+                "remaining": -1,  # -1 = ilimitado
+                "limit": -1,
+                "is_premium": True
+            }
+        
+        # Verificar se precisa resetar contadores diários
+        today = datetime.utcnow().date().isoformat()
+        last_reset = user.get("last_reset_date", "")
+        
+        if last_reset != today:
+            # Novo dia, resetar contadores
+            users_collection.update_one(
+                {"user_id": user_id},
+                {
+                    "$set": {
+                        "daily_message_count": 0,
+                        "daily_session_count": 0,
+                        "daily_journal_count": 0,
+                        "last_reset_date": today
+                    }
+                }
+            )
+            user["daily_message_count"] = 0
+            user["daily_session_count"] = 0
+            user["daily_journal_count"] = 0
+        
+        # Definir limites do plano FREE
+        limits = {
+            "message": 7,
+            "session": 1,
+            "journal": 3
+        }
+        
+        count_field = f"daily_{action_type}_count"
+        current_count = user.get(count_field, 0)
+        limit = limits.get(action_type, 0)
+        
+        allowed = current_count < limit
+        remaining = max(0, limit - current_count)
+        
+        return {
+            "allowed": allowed,
+            "remaining": remaining,
+            "limit": limit,
+            "current_count": current_count,
+            "is_premium": False
+        }
+    
+    @staticmethod
+    def increment_usage(user_id: str, action_type: str):
+        """
+        Incrementa o contador de uso para uma ação
+        action_type: 'message', 'session', 'journal'
+        """
+        count_field = f"daily_{action_type}_count"
+        users_collection.update_one(
+            {"user_id": user_id},
+            {"$inc": {count_field: 1}}
+        )
+        logger.info(f"📊 Usage incremented: {user_id} - {action_type}")
+    
+    @staticmethod
+    def upgrade_to_premium(user_id: str, stripe_subscription_id: str):
+        """
+        Atualiza usuário para plano premium após pagamento Stripe
+        """
+        users_collection.update_one(
+            {"user_id": user_id},
+            {
+                "$set": {
+                    "plan": "premium",
+                    "stripe_subscription_id": stripe_subscription_id,
+                    "upgraded_at": datetime.utcnow()
+                }
+            }
+        )
+        logger.info(f"⭐ User upgraded to premium: {user_id}")
     
     @staticmethod
     def log_subscription_event(user_id: str, event_type: str, details: Dict):
