@@ -169,18 +169,19 @@
     ]
   },
   "contact": {
-    "h1": "Contacto",
-    "description": "Habla con nuestro equipo. Respondemos en 48 horas hábiles.",
+    "h1": "Contáctanos",
+    "description": "¿Tienes preguntas, sugerencias o necesitas ayuda? Estamos aquí para ti.",
+    "emailInfo": "Envíanos un correo y responderemos en 24 horas",
     "form": {
       "name": "Nombre",
       "email": "Email",
       "message": "Mensaje",
-      "submit": "Enviar",
-      "success": "¡Mensaje enviado con éxito!",
-      "error": "No pudimos enviar ahora. Intenta nuevamente más tarde."
+      "submit": "Enviar mensaje",
+      "success": "¡Mensaje enviado! Responderemos pronto.",
+      "error": "No se pudo enviar ahora. Intenta de nuevo."
     },
     "support": {
-      "label": "Correo de soporte:",
+      "label": "Email de soporte:",
       "email": "support@easemind.io"
     }
   },
