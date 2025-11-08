@@ -169,15 +169,16 @@
     ]
   },
   "contact": {
-    "h1": "Contact",
-    "description": "Reach our team. We reply within 48 business hours.",
+    "h1": "Contact Us",
+    "description": "Questions, suggestions, or need help? We're here for you.",
+    "emailInfo": "Send us an email and we'll respond within 24 hours",
     "form": {
       "name": "Name",
       "email": "Email",
       "message": "Message",
-      "submit": "Send",
-      "success": "Message sent successfully!",
-      "error": "We couldn't send it now. Please try again later."
+      "submit": "Send message",
+      "success": "Message sent successfully! We'll respond soon.",
+      "error": "Could not send right now. Try again."
     },
     "support": {
       "label": "Support email:",
