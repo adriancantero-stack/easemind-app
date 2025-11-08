@@ -382,26 +382,23 @@ function generateHTML(page, lang, t) {
       
     case 'contact':
       content = `
-        <section class="contact-section">
-          <div class="container">
-            <h1 style="text-align: center; margin-bottom: 1rem;">${t.contact.h1}</h1>
-            <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--ink-600); font-size: 1.125rem;">${t.contact.description}</p>
+        <section class="contact-section" style="padding: 8rem 0; min-height: 60vh; display: flex; align-items: center;">
+          <div class="container" style="max-width: 800px; text-align: center;">
+            <div style="background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%); width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
+              <svg width="50" height="50" viewBox="0 0 24 24" fill="white">
+                <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+              </svg>
+            </div>
             
-            <form id="contactForm" class="contact-form">
-              <div class="form-group">
-                <input type="text" name="name" placeholder="${t.contact.form.name}" required>
-              </div>
-              <div class="form-group">
-                <input type="email" name="email" placeholder="${t.contact.form.email}" required>
-              </div>
-              <div class="form-group">
-                <textarea name="message" rows="6" placeholder="${t.contact.form.message}" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">${t.contact.form.submit}</button>
-            </form>
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--ink-900);">${t.contact.h1}</h1>
+            <p style="font-size: 1.25rem; color: var(--ink-600); margin-bottom: 3rem; line-height: 1.6;">${t.contact.description}</p>
             
-            <div class="contact-info" style="text-align: center; margin-top: 3rem; width: 100%; display: block;">
-              <p style="font-size: 1rem; color: var(--ink-600); text-align: center; margin: 0 auto;"><strong style="color: var(--ink-900);">${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}" style="color: var(--brand-primary); text-decoration: none;">${t.contact.support.email}</a></p>
+            <div style="background: var(--paper); border: 2px solid var(--ink-100); border-radius: 16px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
+              <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-500); margin-bottom: 1rem; font-weight: 600;">${t.contact.support.label}</p>
+              <a href="mailto:${t.contact.support.email}" style="font-size: 1.75rem; color: var(--brand-primary); text-decoration: none; font-weight: 700; display: inline-block; padding: 1rem 2rem; background: rgba(102, 126, 234, 0.1); border-radius: 12px; transition: all 0.3s;">${t.contact.support.email}</a>
+              <p style="font-size: 0.875rem; color: var(--ink-500); margin-top: 1.5rem; line-height: 1.6;">
+                📧 ${t.contact.emailInfo || 'Envie-nos um email e responderemos em até 24 horas'}
+              </p>
             </div>
           </div>
         </section>
