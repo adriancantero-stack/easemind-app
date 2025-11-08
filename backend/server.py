@@ -32,6 +32,8 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "*",
+        "https://easemind.io",
+        "https://www.easemind.io",
         "https://app.easemind.io",
         "https://input-mic-buttons.preview.emergentagent.com",
         "http://localhost:3000",
