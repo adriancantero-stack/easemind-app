@@ -148,7 +148,7 @@
       },
       {
         "q": "Posso cancelar a assinatura quando quiser?",
-        "a": "Sim. Cancele diretamente na App Store ou Google Play, a qualquer momento."
+        "a": "Sim. Cancele a qualquer momento através do portal do Stripe. Você receberá um link de gerenciamento por email após a compra."
       },
       {
         "q": "Meus dados são privados?",
