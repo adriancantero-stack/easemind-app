@@ -14,6 +14,7 @@ import { VoiceButton } from '../../components/VoiceButton';
 import { LunaAvatar } from '../../components/LunaAvatar';
 import { FixedSOSButton } from '../../components/FixedSOSButton';
 import { PanicModal } from '../../components/PanicModal';
+import { UpgradeModal } from '../../components/UpgradeModal';
 import { useVoiceRecording } from '../../hooks/useVoiceRecording';
 import { useAudioPlayer } from '../../hooks/useAudioPlayer';
 import Constants from 'expo-constants';
