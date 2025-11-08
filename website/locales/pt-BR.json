@@ -161,15 +161,16 @@
     ]
   },
   "contact": {
-    "h1": "Contato",
-    "description": "Fale com nossa equipe. Respondemos em até 48 horas úteis.",
+    "h1": "Entre em contato",
+    "description": "Tem dúvidas, sugestões ou precisa de ajuda? Estamos aqui para você.",
+    "emailInfo": "Envie-nos um email e responderemos em até 24 horas",
     "form": {
       "name": "Nome",
       "email": "E-mail",
       "message": "Mensagem",
-      "submit": "Enviar",
-      "success": "Mensagem enviada com sucesso!",
-      "error": "Não foi possível enviar agora. Tente novamente mais tarde."
+      "submit": "Enviar mensagem",
+      "success": "Mensagem enviada com sucesso! Responderemos em breve.",
+      "error": "Não foi possível enviar agora. Tente novamente."
     },
     "support": {
       "label": "E-mail de suporte:",
