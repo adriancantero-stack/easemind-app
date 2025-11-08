@@ -78,7 +78,7 @@ website/
 O website terá links para o app:
 - **App Store**: `https://apps.apple.com/app/easemind` (quando publicar)
 - **Google Play**: `https://play.google.com/store/apps/details?id=io.easemind`
-- **Web Preview**: `https://input-mic-buttons.preview.emergentagent.com`
+- **Web Preview**: `https://emotional-ai-9.preview.emergentagent.com`
 
 ## 💰 Custo
 

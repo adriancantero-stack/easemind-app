@@ -35,7 +35,7 @@ app.add_middleware(
         "https://easemind.io",
         "https://www.easemind.io",
         "https://app.easemind.io",
-        "https://input-mic-buttons.preview.emergentagent.com",
+        "https://emotional-ai-9.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],

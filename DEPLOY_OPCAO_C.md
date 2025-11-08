@@ -62,15 +62,15 @@ O Emergent vai:
 
 Após deploy, teste na URL do Emergent:
 ```
-https://input-mic-buttons.preview.emergentagent.com/
+https://emotional-ai-9.preview.emergentagent.com/
    ↓
    Deve mostrar: Website Institucional (Home do EaseMind)
 
-https://input-mic-buttons.preview.emergentagent.com/app
+https://emotional-ai-9.preview.emergentagent.com/app
    ↓
    Deve mostrar: App Mobile (Expo)
 
-https://input-mic-buttons.preview.emergentagent.com/api/health
+https://emotional-ai-9.preview.emergentagent.com/api/health
    ↓
    Deve retornar: 200 OK
 ```
