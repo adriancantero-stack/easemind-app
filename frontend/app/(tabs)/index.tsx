@@ -170,6 +170,16 @@ export default function HomeScreen() {
         addMessage('assistant', data.response);
         console.log('✅ Message added successfully');
         
+        // Increment usage counter
+        try {
+          await fetch(`${backendUrl}/api/user/increment-usage/${userId}?action_type=message`, {
+            method: 'POST',
+          });
+          console.log('📊 Usage incremented');
+        } catch (error) {
+          console.error('❌ Error incrementing usage:', error);
+        }
+        
         // Only play audio if message was sent via voice
         if (fromVoice) {
           console.log('🎤 Starting TTS playback (from voice input)');
