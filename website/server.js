@@ -382,21 +382,126 @@ function generateHTML(page, lang, t) {
       
     case 'contact':
       content = `
-        <section class="contact-section" style="padding: 8rem 0; min-height: 60vh; display: flex; align-items: center;">
-          <div class="container" style="max-width: 800px; text-align: center;">
-            <div style="background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%); width: 100px; height: 100px; border-radius: 50%; margin: 0 auto 2rem; display: flex; align-items: center; justify-content: center; box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);">
-              <svg width="50" height="50" viewBox="0 0 24 24" fill="white">
+        <style>
+          .contact-section {
+            padding: 4rem 1.5rem;
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+          }
+          .contact-container {
+            max-width: 800px;
+            text-align: center;
+            margin: 0 auto;
+            width: 100%;
+          }
+          .contact-icon-wrapper {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+          }
+          .contact-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--ink-900);
+            line-height: 1.2;
+          }
+          .contact-description {
+            font-size: 1.1rem;
+            color: var(--ink-600);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            padding: 0 1rem;
+          }
+          .contact-card {
+            background: var(--paper);
+            border: 2px solid var(--ink-100);
+            border-radius: 16px;
+            padding: 2rem 1.5rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+          }
+          .contact-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--ink-500);
+            margin-bottom: 1rem;
+            font-weight: 600;
+          }
+          .contact-email {
+            font-size: 1.25rem;
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s;
+            word-break: break-all;
+          }
+          .contact-email:hover {
+            background: rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+          }
+          .contact-info {
+            font-size: 0.875rem;
+            color: var(--ink-500);
+            margin-top: 1.5rem;
+            line-height: 1.6;
+          }
+          
+          @media (min-width: 768px) {
+            .contact-section {
+              padding: 8rem 2rem;
+            }
+            .contact-icon-wrapper {
+              width: 100px;
+              height: 100px;
+              margin-bottom: 2rem;
+            }
+            .contact-title {
+              font-size: 2.5rem;
+            }
+            .contact-description {
+              font-size: 1.25rem;
+              margin-bottom: 3rem;
+            }
+            .contact-card {
+              padding: 3rem;
+            }
+            .contact-label {
+              font-size: 0.875rem;
+            }
+            .contact-email {
+              font-size: 1.75rem;
+              padding: 1rem 2rem;
+              word-break: normal;
+            }
+          }
+        </style>
+        
+        <section class="contact-section">
+          <div class="contact-container">
+            <div class="contact-icon-wrapper">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
                 <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
               </svg>
             </div>
             
-            <h1 style="font-size: 2.5rem; margin-bottom: 1rem; color: var(--ink-900);">${t.contact.h1}</h1>
-            <p style="font-size: 1.25rem; color: var(--ink-600); margin-bottom: 3rem; line-height: 1.6;">${t.contact.description}</p>
+            <h1 class="contact-title">${t.contact.h1}</h1>
+            <p class="contact-description">${t.contact.description}</p>
             
-            <div style="background: var(--paper); border: 2px solid var(--ink-100); border-radius: 16px; padding: 3rem; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
-              <p style="font-size: 0.875rem; text-transform: uppercase; letter-spacing: 1px; color: var(--ink-500); margin-bottom: 1rem; font-weight: 600;">${t.contact.support.label}</p>
-              <a href="mailto:${t.contact.support.email}" style="font-size: 1.75rem; color: var(--brand-primary); text-decoration: none; font-weight: 700; display: inline-block; padding: 1rem 2rem; background: rgba(102, 126, 234, 0.1); border-radius: 12px; transition: all 0.3s;">${t.contact.support.email}</a>
-              <p style="font-size: 0.875rem; color: var(--ink-500); margin-top: 1.5rem; line-height: 1.6;">
+            <div class="contact-card">
+              <p class="contact-label">${t.contact.support.label}</p>
+              <a href="mailto:${t.contact.support.email}" class="contact-email">${t.contact.support.email}</a>
+              <p class="contact-info">
                 📧 ${t.contact.emailInfo || 'Envie-nos um email e responderemos em até 24 horas'}
               </p>
             </div>
