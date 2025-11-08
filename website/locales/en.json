@@ -133,7 +133,7 @@
         "Exclusive content"
       ]
     },
-    "legal": "Subscriptions auto-renew. Cancel anytime in the App Store or Google Play. Local taxes may apply.",
+    "legal": "Subscriptions auto-renew. Cancel anytime through the Stripe portal. 7 days free trial. Local taxes may apply.",
     "payment": "We accept credit cards, debit cards, and more • Protected data",
     "premium": {
       "features": [
