@@ -97,6 +97,24 @@ export default function HomeScreen() {
   const sendMessage = async (text: string, fromVoice: boolean = false) => {
     if (!text.trim() || isLoading) return;
 
+    // Verificar limites de uso antes de enviar
+    try {
+      const limitsResponse = await fetch(`${backendUrl}/api/user/usage-limits/${userId}?action_type=message`);
+      const limits = await limitsResponse.json();
+      
+      console.log('📊 Usage limits:', limits);
+      setUsageLimits(limits);
+      
+      if (!limits.allowed && !limits.is_premium) {
+        console.log('🚫 Message limit reached');
+        setShowUpgradeModal(true);
+        return;
+      }
+    } catch (error) {
+      console.error('❌ Error checking limits:', error);
+      // Continue anyway if limit check fails
+    }
+
     const userMessage = text.trim();
     setInputText('');
     addMessage('user', userMessage);
