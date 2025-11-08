@@ -7,11 +7,83 @@ export const useVoiceRecording = () => {
   const [isRecording, setIsRecording] = useState(false);
   const [isTranscribing, setIsTranscribing] = useState(false);
   const recordingRef = useRef<Audio.Recording | null>(null);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
 
   const startRecording = async () => {
     try {
       console.log('🎙️ [startRecording] Iniciando processo...');
+      console.log('📱 [startRecording] Platform:', Platform.OS);
       
+      // WEB IMPLEMENTATION (MediaRecorder API)
+      if (Platform.OS === 'web') {
+        console.log('🌐 [startRecording] Usando MediaRecorder API para web...');
+        
+        // Stop any existing recording
+        if (mediaRecorderRef.current) {
+          console.log('🧹 [startRecording] Parando gravação anterior...');
+          mediaRecorderRef.current.stop();
+          mediaRecorderRef.current = null;
+        }
+        
+        // Reset audio chunks
+        audioChunksRef.current = [];
+        
+        // Request microphone permission
+        try {
+          console.log('🎤 [startRecording] Solicitando acesso ao microfone...');
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          console.log('✅ [startRecording] Acesso ao microfone concedido');
+          
+          // Create MediaRecorder
+          const mimeType = MediaRecorder.isTypeSupported('audio/webm') ? 'audio/webm' : 'audio/mp4';
+          console.log('🎵 [startRecording] Usando formato:', mimeType);
+          
+          const mediaRecorder = new MediaRecorder(stream, { mimeType });
+          
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data.size > 0) {
+              audioChunksRef.current.push(event.data);
+              console.log('📦 [startRecording] Chunk recebido:', event.data.size, 'bytes');
+            }
+          };
+          
+          mediaRecorder.onstart = () => {
+            console.log('✅ [startRecording] MediaRecorder iniciado');
+          };
+          
+          mediaRecorder.onstop = () => {
+            console.log('🛑 [startRecording] MediaRecorder parado');
+            // Stop all tracks to release microphone
+            stream.getTracks().forEach(track => track.stop());
+          };
+          
+          mediaRecorder.onerror = (event: any) => {
+            console.error('❌ [startRecording] MediaRecorder erro:', event.error);
+          };
+          
+          mediaRecorderRef.current = mediaRecorder;
+          mediaRecorder.start();
+          setIsRecording(true);
+          console.log('✅ [startRecording] Gravação iniciada com sucesso!');
+          return true;
+          
+        } catch (error) {
+          console.error('❌ [startRecording] Erro ao acessar microfone:', error);
+          if (error instanceof Error) {
+            if (error.name === 'NotAllowedError') {
+              alert('Permissão de microfone negada. Por favor, permita o acesso ao microfone.');
+            } else if (error.name === 'NotFoundError') {
+              alert('Nenhum microfone encontrado.');
+            } else {
+              alert('Erro ao acessar microfone: ' + error.message);
+            }
+          }
+          return false;
+        }
+      }
+      
+      // NATIVE IMPLEMENTATION (expo-av)
       // Stop any existing recording first
       if (recordingRef.current) {
         console.log('🧹 [startRecording] Limpando gravação anterior...');
