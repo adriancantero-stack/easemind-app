@@ -484,32 +484,7 @@ function generateHTML(page, lang, t) {
     </div>
   </footer>
   
-  ${page === 'contact' ? `
-  <script>
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData);
-      
-      try {
-        const res = await fetch('https://api.easemind.io/api/website/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        
-        if (res.ok) {
-          alert('${t.contact.form.success}');
-          e.target.reset();
-        } else {
-          alert('${t.contact.form.error}');
-        }
-      } catch (err) {
-        alert('${t.contact.form.error}');
-      }
-    });
-  </script>
-  ` : ''}
+
 </body>
 </html>
   `;
