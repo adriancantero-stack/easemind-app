@@ -278,7 +278,7 @@ async def text_to_speech(request: TTSRequest):
         
         # Use OpenAI TTS with Alloy voice
         try:
-            logger.info(f"[{correlation_id}] TTS: Using OpenAI TTS (Alloy voice) for language: {request.lang}")
+            logger.info(f"[{correlation_id}] TTS: Using OpenAI TTS (Shimmer voice) for language: {request.lang}")
             
             # Initialize OpenAI client
             from openai import OpenAI as OpenAIClient
@@ -287,7 +287,7 @@ async def text_to_speech(request: TTSRequest):
             # Generate speech using OpenAI TTS
             response = client.audio.speech.create(
                 model="tts-1",  # Using standard model (faster than tts-1-hd)
-                voice="alloy",  # Alloy voice - natural and warm
+                voice="shimmer",  # Shimmer voice - soft and warm female voice
                 input=request.text,
                 response_format="mp3"
             )
