@@ -157,7 +157,67 @@ export const useVoiceRecording = () => {
 
   const stopRecording = async () => {
     console.log('🛑 [stopRecording] Iniciando parada da gravação...');
+    console.log('📱 [stopRecording] Platform:', Platform.OS);
     
+    // WEB IMPLEMENTATION
+    if (Platform.OS === 'web') {
+      console.log('🌐 [stopRecording] Parando MediaRecorder...');
+      
+      if (!mediaRecorderRef.current || mediaRecorderRef.current.state === 'inactive') {
+        console.log('⚠️ [stopRecording] Nenhuma gravação ativa para parar');
+        setIsRecording(false);
+        return null;
+      }
+      
+      return new Promise<string | null>((resolve) => {
+        const mediaRecorder = mediaRecorderRef.current!;
+        
+        mediaRecorder.onstop = () => {
+          console.log('🛑 [stopRecording] MediaRecorder parado');
+          console.log('📦 [stopRecording] Total de chunks:', audioChunksRef.current.length);
+          
+          if (audioChunksRef.current.length === 0) {
+            console.log('⚠️ [stopRecording] Nenhum chunk de áudio capturado');
+            setIsRecording(false);
+            resolve(null);
+            return;
+          }
+          
+          // Create blob from chunks
+          const audioBlob = new Blob(audioChunksRef.current, { type: mediaRecorder.mimeType });
+          console.log('✅ [stopRecording] Blob criado:', audioBlob.size, 'bytes');
+          
+          // Convert blob to data URI
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            const dataUri = reader.result as string;
+            console.log('✅ [stopRecording] Data URI criado, tamanho:', dataUri.length);
+            
+            // Reset state
+            setIsRecording(false);
+            audioChunksRef.current = [];
+            mediaRecorderRef.current = null;
+            
+            resolve(dataUri);
+          };
+          
+          reader.onerror = () => {
+            console.error('❌ [stopRecording] Erro ao converter blob para data URI');
+            setIsRecording(false);
+            audioChunksRef.current = [];
+            mediaRecorderRef.current = null;
+            resolve(null);
+          };
+          
+          reader.readAsDataURL(audioBlob);
+        };
+        
+        // Stop the recorder
+        mediaRecorder.stop();
+      });
+    }
+    
+    // NATIVE IMPLEMENTATION
     if (!recordingRef.current) {
       console.log('⚠️ [stopRecording] Nenhuma gravação ativa para parar');
       setIsRecording(false);
