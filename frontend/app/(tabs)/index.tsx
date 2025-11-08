@@ -39,6 +39,8 @@ export default function HomeScreen() {
   const [showPanicModal, setShowPanicModal] = useState(false);
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [userId, setUserId] = useState<string>('');
+  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
+  const [usageLimits, setUsageLimits] = useState({ allowed: true, remaining: 7, limit: 7, is_premium: false });
   const scrollViewRef = useRef<ScrollView>(null);
   const isAnimatingRef = useRef(false); // Prevent multiple animations
 
