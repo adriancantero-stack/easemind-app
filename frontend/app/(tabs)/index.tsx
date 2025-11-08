@@ -410,6 +410,15 @@ export default function HomeScreen() {
         visible={showPanicModal} 
         onClose={() => setShowPanicModal(false)} 
       />
+
+      {/* Upgrade Modal */}
+      <UpgradeModal
+        visible={showUpgradeModal}
+        onClose={() => setShowUpgradeModal(false)}
+        limitType="message"
+        remaining={usageLimits.remaining}
+        limit={usageLimits.limit}
+      />
     </SafeAreaView>
     </LinearGradient>
   );
