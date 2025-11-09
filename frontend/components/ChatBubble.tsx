@@ -59,7 +59,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         style={[
           styles.bubble,
           {
-            backgroundColor: isUser ? currentTheme.accent1 : currentTheme.chatBubbleLuna,
+            backgroundColor: isUser ? '#9e7dfa' : currentTheme.card,
           },
         ]}
       >
@@ -67,7 +67,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           style={[
             styles.text,
             {
-              color: isUser ? '#FFFFFF' : currentTheme.chatTextLuna,
+              color: isUser ? '#FFFFFF' : currentTheme.text,
             },
           ]}
         >
@@ -85,12 +85,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             disabled={isLoadingAudio}
           >
             {isLoadingAudio ? (
-              <ActivityIndicator size="small" color="#FFFFFF" />
+              <ActivityIndicator size="small" color={currentTheme.accent1} />
             ) : (
               <Ionicons 
                 name={isPlayingAudio ? "volume-high" : "volume-medium-outline"} 
                 size={18} 
-                color="#FFFFFF" 
+                color={currentTheme.accent1} 
               />
             )}
           </TouchableOpacity>
