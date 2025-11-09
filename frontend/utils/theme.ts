@@ -16,6 +16,8 @@ export const theme = {
     success: '#10B981',
     warning: '#F59E0B',
     error: '#EF4444',
+    chatBubbleLuna: '#9e7dfa', // Luna's message bubble - vibrant purple
+    chatTextLuna: '#FFFFFF', // Luna's text - white
     chatBubbleAI: 'rgba(255, 255, 255, 0.8)',
     chatTextAI: '#2A2A2E',
     shadow: 'rgba(0, 0, 0, 0.05)',
