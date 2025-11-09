@@ -59,7 +59,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
         style={[
           styles.bubble,
           {
-            backgroundColor: isUser ? currentTheme.accent1 : currentTheme.card,
+            backgroundColor: isUser ? currentTheme.accent1 : currentTheme.chatBubbleLuna,
           },
         ]}
       >
@@ -67,7 +67,7 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
           style={[
             styles.text,
             {
-              color: isUser ? '#FFFFFF' : currentTheme.text,
+              color: isUser ? '#FFFFFF' : currentTheme.chatTextLuna,
             },
           ]}
         >
