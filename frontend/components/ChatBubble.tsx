@@ -85,12 +85,12 @@ export const ChatBubble: React.FC<ChatBubbleProps> = ({
             disabled={isLoadingAudio}
           >
             {isLoadingAudio ? (
-              <ActivityIndicator size="small" color={currentTheme.accent1} />
+              <ActivityIndicator size="small" color="#FFFFFF" />
             ) : (
               <Ionicons 
                 name={isPlayingAudio ? "volume-high" : "volume-medium-outline"} 
                 size={18} 
-                color={currentTheme.accent1} 
+                color="#FFFFFF" 
               />
             )}
           </TouchableOpacity>
