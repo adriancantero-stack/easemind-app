@@ -37,7 +37,7 @@
       "shortName": "EaseMind",
       "lang": "pt-BR",
       "scope": "/",
-      "startUrl": "/",
+      "startUrl": "/?source=pwa",
       "backgroundColor": "#0E1A2B",
       "themeColor": "#C8B6FF",
       "display": "standalone",
