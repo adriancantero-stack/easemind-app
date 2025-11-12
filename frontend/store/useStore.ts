@@ -56,6 +56,8 @@ interface AppState {
   getUserId: () => Promise<string>;
   syncPreferencesWithBackend: () => Promise<void>;
   loadPreferencesFromBackend: () => Promise<void>;
+  clearUserData: () => Promise<void>;
+  setUserId: (uid: string) => Promise<void>;
 }
 
 const STORAGE_KEYS = {
