@@ -683,22 +683,30 @@ async def get_global_stats():
 async def get_popular_sessions():
     """Get most popular guided sessions"""
     try:
+        logger.info("📊 Popular sessions endpoint called")
         from orchestrator import AnalyticsManager
         sessions = AnalyticsManager.get_popular_sessions()
         return {"sessions": sessions}
+    except ImportError as e:
+        logger.error(f"❌ Import error: {e}")
+        return {"sessions": []}
     except Exception as e:
-        logger.error(f"Error getting popular sessions: {e}")
+        logger.error(f"❌ Error getting popular sessions: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.get("/api/admin/mood-distribution")
 async def get_mood_distribution():
     """Get mood distribution across platform"""
     try:
+        logger.info("📊 Mood distribution endpoint called")
         from orchestrator import AnalyticsManager
         distribution = AnalyticsManager.get_mood_distribution()
         return distribution
+    except ImportError as e:
+        logger.error(f"❌ Import error: {e}")
+        return {"labels": [], "values": []}
     except Exception as e:
-        logger.error(f"Error getting mood distribution: {e}")
+        logger.error(f"❌ Error getting mood distribution: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
 # Website Contact Form Endpoint
