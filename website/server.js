@@ -19,6 +19,10 @@ app.use(cookieParser());
 // Trust proxy for correct client IP and protocol detection (needed for Vercel)
 app.set('trust proxy', 1);
 
+// Detect if running in production (Vercel sets VERCEL env var)
+const isProduction = process.env.VERCEL || process.env.NODE_ENV === 'production';
+console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
   name: 'easemind.sid', // Custom session cookie name
@@ -27,7 +31,7 @@ app.use(session({
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Secure cookies in production (HTTPS)
+    secure: isProduction, // Secure cookies only in production (HTTPS)
     sameSite: 'lax', // Lax for better compatibility
     path: '/' // Ensure cookie is available for all paths
   },
