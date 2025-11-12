@@ -870,16 +870,26 @@ app.post('/admin/logout', (req, res) => {
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
 
 app.get('/api/admin/stats', async (req, res) => {
+  console.log('📊 Stats endpoint called:', {
+    hasSession: !!req.session,
+    isAdmin: req.session?.isAdmin,
+    sessionID: req.sessionID,
+    cookies: req.cookies
+  });
+  
   if (!req.session || !req.session.isAdmin) {
+    console.log('❌ Unauthorized: No valid admin session');
     return res.status(401).json({ error: 'Unauthorized' });
   }
   
   try {
+    console.log(`🌐 Fetching from backend: ${BACKEND_URL}/api/admin/stats`);
     const response = await fetch(`${BACKEND_URL}/api/admin/stats`);
     const data = await response.json();
+    console.log('✅ Stats fetched successfully');
     res.json(data);
   } catch (error) {
-    console.error('Error fetching stats:', error);
+    console.error('❌ Error fetching stats:', error);
     res.status(500).json({ error: 'Failed to fetch stats' });
   }
 });
