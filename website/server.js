@@ -23,7 +23,8 @@ app.use(session({
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
-    sameSite: 'lax'
+    secure: process.env.NODE_ENV === 'production', // Secure cookies in production (HTTPS)
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' // Allow cross-site cookies in production
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
