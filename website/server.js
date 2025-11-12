@@ -16,15 +16,19 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'easemind2025';
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// Trust proxy for correct client IP and protocol detection (needed for Vercel)
+app.set('trust proxy', 1);
+
 app.use(session({
   secret: 'easemind-admin-secret-2025',
-  resave: false,
+  resave: true, // Force session save even if not modified
   saveUninitialized: false,
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Secure cookies in production (HTTPS)
-    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax' // Allow cross-site cookies in production
+    sameSite: 'lax', // Changed from 'none' to 'lax' for better cookie persistence
+    path: '/' // Ensure cookie is available for all paths
   }
 }));
 app.use(express.static(path.join(__dirname, 'public')));
