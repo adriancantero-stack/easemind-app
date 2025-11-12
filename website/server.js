@@ -602,11 +602,21 @@ function generateHTML(page, lang, t) {
 
 // Admin Routes
 app.get('/admin', (req, res) => {
+  // Debug logging
+  console.log('🔍 Admin access attempt:', {
+    hasSession: !!req.session,
+    isAdmin: req.session?.isAdmin,
+    sessionID: req.sessionID,
+    cookies: req.cookies
+  });
+  
   // Se já está logado, mostra o dashboard
   if (req.session && req.session.isAdmin) {
+    console.log('✅ Admin authenticated, serving dashboard');
     return res.sendFile(path.join(__dirname, 'admin.html'));
   }
   
+  console.log('❌ Not authenticated, showing login page');
   // Senão, mostra página de login
   res.send(`
 <!DOCTYPE html>
