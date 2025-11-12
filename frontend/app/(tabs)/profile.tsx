@@ -46,6 +46,8 @@ export default function ProfileScreen() {
     }
   }, [user?.uid, isAuthenticated]);
 
+  const clearUserData = useStore((state) => state.clearUserData);
+
   const handleLogout = async () => {
     // Platform-specific confirmation
     if (Platform.OS === 'web') {
@@ -55,6 +57,8 @@ export default function ProfileScreen() {
       
       try {
         console.log('🚪 Iniciando logout...');
+        // Limpar dados do usuário antes de deslogar
+        await clearUserData();
         await signOut(auth);
         console.log('✅ Logout realizado com sucesso');
         // O AuthContext detectará automaticamente a mudança de estado
@@ -75,6 +79,8 @@ export default function ProfileScreen() {
             onPress: async () => {
               try {
                 console.log('🚪 Iniciando logout...');
+                // Limpar dados do usuário antes de deslogar
+                await clearUserData();
                 await signOut(auth);
                 console.log('✅ Logout realizado com sucesso');
               } catch (error) {
