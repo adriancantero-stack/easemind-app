@@ -90,10 +90,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               const store = useStore.getState();
               if (store.userId !== firebaseUser.uid) {
                 console.log('📝 Atualizando userId no store:', firebaseUser.uid);
-                // Aqui poderíamos migrar dados locais para o usuário Firebase
-                // Por enquanto, apenas atualiza o userId
-                store.userId = firebaseUser.uid;
+                // Limpar dados do usuário anterior e atualizar para o novo
+                await store.setUserId(firebaseUser.uid);
               }
+              
+              // Carregar preferências do backend (tema e idioma)
+              await store.loadPreferencesFromBackend();
             } else {
               console.error('❌ Failed to sync user with backend');
             }
