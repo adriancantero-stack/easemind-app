@@ -11,25 +11,25 @@
     "contact": "Contact"
   },
   "cta": {
-    "download": "Download App",
-    "how": "How it works",
+    "download": "Start Your Calm Now",
+    "how": "How It Works",
     "plans": "Plans",
-    "contact": "Contact us",
-    "startFree": "Start free",
+    "contact": "Contact Us",
+    "startFree": "Start Free",
     "subMonthly": "Subscribe Monthly",
     "subYearly": "Subscribe Yearly",
-    "finalTitle": "Ready to get started?",
-    "finalSubtitle": "Download EaseMind and find calm in minutes",
-    "availableOn": "Available on the",
-    "availableAt": "Get it on",
-    "downloadOn": "Download on the",
-    "getItOn": "Get it on",
+    "finalTitle": "Ready To Get Started?",
+    "finalSubtitle": "Download EaseMind And Find Calm In Minutes",
+    "availableOn": "Available On The",
+    "availableAt": "Get It On",
+    "downloadOn": "Download On The",
+    "getItOn": "Get It On",
     "availableOnAppStore": "App Store",
     "availableOnGooglePlay": "Google Play"
   },
   "hero": {
-    "h1": "Find calm and clarity in minutes",
-    "subtitle": "Your virtual therapist Luna welcomes, guides, and supports you with breathing, mindfulness, and evidence-based psychology."
+    "h1": "Find Calm And Clarity In Minutes",
+    "subtitle": "Your Virtual Therapist Luna Welcomes, Guides, And Supports You With Breathing, Mindfulness, And Evidence-Based Psychology."
   },
   "benefits": {
     "title": "Why choose EaseMind?",
