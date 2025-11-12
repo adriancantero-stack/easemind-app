@@ -384,6 +384,48 @@ export const useStore = create<AppState>((set, get) => ({
       console.error('❌ Error loading preferences from backend:', error);
     }
   },
+
+  clearUserData: async () => {
+    console.log('🧹 Clearing user data...');
+    try {
+      // Limpar apenas dados do usuário (mensagens, mood entries, etc)
+      // Manter preferências de tema e idioma
+      await AsyncStorage.removeItem(STORAGE_KEYS.MESSAGES);
+      await AsyncStorage.removeItem(STORAGE_KEYS.MOOD_ENTRIES);
+      await AsyncStorage.removeItem(STORAGE_KEYS.SESSION_LOGS);
+      await AsyncStorage.removeItem(STORAGE_KEYS.MOOD);
+      
+      set({
+        messages: [],
+        moodEntries: [],
+        sessionLogs: [],
+        currentMood: null,
+      });
+      
+      console.log('✅ User data cleared');
+    } catch (error) {
+      console.error('❌ Error clearing user data:', error);
+    }
+  },
+
+  setUserId: async (uid: string) => {
+    console.log('👤 Setting userId:', uid);
+    const currentUserId = get().userId;
+    
+    // Se o userId mudou, limpar dados do usuário anterior
+    if (currentUserId && currentUserId !== uid) {
+      console.log('🔄 User changed, clearing previous user data');
+      await get().clearUserData();
+    }
+    
+    set({ userId: uid });
+    
+    try {
+      await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, uid);
+    } catch (error) {
+      console.error('❌ Error saving userId:', error);
+    }
+  },
 }));
 
 // Listen to system appearance changes
