@@ -89,7 +89,7 @@ function generateHTML(page, lang, t) {
             <h1>${t.hero.h1}</h1>
             <p>${t.hero.subtitle}</p>
             <div class="cta-group">
-              <a href="#download" class="btn btn-primary">${t.cta.download}</a>
+              <a href="https://app.easemind.io/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">${t.cta.download}</a>
               <a href="/how-it-works?lang=${lang}" class="btn btn-secondary">${t.cta.how}</a>
             </div>
           </div>
