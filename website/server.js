@@ -835,17 +835,25 @@ app.get('/admin', (req, res) => {
 app.post('/admin/login', (req, res) => {
   const { password } = req.body;
   
+  console.log('🔐 Login attempt received');
+  
   if (password === ADMIN_PASSWORD) {
+    console.log('✅ Password correct, creating session');
     req.session.isAdmin = true;
     req.session.save((err) => {
       if (err) {
-        console.error('Error saving session:', err);
+        console.error('❌ Error saving session:', err);
         return res.status(500).json({ success: false, message: 'Erro ao salvar sessão' });
       }
-      console.log('✅ Admin session created successfully');
+      console.log('✅ Admin session created successfully:', {
+        sessionID: req.sessionID,
+        isAdmin: req.session.isAdmin,
+        cookie: req.session.cookie
+      });
       res.json({ success: true });
     });
   } else {
+    console.log('❌ Password incorrect');
     res.status(401).json({ success: false, message: 'Senha incorreta' });
   }
 });
