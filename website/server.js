@@ -21,16 +21,15 @@ app.set('trust proxy', 1);
 
 app.use(session({
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
-  name: 'easemind.admin.sid', // Custom session cookie name
+  name: 'easemind.sid', // Custom session cookie name
   resave: true, // Force session save even if not modified
   saveUninitialized: false,
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production', // Secure cookies in production (HTTPS)
-    sameSite: process.env.NODE_ENV === 'production' ? 'lax' : 'strict', // More permissive in production
-    path: '/', // Ensure cookie is available for all paths
-    domain: process.env.NODE_ENV === 'production' ? '.easemind.io' : undefined // Allow subdomain cookies
+    sameSite: 'lax', // Lax for better compatibility
+    path: '/' // Ensure cookie is available for all paths
   },
   proxy: true // Trust the reverse proxy
 }));
