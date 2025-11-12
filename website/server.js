@@ -728,31 +728,89 @@ app.get('/admin', (req, res) => {
   </div>
 
   <script>
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const password = document.getElementById('password').value;
-      const errorDiv = document.getElementById('error');
+    console.log('✅ Admin login script loaded');
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('✅ DOM loaded');
       
-      try {
-        const res = await fetch('/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ password })
-        });
-        
-        const data = await res.json();
-        
-        if (res.ok && data.success) {
-          window.location.href = '/admin';
-        } else {
-          errorDiv.textContent = data.message || 'Senha incorreta';
-          errorDiv.style.display = 'block';
-          document.getElementById('password').value = '';
-        }
-      } catch (err) {
-        errorDiv.textContent = 'Erro ao fazer login. Tente novamente.';
-        errorDiv.style.display = 'block';
+      const loginForm = document.getElementById('loginForm');
+      const passwordInput = document.getElementById('password');
+      const errorDiv = document.getElementById('error');
+      const submitButton = loginForm.querySelector('button[type="submit"]');
+      
+      if (!loginForm) {
+        console.error('❌ Login form not found!');
+        return;
       }
+      
+      console.log('✅ Form found, adding event listener');
+      
+      loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        console.log('🔐 Form submitted');
+        
+        const password = passwordInput.value;
+        console.log('📝 Password length:', password.length);
+        
+        if (!password) {
+          errorDiv.textContent = 'Por favor, digite a senha';
+          errorDiv.style.display = 'block';
+          return;
+        }
+        
+        // Disable button during submission
+        submitButton.disabled = true;
+        submitButton.textContent = 'Entrando...';
+        
+        try {
+          console.log('🌐 Sending request to /admin/login');
+          
+          const res = await fetch('/admin/login', {
+            method: 'POST',
+            headers: { 
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify({ password }),
+            credentials: 'same-origin'
+          });
+          
+          console.log('📡 Response status:', res.status);
+          
+          const data = await res.json();
+          console.log('📦 Response data:', data);
+          
+          if (res.ok && data.success) {
+            console.log('✅ Login successful, redirecting...');
+            errorDiv.style.display = 'none';
+            submitButton.textContent = '✓ Sucesso!';
+            setTimeout(() => {
+              window.location.href = '/admin';
+            }, 500);
+          } else {
+            console.log('❌ Login failed:', data.message);
+            errorDiv.textContent = data.message || 'Senha incorreta';
+            errorDiv.style.display = 'block';
+            passwordInput.value = '';
+            submitButton.disabled = false;
+            submitButton.textContent = 'Entrar';
+          }
+        } catch (err) {
+          console.error('❌ Error during login:', err);
+          errorDiv.textContent = 'Erro ao fazer login. Tente novamente. (' + err.message + ')';
+          errorDiv.style.display = 'block';
+          submitButton.disabled = false;
+          submitButton.textContent = 'Entrar';
+        }
+      });
+      
+      // Also handle Enter key
+      passwordInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          console.log('⌨️ Enter key pressed');
+          loginForm.dispatchEvent(new Event('submit'));
+        }
+      });
     });
   </script>
 </body>
