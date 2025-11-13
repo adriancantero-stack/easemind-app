@@ -12,14 +12,23 @@
     "language": "Language"
   },
   "footer": {
+    "product": "Product",
     "about": "About",
     "how": "How It Works",
     "plans": "Plans",
+    "faq": "FAQ",
     "contact": "Contact",
+    "download": "Download",
     "privacy": "Privacy",
     "terms": "Terms",
     "legal": "Legal",
-    "disclaimer": "EaseMind is not a substitute for professional treatment. For emergencies, seek professional help immediately."
+    "disclaimer": "EaseMind is not a substitute for professional treatment. For emergencies, seek professional help immediately.",
+    "disclaimerLabel": "Important Notice:",
+    "copyright": "© 2025 EaseMind. All rights reserved.",
+    "madeWith": "Made with",
+    "toHelp": "to help you find calm",
+    "appStore": "App Store",
+    "googlePlay": "Google Play"
   },
   "cta": {
     "download": "Start Your Calm Now",
