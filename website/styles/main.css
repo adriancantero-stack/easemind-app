@@ -1104,6 +1104,27 @@ footer {
     text-align: center;
   }
   
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+  
+  /* Two column layout for Produto and Legal sections */
+  .footer-links {
+    text-align: center;
+  }
+  
+  .footer-links:nth-child(2),
+  .footer-links:nth-child(3) {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    text-align: center;
+  }
+  
+  .footer-links ul {
+    padding: 0;
+  }
+  
   .footer-logo {
     text-align: center;
     margin: 0 auto 2.5rem;
@@ -1112,14 +1133,6 @@ footer {
   .footer-logo img {
     margin: 0 auto 1rem;
     display: block;
-  }
-  
-  .footer-links {
-    text-align: center;
-  }
-  
-  .footer-links ul {
-    padding: 0;
   }
   
   footer {
