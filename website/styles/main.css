@@ -1011,16 +1011,29 @@ footer {
 @media (max-width: 768px) {
   /* Navigation */
   nav {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     gap: 1.5rem;
     padding: 1.5rem 0;
   }
   
+  .logo {
+    order: 1;
+  }
+  
   .logo img {
-    height: 56px;
+    height: 40px;
+  }
+  
+  .lang-selector {
+    order: 2;
   }
   
   .nav-links {
+    order: 3;
+    flex-basis: 100%;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
