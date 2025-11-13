@@ -964,6 +964,7 @@ export const translations = {
       notifications: 'Notificaciones',
       privacy: 'Privacidad y Datos',
       privacyText: 'Tus conversaciones se almacenan localmente y están encriptadas en tu dispositivo. Nunca compartimos tus datos personales.',
+      premium: 'Premium',
       about: 'Acerca de',
       aboutEasemind: 'Acerca de EaseMind',
       privacyPolicy: 'Política de Privacidad',
