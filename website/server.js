@@ -998,7 +998,41 @@ app.get('/privacy', (req, res) => {
   </main>
   <footer>
     <div class="container">
-      <p class="copyright">${t.footer.copyright}</p>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
+          <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.product}</h4>
+          <ul>
+            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
+            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
+            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
+            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.legal}</h4>
+          <ul>
+            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
+            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.download}</h4>
+          <ul>
+            <li><a href="https://app.easemind.io" target="_blank" rel="noopener">${t.cta.downloadApp || 'Baixar APP'}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="disclaimer" style="text-align: center;">
+        ⚕️ <strong>${t.footer.disclaimerLabel}</strong> ${t.footer.disclaimer}
+      </div>
+      <div class="footer-bottom" style="text-align: center;">
+        <p>${t.footer.copyright}</p>
+        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      </div>
     </div>
   </footer>
 </body>
@@ -1046,7 +1080,41 @@ app.get('/terms', (req, res) => {
   </main>
   <footer>
     <div class="container">
-      <p class="copyright">${t.footer.copyright}</p>
+      <div class="footer-content">
+        <div class="footer-brand">
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.25rem;">
+          <p>${t.legal.disclaimer || 'Sua terapeuta virtual Luna oferece apoio emocional com empatia e segurança. Não substitui terapia profissional.'}</p>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.product}</h4>
+          <ul>
+            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
+            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
+            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
+            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.legal}</h4>
+          <ul>
+            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
+            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>${t.footer.download}</h4>
+          <ul>
+            <li><a href="https://app.easemind.io" target="_blank" rel="noopener">${t.cta.downloadApp || 'Baixar APP'}</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="disclaimer" style="text-align: center;">
+        ⚕️ <strong>${t.footer.disclaimerLabel}</strong> ${t.footer.disclaimer}
+      </div>
+      <div class="footer-bottom" style="text-align: center;">
+        <p>${t.footer.copyright}</p>
+        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      </div>
     </div>
   </footer>
 </body>
