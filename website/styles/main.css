@@ -1099,7 +1099,8 @@ footer {
   
   /* Footer */
   .footer-content {
-    grid-template-columns: 1fr;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
     text-align: center;
   }
@@ -1108,16 +1109,21 @@ footer {
     grid-column: 1 / -1;
   }
   
-  /* Two column layout for Produto and Legal sections */
-  .footer-links {
-    text-align: center;
+  /* Place "Produto" and "Legal" side by side on mobile */
+  .footer-links:nth-child(2) {
+    grid-column: 1;
   }
   
-  .footer-links:nth-child(2),
   .footer-links:nth-child(3) {
-    display: inline-block;
-    width: 48%;
-    vertical-align: top;
+    grid-column: 2;
+  }
+  
+  /* Place "Download" below spanning both columns */
+  .footer-links:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+  
+  .footer-links {
     text-align: center;
   }
   
