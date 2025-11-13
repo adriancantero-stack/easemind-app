@@ -160,5 +160,14 @@
       "email": "support@easemind.io"
     },
     "emailInfo": "Send Us An Email And We'll Respond Within 24 Hours"
+  },
+  "legal": {
+    "disclaimer": "EaseMind is an emotional support app and does not replace therapy, diagnosis or medical treatment. In case of crisis, seek professional help.",
+    "privacy": {
+      "title": "Privacy Policy"
+    },
+    "terms": {
+      "title": "Terms of Use"
+    }
   }
 }
