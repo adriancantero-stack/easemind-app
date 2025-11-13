@@ -55,10 +55,14 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ visible, onClose }
     { id: 'about', label: t('profile.about'), icon: 'information-circle', route: '/(tabs)/about' },
   ];
 
-  const handleNavigate = (route: string) => {
+  const handleNavigate = (route: string, isExternal?: boolean) => {
     onClose();
     setTimeout(() => {
-      router.push(route as any);
+      if (isExternal) {
+        Linking.openURL('https://easemind.io/plans');
+      } else {
+        router.push(route as any);
+      }
     }, 300);
   };
 
