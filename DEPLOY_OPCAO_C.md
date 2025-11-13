@@ -62,15 +62,15 @@ O Emergent vai:
 
 Após deploy, teste na URL do Emergent:
 ```
-https://emotional-ai-9.preview.emergentagent.com/
+https://playstore-prep-7.preview.emergentagent.com/
    ↓
    Deve mostrar: Website Institucional (Home do EaseMind)
 
-https://emotional-ai-9.preview.emergentagent.com/app
+https://playstore-prep-7.preview.emergentagent.com/app
    ↓
    Deve mostrar: App Mobile (Expo)
 
-https://emotional-ai-9.preview.emergentagent.com/api/health
+https://playstore-prep-7.preview.emergentagent.com/api/health
    ↓
    Deve retornar: 200 OK
 ```

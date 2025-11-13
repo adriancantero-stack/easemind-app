@@ -7,7 +7,7 @@ import requests
 import json
 import uuid
 
-BACKEND_URL = "https://emotional-ai-9.preview.emergentagent.com/api"
+BACKEND_URL = "https://playstore-prep-7.preview.emergentagent.com/api"
 
 def test_luna_context_injection():
     """Test that Luna receives and uses user context properly"""
