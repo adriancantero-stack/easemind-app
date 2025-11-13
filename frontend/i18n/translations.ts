@@ -603,6 +603,7 @@ export const translations = {
       notifications: 'Notificações',
       privacy: 'Privacidade & Dados',
       privacyText: 'Suas conversas são armazenadas localmente e criptografadas no seu dispositivo. Nunca compartilhamos seus dados pessoais.',
+      premium: 'Premium',
       about: 'Sobre',
       aboutEasemind: 'Sobre o EaseMind',
       privacyPolicy: 'Política de Privacidade',
