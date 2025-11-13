@@ -108,7 +108,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ visible, onClose }
                 <TouchableOpacity
                   key={item.id}
                   style={[styles.menuItem, { borderBottomColor: currentTheme.border }]}
-                  onPress={() => handleNavigate(item.route)}
+                  onPress={() => handleNavigate(item.route, item.isExternal)}
                 >
                   <Ionicons name={item.icon as any} size={24} color={currentTheme.accent1} />
                   <Text style={[styles.menuItemText, { color: currentTheme.text }]}>
