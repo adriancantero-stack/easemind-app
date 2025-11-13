@@ -240,6 +240,7 @@ export const translations = {
       notifications: 'Notifications',
       privacy: 'Privacy & Data',
       privacyText: 'Your conversations are stored locally and encrypted on your device. We never share your personal data.',
+      premium: 'Premium',
       about: 'About',
       aboutEasemind: 'About EaseMind',
       privacyPolicy: 'Privacy Policy',
