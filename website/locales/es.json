@@ -48,11 +48,11 @@
     }
   },
   "howItWorks": {
-    "title": "Cómo funciona",
-    "subtitle": "Simple, rápido y eficaz",
-    "h1": "Cómo funciona",
+    "title": "Cómo Funciona",
+    "subtitle": "Simple, Rápido Y Eficaz",
+    "h1": "Cómo Funciona",
     "s1": {
-      "title": "Habla con Luna",
+      "title": "Habla Con Luna",
       "description": "Luna comprende cómo te sientes y responde con empatía. Voz natural, ritmo calmado y guía práctica.",
       "feature1": "Conversaciones naturales:",
       "feature1Desc": "Luna usa procesamiento de lenguaje natural para entender tus emociones y ofrecer respuestas empáticas y contextualizadas.",
