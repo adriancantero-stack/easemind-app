@@ -130,7 +130,7 @@
     },
     "monthly": {
       "title": "Premium Monthly",
-      "price": "$5.99",
+      "price": "$7.99",
       "period": "per month • 7 days free",
       "features": [
         "Unlimited Chat With Luna",
@@ -143,8 +143,8 @@
     },
     "yearly": {
       "title": "Premium Annual",
-      "price": "$49.99",
-      "period": "~$4.17/month • save 30% • 7 days free",
+      "price": "$79.90",
+      "period": "~$6.66/month • save 17% • 7 days free",
       "badge": "✨ Best Value",
       "features": [
         "Unlimited Chat With Luna",
