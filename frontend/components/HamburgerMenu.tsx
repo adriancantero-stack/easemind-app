@@ -21,6 +21,14 @@ interface HamburgerMenuProps {
   onClose: () => void;
 }
 
+interface MenuItem {
+  id: string;
+  label: string;
+  icon: string;
+  route: string;
+  isExternal?: boolean;
+}
+
 export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ visible, onClose }) => {
   const { t } = useTranslation();
   const router = useRouter();
