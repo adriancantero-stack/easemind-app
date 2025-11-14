@@ -54,7 +54,7 @@ export const HamburgerMenu: React.FC<HamburgerMenuProps> = ({ visible, onClose }
     }
   }, [visible]);
 
-  const menuItems = [
+  const menuItems: MenuItem[] = [
     { id: 'chat', label: t('tabs.chat'), icon: 'chatbubbles', route: '/(tabs)/' },
     { id: 'sessions', label: t('tabs.sessions'), icon: 'leaf', route: '/(tabs)/sessions' },
     { id: 'journal', label: t('tabs.journal'), icon: 'book', route: '/(tabs)/journal' },
