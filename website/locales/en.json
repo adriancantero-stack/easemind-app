@@ -115,52 +115,49 @@
     }
   },
   "plans": {
-    "title": "Plans And Pricing",
+    "h1": "Choose Your Plan",
     "subtitle": "Choose The Best Plan For You",
     "free": {
-      "name": "Free",
-      "price": "R$0",
-      "period": "/month",
+      "title": "Free",
+      "price": "$0",
+      "period": "Free Forever",
       "features": [
         "7 Daily Chats With Luna",
         "1 Guided Session Per Day",
         "3 Journal Entries Per Day",
-        "Basic Emotional Support",
-        "SOS Button With Breathing"
+        "Unlimited SOS Button"
       ]
     },
-    "premium": {
-      "name": "Premium",
-      "price": "Starting At",
-      "trial": "7 Days Free Trial",
-      "monthly": {
-        "brl": "R$ 29.90/month",
-        "usd": "$5.99/month"
-      },
-      "yearly": {
-        "brl": "R$ 239.90/year",
-        "usd": "$49.99/year",
-        "save": "Save 33%"
-      },
+    "monthly": {
+      "title": "Premium Monthly",
+      "price": "$5.99",
+      "period": "per month • 7 days free",
       "features": [
-        "Unlimited Chats With Luna",
+        "Unlimited Chat With Luna",
         "Unlimited Guided Sessions",
-        "Unlimited Journal Entries",
-        "Full Access To All Features",
-        "Priority Support",
-        "New Features First"
+        "Unlimited Journal",
+        "Luna's Natural Voice (TTS)",
+        "Advanced SOS",
+        "Priority Support"
       ]
     },
-    "cancel": "Cancel Anytime Via Stripe Portal",
-    "faq": {
-      "title": "Frequently Asked Questions",
-      "q1": "How Do I Cancel My Subscription?",
-      "a1": "You Can Cancel Anytime Through The Stripe Customer Portal, Accessible From Your Profile.",
-      "q2": "Is There A Free Trial?",
-      "a2": "Yes! Premium Plans Include A 7-Day Free Trial.",
-      "q3": "What Payment Methods Do You Accept?",
-      "a3": "We Accept Credit Cards, Debit Cards, And Other Methods Via Stripe."
-    }
+    "yearly": {
+      "title": "Premium Annual",
+      "price": "$49.99",
+      "period": "~$4.17/month • save 30% • 7 days free",
+      "badge": "✨ Best Value",
+      "features": [
+        "Unlimited Chat With Luna",
+        "Unlimited Guided Sessions",
+        "Unlimited Journal",
+        "Luna's Natural Voice (TTS)",
+        "Advanced SOS",
+        "Priority Support"
+      ]
+    },
+    "legal": "Subscriptions with automatic renewal. Cancel anytime through Stripe. 7 days free trial. Local taxes may apply.",
+    "payment": "Secure payment via Stripe • Credit and debit cards accepted",
+    "trial": "🎁 7 days free to try"
   },
   "contact": {
     "h1": "Contact Us",
