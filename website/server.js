@@ -1127,16 +1127,27 @@ app.get('/sitemap.xml', (req, res) => {
   const baseUrl = 'https://easemind.io';
   const langs = ['pt-BR', 'en', 'es'];
   const pages = ['', '/how-it-works', '/plans', '/faq', '/contact', '/privacy', '/terms'];
+  const lastMod = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
   
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
+  xml += 'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
   
   langs.forEach(lang => {
     pages.forEach(page => {
       xml += `  <url>\n`;
       xml += `    <loc>${baseUrl}${page}?lang=${lang}</loc>\n`;
+      xml += `    <lastmod>${lastMod}</lastmod>\n`;
       xml += `    <changefreq>weekly</changefreq>\n`;
-      xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
+      xml += `    <priority>${page === '' ? '1.0' : page === '/plans' ? '0.9' : '0.8'}</priority>\n`;
+      
+      // Add alternate language versions (hreflang)
+      langs.forEach(altLang => {
+        if (altLang !== lang) {
+          xml += `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${baseUrl}${page}?lang=${altLang}" />\n`;
+        }
+      });
+      
       xml += `  </url>\n`;
     });
   });
