@@ -977,15 +977,15 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
   
   try {
-    const backendUrl = getBackendUrl();
-    const url = `${backendUrl}/api/admin/mood-distribution`;
+    const url = getApiUrl('/api/admin/mood-distribution');
+    const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
     
-    console.log(`🌐 Fetching mood distribution from: ${url}`);
-    const response = await fetch(url);
+    console.log(`🌐 Fetching mood distribution from: ${fullUrl}`);
+    const response = await fetch(fullUrl);
     
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Backend returned ${response.status}: ${errorText}`);
+      throw new Error(`API returned ${response.status}: ${errorText}`);
     }
     
     const data = await response.json();
