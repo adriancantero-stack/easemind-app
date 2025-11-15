@@ -26,14 +26,15 @@ console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 app.use(session({
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
   name: 'easemind.sid', // Custom session cookie name
-  resave: true, // Force session save even if not modified
+  resave: false, // Don't save session if unmodified
   saveUninitialized: false,
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
     secure: isProduction, // Secure cookies only in production (HTTPS)
-    sameSite: 'lax', // Lax for better compatibility
-    path: '/' // Ensure cookie is available for all paths
+    sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-domain in production
+    path: '/', // Ensure cookie is available for all paths
+    domain: isProduction ? '.easemind.io' : undefined // Set domain in production
   },
   proxy: true // Trust the reverse proxy
 }));
