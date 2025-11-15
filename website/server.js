@@ -884,9 +884,18 @@ app.post('/admin/logout', (req, res) => {
 });
 
 // Admin API Proxy (proxy requests to backend)
-// In Vercel, use serverless functions. In development, use local backend.
+// Always use the FastAPI backend URL
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
-const useServerlessFunctions = isProduction; // Use serverless in production
+
+// In production, we need to use the public backend URL
+// For now, let's use a configurable approach
+const getBackendUrl = () => {
+  if (isProduction && process.env.BACKEND_URL) {
+    return process.env.BACKEND_URL;
+  }
+  // Default to local backend
+  return 'http://localhost:8001';
+};
 
 app.get('/api/admin/stats', async (req, res) => {
   console.log('📊 Stats endpoint called:', {
