@@ -959,12 +959,22 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
   
   try {
-    const response = await fetch(`${BACKEND_URL}/api/admin/mood-distribution`);
+    let url;
+    if (useServerlessFunctions) {
+      url = `${req.protocol}://${req.get('host')}/api/mood_distribution`;
+    } else {
+      url = `${BACKEND_URL}/api/admin/mood-distribution`;
+    }
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}`);
+    }
     const data = await response.json();
     res.json(data);
   } catch (error) {
     console.error('Error fetching mood distribution:', error);
-    res.status(500).json({ error: 'Failed to fetch mood distribution' });
+    res.status(500).json({ error: 'Failed to fetch mood distribution', details: error.message });
   }
 });
 
