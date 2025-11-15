@@ -951,15 +951,15 @@ app.get('/api/admin/popular-sessions', async (req, res) => {
   }
   
   try {
-    const backendUrl = getBackendUrl();
-    const url = `${backendUrl}/api/admin/popular-sessions`;
+    const url = getApiUrl('/api/admin/popular-sessions');
+    const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
     
-    console.log(`🌐 Fetching popular sessions from: ${url}`);
-    const response = await fetch(url);
+    console.log(`🌐 Fetching popular sessions from: ${fullUrl}`);
+    const response = await fetch(fullUrl);
     
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Backend returned ${response.status}: ${errorText}`);
+      throw new Error(`API returned ${response.status}: ${errorText}`);
     }
     
     const data = await response.json();
