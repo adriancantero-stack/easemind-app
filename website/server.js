@@ -901,9 +901,7 @@ app.get('/api/admin/stats', async (req, res) => {
   console.log('📊 Stats endpoint called:', {
     hasSession: !!req.session,
     isAdmin: req.session?.isAdmin,
-    sessionID: req.sessionID,
-    cookies: req.cookies,
-    useServerless: useServerlessFunctions
+    sessionID: req.sessionID
   });
   
   if (!req.session || !req.session.isAdmin) {
@@ -912,28 +910,28 @@ app.get('/api/admin/stats', async (req, res) => {
   }
   
   try {
-    let url;
-    if (useServerlessFunctions) {
-      // In production (Vercel), call the serverless function directly
-      url = `${req.protocol}://${req.get('host')}/api/admin_stats`;
-    } else {
-      // In development, proxy to backend
-      url = `${BACKEND_URL}/api/admin/stats`;
-    }
+    const backendUrl = getBackendUrl();
+    const url = `${backendUrl}/api/admin/stats`;
     
-    console.log(`🌐 Fetching from: ${url}`);
+    console.log(`🌐 Fetching stats from: ${url}`);
     const response = await fetch(url);
     
     if (!response.ok) {
-      throw new Error(`Backend returned ${response.status}`);
+      const errorText = await response.text();
+      console.error(`❌ Backend error: ${response.status} - ${errorText}`);
+      throw new Error(`Backend returned ${response.status}: ${errorText}`);
     }
     
     const data = await response.json();
-    console.log('✅ Stats fetched successfully');
+    console.log('✅ Stats fetched successfully:', JSON.stringify(data).substring(0, 100));
     res.json(data);
   } catch (error) {
-    console.error('❌ Error fetching stats:', error);
-    res.status(500).json({ error: 'Failed to fetch stats', details: error.message });
+    console.error('❌ Error fetching stats:', error.message);
+    res.status(500).json({ 
+      error: 'Failed to fetch stats', 
+      details: error.message,
+      backendUrl: getBackendUrl()
+    });
   }
 });
 
