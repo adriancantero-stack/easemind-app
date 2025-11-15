@@ -32,9 +32,8 @@ app.use(session({
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
     secure: isProduction, // Secure cookies only in production (HTTPS)
-    sameSite: isProduction ? 'none' : 'lax', // 'none' for cross-domain in production
-    path: '/', // Ensure cookie is available for all paths
-    domain: isProduction ? '.easemind.io' : undefined // Set domain in production
+    sameSite: 'lax', // Lax works better for same-site admin panel
+    path: '/' // Ensure cookie is available for all paths
   },
   proxy: true // Trust the reverse proxy
 }));
