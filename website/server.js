@@ -909,7 +909,7 @@ app.get('/api/admin/stats', async (req, res) => {
   console.log('📊 Stats endpoint called:', {
     hasSession: !!req.session,
     isAdmin: req.session?.isAdmin,
-    sessionID: req.sessionID
+    isProduction
   });
   
   if (!req.session || !req.session.isAdmin) {
@@ -918,27 +918,29 @@ app.get('/api/admin/stats', async (req, res) => {
   }
   
   try {
-    const backendUrl = getBackendUrl();
-    const url = `${backendUrl}/api/admin/stats`;
+    const url = getApiUrl('/api/admin/stats');
     
-    console.log(`🌐 Fetching stats from: ${url}`);
-    const response = await fetch(url);
+    // In production, make request to same domain
+    const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
+    
+    console.log(`🌐 Fetching stats from: ${fullUrl}`);
+    const response = await fetch(fullUrl);
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`❌ Backend error: ${response.status} - ${errorText}`);
-      throw new Error(`Backend returned ${response.status}: ${errorText}`);
+      console.error(`❌ API error: ${response.status} - ${errorText}`);
+      throw new Error(`API returned ${response.status}: ${errorText}`);
     }
     
     const data = await response.json();
-    console.log('✅ Stats fetched successfully:', JSON.stringify(data).substring(0, 100));
+    console.log('✅ Stats fetched successfully');
     res.json(data);
   } catch (error) {
     console.error('❌ Error fetching stats:', error.message);
     res.status(500).json({ 
       error: 'Failed to fetch stats', 
       details: error.message,
-      backendUrl: getBackendUrl()
+      isProduction
     });
   }
 });
