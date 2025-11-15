@@ -851,6 +851,10 @@ app.post('/admin/login', (req, res) => {
   const { password } = req.body;
   
   console.log('🔐 Login attempt received');
+  console.log('Session before login:', {
+    hasSession: !!req.session,
+    sessionID: req.sessionID
+  });
   
   if (password === ADMIN_PASSWORD) {
     console.log('✅ Password correct, creating session');
@@ -863,7 +867,8 @@ app.post('/admin/login', (req, res) => {
       console.log('✅ Admin session created successfully:', {
         sessionID: req.sessionID,
         isAdmin: req.session.isAdmin,
-        cookie: req.session.cookie
+        cookie: req.session.cookie,
+        cookieHeader: res.getHeader('Set-Cookie')
       });
       res.json({ success: true });
     });
