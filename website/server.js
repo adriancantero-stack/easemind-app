@@ -884,14 +884,17 @@ app.post('/admin/logout', (req, res) => {
 });
 
 // Admin API Proxy (proxy requests to backend)
+// In Vercel, use serverless functions. In development, use local backend.
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8001';
+const useServerlessFunctions = isProduction; // Use serverless in production
 
 app.get('/api/admin/stats', async (req, res) => {
   console.log('📊 Stats endpoint called:', {
     hasSession: !!req.session,
     isAdmin: req.session?.isAdmin,
     sessionID: req.sessionID,
-    cookies: req.cookies
+    cookies: req.cookies,
+    useServerless: useServerlessFunctions
   });
   
   if (!req.session || !req.session.isAdmin) {
@@ -900,14 +903,28 @@ app.get('/api/admin/stats', async (req, res) => {
   }
   
   try {
-    console.log(`🌐 Fetching from backend: ${BACKEND_URL}/api/admin/stats`);
-    const response = await fetch(`${BACKEND_URL}/api/admin/stats`);
+    let url;
+    if (useServerlessFunctions) {
+      // In production (Vercel), call the serverless function directly
+      url = `${req.protocol}://${req.get('host')}/api/admin_stats`;
+    } else {
+      // In development, proxy to backend
+      url = `${BACKEND_URL}/api/admin/stats`;
+    }
+    
+    console.log(`🌐 Fetching from: ${url}`);
+    const response = await fetch(url);
+    
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}`);
+    }
+    
     const data = await response.json();
     console.log('✅ Stats fetched successfully');
     res.json(data);
   } catch (error) {
     console.error('❌ Error fetching stats:', error);
-    res.status(500).json({ error: 'Failed to fetch stats' });
+    res.status(500).json({ error: 'Failed to fetch stats', details: error.message });
   }
 });
 
