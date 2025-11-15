@@ -934,12 +934,22 @@ app.get('/api/admin/popular-sessions', async (req, res) => {
   }
   
   try {
-    const response = await fetch(`${BACKEND_URL}/api/admin/popular-sessions`);
+    let url;
+    if (useServerlessFunctions) {
+      url = `${req.protocol}://${req.get('host')}/api/popular_sessions`;
+    } else {
+      url = `${BACKEND_URL}/api/admin/popular-sessions`;
+    }
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Backend returned ${response.status}`);
+    }
     const data = await response.json();
     res.json(data);
   } catch (error) {
     console.error('Error fetching popular sessions:', error);
-    res.status(500).json({ error: 'Failed to fetch popular sessions' });
+    res.status(500).json({ error: 'Failed to fetch popular sessions', details: error.message });
   }
 });
 
