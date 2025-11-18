@@ -540,6 +540,48 @@
       }
     }
 
+    async function deleteUser(uid, email) {
+      if (!confirm(`⚠️ Tem certeza que deseja EXCLUIR o usuário?\n\nEmail: ${email}\n\nEsta ação não pode ser desfeita e irá remover:\n- Todas as conversas\n- Sessões completadas\n- Entradas do diário\n- Histórico de humor\n- Dados pessoais`)) {
+        return;
+      }
+
+      const row = document.getElementById(`user-row-${uid}`);
+      if (row) {
+        row.style.opacity = '0.5';
+        row.style.pointerEvents = 'none';
+      }
+
+      try {
+        const response = await fetch(`/api/admin/delete-user/${uid}`, {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro: ${response.status}`);
+        }
+
+        // Remove the row from table
+        if (row) {
+          row.remove();
+        }
+
+        alert('✅ Usuário excluído com sucesso!');
+        
+        // Reload dashboard to update stats
+        loadDashboard();
+      } catch (error) {
+        console.error('Error deleting user:', error);
+        alert('❌ Erro ao excluir usuário. Tente novamente.');
+        
+        // Restore row
+        if (row) {
+          row.style.opacity = '1';
+          row.style.pointerEvents = 'auto';
+        }
+      }
+    }
+
     function logout() {
       if (confirm('Tem certeza que deseja sair?')) {
         fetch('/admin/logout', { method: 'POST' })
