@@ -286,7 +286,17 @@
 
       <!-- Users List Table -->
       <div class="table-container" style="margin-top: 2rem;">
-        <h2>👥 Usuários Cadastrados</h2>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h2 style="margin: 0;">👥 Usuários Cadastrados</h2>
+          <button 
+            onclick="syncFirebaseUsers()" 
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.2s; box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);"
+            onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)'" 
+            onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(102, 126, 234, 0.4)'"
+            title="Sincronizar todos os usuários do Firebase Authentication com o banco de dados">
+            🔄 Sincronizar Firebase
+          </button>
+        </div>
         <table id="usersTable">
           <thead>
             <tr>
