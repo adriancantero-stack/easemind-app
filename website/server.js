@@ -25,8 +25,7 @@ console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 
 // Session configuration
 
-// Configure session middleware
-const sessionConfig = {
+app.use(session({
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
   name: 'easemind.sid',
   resave: false,
@@ -39,11 +38,7 @@ const sessionConfig = {
     path: '/'
   },
   proxy: true
-};
-
-// Using default MemoryStore for sessions
-
-app.use(session(sessionConfig));
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
