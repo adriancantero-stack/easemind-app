@@ -490,8 +490,12 @@
         const users = usersData.users;
 
         const usersBody = document.getElementById('usersBody');
-        if (users && users.length > 0) {
-          usersBody.innerHTML = users.map(user => {
+        
+        // Filter out users without email (invalid/test users)
+        const validUsers = users.filter(user => user.email && user.email !== '-');
+        
+        if (validUsers && validUsers.length > 0) {
+          usersBody.innerHTML = validUsers.map(user => {
             const createdDate = user.created_at ? new Date(user.created_at).toLocaleDateString('pt-BR') : '-';
             const lastLogin = user.last_login ? new Date(user.last_login).toLocaleDateString('pt-BR') : '-';
             const languageFlag = {
