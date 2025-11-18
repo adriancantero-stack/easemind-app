@@ -1006,8 +1006,15 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
   
   try {
     const { firebase_uid } = req.params;
-    const backendUrl = isProduction ? process.env.BACKEND_URL || 'http://localhost:8001' : 'http://localhost:8001';
-    const url = `${backendUrl}/api/admin/delete-user/${firebase_uid}`;
+    
+    let url;
+    if (isProduction) {
+      // In production (Vercel), use serverless function
+      url = `${req.protocol}://${req.get('host')}/api/delete_user/${firebase_uid}`;
+    } else {
+      // In development, use backend FastAPI
+      url = `http://localhost:8001/api/admin/delete-user/${firebase_uid}`;
+    }
     
     console.log(`🗑️ Deleting user ${firebase_uid} via: ${url}`);
     const response = await fetch(url, {
