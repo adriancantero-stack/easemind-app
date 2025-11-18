@@ -709,6 +709,35 @@ async def get_mood_distribution():
         logger.error(f"❌ Error getting mood distribution: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.delete("/api/admin/delete-user/{uid}")
+async def delete_user(uid: str):
+    """Delete a user and all their data (admin only)"""
+    try:
+        logger.info(f"🗑️ Admin delete user endpoint called for uid: {uid}")
+        
+        # Delete user from users collection
+        users_result = db.users.delete_one({"uid": uid})
+        
+        # Delete all user data from other collections
+        db.conversations.delete_many({"user_id": uid})
+        db.sessions.delete_many({"user_id": uid})
+        db.journal_entries.delete_many({"user_id": uid})
+        db.mood_logs.delete_many({"user_id": uid})
+        db.risk_events.delete_many({"user_id": uid})
+        db.subscriptions.delete_many({"user_id": uid})
+        
+        if users_result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        logger.info(f"✅ User {uid} and all data deleted successfully")
+        return {"success": True, "message": "User deleted successfully"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error deleting user: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Website Contact Form Endpoint
 class ContactRequest(BaseModel):
     name: str
