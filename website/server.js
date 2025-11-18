@@ -27,28 +27,44 @@ console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 // MongoDB session store configuration
 const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/';
 
-app.use(session({
+// Configure session middleware
+const sessionConfig = {
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
-  name: 'easemind.sid', // Custom session cookie name
-  resave: false, // Don't save session if unmodified
+  name: 'easemind.sid',
+  resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({
-    mongoUrl: MONGO_URL,
-    dbName: 'easemind',
-    collectionName: 'sessions',
-    ttl: 24 * 60 * 60, // 24 hours in seconds
-    autoRemove: 'native', // Let MongoDB handle cleanup
-    touchAfter: 24 * 3600 // Lazy session update
-  }),
   cookie: { 
-    maxAge: 24 * 60 * 60 * 1000, // 24 horas
+    maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: isProduction, // Secure cookies only in production (HTTPS)
-    sameSite: 'lax', // Lax works better for same-site admin panel
-    path: '/' // Ensure cookie is available for all paths
+    secure: isProduction,
+    sameSite: 'lax',
+    path: '/'
   },
-  proxy: true // Trust the reverse proxy
-}));
+  proxy: true
+};
+
+// Add MongoDB store only if MONGO_URL is properly configured
+if (MONGO_URL && MONGO_URL !== 'mongodb://localhost:27017/') {
+  try {
+    sessionConfig.store = MongoStore.create({
+      mongoUrl: MONGO_URL,
+      dbName: 'easemind',
+      collectionName: 'sessions',
+      ttl: 24 * 60 * 60,
+      autoRemove: 'native',
+      touchAfter: 24 * 3600,
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }
+    });
+    console.log('✅ MongoDB session store configured');
+  } catch (error) {
+    console.error('⚠️ MongoDB session store failed, using MemoryStore:', error.message);
+  }
+}
+
+app.use(session(sessionConfig));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 
