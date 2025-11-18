@@ -24,11 +24,22 @@ app.set('trust proxy', 1);
 const isProduction = process.env.VERCEL || process.env.NODE_ENV === 'production';
 console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 
+// MongoDB session store configuration
+const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/';
+
 app.use(session({
   secret: process.env.SESSION_SECRET || 'easemind-admin-secret-2025',
   name: 'easemind.sid', // Custom session cookie name
   resave: false, // Don't save session if unmodified
   saveUninitialized: false,
+  store: MongoStore.create({
+    mongoUrl: MONGO_URL,
+    dbName: 'easemind',
+    collectionName: 'sessions',
+    ttl: 24 * 60 * 60, // 24 hours in seconds
+    autoRemove: 'native', // Let MongoDB handle cleanup
+    touchAfter: 24 * 3600 // Lazy session update
+  }),
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000, // 24 horas
     httpOnly: true,
