@@ -556,6 +556,40 @@
       }
     }
 
+    async function syncFirebaseUsers() {
+      if (!confirm('🔄 Sincronizar todos os usuários do Firebase Authentication?\n\nIsso irá:\n- Buscar todos os usuários do Firebase\n- Criar/atualizar no banco de dados\n- Pode levar alguns segundos\n\nDeseja continuar?')) {
+        return;
+      }
+
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = '⏳ Sincronizando...';
+
+      try {
+        const response = await fetch('/api/admin/sync-firebase-users', {
+          method: 'POST',
+          credentials: 'same-origin'
+        });
+
+        if (!response.ok) {
+          throw new Error(`Erro: ${response.status}`);
+        }
+
+        const data = await response.json();
+        
+        alert(`✅ Sincronização completa!\n\n${data.synced} usuários sincronizados\n${data.created} novos\n${data.updated} atualizados`);
+        
+        // Reload users list
+        loadDashboard();
+      } catch (error) {
+        console.error('Error syncing users:', error);
+        alert('❌ Erro ao sincronizar usuários. Verifique se a chave do Firebase Admin SDK está configurada.');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '🔄 Sincronizar Firebase';
+      }
+    }
+
     async function deleteUser(uid, email) {
       if (!confirm(`⚠️ Tem certeza que deseja EXCLUIR o usuário?\n\nEmail: ${email}\n\nEsta ação não pode ser desfeita e irá remover:\n- Todas as conversas\n- Sessões completadas\n- Entradas do diário\n- Histórico de humor\n- Dados pessoais`)) {
         return;
