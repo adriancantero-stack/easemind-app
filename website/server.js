@@ -42,26 +42,7 @@ const sessionConfig = {
   proxy: true
 };
 
-// Add MongoDB store only if MONGO_URL is properly configured
-if (MONGO_URL && MONGO_URL !== 'mongodb://localhost:27017/') {
-  try {
-    sessionConfig.store = MongoStore.create({
-      mongoUrl: MONGO_URL,
-      dbName: 'easemind',
-      collectionName: 'sessions',
-      ttl: 24 * 60 * 60,
-      autoRemove: 'native',
-      touchAfter: 24 * 3600,
-      mongoOptions: {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-      }
-    });
-    console.log('✅ MongoDB session store configured');
-  } catch (error) {
-    console.error('⚠️ MongoDB session store failed, using MemoryStore:', error.message);
-  }
-}
+// Using default MemoryStore for sessions
 
 app.use(session(sessionConfig));
 app.use(express.static(path.join(__dirname, 'public')));
