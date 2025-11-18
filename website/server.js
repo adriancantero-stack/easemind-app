@@ -999,17 +999,17 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
 });
 
-app.delete('/api/admin/delete-user/:uid', async (req, res) => {
+app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   
   try {
-    const { uid } = req.params;
+    const { firebase_uid } = req.params;
     const backendUrl = isProduction ? process.env.BACKEND_URL || 'http://localhost:8001' : 'http://localhost:8001';
-    const url = `${backendUrl}/api/admin/delete-user/${uid}`;
+    const url = `${backendUrl}/api/admin/delete-user/${firebase_uid}`;
     
-    console.log(`🗑️ Deleting user ${uid} via: ${url}`);
+    console.log(`🗑️ Deleting user ${firebase_uid} via: ${url}`);
     const response = await fetch(url, {
       method: 'DELETE'
     });
