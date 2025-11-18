@@ -501,13 +501,15 @@
             }[user.language] || '🌍';
             
             // Determine if user is premium
-            const isPremium = user.is_premium || user.subscription_status === 'active' || false;
+            const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium' || false;
             const statusBadge = isPremium 
               ? '<span style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">⭐ PREMIUM</span>'
               : '<span style="background: #e2e8f0; color: #4a5568; padding: 4px 12px; border-radius: 12px; font-size: 0.75rem; font-weight: 600;">FREE</span>';
             
+            const userId = user.firebase_uid || user.uid || '';
+            
             return `
-            <tr id="user-row-${user.uid}">
+            <tr id="user-row-${userId}">
               <td><strong>${user.email || '-'}</strong></td>
               <td>${user.display_name || 'Usuário'}</td>
               <td>${statusBadge}</td>
@@ -516,7 +518,7 @@
               <td><small>${lastLogin}</small></td>
               <td>
                 <button 
-                  onclick="deleteUser('${user.uid}', '${user.email}')" 
+                  onclick="deleteUser('${userId}', '${(user.email || '').replace(/'/g, "\\'")}') " 
                   style="background: #ef4444; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.875rem; transition: all 0.2s;"
                   onmouseover="this.style.background='#dc2626'" 
                   onmouseout="this.style.background='#ef4444'"
