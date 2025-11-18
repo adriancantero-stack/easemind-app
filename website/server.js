@@ -23,8 +23,7 @@ app.set('trust proxy', 1);
 const isProduction = process.env.VERCEL || process.env.NODE_ENV === 'production';
 console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
 
-// MongoDB session store configuration
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://localhost:27017/';
+// Session configuration
 
 // Configure session middleware
 const sessionConfig = {
