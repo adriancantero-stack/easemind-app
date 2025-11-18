@@ -24,7 +24,10 @@ class handler(BaseHTTPRequestHandler):
                     'display_name': 1,
                     'language': 1,
                     'created_at': 1,
-                    'last_login': 1
+                    'last_login': 1,
+                    'is_premium': 1,
+                    'subscription_status': 1,
+                    'plan': 1
                 }
             ).sort('created_at', -1).limit(100))
             
