@@ -999,6 +999,35 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
 });
 
+app.delete('/api/admin/delete-user/:uid', async (req, res) => {
+  if (!req.session || !req.session.isAdmin) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
+  try {
+    const { uid } = req.params;
+    const backendUrl = isProduction ? process.env.BACKEND_URL || 'http://localhost:8001' : 'http://localhost:8001';
+    const url = `${backendUrl}/api/admin/delete-user/${uid}`;
+    
+    console.log(`🗑️ Deleting user ${uid} via: ${url}`);
+    const response = await fetch(url, {
+      method: 'DELETE'
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API returned ${response.status}: ${errorText}`);
+    }
+    
+    const data = await response.json();
+    console.log('✅ User deleted successfully');
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Error deleting user:', error.message);
+    res.status(500).json({ error: 'Failed to delete user', details: error.message });
+  }
+});
+
 // Routes
 app.get('/', (req, res) => {
   const lang = detectLanguage(req);
