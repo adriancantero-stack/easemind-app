@@ -738,6 +738,79 @@ async def delete_user(firebase_uid: str):
         logger.error(f"❌ Error deleting user: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post("/api/admin/sync-firebase-users")
+async def sync_firebase_users():
+    """Sync all users from Firebase Authentication to MongoDB (admin only)"""
+    try:
+        import firebase_admin
+        from firebase_admin import credentials, auth as firebase_auth
+        import json
+        
+        logger.info("🔄 Starting Firebase users sync...")
+        
+        # Initialize Firebase Admin if not already done
+        try:
+            firebase_admin.get_app()
+        except ValueError:
+            # Get credentials from environment variable
+            creds_json = os.environ.get('FIREBASE_ADMIN_SDK')
+            if not creds_json:
+                raise HTTPException(status_code=500, detail="FIREBASE_ADMIN_SDK not configured")
+            
+            cred_dict = json.loads(creds_json)
+            cred = credentials.Certificate(cred_dict)
+            firebase_admin.initialize_app(cred)
+        
+        # List all users from Firebase
+        page = firebase_auth.list_users()
+        users_synced = 0
+        users_created = 0
+        users_updated = 0
+        
+        while page:
+            for firebase_user in page.users:
+                # Sync each user to MongoDB
+                user_data = {
+                    "firebase_uid": firebase_user.uid,
+                    "email": firebase_user.email or '',
+                    "display_name": firebase_user.display_name or 'Usuário',
+                    "photo_url": firebase_user.photo_url,
+                    "created_at": firebase_user.user_metadata.creation_timestamp / 1000 if firebase_user.user_metadata.creation_timestamp else None,
+                    "last_login": firebase_user.user_metadata.last_sign_in_timestamp / 1000 if firebase_user.user_metadata.last_sign_in_timestamp else None,
+                }
+                
+                # Upsert to MongoDB
+                result = db.users.update_one(
+                    {"firebase_uid": firebase_user.uid},
+                    {"$set": user_data},
+                    upsert=True
+                )
+                
+                if result.upserted_id:
+                    users_created += 1
+                elif result.modified_count > 0:
+                    users_updated += 1
+                
+                users_synced += 1
+                logger.info(f"✅ Synced user: {firebase_user.email} ({firebase_user.uid})")
+            
+            # Get next page
+            page = page.get_next_page()
+        
+        logger.info(f"✅ Firebase sync complete: {users_synced} total, {users_created} new, {users_updated} updated")
+        return {
+            "success": True,
+            "synced": users_synced,
+            "created": users_created,
+            "updated": users_updated
+        }
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ Error syncing Firebase users: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Website Contact Form Endpoint
 class ContactRequest(BaseModel):
     name: str
