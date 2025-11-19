@@ -999,6 +999,34 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
 });
 
+app.post('/api/admin/sync-firebase-users', async (req, res) => {
+  if (!req.session || !req.session.isAdmin) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  
+  try {
+    const backendUrl = isProduction ? process.env.BACKEND_URL || 'http://localhost:8001' : 'http://localhost:8001';
+    const url = `${backendUrl}/api/admin/sync-firebase-users`;
+    
+    console.log(`🔄 Syncing Firebase users via: ${url}`);
+    const response = await fetch(url, {
+      method: 'POST'
+    });
+    
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API returned ${response.status}: ${errorText}`);
+    }
+    
+    const data = await response.json();
+    console.log('✅ Firebase users synced successfully');
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Error syncing Firebase users:', error.message);
+    res.status(500).json({ error: 'Failed to sync Firebase users', details: error.message });
+  }
+});
+
 app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
