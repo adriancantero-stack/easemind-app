@@ -1005,8 +1005,14 @@ app.post('/api/admin/sync-firebase-users', async (req, res) => {
   }
   
   try {
-    const backendUrl = isProduction ? process.env.BACKEND_URL || 'http://localhost:8001' : 'http://localhost:8001';
-    const url = `${backendUrl}/api/admin/sync-firebase-users`;
+    let url;
+    if (isProduction) {
+      // In production (Vercel), use serverless function
+      url = `${req.protocol}://${req.get('host')}/api/sync_firebase_users`;
+    } else {
+      // In development, use backend FastAPI
+      url = `http://localhost:8001/api/admin/sync-firebase-users`;
+    }
     
     console.log(`🔄 Syncing Firebase users via: ${url}`);
     const response = await fetch(url, {
