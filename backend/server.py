@@ -713,18 +713,33 @@ async def get_mood_distribution():
 async def delete_user(firebase_uid: str):
     """Delete a user and all their data (admin only)"""
     try:
+        from orchestrator import (
+            users_collection,
+            conversations_collection,
+            sessions_collection,
+            journal_entries_collection,
+            mood_logs_collection,
+            risk_events_collection
+        )
+        
         logger.info(f"🗑️ Admin delete user endpoint called for firebase_uid: {firebase_uid}")
         
         # Delete user from users collection
-        users_result = db.users.delete_one({"firebase_uid": firebase_uid})
+        users_result = users_collection.delete_one({"firebase_uid": firebase_uid})
         
         # Delete all user data from other collections (using firebase_uid and user_id as fallback)
-        db.conversations.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        db.sessions.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        db.journal_entries.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        db.mood_logs.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        db.risk_events.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        db.subscriptions.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        conversations_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        sessions_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        journal_entries_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        mood_logs_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        risk_events_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        
+        # Also delete subscriptions if collection exists
+        try:
+            from orchestrator import db
+            db.subscriptions.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        except:
+            pass  # Subscriptions collection may not exist
         
         if users_result.deleted_count == 0:
             raise HTTPException(status_code=404, detail="User not found")
