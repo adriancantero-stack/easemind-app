@@ -369,7 +369,7 @@
       if (row) row.style.opacity = '0.5';
 
       try {
-        const res = await fetch(`${API_URL}/admin/delete-user/${uid}`, {
+        const res = await fetch(`${ADMIN_API_URL}/delete-user/${uid}`, {
           method: 'DELETE',
           credentials: 'same-origin'
         });
