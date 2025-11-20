@@ -34,7 +34,7 @@ app.use(session({
   cookie: { 
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
-    secure: isProduction,
+    secure: false, // Always false for local development (Vercel handles HTTPS)
     sameSite: 'lax',
     path: '/'
   },
