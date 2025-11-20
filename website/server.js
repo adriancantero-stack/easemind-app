@@ -618,6 +618,10 @@ function generateHTML(page, lang, t) {
 }
 
 // Admin Routes
+app.get('/admin/check', (req, res) => {
+  res.json({ isAdmin: !!req.session?.isAdmin });
+});
+
 app.get('/admin', (req, res) => {
   // Debug logging
   console.log('🔍 Admin access attempt:', {
