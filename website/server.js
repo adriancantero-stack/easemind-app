@@ -1041,7 +1041,15 @@ app.all('/api/backend/*', async (req, res) => {
 });
 
 app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
+  console.log('🗑️ Delete user request received:', {
+    hasSession: !!req.session,
+    isAdmin: req.session?.isAdmin,
+    sessionID: req.sessionID,
+    firebase_uid: req.params.firebase_uid
+  });
+  
   if (!req.session || !req.session.isAdmin) {
+    console.log('❌ Unauthorized delete attempt - no valid session');
     return res.status(401).json({ error: 'Unauthorized' });
   }
   
