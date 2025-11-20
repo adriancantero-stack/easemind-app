@@ -729,7 +729,7 @@ async def delete_user(firebase_uid: str):
         
         # Delete all user data from other collections (using firebase_uid and user_id as fallback)
         conversations_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        sessions_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        sessions_completed_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
         journal_entries_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
         mood_logs_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
         risk_events_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
