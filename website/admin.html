@@ -369,21 +369,33 @@
       if (row) row.style.opacity = '0.5';
 
       try {
+        console.log(`🗑️ Attempting to delete user: ${uid}`);
         const res = await fetch(`${ADMIN_API_URL}/delete-user/${uid}`, {
           method: 'DELETE',
           credentials: 'same-origin'
         });
+
+        console.log(`📡 Delete response status: ${res.status}`);
+        
+        if (res.status === 401) {
+          showMessage('Sessão expirada. Por favor, faça login novamente.', 'error');
+          setTimeout(() => location.reload(), 2000);
+          return;
+        }
 
         if (res.ok) {
           if (row) row.remove();
           showMessage('Usuário excluído com sucesso!', 'success');
           loadData(); // Reload stats
         } else {
-          throw new Error('Falha ao excluir');
+          const errorText = await res.text();
+          console.error('Delete error:', errorText);
+          throw new Error(`Falha ao excluir: ${res.status}`);
         }
       } catch (error) {
+        console.error('Delete error:', error);
         if (row) row.style.opacity = '1';
-        showMessage('Erro ao excluir usuário', 'error');
+        showMessage(`Erro ao excluir usuário: ${error.message}`, 'error');
       }
     }
 
