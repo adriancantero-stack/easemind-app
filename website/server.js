@@ -469,6 +469,7 @@ function generateHTML(page, lang, t) {
             color: var(--ink-500);
             margin-top: 1.5rem;
             line-height: 1.6;
+            text-align: center;
           }
           
           @media (min-width: 768px) {
