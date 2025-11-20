@@ -446,6 +446,7 @@ function generateHTML(page, lang, t) {
             color: var(--ink-500);
             margin-bottom: 1rem;
             font-weight: 600;
+            text-align: center;
           }
           .contact-email {
             font-size: 1.25rem;
