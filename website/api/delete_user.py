@@ -5,8 +5,9 @@ from pymongo import MongoClient
 
 # MongoDB connection
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
+DB_NAME = os.environ.get('DB_NAME', 'railway')
 client = MongoClient(MONGO_URL)
-db = client['easemind']
+db = client[DB_NAME]
 
 class handler(BaseHTTPRequestHandler):
     def do_DELETE(self):
