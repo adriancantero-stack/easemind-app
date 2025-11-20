@@ -20,8 +20,9 @@ app.use(cookieParser());
 app.set('trust proxy', 1);
 
 // Detect if running in production (Vercel sets VERCEL env var)
-const isProduction = process.env.VERCEL || process.env.NODE_ENV === 'production';
-console.log('🌐 Environment:', isProduction ? 'PRODUCTION' : 'DEVELOPMENT');
+// For local development, we always use the local backend even if NODE_ENV=production
+const isProduction = !!process.env.VERCEL;
+console.log('🌐 Environment:', isProduction ? 'PRODUCTION (Vercel)' : 'DEVELOPMENT (Local)');
 
 // Session configuration
 
