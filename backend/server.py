@@ -742,10 +742,12 @@ async def delete_user(firebase_uid: str):
 async def list_users():
     """List all users from MongoDB"""
     try:
+        from orchestrator import users_collection
+        
         logger.info("📋 List users endpoint called")
         
         # Get all users with relevant information
-        users = list(db.users.find(
+        users_cursor = users_collection.find(
             {},
             {
                 '_id': 0,
@@ -759,7 +761,9 @@ async def list_users():
                 'subscription_status': 1,
                 'plan': 1
             }
-        ).sort('created_at', -1).limit(100))
+        ).sort('created_at', -1).limit(100)
+        
+        users = list(users_cursor)
         
         logger.info(f"✅ Found {len(users)} users")
         return {"users": users}
