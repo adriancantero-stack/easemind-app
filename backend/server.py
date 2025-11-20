@@ -716,7 +716,7 @@ async def delete_user(firebase_uid: str):
         from orchestrator import (
             users_collection,
             conversations_collection,
-            sessions_collection,
+            sessions_completed_collection,
             journal_entries_collection,
             mood_logs_collection,
             risk_events_collection
