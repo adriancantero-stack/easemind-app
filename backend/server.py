@@ -738,6 +738,36 @@ async def delete_user(firebase_uid: str):
         logger.error(f"❌ Error deleting user: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.get("/api/list_users")
+async def list_users():
+    """List all users from MongoDB"""
+    try:
+        logger.info("📋 List users endpoint called")
+        
+        # Get all users with relevant information
+        users = list(db.users.find(
+            {},
+            {
+                '_id': 0,
+                'firebase_uid': 1,
+                'email': 1,
+                'display_name': 1,
+                'language': 1,
+                'created_at': 1,
+                'last_login': 1,
+                'is_premium': 1,
+                'subscription_status': 1,
+                'plan': 1
+            }
+        ).sort('created_at', -1).limit(100))
+        
+        logger.info(f"✅ Found {len(users)} users")
+        return {"users": users}
+        
+    except Exception as e:
+        logger.error(f"❌ Error listing users: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/api/admin/sync-firebase-users")
 async def sync_firebase_users():
     """Sync all users from Firebase Authentication to MongoDB (admin only)"""
