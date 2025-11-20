@@ -77,7 +77,7 @@ function generateHTML(page, lang, t) {
   const pwaUrl = 'https://app.easemind.io';
   const appStoreUrl = 'https://apps.apple.com/app/easemind';  // Legacy
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';  // Legacy
-  const appPreviewUrl = 'https://playstore-prep-7.preview.emergentagent.com';
+  const appPreviewUrl = 'https://easemind-control.preview.emergentagent.com';
   
   let content = '';
   

@@ -35,7 +35,7 @@ app.add_middleware(
         "https://easemind.io",
         "https://www.easemind.io",
         "https://app.easemind.io",
-        "https://playstore-prep-7.preview.emergentagent.com",
+        "https://easemind-control.preview.emergentagent.com",
         "http://localhost:3000",
         "http://localhost:8081",
     ],

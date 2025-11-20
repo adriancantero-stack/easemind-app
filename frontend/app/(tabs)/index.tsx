@@ -47,7 +47,7 @@ export default function HomeScreen() {
   // Get backend URL - prioritize environment variable
   const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 
     Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL || 
-    'https://playstore-prep-7.preview.emergentagent.com';
+    'https://easemind-control.preview.emergentagent.com';
 
   // Initialize userId on component mount
   useEffect(() => {
