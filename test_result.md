@@ -1,4 +1,16 @@
 backend:
+  - task: "Admin Panel Bug Fixes - Date Display and User Deletion"
+    implemented: true
+    working: "pending_test"
+    file: "website/admin.html, website/server.js, backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: "pending_test"
+        agent: "main"
+        comment: "🔧 FIXED TWO BUGS: 1) Invalid Date Display - Updated date parsing logic in admin.html to properly handle ISO string dates from FastAPI. Added validation to check if parsed date is valid before formatting. 2) 401 Error on User Deletion - Corrected the API endpoint URL in admin.html from '/api/backend/admin/delete-user' to '/api/admin/delete-user' to match the correct route defined in server.js. Both fixes are ready for testing."
+
   - task: "Firebase User Sync Endpoint"
     implemented: true
     working: true
