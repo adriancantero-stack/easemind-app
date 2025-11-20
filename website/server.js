@@ -999,37 +999,38 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
 });
 
-app.post('/api/admin/sync-firebase-users', async (req, res) => {
+// Simple proxy to backend for all admin APIs
+app.all('/api/backend/*', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
   
   try {
-    let url;
-    if (isProduction) {
-      // In production (Vercel), use serverless function
-      url = `${req.protocol}://${req.get('host')}/api/sync_firebase_users`;
-    } else {
-      // In development, use backend FastAPI
-      url = `http://localhost:8001/api/admin/sync-firebase-users`;
+    // Extract the path after /api/backend/
+    const backendPath = req.path.replace('/api/backend', '/api');
+    const backendUrl = process.env.BACKEND_URL || 'http://localhost:8001';
+    const url = `${backendUrl}${backendPath}`;
+    
+    console.log(`📡 Proxying to backend: ${req.method} ${url}`);
+    
+    const fetchOptions = {
+      method: req.method,
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    };
+    
+    if (req.method !== 'GET' && req.method !== 'HEAD') {
+      fetchOptions.body = JSON.stringify(req.body);
     }
     
-    console.log(`🔄 Syncing Firebase users via: ${url}`);
-    const response = await fetch(url, {
-      method: 'POST'
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`API returned ${response.status}: ${errorText}`);
-    }
-    
+    const response = await fetch(url, fetchOptions);
     const data = await response.json();
-    console.log('✅ Firebase users synced successfully');
-    res.json(data);
+    
+    res.status(response.status).json(data);
   } catch (error) {
-    console.error('❌ Error syncing Firebase users:', error.message);
-    res.status(500).json({ error: 'Failed to sync Firebase users', details: error.message });
+    console.error('❌ Backend proxy error:', error.message);
+    res.status(500).json({ error: 'Backend error', details: error.message });
   }
 });
 
