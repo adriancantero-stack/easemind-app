@@ -1,1 +1,2 @@
 pymongo==4.6.0
+firebase-admin==7.1.0
