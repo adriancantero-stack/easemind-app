@@ -195,10 +195,59 @@
       "title": "Términos de Uso"
     }
   },
+  "about": {
+    "title": "Nuestra Historia",
+    "subtitle": "Una historia real. Un dolor real. Una misión real.<br>EaseMind nació de una lucha que cambió nuestras vidas.",
+    "origin": {
+      "title": "Donde todo comenzó",
+      "p1": "Antes de que existiera cualquier aplicación, método o idea… existía el dolor. Mi esposa enfrentaba crisis de <span class=\"highlight\">Ansiedad y Pánico</span> tan intensas que nuestra rutina se convirtió en supervivencia. Buscamos psicólogos, terapeutas, médicos — y cada día parecía una nueva batalla.",
+      "p2": "Pero no nos rendimos. Caminamos juntos, abrazando el miedo, la inseguridad, las madrugadas en vela, las lágrimas que solo quien vive esto entiende.",
+      "p3": "Con el tiempo, llegó la curación. Y con ella, algo aún más poderoso: el propósito.",
+      "p4": "Mi esposa decidió estudiar y convertirse en <span class=\"highlight\">Terapeuta</span>. Quería ayudar a otras personas a no sentirse solas en la oscuridad como ella se sintió alguna vez. Y yo, programador, comencé a darme cuenta de que la tecnología también podía ser curación — si se usa con amor, empatía y verdad.",
+      "p5": "Así nació EaseMind: no como una aplicación, sino como una continuación de nuestra historia."
+    },
+    "mission": {
+      "title": "Nuestra Misión",
+      "p1": "Nadie debería enfrentar la ansiedad sin apoyo. Nadie debería sufrir porque no puede pagar terapia semanal. Nadie debería sentir que está luchando solo.",
+      "p2": "Creamos EaseMind para ser:",
+      "list": [
+        "✨ <strong>Accesible</strong> — porque la salud mental es un derecho, no un lujo",
+        "✨ <strong>Acogedor</strong> — porque sabemos exactamente cómo duele este dolor",
+        "✨ <strong>Eficaz</strong> — tecnología de punta guiándote con empatía real"
+      ],
+      "p3": "Esta app no es un producto. Es el puente que deseamos haber encontrado en aquel entonces."
+    },
+    "values": {
+      "title": "Nuestros pilares",
+      "v1": {
+        "title": "Empatía",
+        "desc": "Creado por quienes vivieron la ansiedad en carne propia — y saben lo que estás sintiendo."
+      },
+      "v2": {
+        "title": "Accesibilidad",
+        "desc": "Apoyo emocional de calidad, a un precio que cabe en la realidad de cualquier persona."
+      },
+      "v3": {
+        "title": "Innovación humana",
+        "desc": "Tecnología y terapia trabajando juntas, con un único objetivo: tu bienestar."
+      }
+    },
+    "team": {
+      "title": "Quiénes Somos",
+      "desc": "Somos una pareja que transformó el dolor en propósito. Ella, terapeuta formada, con una historia personal de superación. Él, programador apasionado por crear soluciones que realmente hacen la diferencia.",
+      "desc2": "Juntos, creamos EaseMind para que nadie tenga que enfrentar solo lo que nosotros enfrentamos. Si hoy estás aquí, sabe esto: esta app fue hecha pensando en ti.",
+      "desc3": "No estás solo. Nunca lo estuviste. Y nunca lo estarás."
+    },
+    "cta": {
+      "title": "Sé Parte de Esta Transformación",
+      "subtitle": "Únete a miles de personas que ya encontraron apoyo y alivio con EaseMind"
+    }
+  },
   "footer": {
     "product": "Producto",
     "legal": "Legal",
     "download": "Descargar",
+    "about": "Acerca de",
     "how": "Cómo funciona",
     "plans": "Planes",
     "faq": "FAQ",

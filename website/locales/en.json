@@ -13,15 +13,15 @@
   },
   "footer": {
     "product": "Product",
+    "legal": "Legal",
+    "download": "Download",
     "about": "About",
-    "how": "How It Works",
+    "how": "How it works",
     "plans": "Plans",
     "faq": "FAQ",
     "contact": "Contact",
-    "download": "Download",
     "privacy": "Privacy",
     "terms": "Terms",
-    "legal": "Legal",
     "disclaimer": "EaseMind is not a substitute for professional treatment. For emergencies, seek professional help immediately.",
     "disclaimerLabel": "Important Notice:",
     "copyright": "© 2025 EaseMind. All rights reserved.",
@@ -167,6 +167,54 @@
       "email": "support@easemind.io"
     },
     "emailInfo": "Send Us An Email And We'll Respond Within 24 Hours"
+  },
+  "about": {
+    "title": "Our Story",
+    "subtitle": "A real story. Real pain. A real mission.<br>EaseMind was born from a struggle that changed our lives.",
+    "origin": {
+      "title": "Where it all began",
+      "p1": "Before any app, method, or idea existed… there was pain. My wife faced <span class=\"highlight\">Anxiety and Panic</span> crises so intense that our routine became survival. We sought psychologists, therapists, doctors — and each day felt like a new battle.",
+      "p2": "But we didn't give up. We walked together, embracing fear, insecurity, sleepless nights, tears that only those who live through this understand.",
+      "p3": "Over time, healing came. And with it, something even more powerful: purpose.",
+      "p4": "My wife decided to study and become a <span class=\"highlight\">Therapist</span>. She wanted to help others not feel alone in the dark as she once did. And I, a programmer, began to realize that technology could also be healing — if used with love, empathy, and truth.",
+      "p5": "That's how EaseMind was born: not as an app, but as a continuation of our story."
+    },
+    "mission": {
+      "title": "Our Mission",
+      "p1": "No one should face anxiety without support. No one should suffer because they can't afford weekly therapy. No one should feel like they're fighting alone.",
+      "p2": "We created EaseMind to be:",
+      "list": [
+        "✨ <strong>Accessible</strong> — because mental health is a right, not a luxury",
+        "✨ <strong>Welcoming</strong> — because we know exactly how this pain hurts",
+        "✨ <strong>Effective</strong> — cutting-edge technology guiding you with real empathy"
+      ],
+      "p3": "This app is not a product. It's the bridge we wished we had found back then."
+    },
+    "values": {
+      "title": "Our pillars",
+      "v1": {
+        "title": "Empathy",
+        "desc": "Created by those who lived anxiety firsthand — and know what you're feeling."
+      },
+      "v2": {
+        "title": "Accessibility",
+        "desc": "Quality emotional support, at a price that fits anyone's reality."
+      },
+      "v3": {
+        "title": "Human innovation",
+        "desc": "Technology and therapy working together, with one goal: your well-being."
+      }
+    },
+    "team": {
+      "title": "Who We Are",
+      "desc": "We're a couple who turned pain into purpose. She, a trained therapist with a personal story of overcoming. He, a programmer passionate about creating solutions that truly make a difference.",
+      "desc2": "Together, we created EaseMind so no one has to face alone what we faced. If you're here today, know this: this app was made thinking of you.",
+      "desc3": "You are not alone. You never were. And you never will be."
+    },
+    "cta": {
+      "title": "Be Part of This Transformation",
+      "subtitle": "Join thousands of people who have already found support and relief with EaseMind"
+    }
   },
   "legal": {
     "disclaimer": "EaseMind is an emotional support app and does not replace therapy, diagnosis or medical treatment. In case of crisis, seek professional help.",

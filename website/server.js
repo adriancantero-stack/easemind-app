@@ -31,7 +31,7 @@ app.use(session({
   name: 'easemind.sid',
   resave: false,
   saveUninitialized: false,
-  cookie: { 
+  cookie: {
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
     secure: false, // Always false for local development (Vercel handles HTTPS)
@@ -66,7 +66,7 @@ function loadLegal(type, lang) {
 function detectLanguage(req) {
   const langQuery = req.query.lang;
   if (langQuery && ['pt-BR', 'en', 'es'].includes(langQuery)) return langQuery;
-  
+
   const acceptLang = req.headers['accept-language'] || '';
   if (acceptLang.includes('pt')) return 'pt-BR';
   if (acceptLang.includes('es')) return 'es';
@@ -79,11 +79,11 @@ function generateHTML(page, lang, t) {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';  // Legacy
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';  // Legacy
   const appPreviewUrl = 'https://easemind-control.preview.emergentagent.com';
-  
+
   let content = '';
-  
+
   // Generate page-specific content
-  switch(page) {
+  switch (page) {
     case 'home':
       content = `
         <!-- HERO SECTION -->
@@ -192,7 +192,7 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
-      
+
     case 'how-it-works':
       content = `
         <!-- HERO SECTION -->
@@ -297,20 +297,20 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
-      
+
     case 'plans':
       const paymentLinks = {
-        'pt-BR': { 
-          monthly: 'https://buy.stripe.com/dRm5kDeByfUnavK5qb3oA07', 
-          yearly: 'https://buy.stripe.com/14A28r1OM9vZfQ43i33oA06' 
+        'pt-BR': {
+          monthly: 'https://buy.stripe.com/dRm5kDeByfUnavK5qb3oA07',
+          yearly: 'https://buy.stripe.com/14A28r1OM9vZfQ43i33oA06'
         },
-        'en': { 
-          monthly: 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04', 
-          yearly: 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05' 
+        'en': {
+          monthly: 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04',
+          yearly: 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05'
         },
-        'es': { 
-          monthly: 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04', 
-          yearly: 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05' 
+        'es': {
+          monthly: 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04',
+          yearly: 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05'
         }
       };
       content = `
@@ -363,7 +363,7 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
-      
+
     case 'faq':
       content = `
         <section class="faq">
@@ -393,7 +393,207 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
-      
+
+    case 'about':
+      content = `
+        <style>
+          .about-hero {
+            padding: 8rem 0 4rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+          }
+          .about-hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            color: #667eea;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+          }
+          .about-hero p {
+            font-size: 1.75rem;
+            color: var(--ink-800);
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-weight: 700;
+          }
+          .story-section {
+            padding: 6rem 0;
+          }
+          .story-card {
+            background: white;
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 3rem;
+            border-left: 6px solid var(--brand-primary);
+          }
+          .story-card h2 {
+            color: var(--brand-primary);
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+          }
+          .story-card p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--ink-700);
+            margin-bottom: 1.5rem;
+          }
+          .story-card .highlight {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            color: var(--brand-primary);
+          }
+          .mission-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+          }
+          .mission-card {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            padding: 2.5rem;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            transition: transform 0.3s;
+          }
+          .mission-card:hover {
+            transform: translateY(-8px);
+          }
+          .mission-card .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+          }
+          .mission-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+          }
+          .mission-card p {
+            font-size: 1rem;
+            color: #374151 !important;
+            line-height: 1.6;
+          }
+          .team-section {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+            padding: 6rem 0;
+            text-align: center;
+          }
+          .team-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+          }
+          .team-section p {
+            font-size: 1.125rem;
+            color: var(--ink-600);
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+          }
+          @media (max-width: 768px) {
+            .about-hero h1 {
+              font-size: 2rem;
+            }
+            .about-hero p {
+              font-size: 1.25rem;
+              line-height: 1.6;
+            }
+            .story-card {
+              padding: 2rem;
+            }
+            .story-card h2 {
+              font-size: 1.5rem;
+            }
+          }
+        </style>
+        
+        <!-- HERO SECTION -->
+        <section class="about-hero">
+          <div class="container">
+            <h1>${t.about?.title || 'Nossa História'}</h1>
+            <p>${t.about?.subtitle || 'Uma jornada de superação que se transformou em missão de ajudar milhares de pessoas'}</p>
+          </div>
+        </section>
+
+        <!-- STORY SECTION -->
+        <section class="story-section">
+          <div class="container">
+            <div class="story-card">
+              <h2>💜 ${t.about?.origin?.title || 'Onde tudo começou'}</h2>
+              <p>${t.about?.origin?.p1 || ''}</p>
+              <p>${t.about?.origin?.p2 || ''}</p>
+              ${t.about?.origin?.p3 ? `<p>${t.about.origin.p3}</p>` : ''}
+              ${t.about?.origin?.p4 ? `<p>${t.about.origin.p4}</p>` : ''}
+              ${t.about?.origin?.p5 ? `<p>${t.about.origin.p5}</p>` : ''}
+            </div>
+
+            <div class="story-card">
+              <h2>🎯 ${t.about?.mission?.title || 'Nossa Missão'}</h2>
+              <p>${t.about?.mission?.p1 || ''}</p>
+              ${t.about?.mission?.p2 ? `<p>${t.about.mission.p2}</p>` : ''}
+              ${t.about?.mission?.list ? `<ul style="list-style: none; padding: 0; margin: 1.5rem 0;">${t.about.mission.list.map(item => `<li style="margin-bottom: 1rem; font-size: 1.125rem;">${item}</li>`).join('')}</ul>` : ''}
+              ${t.about?.mission?.p3 ? `<p style="margin-top: 1.5rem; font-style: italic; font-weight: 600;">${t.about.mission.p3}</p>` : ''}
+            </div>
+
+            ${t.about?.values?.title ? `<h2 style="text-align: center; font-size: 2.5rem; margin: 4rem 0 2rem; color: var(--brand-primary);">🌍 ${t.about.values.title}</h2>` : ''}
+            <div class="mission-grid">
+              <div class="mission-card">
+                <div class="icon">❤️</div>
+                <h3>${t.about?.values?.v1?.title || 'Empatia'}</h3>
+                <p>${t.about?.values?.v1?.desc || ''}</p>
+              </div>
+              <div class="mission-card">
+                <div class="icon">💜</div>
+                <h3>${t.about?.values?.v2?.title || 'Acessibilidade'}</h3>
+                <p>${t.about?.values?.v2?.desc || ''}</p>
+              </div>
+              <div class="mission-card">
+                <div class="icon">🚀</div>
+                <h3>${t.about?.values?.v3?.title || 'Inovação humana'}</h3>
+                <p>${t.about?.values?.v3?.desc || ''}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TEAM SECTION -->
+        <section class="team-section">
+          <div class="container">
+            <h2>${t.about?.team?.title || 'Quem Somos'}</h2>
+            <p>${t.about?.team?.desc || ''}</p>
+            ${t.about?.team?.desc2 ? `<p style="margin-top: 1.5rem;">${t.about.team.desc2}</p>` : ''}
+            ${t.about?.team?.desc3 ? `<p style="margin-top: 1.5rem; font-weight: 700; font-size: 1.25rem; color: var(--brand-primary);">${t.about.team.desc3}</p>` : ''}
+            <div style="margin-top: 3rem;">
+              <a href="/contact?lang=${lang}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2.5rem;">
+                ${t.cta?.contact || 'Entre em Contato'}
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA SECTION -->
+        <section class="benefits" id="download" style="padding: 6rem 0; text-align: center;">
+          <div class="container">
+            <h2>${t.about?.cta?.title || 'Faça Parte Dessa Transformação'}</h2>
+            <p class="section-subtitle">${t.about?.cta?.subtitle || 'Junte-se a milhares de pessoas que já encontraram apoio e alívio com o EaseMind'}</p>
+            <div style="display: flex; justify-content: center; margin-top: 2rem;">
+              <a href="https://app.easemind.io" class="btn btn-primary" style="font-size: 1.2rem; padding: 1rem 3rem; display: inline-flex; align-items: center; gap: 0.75rem;">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                </svg>
+                ${t.cta?.downloadApp || 'Baixar APP'}
+              </a>
+            </div>
+          </div>
+        </section>
+      `;
+      break;
+
     case 'contact':
       content = `
         <style>
@@ -526,7 +726,7 @@ function generateHTML(page, lang, t) {
       `;
       break;
   }
-  
+
   // Complete HTML structure
   return `
 <!DOCTYPE html>
@@ -584,6 +784,7 @@ function generateHTML(page, lang, t) {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
+            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
             <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
             <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
             <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
@@ -633,13 +834,13 @@ app.get('/admin', (req, res) => {
     sessionID: req.sessionID,
     cookies: req.cookies
   });
-  
+
   // Se já está logado, mostra o dashboard
   if (req.session && req.session.isAdmin) {
     console.log('✅ Admin authenticated, serving dashboard');
     return res.sendFile(path.join(__dirname, 'admin.html'));
   }
-  
+
   console.log('❌ Not authenticated, showing login page');
   // Senão, mostra página de login
   res.send(`
@@ -858,13 +1059,13 @@ app.get('/admin', (req, res) => {
 
 app.post('/admin/login', (req, res) => {
   const { password } = req.body;
-  
+
   console.log('🔐 Login attempt received');
   console.log('Session before login:', {
     hasSession: !!req.session,
     sessionID: req.sessionID
   });
-  
+
   if (password === ADMIN_PASSWORD) {
     console.log('✅ Password correct, creating session');
     req.session.isAdmin = true;
@@ -920,34 +1121,34 @@ app.get('/api/admin/stats', async (req, res) => {
     isAdmin: req.session?.isAdmin,
     isProduction
   });
-  
+
   if (!req.session || !req.session.isAdmin) {
     console.log('❌ Unauthorized: No valid admin session');
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   try {
     const url = getApiUrl('/api/admin/stats');
-    
+
     // In production, make request to same domain
     const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
-    
+
     console.log(`🌐 Fetching stats from: ${fullUrl}`);
     const response = await fetch(fullUrl);
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`❌ API error: ${response.status} - ${errorText}`);
       throw new Error(`API returned ${response.status}: ${errorText}`);
     }
-    
+
     const data = await response.json();
     console.log('✅ Stats fetched successfully');
     res.json(data);
   } catch (error) {
     console.error('❌ Error fetching stats:', error.message);
-    res.status(500).json({ 
-      error: 'Failed to fetch stats', 
+    res.status(500).json({
+      error: 'Failed to fetch stats',
       details: error.message,
       isProduction
     });
@@ -958,19 +1159,19 @@ app.get('/api/admin/popular-sessions', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   try {
     const url = getApiUrl('/api/admin/popular-sessions');
     const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
-    
+
     console.log(`🌐 Fetching popular sessions from: ${fullUrl}`);
     const response = await fetch(fullUrl);
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`API returned ${response.status}: ${errorText}`);
     }
-    
+
     const data = await response.json();
     console.log('✅ Popular sessions fetched successfully');
     res.json(data);
@@ -984,19 +1185,19 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   try {
     const url = getApiUrl('/api/admin/mood-distribution');
     const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
-    
+
     console.log(`🌐 Fetching mood distribution from: ${fullUrl}`);
     const response = await fetch(fullUrl);
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`API returned ${response.status}: ${errorText}`);
     }
-    
+
     const data = await response.json();
     console.log('✅ Mood distribution fetched successfully');
     res.json(data);
@@ -1011,29 +1212,29 @@ app.all('/api/backend/*', async (req, res) => {
   if (!req.session || !req.session.isAdmin) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   try {
     // Extract the path after /api/backend/
     const backendPath = req.path.replace('/api/backend', '/api');
     const backendUrl = process.env.BACKEND_URL || 'http://localhost:8001';
     const url = `${backendUrl}${backendPath}`;
-    
+
     console.log(`📡 Proxying to backend: ${req.method} ${url}`);
-    
+
     const fetchOptions = {
       method: req.method,
       headers: {
         'Content-Type': 'application/json',
       }
     };
-    
+
     if (req.method !== 'GET' && req.method !== 'HEAD') {
       fetchOptions.body = JSON.stringify(req.body);
     }
-    
+
     const response = await fetch(url, fetchOptions);
     const data = await response.json();
-    
+
     res.status(response.status).json(data);
   } catch (error) {
     console.error('❌ Backend proxy error:', error.message);
@@ -1048,15 +1249,15 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
     sessionID: req.sessionID,
     firebase_uid: req.params.firebase_uid
   });
-  
+
   if (!req.session || !req.session.isAdmin) {
     console.log('❌ Unauthorized delete attempt - no valid session');
     return res.status(401).json({ error: 'Unauthorized' });
   }
-  
+
   try {
     const { firebase_uid } = req.params;
-    
+
     let url;
     if (isProduction) {
       // In production (Vercel), use serverless function
@@ -1065,17 +1266,17 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
       // In development, use backend FastAPI
       url = `http://localhost:8001/api/admin/delete-user/${firebase_uid}`;
     }
-    
+
     console.log(`🗑️ Deleting user ${firebase_uid} via: ${url}`);
     const response = await fetch(url, {
       method: 'DELETE'
     });
-    
+
     if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`API returned ${response.status}: ${errorText}`);
     }
-    
+
     const data = await response.json();
     console.log('✅ User deleted successfully');
     res.json(data);
@@ -1115,6 +1316,13 @@ app.get('/contact', (req, res) => {
   const t = loadTranslations(lang);
   res.send(generateHTML('contact', lang, t));
 });
+
+app.get('/about', (req, res) => {
+  const lang = detectLanguage(req);
+  const t = loadTranslations(lang);
+  res.send(generateHTML('about', lang, t));
+});
+
 
 app.get('/privacy', (req, res) => {
   const lang = detectLanguage(req);
@@ -1173,6 +1381,7 @@ app.get('/privacy', (req, res) => {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
+            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
             <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
             <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
             <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
@@ -1264,6 +1473,7 @@ app.get('/terms', (req, res) => {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
+            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
             <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
             <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
             <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
@@ -1304,11 +1514,11 @@ app.get('/sitemap.xml', (req, res) => {
   const langs = ['pt-BR', 'en', 'es'];
   const pages = ['', '/how-it-works', '/plans', '/faq', '/contact', '/privacy', '/terms'];
   const lastMod = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
-  
+
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
   xml += 'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
-  
+
   langs.forEach(lang => {
     pages.forEach(page => {
       xml += `  <url>\n`;
@@ -1316,18 +1526,18 @@ app.get('/sitemap.xml', (req, res) => {
       xml += `    <lastmod>${lastMod}</lastmod>\n`;
       xml += `    <changefreq>weekly</changefreq>\n`;
       xml += `    <priority>${page === '' ? '1.0' : page === '/plans' ? '0.9' : '0.8'}</priority>\n`;
-      
+
       // Add alternate language versions (hreflang)
       langs.forEach(altLang => {
         if (altLang !== lang) {
           xml += `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${baseUrl}${page}?lang=${altLang}" />\n`;
         }
       });
-      
+
       xml += `  </url>\n`;
     });
   });
-  
+
   xml += '</urlset>';
   res.header('Content-Type', 'application/xml');
   res.send(xml);
