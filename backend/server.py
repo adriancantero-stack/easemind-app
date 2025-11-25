@@ -649,6 +649,36 @@ async def get_journal_entries(user_id: str, limit: int = 20, tag: str = None):
 # ====================================
 
 # Subscription Endpoints
+class SubscriptionUpdateRequest(BaseModel):
+    uid: str
+    plan: str
+
+@app.get("/api/subscriptions")
+async def get_all_subscriptions():
+    """Get all subscriptions (admin)"""
+    try:
+        from orchestrator import SubscriptionManager
+        subscriptions = SubscriptionManager.get_all_subscriptions()
+        return {"subscriptions": subscriptions}
+    except Exception as e:
+        logger.error(f"Error getting subscriptions: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/subscription")
+async def update_subscription(request: SubscriptionUpdateRequest):
+    """Update user subscription plan (admin)"""
+    try:
+        from orchestrator import SubscriptionManager
+        success = SubscriptionManager.update_subscription_plan(request.uid, request.plan)
+        if not success:
+            raise HTTPException(status_code=404, detail="User not found")
+        return {"success": True, "uid": request.uid, "plan": request.plan}
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Error updating subscription: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 @app.get("/api/subscription/{user_id}")
 async def get_subscription_status(user_id: str):
     """Get user subscription status"""

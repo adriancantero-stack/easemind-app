@@ -5,6 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EaseMind Admin</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -180,6 +181,43 @@
     .hidden {
       display: none;
     }
+
+    /* Charts Section */
+    .charts-section {
+      margin: 2rem 0;
+    }
+
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .chart-container {
+      background: #f8f9fa;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .chart-container h3 {
+      color: #667eea;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 300px;
+    }
+
+    @media (max-width: 768px) {
+      .charts-grid {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
@@ -219,15 +257,65 @@
         </div>
       </div>
 
+      <!-- Charts Section -->
+      <div class="charts-section">
+        <h2>📊 Análise de Dados</h2>
+        <div class="charts-grid">
+          <div class="chart-container">
+            <h3>Crescimento de Usuários (30 dias)</h3>
+            <div class="chart-wrapper">
+              <canvas id="userGrowthChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <h3>Distribuição Free vs Premium</h3>
+            <div class="chart-wrapper">
+              <canvas id="userDistributionChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <h3>Atividade de Sessões (7 dias)</h3>
+            <div class="chart-wrapper">
+              <canvas id="sessionActivityChart"></canvas>
+            </div>
+          </div>
+          <div class="chart-container">
+            <h3>Distribuição de Humor</h3>
+            <div class="chart-wrapper">
+              <canvas id="moodDistributionChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Users Table -->
       <h2>👥 Usuários</h2>
+      <div class="filters" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; align-items: center;">
+        <input type="text" id="searchInput" placeholder="Buscar por email ou nome"
+          style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px; flex: 1 1 200px;" />
+        <select id="statusFilter" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
+          <option value="all">Todos os Status</option>
+          <option value="free">Free</option>
+          <option value="premium">Premium</option>
+        </select>
+        <select id="activityFilter" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
+          <option value="all">Todas as Atividades</option>
+          <option value="active">Ativos (7d)</option>
+          <option value="inactive">Inativos</option>
+        </select>
+        <select id="pageSizeSelect" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
+          <option value="10">10 por página</option>
+          <option value="25">25 por página</option>
+          <option value="50">50 por página</option>
+        </select>
+      </div>
       <table>
         <thead>
           <tr>
-            <th>Email</th>
-            <th>Nome</th>
-            <th>Status</th>
-            <th>Cadastro</th>
+            <th onclick="sortTable('email')" style="cursor: pointer;">Email</th>
+            <th onclick="sortTable('name')" style="cursor: pointer;">Nome</th>
+            <th onclick="sortTable('status')" style="cursor: pointer;">Status</th>
+            <th onclick="sortTable('created')" style="cursor: pointer;">Cadastro</th>
             <th>Ações</th>
           </tr>
         </thead>
@@ -237,6 +325,36 @@
           </tr>
         </tbody>
       </table>
+      <div class="pagination"
+        style="margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
+        <button id="prevPageBtn" class="btn-logout" style="background: #667eea;">← Anterior</button>
+        <span id="pageInfo">Página 1</span>
+        <button id="nextPageBtn" class="btn-logout" style="background: #667eea;">Próxima →</button>
+      </div>
+
+      <!-- Subscription Management Section -->
+      <h2>📦 Gerenciamento de Assinaturas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Plano</th>
+            <th>Expira em</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="subscriptionsTable">
+          <tr>
+            <td colspan="4" style="text-align: center;">Carregando assinaturas...</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination"
+        style="margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
+        <button id="prevSubPageBtn" class="btn-logout" style="background: #667eea;">← Anterior</button>
+        <span id="subPageInfo">Página 1</span>
+        <button id="nextSubPageBtn" class="btn-logout" style="background: #667eea;">Próxima →</button>
+      </div>
 
       <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
@@ -253,12 +371,12 @@
           showDashboard();
         }
       })
-      .catch(() => {});
+      .catch(() => { });
 
     async function login() {
       const password = document.getElementById('passwordInput').value;
       const errorDiv = document.getElementById('loginError');
-      
+
       try {
         const res = await fetch('/admin/login', {
           method: 'POST',
@@ -287,71 +405,428 @@
       loadData();
     }
 
+    // Global state for users and table handling
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    let pageSize = 10;
+    let currentSort = { column: null, asc: true };
+
+    // Apply filters, sorting, and pagination, then render table
+    function renderUserTable() {
+      const tbody = document.getElementById('usersTable');
+      tbody.innerHTML = '';
+
+      const startIdx = (currentPage - 1) * pageSize;
+      const pageUsers = filteredUsers.slice(startIdx, startIdx + pageSize);
+
+      if (pageUsers.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>`;
+        document.getElementById('pageInfo').textContent = `Página ${currentPage}`;
+        return;
+      }
+
+      tbody.innerHTML = pageUsers.map(user => {
+        const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
+        const badge = isPremium ? '<span class="badge badge-premium">⭐ PREMIUM</span>' : '<span class="badge badge-free">FREE</span>';
+        let date = '-';
+        if (user.created_at) {
+          const timestamp = typeof user.created_at === 'string' ? new Date(user.created_at).getTime() : user.created_at * 1000;
+          if (!isNaN(timestamp)) date = new Date(timestamp).toLocaleDateString('pt-BR');
+        }
+        const uid = user.firebase_uid || user.uid || '';
+        return `
+          <tr id="row-${uid}">
+            <td><strong>${user.email}</strong></td>
+            <td>${user.display_name || 'Usuário'}</td>
+            <td>${badge}</td>
+            <td><small>${date}</small></td>
+            <td>
+              <button class="btn-delete" onclick="deleteUser('${uid}', '${user.email}')">🗑️ Excluir</button>
+            </td>
+          </tr>`;
+      }).join('');
+
+      document.getElementById('pageInfo').textContent = `Página ${currentPage} de ${Math.ceil(filteredUsers.length / pageSize)}`;
+    }
+
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const status = document.getElementById('statusFilter').value;
+      const activity = document.getElementById('activityFilter').value;
+
+      filteredUsers = allUsers.filter(user => {
+        const matchesSearch = user.email.toLowerCase().includes(searchTerm) || (user.display_name && user.display_name.toLowerCase().includes(searchTerm));
+        const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
+        const matchesStatus = status === 'all' || (status === 'free' && !isPremium) || (status === 'premium' && isPremium);
+        const active7d = user.last_active_days && user.last_active_days <= 7; // assuming backend provides this field
+        const matchesActivity = activity === 'all' || (activity === 'active' && active7d) || (activity === 'inactive' && !active7d);
+        return matchesSearch && matchesStatus && matchesActivity;
+      });
+    }
+
+    function sortTable(column) {
+      if (currentSort.column === column) {
+        currentSort.asc = !currentSort.asc;
+      } else {
+        currentSort.column = column;
+        currentSort.asc = true;
+      }
+      filteredUsers.sort((a, b) => {
+        let valA, valB;
+        switch (column) {
+          case 'email':
+            valA = a.email.toLowerCase();
+            valB = b.email.toLowerCase();
+            break;
+          case 'name':
+            valA = (a.display_name || '').toLowerCase();
+            valB = (b.display_name || '').toLowerCase();
+            break;
+          case 'status':
+            const premiumA = a.is_premium || a.subscription_status === 'active' || a.plan === 'premium';
+            const premiumB = b.is_premium || b.subscription_status === 'active' || b.plan === 'premium';
+            valA = premiumA ? 1 : 0;
+            valB = premiumB ? 1 : 0;
+            break;
+          case 'created':
+            const tsA = a.created_at ? (typeof a.created_at === 'string' ? new Date(a.created_at).getTime() : a.created_at * 1000) : 0;
+            const tsB = b.created_at ? (typeof b.created_at === 'string' ? new Date(b.created_at).getTime() : b.created_at * 1000) : 0;
+            valA = tsA;
+            valB = tsB;
+            break;
+          default:
+            valA = valB = 0;
+        }
+        if (valA < valB) return currentSort.asc ? -1 : 1;
+        if (valA > valB) return currentSort.asc ? 1 : -1;
+        return 0;
+      });
+      currentPage = 1;
+      renderUserTable();
+    }
+
+    // Event listeners for filters and pagination
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('searchInput');
+      const statusFilter = document.getElementById('statusFilter');
+      const activityFilter = document.getElementById('activityFilter');
+      const pageSizeSelect = document.getElementById('pageSizeSelect');
+      const prevBtn = document.getElementById('prevPageBtn');
+      const nextBtn = document.getElementById('nextPageBtn');
+
+      if (searchInput) searchInput.addEventListener('input', () => { applyFilters(); currentPage = 1; renderUserTable(); });
+      if (statusFilter) statusFilter.addEventListener('change', () => { applyFilters(); currentPage = 1; renderUserTable(); });
+      if (activityFilter) activityFilter.addEventListener('change', () => { applyFilters(); currentPage = 1; renderUserTable(); });
+      if (pageSizeSelect) pageSizeSelect.addEventListener('change', (e) => { pageSize = parseInt(e.target.value, 10); currentPage = 1; renderUserTable(); });
+      if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderUserTable(); } });
+      if (nextBtn) nextBtn.addEventListener('click', () => { if (currentPage < Math.ceil(filteredUsers.length / pageSize)) { currentPage++; renderUserTable(); } });
+    });
+
+    // Updated loadData to store users globally and trigger initial render
+
+    // Global state for subscriptions
+    let allSubscriptions = [];
+    let filteredSubscriptions = [];
+    let subCurrentPage = 1;
+    let subPageSize = 10;
+
+    function renderSubscriptionsTable() {
+      const tbody = document.getElementById('subscriptionsTable');
+      tbody.innerHTML = '';
+      const startIdx = (subCurrentPage - 1) * subPageSize;
+      const pageSubs = filteredSubscriptions.slice(startIdx, startIdx + subPageSize);
+      if (pageSubs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhuma assinatura encontrada</td></tr>`;
+        document.getElementById('subPageInfo').textContent = `Página ${subCurrentPage}`;
+        return;
+      }
+      tbody.innerHTML = pageSubs.map(sub => {
+        const expiry = sub.expiry_date ? new Date(sub.expiry_date).toLocaleDateString('pt-BR') : '-';
+        const plan = sub.plan || sub.subscription_status || 'Free';
+        const uid = sub.uid || sub.firebase_uid || '';
+        const isPremium = plan.toLowerCase() === 'premium';
+        const toggleBtn = isPremium
+          ? `<button class="btn-delete" onclick="changeSubscription('${uid}', 'free')">⬇️ Downgrade</button>`
+          : `<button class="btn-delete" onclick="changeSubscription('${uid}', 'premium')">⬆️ Promote</button>`;
+        return `
+            <tr id="sub-${uid}">
+              <td><strong>${sub.email}</strong></td>
+              <td>${plan}</td>
+              <td><small>${expiry}</small></td>
+              <td>${toggleBtn}</td>
+            </tr>`;
+      }).join('');
+      document.getElementById('subPageInfo').textContent = `Página ${subCurrentPage} de ${Math.ceil(filteredSubscriptions.length / subPageSize)}`;
+    }
+
+    async function loadSubscriptions() {
+      try {
+        const res = await fetch(`${API_URL}/admin/subscriptions`, { credentials: 'same-origin' });
+        const data = await res.json();
+        allSubscriptions = data.subscriptions || [];
+        filteredSubscriptions = allSubscriptions;
+        renderSubscriptionsTable();
+      } catch (e) {
+        console.error('Error loading subscriptions:', e);
+        showMessage('Erro ao carregar assinaturas', 'error');
+      }
+    }
+
+    function changeSubscription(uid, newPlan) {
+      if (!confirm(`Confirma mudar o plano para ${newPlan}?`)) return;
+      fetch(`${API_URL}/admin/subscription`, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ uid, plan: newPlan })
+      })
+        .then(r => {
+          if (!r.ok) throw new Error('Failed');
+          return r.json();
+        })
+        .then(() => {
+          showMessage('Assinatura atualizada', 'success');
+          loadSubscriptions();
+        })
+        .catch(err => {
+          console.error(err);
+          showMessage('Erro ao atualizar assinatura', 'error');
+        });
+    }
+
+    // Extend DOMContentLoaded to attach subscription pagination listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      const prevSubBtn = document.getElementById('prevSubPageBtn');
+      const nextSubBtn = document.getElementById('nextSubPageBtn');
+      if (prevSubBtn) prevSubBtn.addEventListener('click', () => { if (subCurrentPage > 1) { subCurrentPage--; renderSubscriptionsTable(); } });
+      if (nextSubBtn) nextSubBtn.addEventListener('click', () => { if (subCurrentPage < Math.ceil(filteredSubscriptions.length / subPageSize)) { subCurrentPage++; renderSubscriptionsTable(); } });
+    });
     async function loadData() {
       try {
         // Load stats
         const statsRes = await fetch(`${API_URL}/admin/stats`, { credentials: 'same-origin' });
         const stats = await statsRes.json();
-        
         if (stats.stats) {
           document.getElementById('totalUsers').textContent = stats.stats.users.total || 0;
           document.getElementById('activeUsers').textContent = stats.stats.users.active_7d || 0;
           document.getElementById('totalConversations').textContent = stats.stats.engagement.total_conversations || 0;
           document.getElementById('totalSessions').textContent = stats.stats.engagement.completed_sessions || 0;
         }
-
         // Load users
         const usersRes = await fetch(`${API_URL}/list_users`, { credentials: 'same-origin' });
         const usersData = await usersRes.json();
-        
-        const tbody = document.getElementById('usersTable');
-        const users = usersData.users || [];
-
-        if (users.length === 0) {
-          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>';
-          return;
-        }
-
-        tbody.innerHTML = users
-          .filter(u => u.email)
-          .map(user => {
-            const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
-            const badge = isPremium 
-              ? '<span class="badge badge-premium">⭐ PREMIUM</span>'
-              : '<span class="badge badge-free">FREE</span>';
-            
-            // Fix date parsing to handle both Unix timestamps and ISO strings
-            let date = '-';
-            if (user.created_at) {
-              const timestamp = typeof user.created_at === 'string' 
-                ? new Date(user.created_at).getTime() 
-                : user.created_at * 1000;
-              
-              if (!isNaN(timestamp)) {
-                date = new Date(timestamp).toLocaleDateString('pt-BR');
-              }
-            }
-            
-            const uid = user.firebase_uid || user.uid || '';
-
-            return `
-              <tr id="row-${uid}">
-                <td><strong>${user.email}</strong></td>
-                <td>${user.display_name || 'Usuário'}</td>
-                <td>${badge}</td>
-                <td><small>${date}</small></td>
-                <td>
-                  <button class="btn-delete" onclick="deleteUser('${uid}', '${user.email}')">
-                    🗑️ Excluir
-                  </button>
-                </td>
-              </tr>
-            `;
-          }).join('');
+        allUsers = usersData.users || [];
+        applyFilters();
+        renderUserTable();
+        // Initialize charts after data is ready
+        initializeCharts();
       } catch (error) {
         console.error('Error loading data:', error);
         showMessage('Erro ao carregar dados', 'error');
       }
+    }
+
+    // Chart instances
+    let userGrowthChart, userDistributionChart, sessionActivityChart, moodDistributionChart;
+
+    async function initializeCharts() {
+      try {
+        // Fetch data for charts
+        const statsRes = await fetch(`${API_URL}/admin/stats`, { credentials: 'same-origin' });
+        const stats = await statsRes.json();
+
+        const usersRes = await fetch(`${API_URL}/list_users`, { credentials: 'same-origin' });
+        const usersData = await usersRes.json();
+
+        const moodRes = await fetch(`${API_URL}/admin/mood-distribution`, { credentials: 'same-origin' });
+        const moodData = await moodRes.json();
+
+        // 1. User Growth Chart (Line)
+        createUserGrowthChart(usersData.users || []);
+
+        // 2. User Distribution Chart (Pie)
+        createUserDistributionChart(stats.stats);
+
+        // 3. Session Activity Chart (Bar)
+        createSessionActivityChart(stats.stats);
+
+        // 4. Mood Distribution Chart (Horizontal Bar)
+        createMoodDistributionChart(moodData);
+
+      } catch (error) {
+        console.error('Error initializing charts:', error);
+      }
+    }
+
+    function createUserGrowthChart(users) {
+      // Calculate daily registrations for last 30 days
+      const last30Days = [];
+      const counts = {};
+      const today = new Date();
+
+      for (let i = 29; i >= 0; i--) {
+        const date = new Date(today);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+        last30Days.push(dateStr);
+        counts[dateStr] = 0;
+      }
+
+      // Count users by registration date
+      users.forEach(user => {
+        if (user.created_at) {
+          const timestamp = typeof user.created_at === 'string'
+            ? new Date(user.created_at).getTime()
+            : user.created_at * 1000;
+
+          if (!isNaN(timestamp)) {
+            const userDate = new Date(timestamp);
+            const dateStr = userDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
+            if (counts[dateStr] !== undefined) {
+              counts[dateStr]++;
+            }
+          }
+        }
+      });
+
+      const ctx = document.getElementById('userGrowthChart');
+      if (userGrowthChart) userGrowthChart.destroy();
+
+      userGrowthChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: last30Days,
+          datasets: [{
+            label: 'Novos Usuários',
+            data: last30Days.map(date => counts[date]),
+            borderColor: '#667eea',
+            backgroundColor: 'rgba(102, 126, 234, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          }
+        }
+      });
+    }
+
+    function createUserDistributionChart(stats) {
+      const total = stats?.users?.total || 0;
+      const premium = stats?.users?.premium || 0;
+      const free = total - premium;
+
+      const ctx = document.getElementById('userDistributionChart');
+      if (userDistributionChart) userDistributionChart.destroy();
+
+      userDistributionChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Free', 'Premium'],
+          datasets: [{
+            data: [free, premium],
+            backgroundColor: ['#94a3b8', '#667eea'],
+            borderWidth: 0
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }
+      });
+    }
+
+    function createSessionActivityChart(stats) {
+      // Mock data for last 7 days (you can replace with real API data)
+      const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+      const sessions = [12, 19, 15, 25, 22, 30, 28]; // Mock data
+
+      const ctx = document.getElementById('sessionActivityChart');
+      if (sessionActivityChart) sessionActivityChart.destroy();
+
+      sessionActivityChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: days,
+          datasets: [{
+            label: 'Sessões Completadas',
+            data: sessions,
+            backgroundColor: '#764ba2',
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 5 }
+            }
+          }
+        }
+      });
+    }
+
+    function createMoodDistributionChart(moodData) {
+      const moods = moodData?.mood_distribution || [];
+      const labels = moods.map(m => m.mood || 'Desconhecido');
+      const counts = moods.map(m => m.count || 0);
+
+      const ctx = document.getElementById('moodDistributionChart');
+      if (moodDistributionChart) moodDistributionChart.destroy();
+
+      moodDistributionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'Usuários',
+            data: counts,
+            backgroundColor: [
+              '#10b981', // green
+              '#3b82f6', // blue
+              '#f59e0b', // yellow
+              '#ef4444', // red
+              '#8b5cf6'  // purple
+            ],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          indexAxis: 'y',
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            x: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          }
+        }
+      });
     }
 
     async function deleteUser(uid, email) {

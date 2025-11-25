@@ -1120,6 +1120,8 @@ const getApiUrl = (endpoint) => {
     // In production (Vercel), use the serverless functions
     // Map the endpoint names to the serverless function files
     const endpointMap = {
+      '/api/admin/subscriptions': '/api/admin_subscriptions',
+      '/api/admin/subscription': '/api/admin_subscription',
       '/api/admin/stats': '/api/admin_stats',
       '/api/admin/popular-sessions': '/api/popular_sessions',
       '/api/admin/mood-distribution': '/api/mood_distribution',
@@ -1221,6 +1223,54 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   } catch (error) {
     console.error('❌ Error fetching mood distribution:', error.message);
     res.status(500).json({ error: 'Failed to fetch mood distribution', details: error.message });
+  }
+});
+
+// Subscription Management Endpoints
+app.get('/api/admin/subscriptions', async (req, res) => {
+  if (!req.session || !req.session.isAdmin) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  try {
+    const url = getApiUrl('/api/subscriptions');
+    const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
+    console.log(`🌐 Fetching subscriptions from: ${fullUrl}`);
+    const response = await fetch(fullUrl);
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API returned ${response.status}: ${errorText}`);
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Error fetching subscriptions:', error.message);
+    res.status(500).json({ error: 'Failed to fetch subscriptions', details: error.message });
+  }
+});
+
+app.post('/api/admin/subscription', async (req, res) => {
+  if (!req.session || !req.session.isAdmin) {
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+  const { uid, plan } = req.body;
+  try {
+    const url = getApiUrl('/api/subscription');
+    const fullUrl = isProduction ? `${req.protocol}://${req.get('host')}${url}` : url;
+    console.log(`🌐 Updating subscription for ${uid} to ${plan} via: ${fullUrl}`);
+    const response = await fetch(fullUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ uid, plan })
+    });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API returned ${response.status}: ${errorText}`);
+    }
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Error updating subscription:', error.message);
+    res.status(500).json({ error: 'Failed to update subscription', details: error.message });
   }
 });
 

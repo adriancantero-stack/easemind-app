@@ -750,6 +750,47 @@ class SubscriptionManager:
         db.subscription_events.insert_one(event)
         logger.info(f"💸 Subscription event: {user_id} - {event_type}")
 
+    @staticmethod
+    def get_all_subscriptions(limit: int = 100) -> List[Dict]:
+        """
+        Retorna lista de todas as assinaturas (para admin)
+        """
+        users = list(users_collection.find(
+            {},
+            {
+                "user_id": 1, 
+                "email": 1, 
+                "plan": 1, 
+                "subscription_status": 1, 
+                "expiry_date": 1,
+                "firebase_uid": 1
+            }
+        ).sort("created_at", -1).limit(limit))
+        
+        return [{
+            "uid": u.get("firebase_uid") or u.get("user_id"),
+            "email": u.get("email", "No email"),
+            "plan": u.get("plan", "free"),
+            "subscription_status": u.get("subscription_status", "active"),
+            "expiry_date": u.get("expiry_date")
+        } for u in users]
+
+    @staticmethod
+    def update_subscription_plan(user_id: str, plan: str) -> bool:
+        """
+        Atualiza manualmente o plano de um usuário (admin)
+        """
+        result = users_collection.update_one(
+            {"$or": [{"firebase_uid": user_id}, {"user_id": user_id}]},
+            {
+                "$set": {
+                    "plan": plan,
+                    "updated_at": datetime.utcnow()
+                }
+            }
+        )
+        return result.modified_count > 0
+
 
 class AnalyticsManager:
     """Gerencia analytics agregados e anônimos para admin"""
