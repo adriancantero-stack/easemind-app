@@ -762,15 +762,30 @@ async def delete_user(firebase_uid: str):
             raise HTTPException(status_code=503, detail="Database connection failed")
 
         # Delete user from users collection
+        logger.info(f"Attempting to delete from users_collection: {firebase_uid}")
         users_result = users_collection.delete_one({"firebase_uid": firebase_uid})
+        logger.info(f"Deleted from users_collection. Deleted count: {users_result.deleted_count}")
         
         # Delete all user data from other collections (using firebase_uid and user_id as fallback)
-        conversations_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        sessions_completed_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        journal_entries_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        mood_logs_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
-        risk_events_collection.delete_many({"$or": [{"user_id": firebase_uid}, {"firebase_uid": firebase_uid}]})
+        user_id = firebase_uid # Assuming they are the same for now, or we'd need to fetch user first
         
+        collections_to_clean = [
+            (conversations_collection, "conversations"),
+            (sessions_completed_collection, "sessions"),
+            (journal_entries_collection, "journal"),
+            (mood_logs_collection, "mood"),
+            (risk_events_collection, "risk_events")
+        ]
+        
+        for collection, name in collections_to_clean:
+            try:
+                logger.info(f"Cleaning {name} for user {user_id}")
+                delete_result = collection.delete_many({"$or": [{"user_id": user_id}, {"firebase_uid": user_id}]})
+                logger.info(f"Deleted {delete_result.deleted_count} documents from {name} for user {user_id}")
+            except Exception as e:
+                logger.error(f"Error cleaning {name} for user {user_id}: {e}")
+                # Continue cleaning other collections even if one fails
+                
         # Also delete subscriptions if collection exists
         try:
             from orchestrator import db
