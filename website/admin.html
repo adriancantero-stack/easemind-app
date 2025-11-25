@@ -456,7 +456,9 @@
       const activity = document.getElementById('activityFilter').value;
 
       filteredUsers = allUsers.filter(user => {
-        const matchesSearch = user.email.toLowerCase().includes(searchTerm) || (user.display_name && user.display_name.toLowerCase().includes(searchTerm));
+        const email = (user.email || '').toLowerCase();
+        const name = (user.display_name || '').toLowerCase();
+        const matchesSearch = email.includes(searchTerm) || name.includes(searchTerm);
         const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
         const matchesStatus = status === 'all' || (status === 'free' && !isPremium) || (status === 'premium' && isPremium);
         const active7d = user.last_active_days && user.last_active_days <= 7; // assuming backend provides this field
