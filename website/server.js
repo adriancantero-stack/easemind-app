@@ -843,8 +843,20 @@ app.get('/admin/check', (req, res) => {
   res.json({ isAdmin: !!req.session?.isAdmin });
 });
 
-// Serve educativo page
+// Serve educativo page with language-specific routes
 app.get('/educativo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'educativo.html'));
+});
+
+app.get('/pt/educativo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'educativo.html'));
+});
+
+app.get('/en/educational', (req, res) => {
+  res.sendFile(path.join(__dirname, 'educativo.html'));
+});
+
+app.get('/es/educativa', (req, res) => {
   res.sendFile(path.join(__dirname, 'educativo.html'));
 });
 

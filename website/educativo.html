@@ -378,9 +378,23 @@
     </main>
 
     <script>
-        // Simple translation logic
+        // Auto-detect language from URL and load translations
         let currentLang = 'pt-BR';
         let translations = {};
+
+        // Detect language from URL path
+        function detectLanguageFromURL() {
+            const path = window.location.pathname;
+            if (path.includes('/en/')) {
+                return 'en';
+            } else if (path.includes('/es/')) {
+                return 'es';
+            } else if (path.includes('/pt/')) {
+                return 'pt-BR';
+            }
+            // Default to Portuguese
+            return 'pt-BR';
+        }
 
         async function loadTranslations(lang) {
             try {
@@ -389,6 +403,7 @@
                 translations = data;
                 applyTranslations();
                 updateButtons(lang);
+                updatePageMeta(lang);
             } catch (error) {
                 console.error('Error loading translations:', error);
             }
@@ -412,14 +427,39 @@
             });
         }
 
-        function changeLang(lang) {
-            currentLang = lang;
-            loadTranslations(lang);
+        function updatePageMeta(lang) {
+            // Update page title and meta description based on language
+            const titles = {
+                'pt-BR': 'Apoio Emocional Digital | EaseMind',
+                'en': 'Digital Emotional Support | EaseMind',
+                'es': 'Apoyo Emocional Digital | EaseMind'
+            };
+            const descriptions = {
+                'pt-BR': 'Descubra como a tecnologia pode ajudar a organizar pensamentos, aliviar tensão e oferecer ferramentas de autocuidado.',
+                'en': 'Discover how technology can help organize thoughts, relieve tension, and provide self-care tools.',
+                'es': 'Descubre cómo la tecnología puede ayudar a organizar pensamientos, aliviar tensión y ofrecer herramientas de autocuidado.'
+            };
+            
+            document.title = titles[lang] || titles['pt-BR'];
+            document.querySelector('meta[name="description"]').setAttribute('content', descriptions[lang] || descriptions['pt-BR']);
+            document.documentElement.lang = lang;
         }
 
-        // Initial load
+        function changeLang(lang) {
+            currentLang = lang;
+            // Redirect to the appropriate URL
+            const langPaths = {
+                'pt-BR': '/pt/educativo',
+                'en': '/en/educational',
+                'es': '/es/educativo'
+            };
+            window.location.href = langPaths[lang] || '/educativo';
+        }
+
+        // Initial load - detect language from URL
         document.addEventListener('DOMContentLoaded', () => {
-            loadTranslations('pt-BR');
+            currentLang = detectLanguageFromURL();
+            loadTranslations(currentLang);
         });
     </script>
 </body>
