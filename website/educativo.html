@@ -14,36 +14,80 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/main.css">
     <style>
         /* Specific styles for educational page */
         .edu-hero {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-            padding: 6rem 1rem 4rem;
+            background: linear-gradient(180deg, #F7E7FF 0%, #E8F2FF 100%);
+            padding: 10rem 1rem 8rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .edu-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(168, 216, 234, 0.15) 0%, transparent 70%);
+            transform: translateX(-50%);
+            animation: float 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            50% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+        }
+
+        .edu-hero h1 {
+            background: linear-gradient(135deg, #111827 0%, #8B6FF3 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1.5rem;
+        }
+
+        .edu-hero p {
+            font-size: 1.375rem;
+            color: #4B5563;
+            font-weight: 500;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .edu-content {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 2rem 1rem;
         }
 
         .edu-section {
-            margin-bottom: 4rem;
+            margin-bottom: 6rem;
         }
 
         .edu-section h2 {
-            font-size: 2rem;
-            color: var(--text-primary);
+            font-size: clamp(2.25rem, 5vw, 3.5rem);
+            color: #111827;
             margin-bottom: 1.5rem;
-            font-weight: 600;
+            font-weight: 800;
+            letter-spacing: -0.03em;
         }
 
         .edu-section p {
             font-size: 1.125rem;
             line-height: 1.8;
-            color: var(--text-secondary);
+            color: #4B5563;
             margin-bottom: 1.5rem;
         }
 
@@ -58,67 +102,121 @@
             align-items: flex-start;
             margin-bottom: 1.5rem;
             font-size: 1.1rem;
-            color: var(--text-secondary);
+            color: #4B5563;
         }
 
         .feature-icon {
-            color: var(--primary-color);
+            color: #8B6FF3;
             margin-right: 1rem;
             font-size: 1.25rem;
             flex-shrink: 0;
             margin-top: 0.2rem;
+            font-weight: 700;
         }
 
         .highlight-box {
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 16px;
-            padding: 2rem;
-            border: 1px solid rgba(102, 126, 234, 0.1);
+            background: white;
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            border: 2px solid rgba(139, 111, 243, 0.1);
             margin: 3rem 0;
+            box-shadow: 0 4px 20px rgba(139, 111, 243, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .highlight-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(139, 111, 243, 0.2);
+            border-color: #8B6FF3;
         }
 
         .cta-section {
             text-align: center;
-            padding: 4rem 1rem;
-            background: var(--surface-color);
-            border-radius: 24px;
-            margin-top: 4rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #8B6FF3 0%, #6B53E8 100%);
+            border-radius: 28px;
+            margin-top: 6rem;
+            box-shadow: 0 10px 40px rgba(139, 111, 243, 0.25);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section h2,
+        .cta-section p {
+            color: white;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
         .disclaimer {
             font-size: 0.875rem;
-            color: var(--text-tertiary);
-            margin-top: 3rem;
-            padding: 1.5rem;
-            background: #f1f5f9;
-            border-radius: 8px;
+            color: #9CA3AF;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: #F7F8FA;
+            border-radius: 16px;
             text-align: center;
+            border: 1px solid rgba(139, 111, 243, 0.08);
+        }
+
+        .disclaimer strong {
+            color: #4B5563;
         }
 
         /* Language Switcher */
         .lang-switch {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.5rem;
+            right: 2rem;
             display: flex;
             gap: 0.5rem;
+            z-index: 10;
         }
 
         .lang-btn {
-            background: none;
-            border: 1px solid var(--border-color);
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
+            background: white;
+            border: 2px solid #8B6FF3;
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 0.875rem;
-            color: var(--text-secondary);
+            font-weight: 700;
+            color: #8B6FF3;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lang-btn:hover {
+            background: #F7E7FF;
+            transform: translateY(-2px);
         }
 
         .lang-btn.active {
-            background: var(--primary-color);
+            background: linear-gradient(135deg, #8B6FF3, #6B53E8);
             color: white;
-            border-color: var(--primary-color);
+            border-color: #8B6FF3;
+        }
+
+        /* Button styling to match main site */
+        .btn-primary {
+            background: linear-gradient(135deg, #8B6FF3, #6B53E8);
+            color: white;
+            box-shadow: 0 10px 40px rgba(139, 111, 243, 0.25);
+            border: none;
+            padding: 1.125rem 2.5rem;
+            border-radius: 16px;
+            font-weight: 700;
+            font-size: 1.0625rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 32px rgba(139, 111, 243, 0.4);
         }
     </style>
 </head>
