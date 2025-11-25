@@ -5,6 +5,23 @@ const { marked } = require('marked');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const fetch = require('node-fetch');
+const admin = require('firebase-admin');
+
+// Initialize Firebase Admin
+if (process.env.FIREBASE_CREDENTIALS) {
+  try {
+    const serviceAccount = JSON.parse(process.env.FIREBASE_CREDENTIALS);
+    // Check if already initialized to avoid errors in hot reload
+    if (!admin.apps.length) {
+      admin.initializeApp({
+        credential: admin.credential.cert(serviceAccount)
+      });
+      console.log('🔥 Firebase Admin initialized');
+    }
+  } catch (error) {
+    console.error('❌ Failed to initialize Firebase Admin:', error);
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 9000;
