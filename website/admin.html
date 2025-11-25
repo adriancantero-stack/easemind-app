@@ -1,15 +1,382 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Admin Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EaseMind Admin</title>
   <style>
-    body {font-family: Arial, sans-serif; margin: 2rem;}
-    h1 {color: #333;}
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 1200px;
+      margin: 2rem;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      color: #667eea;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    h2 {
+      color: #333;
+      margin: 2rem 0 1rem 0;
+      border-bottom: 2px solid #667eea;
+      padding-bottom: 0.5rem;
+    }
+
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f7fafc;
+      color: #667eea;
+      font-weight: 600;
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-premium {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+
+    .badge-free {
+      background: #e2e8f0;
+      color: #4a5568;
+    }
+
+    .btn-delete {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.875rem;
+    }
+
+    .btn-delete:hover {
+      background: #dc2626;
+    }
+
+    .btn-logout {
+      background: #718096;
+      margin-top: 2rem;
+    }
+
+    .error {
+      background: #fee;
+      color: #c00;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .success {
+      background: #efe;
+      color: #0a0;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
-  <p>Welcome, admin! Here you can view stats, manage users, etc.</p>
+  <div class="container">
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+      <h1>🔐 EaseMind Admin</h1>
+      <div id="loginError" class="error hidden"></div>
+      <input type="password" id="passwordInput" placeholder="Senha" onkeypress="if(event.key==='Enter') login()">
+      <button onclick="login()">Entrar</button>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboardScreen" class="hidden">
+      <h1>📊 EaseMind Admin Dashboard</h1>
+      
+      <div id="message" class="hidden"></div>
+
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-value" id="totalUsers">-</div>
+          <div class="stat-label">Total Usuários</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="activeUsers">-</div>
+          <div class="stat-label">Usuários Ativos (7d)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalConversations">-</div>
+          <div class="stat-label">Conversas</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value" id="totalSessions">-</div>
+          <div class="stat-label">Sessões</div>
+        </div>
+      </div>
+
+      <!-- Users Table -->
+      <h2>👥 Usuários</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Email</th>
+            <th>Nome</th>
+            <th>Status</th>
+            <th>Cadastro</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="usersTable">
+          <tr><td colspan="5" style="text-align: center;">Carregando...</td></tr>
+        </tbody>
+      </table>
+
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = '/api/backend';
+
+    // Check if already logged in
+    fetch('/admin/check', { credentials: 'same-origin' })
+      .then(res => res.json())
+      .then(data => {
+        if (data.isAdmin) {
+          showDashboard();
+        }
+      })
+      .catch(() => {});
+
+    async function login() {
+      const password = document.getElementById('passwordInput').value;
+      const errorDiv = document.getElementById('loginError');
+      
+      try {
+        const res = await fetch('/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'same-origin',
+          body: JSON.stringify({ password })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+          showDashboard();
+        } else {
+          errorDiv.textContent = 'Senha incorreta';
+          errorDiv.classList.remove('hidden');
+        }
+      } catch (error) {
+        errorDiv.textContent = 'Erro ao fazer login';
+        errorDiv.classList.remove('hidden');
+      }
+    }
+
+    function showDashboard() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('dashboardScreen').classList.remove('hidden');
+      loadData();
+    }
+
+    async function loadData() {
+      try {
+        // Load stats
+        const statsRes = await fetch(`${API_URL}/admin/stats`, { credentials: 'same-origin' });
+        const stats = await statsRes.json();
+        
+        if (stats.stats) {
+          document.getElementById('totalUsers').textContent = stats.stats.users.total || 0;
+          document.getElementById('activeUsers').textContent = stats.stats.users.active_7d || 0;
+          document.getElementById('totalConversations').textContent = stats.stats.engagement.total_conversations || 0;
+          document.getElementById('totalSessions').textContent = stats.stats.engagement.completed_sessions || 0;
+        }
+
+        // Load users
+        const usersRes = await fetch(`${API_URL}/list_users`, { credentials: 'same-origin' });
+        const usersData = await usersRes.json();
+        
+        const tbody = document.getElementById('usersTable');
+        const users = usersData.users || [];
+
+        if (users.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>';
+          return;
+        }
+
+        tbody.innerHTML = users
+          .filter(u => u.email)
+          .map(user => {
+            const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
+            const badge = isPremium 
+              ? '<span class="badge badge-premium">⭐ PREMIUM</span>'
+              : '<span class="badge badge-free">FREE</span>';
+            
+            const date = user.created_at ? new Date(user.created_at * 1000).toLocaleDateString('pt-BR') : '-';
+            const uid = user.firebase_uid || user.uid || '';
+
+            return `
+              <tr id="row-${uid}">
+                <td><strong>${user.email}</strong></td>
+                <td>${user.display_name || 'Usuário'}</td>
+                <td>${badge}</td>
+                <td><small>${date}</small></td>
+                <td>
+                  <button class="btn-delete" onclick="deleteUser('${uid}', '${user.email}')">
+                    🗑️ Excluir
+                  </button>
+                </td>
+              </tr>
+            `;
+          }).join('');
+      } catch (error) {
+        console.error('Error loading data:', error);
+        showMessage('Erro ao carregar dados', 'error');
+      }
+    }
+
+    async function deleteUser(uid, email) {
+      if (!confirm(`⚠️ Excluir usuário?\n\nEmail: ${email}\n\nIsso não pode ser desfeito!`)) {
+        return;
+      }
+
+      const row = document.getElementById(`row-${uid}`);
+      if (row) row.style.opacity = '0.5';
+
+      try {
+        const res = await fetch(`${API_URL}/admin/delete-user/${uid}`, {
+          method: 'DELETE',
+          credentials: 'same-origin'
+        });
+
+        if (res.ok) {
+          if (row) row.remove();
+          showMessage('Usuário excluído com sucesso!', 'success');
+          loadData(); // Reload stats
+        } else {
+          throw new Error('Falha ao excluir');
+        }
+      } catch (error) {
+        if (row) row.style.opacity = '1';
+        showMessage('Erro ao excluir usuário', 'error');
+      }
+    }
+
+    function showMessage(text, type) {
+      const div = document.getElementById('message');
+      div.textContent = text;
+      div.className = type;
+      div.classList.remove('hidden');
+      setTimeout(() => div.classList.add('hidden'), 3000);
+    }
+
+    async function logout() {
+      await fetch('/admin/logout', { method: 'POST', credentials: 'same-origin' });
+      location.reload();
+    }
+  </script>
 </body>
 </html>
