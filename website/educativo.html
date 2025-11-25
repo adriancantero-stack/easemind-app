@@ -385,31 +385,47 @@
         // Detect language from URL path
         function detectLanguageFromURL() {
             const path = window.location.pathname;
+            console.log('Current path:', path);
+            
             if (path.includes('/en/')) {
+                console.log('Detected language: English');
                 return 'en';
             } else if (path.includes('/es/')) {
+                console.log('Detected language: Spanish');
                 return 'es';
             } else if (path.includes('/pt/')) {
+                console.log('Detected language: Portuguese');
                 return 'pt-BR';
             }
             // Default to Portuguese
+            console.log('Using default language: Portuguese');
             return 'pt-BR';
         }
 
         async function loadTranslations(lang) {
             try {
+                console.log(`Loading translations for: ${lang}`);
                 const response = await fetch(`/locales/${lang}.json`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
                 const data = await response.json();
+                console.log('Translations loaded successfully:', data.edu ? 'edu namespace found' : 'edu namespace missing');
+                
                 translations = data;
                 applyTranslations();
                 updateButtons(lang);
                 updatePageMeta(lang);
             } catch (error) {
                 console.error('Error loading translations:', error);
+                console.error('Falling back to default content');
             }
         }
 
         function applyTranslations() {
+            let translatedCount = 0;
             document.querySelectorAll('[data-i18n]').forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 const keys = key.split('.');
@@ -417,8 +433,12 @@
                 for (const k of keys) {
                     value = value?.[k];
                 }
-                if (value) element.innerHTML = value;
+                if (value) {
+                    element.innerHTML = value;
+                    translatedCount++;
+                }
             });
+            console.log(`Applied ${translatedCount} translations`);
         }
 
         function updateButtons(lang) {
@@ -441,8 +461,12 @@
             };
             
             document.title = titles[lang] || titles['pt-BR'];
-            document.querySelector('meta[name="description"]').setAttribute('content', descriptions[lang] || descriptions['pt-BR']);
+            const metaDesc = document.querySelector('meta[name="description"]');
+            if (metaDesc) {
+                metaDesc.setAttribute('content', descriptions[lang] || descriptions['pt-BR']);
+            }
             document.documentElement.lang = lang;
+            console.log(`Page meta updated for language: ${lang}`);
         }
 
         function changeLang(lang) {
@@ -453,12 +477,14 @@
                 'en': '/en/educational',
                 'es': '/es/educativo'
             };
+            console.log(`Changing language to: ${lang}, redirecting to: ${langPaths[lang]}`);
             window.location.href = langPaths[lang] || '/educativo';
         }
 
         // Initial load - detect language from URL
         document.addEventListener('DOMContentLoaded', () => {
             currentLang = detectLanguageFromURL();
+            console.log(`Initializing with language: ${currentLang}`);
             loadTranslations(currentLang);
         });
     </script>
