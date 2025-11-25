@@ -856,7 +856,7 @@ app.get('/en/educational', (req, res) => {
   res.sendFile(path.join(__dirname, 'educativo.html'));
 });
 
-app.get('/es/educativa', (req, res) => {
+app.get('/es/educativo', (req, res) => {
   res.sendFile(path.join(__dirname, 'educativo.html'));
 });
 

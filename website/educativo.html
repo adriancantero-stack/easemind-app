@@ -382,12 +382,12 @@
 
     <!-- Footer -->
     <footer
-        style="text-align: center; padding: 3rem 1rem 2rem; color: #9CA3AF; font-size: 0.875rem; border-top: 1px solid rgba(139, 111, 243, 0.08); margin-top: 4rem;">
-        <p style="margin-bottom: 0.5rem;">© EaseMind — 2025</p>
-        <p>
-            <a href="/privacy" style="color: #8B6FF3; text-decoration: none; margin: 0 0.5rem;">Privacidade</a>
-            |
-            <a href="/terms" style="color: #8B6FF3; text-decoration: none; margin: 0 0.5rem;">Termos de Uso</a>
+        style="text-align: center; padding: 3rem 1rem 2rem; color: #9CA3AF; font-size: 0.875rem; border-top: 1px solid rgba(139, 111, 243, 0.08); margin-top: 4rem; background: #F7F8FA;">
+        <p style="margin: 0 0 0.75rem 0;">© EaseMind — 2025</p>
+        <p style="margin: 0;">
+            <a href="/privacy" style="color: #8B6FF3; text-decoration: none; transition: color 0.3s;">Privacidade</a>
+            <span style="margin: 0 0.5rem; color: #9CA3AF;">|</span>
+            <a href="/terms" style="color: #8B6FF3; text-decoration: none; transition: color 0.3s;">Termos de Uso</a>
         </p>
     </footer>
 
@@ -400,7 +400,7 @@
         function detectLanguageFromURL() {
             const path = window.location.pathname;
             console.log('Current path:', path);
-            
+
             if (path.includes('/en/')) {
                 console.log('Detected language: English');
                 return 'en';
@@ -420,14 +420,14 @@
             try {
                 console.log(`Loading translations for: ${lang}`);
                 const response = await fetch(`/locales/${lang}.json`);
-                
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
                 console.log('Translations loaded successfully:', data.edu ? 'edu namespace found' : 'edu namespace missing');
-                
+
                 translations = data;
                 applyTranslations();
                 updateButtons(lang);
@@ -473,7 +473,7 @@
                 'en': 'Discover how technology can help organize thoughts, relieve tension, and provide self-care tools.',
                 'es': 'Descubre cómo la tecnología puede ayudar a organizar pensamientos, aliviar tensión y ofrecer herramientas de autocuidado.'
             };
-            
+
             document.title = titles[lang] || titles['pt-BR'];
             const metaDesc = document.querySelector('meta[name="description"]');
             if (metaDesc) {
