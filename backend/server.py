@@ -754,6 +754,13 @@ async def delete_user(firebase_uid: str):
         
         logger.info(f"🗑️ Admin delete user endpoint called for firebase_uid: {firebase_uid}")
         
+        # Check if collections are accessible
+        try:
+            users_collection.find_one({"_id": "ping"})
+        except Exception as db_err:
+            logger.error(f"❌ Database connection error: {db_err}")
+            raise HTTPException(status_code=503, detail="Database connection failed")
+
         # Delete user from users collection
         users_result = users_collection.delete_one({"firebase_uid": firebase_uid})
         
