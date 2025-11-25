@@ -843,6 +843,11 @@ app.get('/admin/check', (req, res) => {
   res.json({ isAdmin: !!req.session?.isAdmin });
 });
 
+// Serve educativo page
+app.get('/educativo', (req, res) => {
+  res.sendFile(path.join(__dirname, 'educativo.html'));
+});
+
 app.get('/admin', (req, res) => {
   // Debug logging
   console.log('🔍 Admin access attempt:', {
