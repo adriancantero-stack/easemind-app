@@ -258,7 +258,8 @@
     "googlePlay": "Google Play",
     "madeWith": "Hecho con",
     "toHelp": "para ayudarte a encontrar calma",
-    "disclaimer\": \"EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.\","disclaimerLabel": "Aviso Importante:",
+    "disclaimer": "EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.",
+    "disclaimerLabel": "Aviso Importante:",
     "copyright": "© 2025 EaseMind. Todos los derechos reservados."
   },
   "edu": {
