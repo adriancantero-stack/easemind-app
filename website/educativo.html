@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apoio Emocional Digital | EaseMind</title>
+    <meta name="description"
+        content="Descubra como a tecnologia pode ajudar a organizar pensamentos, aliviar tensão e oferecer ferramentas de autocuidado de forma simples e acessível.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/styles/index.css">
+    <style>
+        /* Specific styles for educational page */
+        .edu-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            padding: 6rem 1rem 4rem;
+            text-align: center;
+        }
+
+        .edu-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .edu-section {
+            margin-bottom: 4rem;
+        }
+
+        .edu-section h2 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .edu-section p {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+        }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-icon {
+            color: var(--primary-color);
+            margin-right: 1rem;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            margin-top: 0.2rem;
+        }
+
+        .highlight-box {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            margin: 3rem 0;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 4rem 1rem;
+            background: var(--surface-color);
+            border-radius: 24px;
+            margin-top: 4rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .disclaimer {
+            font-size: 0.875rem;
+            color: var(--text-tertiary);
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: #f1f5f9;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        /* Language Switcher */
+        .lang-switch {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .lang-btn.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="changeLang('pt-BR')">PT</button>
+        <button class="lang-btn" onclick="changeLang('en')">EN</button>
+        <button class="lang-btn" onclick="changeLang('es')">ES</button>
+    </div>
+
+    <header class="edu-hero">
+        <div class="edu-content">
+            <h1 data-i18n="edu.hero_title">Apoio Emocional Digital</h1>
+            <p data-i18n="edu.hero_subtitle">Como a tecnologia está ajudando pessoas a encontrar equilíbrio de forma
+                simples e acessível.</p>
+        </div>
+    </header>
+
+    <main class="edu-content">
+        <section class="edu-section">
+            <h2 data-i18n="edu.context_title">Por que buscar apoio digital?</h2>
+            <p data-i18n="edu.context_p1">Nos últimos anos, a rotina acelerada, o excesso de estímulos e a pressão
+                diária têm feito milhões de pessoas sentirem impacto no bem-estar emocional. Muitas vezes, não é fácil
+                encontrar alguém para conversar, desabafar ou se orientar no momento exato em que a mente mais precisa.
+            </p>
+            <p data-i18n="edu.context_p2">Ao mesmo tempo, a tecnologia está avançando tão rápido que já permite criar
+                espaços mais tranquilos, privados e acolhedores — disponíveis a qualquer hora, direto no celular.</p>
+            <p data-i18n="edu.context_p3">É daqui que nasce uma nova ideia: o <strong>apoio emocional digital</strong>.
+            </p>
+        </section>
+
+        <section class="edu-section highlight-box">
+            <h2 data-i18n="edu.what_is_title">O que é apoio emocional digital?</h2>
+            <p data-i18n="edu.what_is_desc">É quando usamos tecnologia para:</p>
+            <ul class="feature-list">
+                <li><span class="feature-icon">✓</span> <span data-i18n="edu.what_is_1">Ajudar a organizar
+                        pensamentos</span></li>
+                <li><span class="feature-icon">✓</span> <span data-i18n="edu.what_is_2">Aliviar momentos de
+                        tensão</span></li>
+                <li><span class="feature-icon">✓</span> <span data-i18n="edu.what_is_3">Oferecer companhia
+                        emocional</span></li>
+                <li><span class="feature-icon">✓</span> <span data-i18n="edu.what_is_4">Guiar em exercícios
+                        práticos</span></li>
+                <li><span class="feature-icon">✓</span> <span data-i18n="edu.what_is_5">Oferecer ferramentas de
+                        autocuidado de forma rápida e intuitiva</span></li>
+            </ul>
+            <p data-i18n="edu.what_is_note">Não substitui profissionais, não é tratamento, não promete cura — mas
+                complementa o dia a dia, trazendo conforto e clareza nos momentos em que a mente fica sobrecarregada.
+            </p>
+        </section>
+
+        <section class="edu-section">
+            <h2 data-i18n="edu.why_important_title">Por que isso se tornou tão importante?</h2>
+            <p data-i18n="edu.why_important_intro">3 motivos principais explicam a evolução desse tipo de ferramenta:
+            </p>
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-icon">1.</span>
+                    <div>
+                        <strong data-i18n="edu.reason_1_title">Conexão vs. Compreensão</strong>
+                        <br>
+                        <span data-i18n="edu.reason_1_desc">As pessoas estão mais conectadas do que nunca — mas nem
+                            sempre se sentem compreendidas. Ter alguém “por perto” 24h faz diferença.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="feature-icon">2.</span>
+                    <div>
+                        <strong data-i18n="edu.reason_2_title">Os tempos mudaram</strong>
+                        <br>
+                        <span data-i18n="edu.reason_2_desc">Nem todo mundo consegue parar sua rotina para marcar
+                            consultas ou conversar quando precisa.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="feature-icon">3.</span>
+                    <div>
+                        <strong data-i18n="edu.reason_3_title">Novas formas de cuidado</strong>
+                        <br>
+                        <span data-i18n="edu.reason_3_desc">Respiração guiada, meditações rápidas, exercícios mentais
+                            simples e até conversas estruturadas ajudam a trazer calma em minutos.</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="edu-section">
+            <h2 data-i18n="edu.easemind_role_title">Onde o EaseMind entra nessa nova realidade?</h2>
+            <p data-i18n="edu.easemind_role_desc">O EaseMind nasceu justamente dessa necessidade: uma ferramenta digital
+                de bem-estar emocional, feita para dar suporte simples, rápido e discreto.</p>
+            <p data-i18n="edu.easemind_for_who">Ele foi criado para quem busca:</p>
+            <ul class="feature-list">
+                <li><span class="feature-icon">✨</span> <span data-i18n="edu.feature_1">Organizar a mente</span></li>
+                <li><span class="feature-icon">✨</span> <span data-i18n="edu.feature_2">Respirar melhor em momentos
+                        difíceis</span></li>
+                <li><span class="feature-icon">✨</span> <span data-i18n="edu.feature_3">Acessar exercícios de
+                        calma</span></li>
+                <li><span class="feature-icon">✨</span> <span data-i18n="edu.feature_4">Ter um “guia emocional” no
+                        bolso</span></li>
+                <li><span class="feature-icon">✨</span> <span data-i18n="edu.feature_5">Aprender a lidar com o estresse
+                        do dia a dia</span></li>
+            </ul>
+        </section>
+
+        <section class="edu-section highlight-box">
+            <h2 data-i18n="edu.inside_title">O que você encontra dentro do EaseMind</h2>
+            <ul class="feature-list">
+                <li>
+                    <span class="feature-icon">🧘</span>
+                    <div>
+                        <strong data-i18n="edu.inside_1_title">Exercícios guiados</strong>
+                        <br><span data-i18n="edu.inside_1_desc">Respiração e relaxamento para diminuir tensão
+                            mental.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="feature-icon">💬</span>
+                    <div>
+                        <strong data-i18n="edu.inside_2_title">Espaço para desabafar</strong>
+                        <br><span data-i18n="edu.inside_2_desc">Sem julgamentos. Coloque para fora e reorganize
+                            pensamentos.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="feature-icon">⚡</span>
+                    <div>
+                        <strong data-i18n="edu.inside_3_title">Sugestões rápidas</strong>
+                        <br><span data-i18n="edu.inside_3_desc">Pequenas práticas de bem-estar que cabem em 2 a 5
+                            minutos.</span>
+                    </div>
+                </li>
+                <li>
+                    <span class="feature-icon">🤖</span>
+                    <div>
+                        <strong data-i18n="edu.inside_4_title">IA Acolhedora</strong>
+                        <br><span data-i18n="edu.inside_4_desc">Orientação suave para momentos de sobrecarga
+                            emocional.</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <section class="cta-section">
+            <h2 data-i18n="edu.cta_title">Conheça o apoio emocional digital na prática</h2>
+            <p data-i18n="edu.cta_desc">Se você quiser experimentar e entender melhor como essa nova forma de suporte
+                funciona, acesse a página oficial.</p>
+            <a href="/" class="btn btn-primary btn-lg"
+                style="margin-top: 2rem; display: inline-block; padding: 1rem 3rem; font-size: 1.2rem;"
+                data-i18n="edu.cta_button">Acessar EaseMind</a>
+        </section>
+
+        <div class="disclaimer">
+            <strong data-i18n="edu.disclaimer_title">Observação importante</strong>
+            <p data-i18n="edu.disclaimer_text">O EaseMind não substitui psicoterapia ou profissionais de saúde, não
+                oferece diagnóstico e não faz promessas de tratamento. É uma ferramenta complementar de bem-estar
+                emocional, feita para trazer calma, clareza e apoio no dia a dia.</p>
+        </div>
+    </main>
+
+    <script>
+        // Simple translation logic
+        let currentLang = 'pt-BR';
+        let translations = {};
+
+        async function loadTranslations(lang) {
+            try {
+                const response = await fetch(`/locales/${lang}.json`);
+                const data = await response.json();
+                translations = data;
+                applyTranslations();
+                updateButtons(lang);
+            } catch (error) {
+                console.error('Error loading translations:', error);
+            }
+        }
+
+        function applyTranslations() {
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                const keys = key.split('.');
+                let value = translations;
+                for (const k of keys) {
+                    value = value?.[k];
+                }
+                if (value) element.innerHTML = value;
+            });
+        }
+
+        function updateButtons(lang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.toLowerCase().includes(lang.split('-')[0]));
+            });
+        }
+
+        function changeLang(lang) {
+            currentLang = lang;
+            loadTranslations(lang);
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTranslations('pt-BR');
+        });
+    </script>
+</body>
+
+</html>
