@@ -1,28 +1,29 @@
 # EaseMind Project
 
-EaseMind is a mental health application featuring a multilingual website and an AI-powered backend.
+EaseMind is a mental health application featuring a multilingual website, a PWA, and an AI-powered backend.
 
 ## 🚀 Deployment
 
-This project is configured for automated deployment using GitHub Actions.
+This project uses **automatic deployment** via Vercel and Railway integrations:
 
-### Prerequisites
+- **Website (Vercel)**: Automatically deploys from the `main` branch when changes are pushed to `website/`
+- **PWA (Vercel)**: Automatically deploys from the `main` branch  
+- **Backend (Railway)**: Automatically deploys from the `main` branch when changes are pushed to `backend/`
 
-You need to add the following secrets to your GitHub repository settings (**Settings** > **Secrets and variables** > **Actions**):
+### Environment Variables
 
-| Secret Name | Description |
-|-------------|-------------|
-| `VERCEL_TOKEN` | Your Vercel account token. |
-| `VERCEL_ORG_ID` | Your Vercel Organization ID (optional, if using a team). |
-| `VERCEL_PROJECT_ID` | Your Vercel Project ID. |
-| `RAILWAY_TOKEN` | Your Railway account token. |
-| `BACKEND_URL` | The URL of your deployed backend on Railway (e.g., `https://easemind-backend.up.railway.app`). |
-| `FIREBASE_CREDENTIALS` | The content of your Firebase service account JSON file (minified to a single line). |
+Make sure the following environment variables are configured in each platform:
 
-### Automated Workflow
+**Vercel (Website)**:
+- `BACKEND_URL` - URL of the Railway backend (e.g., `https://api.easemind.io`)
+- `FIREBASE_ADMIN_SDK` - Firebase Admin SDK credentials (JSON)
+- `MONGO_URL` - MongoDB connection string
 
-- **Website (Vercel)**: Pushes to `main` affecting the `website/` folder trigger a deploy to Vercel.
-- **Backend (Railway)**: Pushes to `main` affecting the `backend/` folder trigger a deploy to Railway.
+**Railway (Backend)**:
+- `MONGO_URL` - MongoDB connection string
+- `OPENAI_API_KEY` - OpenAI API key for AI features
+- `PORT` - Port number (default: 8001)
+- `FIREBASE_CREDENTIALS` - Firebase service account credentials (JSON)
 
 ## 🛠️ Local Development
 
@@ -41,9 +42,6 @@ You need to add the following secrets to your GitHub repository settings (**Sett
 
 3. **Install Dependencies**
    ```bash
-   # Root
-   npm install
-
    # Website
    cd website
    npm install
@@ -59,6 +57,12 @@ You need to add the following secrets to your GitHub repository settings (**Sett
 
 ## 📂 Project Structure
 
-- `website/`: Express.js application (Frontend/Website).
-- `backend/`: FastAPI application (AI/Chat backend).
-- `.github/workflows/`: CI/CD configurations.
+- `website/`: Express.js application (Website/Landing Page)
+- `backend/`: FastAPI application (AI/Chat backend)
+- `frontend/`: React Native PWA (Mobile app)
+
+## 🔗 Live URLs
+
+- **Website**: https://easemind.vercel.app
+- **PWA**: https://app.easemind.io
+- **API**: https://api.easemind.io
