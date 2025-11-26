@@ -11,7 +11,7 @@
     "contact": "Contacto"
   },
   "cta": {
-    "download": "Comienza Tu Calma Ahora",
+    "download": "Prueba EaseMind",
     "downloadApp": "Comienza Ahora",
     "how": "Cómo Funciona",
     "plans": "Planes",
@@ -20,7 +20,7 @@
     "subMonthly": "Suscribirse Mensual",
     "subYearly": "Suscribirse Anual",
     "finalTitle": "¿Listo Para Comenzar?",
-    "finalSubtitle": "Descarga EaseMind Y Encuentra Calma En Minutos",
+    "finalSubtitle": "Descarga EaseMind y Explora Herramientas Para Más Calma en Tu Día",
     "availableOn": "Disponible En",
     "availableAt": "Disponible En",
     "downloadOn": "Disponible En",
@@ -29,19 +29,19 @@
     "availableOnGooglePlay": "Google Play"
   },
   "hero": {
-    "h1": "Encuentra Calma Y Claridad En Minutos",
-    "subtitle": "Tu Terapeuta Virtual Luna Te Acoge, Guía Y Acompaña Con Respiración, Mindfulness Y Psicología Basada En Evidencia."
+    "h1": "Descubre Herramientas Para Más Calma y Claridad Cada Día",
+    "subtitle": "Tu asistente virtual Luna ofrece orientación amable con ejercicios de respiración, prácticas de atención plena y herramientas simples de bienestar emocional."
   },
   "benefits": {
     "title": "¿Por Qué Elegir EaseMind?",
-    "subtitle": "Apoyo Emocional Cuando Más Lo Necesitas",
+    "subtitle": "Apoyo Digital Para Tu Bienestar Emocional",
     "b1": {
       "title": "Apoyo Emocional En Cualquier Momento",
-      "description": "Habla Con Luna Y Alivia La Ansiedad Con Terapia Cognitivo-Conductual, Respiración Guiada Y Empatía Real."
+      "description": "Habla con Luna y recibe apoyo emocional con respiración guiada, preguntas reflexivas y respuestas cálidas y humanas."
     },
     "b2": {
       "title": "Sesiones Guiadas Con Música",
-      "description": "4-7-8, Box Breathing, Relajación, Gratitud, Sueño Y Enfoque — Con Música Suave."
+      "description": "Prácticas cortas de respiración y relajación con sonidos suaves para dormir, concentrarse y gratitud."
     },
     "b3": {
       "title": "Ético, Seguro Y Privado",
@@ -50,11 +50,11 @@
   },
   "howItWorks": {
     "title": "Cómo Funciona",
-    "subtitle": "Simple, Rápido Y Eficaz",
+    "subtitle": "Simple y Fácil de Usar",
     "h1": "Cómo Funciona",
     "s1": {
       "title": "Habla Con Luna",
-      "description": "Luna comprende cómo te sientes y responde con empatía. Voz natural, ritmo calmado y guía práctica.",
+      "description": "Luna escucha lo que compartes y responde de manera tranquila y solidaria, con voz natural y sugerencias simples y prácticas.",
       "feature1": "Conversaciones naturales:",
       "feature1Desc": "Luna usa procesamiento de lenguaje natural para entender tus emociones y ofrecer respuestas empáticas y contextualizadas.",
       "feature2": "Memoria contextual:",
@@ -74,7 +74,7 @@
     },
     "s3": {
       "title": "SOS con música calmante",
-      "description": "En crisis, pulsa SOS: respiración breve, contención y guía hacia ayuda inmediata.",
+      "description": "Cuando todo parezca abrumador, toca SOS para ejercicios cortos de respiración, audio relajante y orientación amable.",
       "feature1": "Activación inmediata:",
       "feature1Desc": "Un toque en el botón SOS inicia una sesión de respiración de emergencia con música calmante instantánea.",
       "feature2": "Instrucciones claras y tranquilizadoras:",
@@ -187,7 +187,7 @@
     }
   },
   "legal": {
-    "disclaimer": "EaseMind es una app de apoyo emocional y no reemplaza la terapia, el diagnóstico ni el tratamiento médico. En crisis, busca ayuda profesional.",
+    "disclaimer": "EaseMind es una aplicación de apoyo emocional y no sustituye la terapia, el diagnóstico o el tratamiento médico. En caso de emergencia, busque ayuda profesional.",
     "privacy": {
       "title": "Política de Privacidad"
     },
@@ -258,7 +258,7 @@
     "googlePlay": "Google Play",
     "madeWith": "Hecho con",
     "toHelp": "para ayudarte a encontrar calma",
-    "disclaimer": "EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.",
+    "disclaimer": "EaseMind es una aplicación de apoyo emocional y no sustituye la terapia, el diagnóstico o el tratamiento médico. En caso de emergencia, busque ayuda profesional.",
     "disclaimerLabel": "Aviso Importante:",
     "copyright": "© 2025 EaseMind. Todos los derechos reservados."
   },
