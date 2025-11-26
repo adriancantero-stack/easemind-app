@@ -59,6 +59,7 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
+app.use('/locales', express.static(path.join(__dirname, 'locales')));
 
 // Helper: Load translations
 function loadTranslations(lang) {
