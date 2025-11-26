@@ -17,5 +17,5 @@ COPY backend /app
 # Expose port
 EXPOSE 8001
 
-# Start command - run from /app directory where server.py is located
-CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "1"]
+# Start command - use shell form to allow env var expansion
+CMD uvicorn server:app --host 0.0.0.0 --port ${PORT:-8001} --workers 1
