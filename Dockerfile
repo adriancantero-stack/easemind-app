@@ -5,17 +5,17 @@ FROM python:3.11-slim
 WORKDIR /app
 
 # Copy requirements first for better caching
-COPY backend/requirements.txt /app/backend/requirements.txt
+COPY backend/requirements.txt /app/requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir --upgrade pip setuptools wheel && \
-    pip install --no-cache-dir -r /app/backend/requirements.txt
+    pip install --no-cache-dir -r /app/requirements.txt
 
 # Copy backend code
-COPY backend /app/backend
+COPY backend /app
 
 # Expose port
 EXPOSE 8001
 
-# Start command
-CMD ["uvicorn", "backend.server:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "1"]
+# Start command - run from /app directory where server.py is located
+CMD ["uvicorn", "server:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "1"]
