@@ -1604,6 +1604,7 @@ app.get('/sitemap.xml', (req, res) => {
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
   xml += 'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 
+  // Standard pages
   langs.forEach(lang => {
     pages.forEach(page => {
       xml += `  <url>\n`;
@@ -1621,6 +1622,30 @@ app.get('/sitemap.xml', (req, res) => {
 
       xml += `  </url>\n`;
     });
+  });
+
+  // Educational Pages (Pre-sell)
+  const eduPages = [
+    { lang: 'pt-BR', path: '/pt/educativo' },
+    { lang: 'en', path: '/en/educational' },
+    { lang: 'es', path: '/es/educativo' }
+  ];
+
+  eduPages.forEach(page => {
+    xml += `  <url>\n`;
+    xml += `    <loc>${baseUrl}${page.path}</loc>\n`;
+    xml += `    <lastmod>${lastMod}</lastmod>\n`;
+    xml += `    <changefreq>weekly</changefreq>\n`;
+    xml += `    <priority>0.9</priority>\n`;
+
+    // Add alternate language versions for edu pages
+    eduPages.forEach(altPage => {
+      if (altPage.lang !== page.lang) {
+        xml += `    <xhtml:link rel="alternate" hreflang="${altPage.lang}" href="${baseUrl}${altPage.path}" />\n`;
+      }
+    });
+
+    xml += `  </url>\n`;
   });
 
   xml += '</urlset>';
