@@ -139,6 +139,71 @@ function getSeoTags(page, currentLang) {
   return tags.join('\n  ');
 }
 
+// Helper: Get Open Graph Tags
+function getOpenGraphTags(page, lang, t) {
+  const baseUrl = 'https://easemind.io';
+  const currentPath = routeMap[page][lang];
+  const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
+  const url = `${baseUrl}/${urlLangPrefix}${currentPath ? '/' + currentPath : ''}`;
+  const image = `${baseUrl}/images/og-image.jpg`; // Ensure this image exists or use a default logo
+
+  return `
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="${t.meta.title}" />
+  <meta property="og:description" content="${t.meta.description}" />
+  <meta property="og:url" content="${url}" />
+  <meta property="og:image" content="${image}" />
+  <meta property="og:site_name" content="EaseMind" />
+  <meta property="og:locale" content="${lang.replace('-', '_')}" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="${t.meta.title}" />
+  <meta name="twitter:description" content="${t.meta.description}" />
+  <meta name="twitter:image" content="${image}" />
+  `;
+}
+
+// Helper: Get Schema.org JSON-LD
+function getSchemaTags(page, lang, t) {
+  const baseUrl = 'https://easemind.io';
+
+  // Organization Schema (Global)
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "EaseMind",
+    "url": baseUrl,
+    "logo": `${baseUrl}/logo.png`,
+    "sameAs": [
+      "https://instagram.com/easemind_app",
+      "https://twitter.com/easemind_app"
+    ]
+  };
+
+  // Mobile Application Schema (Home only)
+  let appSchema = null;
+  if (page === 'home') {
+    appSchema = {
+      "@context": "https://schema.org",
+      "@type": "MobileApplication",
+      "name": "EaseMind",
+      "operatingSystem": "iOS, Android",
+      "applicationCategory": "HealthApplication",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    };
+  }
+
+  return `
+  <script type="application/ld+json">
+    ${JSON.stringify(organizationSchema)}
+  </script>
+  ${appSchema ? `<script type="application/ld+json">${JSON.stringify(appSchema)}</script>` : ''}
+  `;
+}
+
 // Helper: Generate HTML template (PREMIUM DESIGN)
 function generateHTML(page, lang, t) {
   const pwaUrl = 'https://app.easemind.io';
@@ -148,6 +213,8 @@ function generateHTML(page, lang, t) {
 
   // Get SEO Tags
   const seoTags = getSeoTags(page, lang);
+  const openGraphTags = getOpenGraphTags(page, lang, t);
+  const schemaTags = getSchemaTags(page, lang, t);
 
   let content = '';
 
@@ -818,7 +885,14 @@ function generateHTML(page, lang, t) {
   
   <!-- SEO Tags (Canonical + Hreflang) -->
   ${seoTags}
+  
+  <!-- Open Graph & Twitter -->
+  ${openGraphTags}
+  
+  <!-- Schema.org JSON-LD -->
+  ${schemaTags}
 
+  <link rel="manifest" href="/manifest.json">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="stylesheet" href="/styles/main.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
