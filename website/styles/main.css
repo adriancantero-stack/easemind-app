@@ -212,7 +212,7 @@ nav {
   border: 2px solid var(--brand-soft);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(139, 111, 243, 0.15);
-  min-width: 140px;
+  min-width: auto;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
