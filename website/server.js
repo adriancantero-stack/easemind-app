@@ -229,7 +229,7 @@ function generateHTML(page, lang, t) {
             <p>${t.hero.subtitle}</p>
             <div class="cta-group">
               <a href="https://app.easemind.io/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">${t.cta.download}</a>
-              <a href="/how-it-works?lang=${lang}" class="btn btn-secondary">${t.cta.how}</a>
+              <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}" class="btn btn-secondary">${t.cta.how}</a>
             </div>
           </div>
         </section>
@@ -523,7 +523,7 @@ function generateHTML(page, lang, t) {
             
             <div style="text-align: center; margin-top: 4rem;">
               <p style="font-size: 1.125rem; margin-bottom: 1.5rem; text-align: center; margin-left: auto; margin-right: auto;">${t.faq.more}</p>
-              <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact}</a>
+              <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}" class="btn btn-primary">${t.cta.contact}</a>
             </div>
           </div>
         </section>
@@ -705,7 +705,7 @@ function generateHTML(page, lang, t) {
             ${t.about?.team?.desc2 ? `<p style="margin-top: 1.5rem;">${t.about.team.desc2}</p>` : ''}
             ${t.about?.team?.desc3 ? `<p style="margin-top: 1.5rem; font-weight: 700; font-size: 1.25rem; color: var(--brand-primary);">${t.about.team.desc3}</p>` : ''}
             <div style="margin-top: 3rem;">
-              <a href="/contact?lang=${lang}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2.5rem;">
+              <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2.5rem;">
                 ${t.cta?.contact || 'Entre em Contato'}
               </a>
             </div>
@@ -933,18 +933,18 @@ function generateHTML(page, lang, t) {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
-            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
-            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
-            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
-            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
-            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['about'][lang]}">${t.footer.about}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}">${t.footer.how}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
           </ul>
         </div>
         <div class="footer-links">
           <h4>${t.footer.legal}</h4>
           <ul>
-            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
-            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['privacy'][lang]}">${t.footer.privacy}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['terms'][lang]}">${t.footer.terms}</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -1567,7 +1567,7 @@ app.get('/privacy', (req, res) => {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
@@ -1597,18 +1597,18 @@ app.get('/privacy', (req, res) => {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
-            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
-            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
-            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
-            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
-            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['about'][lang]}">${t.footer.about}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}">${t.footer.how}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
           </ul>
         </div>
         <div class="footer-links">
           <h4>${t.footer.legal}</h4>
           <ul>
-            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
-            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['privacy'][lang]}">${t.footer.privacy}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['terms'][lang]}">${t.footer.terms}</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -1659,7 +1659,7 @@ app.get('/terms', (req, res) => {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
@@ -1689,18 +1689,18 @@ app.get('/terms', (req, res) => {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
-            <li><a href="/about?lang=${lang}">${t.footer.about}</a></li>
-            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
-            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
-            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
-            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['about'][lang]}">${t.footer.about}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}">${t.footer.how}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
           </ul>
         </div>
         <div class="footer-links">
           <h4>${t.footer.legal}</h4>
           <ul>
-            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
-            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['privacy'][lang]}">${t.footer.privacy}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['terms'][lang]}">${t.footer.terms}</a></li>
           </ul>
         </div>
         <div class="footer-links">
