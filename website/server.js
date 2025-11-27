@@ -91,12 +91,63 @@ function detectLanguage(req) {
   return 'en';
 }
 
+// Route Mappings for Localization
+const routeMap = {
+  'home': { 'pt-BR': '', 'en': '', 'es': '' },
+  'how-it-works': { 'pt-BR': 'como-funciona', 'en': 'how-it-works', 'es': 'como-funciona' },
+  'plans': { 'pt-BR': 'planos', 'en': 'plans', 'es': 'planes' },
+  'faq': { 'pt-BR': 'faq', 'en': 'faq', 'es': 'faq' },
+  'contact': { 'pt-BR': 'contato', 'en': 'contact', 'es': 'contacto' },
+  'about': { 'pt-BR': 'sobre', 'en': 'about', 'es': 'sobre' },
+  'privacy': { 'pt-BR': 'privacidade', 'en': 'privacy', 'es': 'privacidad' },
+  'terms': { 'pt-BR': 'termos', 'en': 'terms', 'es': 'terminos' }
+};
+
+// Reverse map for lookup: { 'pt-BR': { 'como-funciona': 'how-it-works' } }
+const reverseRouteMap = {
+  'pt-BR': {}, 'en': {}, 'es': {}
+};
+Object.keys(routeMap).forEach(key => {
+  reverseRouteMap['pt-BR'][routeMap[key]['pt-BR']] = key;
+  reverseRouteMap['en'][routeMap[key]['en']] = key;
+  reverseRouteMap['es'][routeMap[key]['es']] = key;
+});
+
+// Helper: Get canonical URL and alternates
+function getSeoTags(page, currentLang) {
+  const baseUrl = 'https://easemind.io';
+  const tags = [];
+
+  // Canonical
+  const currentPath = routeMap[page][currentLang];
+  const canonicalPath = currentLang === 'en' && currentPath === '' ? '' : `/${currentLang === 'pt-BR' ? 'pt' : currentLang}${currentPath ? '/' + currentPath : ''}`;
+  tags.push(`<link rel="canonical" href="${baseUrl}${canonicalPath}" />`);
+
+  // Hreflang
+  ['en', 'pt-BR', 'es'].forEach(lang => {
+    const path = routeMap[page][lang];
+    const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
+    const finalUrl = `${baseUrl}/${urlLangPrefix}${path ? '/' + path : ''}`;
+
+    tags.push(`<link rel="alternate" hreflang="${lang}" href="${finalUrl}" />`);
+  });
+
+  // x-default (English)
+  const defaultPath = routeMap[page]['en'];
+  tags.push(`<link rel="alternate" hreflang="x-default" href="${baseUrl}/en${defaultPath ? '/' + defaultPath : ''}" />`);
+
+  return tags.join('\n  ');
+}
+
 // Helper: Generate HTML template (PREMIUM DESIGN)
 function generateHTML(page, lang, t) {
   const pwaUrl = 'https://app.easemind.io';
   const appStoreUrl = 'https://apps.apple.com/app/easemind';  // Legacy
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';  // Legacy
   const appPreviewUrl = 'https://easemind-control.preview.emergentagent.com';
+
+  // Get SEO Tags
+  const seoTags = getSeoTags(page, lang);
 
   let content = '';
 
@@ -758,32 +809,44 @@ function generateHTML(page, lang, t) {
     gtag('js', new Date());
     gtag('config', 'AW-413235931');
   </script>
-  
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${t.meta.title}</title>
   <meta name="description" content="${t.meta.description}">
+  <meta name="keywords" content="${t.meta.keywords}">
+  
+  <!-- SEO Tags (Canonical + Hreflang) -->
+  ${seoTags}
+
   <link rel="icon" type="image/png" href="/favicon.png">
-  <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="stylesheet" href="/styles/main.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
-      <div class="lang-selector">
-        <button class="lang-selector-button">
-          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
-        </button>
-        <div class="lang-selector-dropdown">
-          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+      <div class="nav-links">
+        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}">${t.nav.how}</a>
+        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.nav.plans}</a>
+        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.nav.contact}</a>
+      </div>
+      <div class="header-actions">
+        <div class="lang-selector">
+          <button class="lang-selector-button">
+            ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          </button>
+          <div class="lang-selector-dropdown">
+            <a href="/pt${page === 'home' ? '' : '/' + routeMap[page]['pt-BR']}" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
+            <a href="/en${page === 'home' ? '' : '/' + routeMap[page]['en']}" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+            <a href="/es${page === 'home' ? '' : '/' + routeMap[page]['es']}" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          </div>
         </div>
+        <a href="${pwaUrl}" class="btn btn-primary btn-sm">${t.cta.downloadApp || 'Baixar'}</a>
       </div>
     </nav>
   </header>
@@ -1593,30 +1656,158 @@ app.get('/terms', (req, res) => {
   `);
 });
 
+// Here I will replace the ROUTES.
+
+// Root redirect
+app.get('/', (req, res) => {
+  // Check if it's a legacy query param request
+  if (req.query.lang) {
+    const lang = req.query.lang;
+    const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
+    return res.redirect(301, `/${urlPrefix}`);
+  }
+
+  // Detect language and redirect
+  const lang = detectLanguage(req);
+  const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
+  res.redirect(302, `/${urlPrefix}`);
+});
+
+// Legacy redirects (Query params to new URLs)
+const legacyPages = ['how-it-works', 'plans', 'faq', 'contact', 'about', 'privacy', 'terms'];
+legacyPages.forEach(page => {
+  app.get(`/${page}`, (req, res) => {
+    const lang = detectLanguage(req);
+    const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
+    // Find the localized slug
+    // We need to know which page key this corresponds to. 
+    // Since legacy pages match the keys in routeMap (mostly), we can map them.
+    const key = page;
+    const newSlug = routeMap[key][lang];
+    res.redirect(301, `/${urlPrefix}/${newSlug}`);
+  });
+});
+
+// Dynamic Route Handler for Localized Pages
+// /:lang/:slug
+app.get('/:langPrefix/:slug?', (req, res, next) => {
+  const { langPrefix, slug } = req.params;
+
+  // Validate language prefix
+  if (!['pt', 'en', 'es'].includes(langPrefix)) {
+    return next(); // Not a language route, maybe a static file or API
+  }
+
+  const lang = langPrefix === 'pt' ? 'pt-BR' : langPrefix;
+
+  // Handle Home (empty slug)
+  if (!slug) {
+    const t = loadTranslations(lang);
+    return res.send(generateHTML('home', lang, t));
+  }
+
+  // Handle Internal Pages
+  // Find which page key corresponds to this slug for this language
+  const pageKey = reverseRouteMap[lang][slug];
+
+  if (pageKey) {
+    const t = loadTranslations(lang);
+    if (['privacy', 'terms'].includes(pageKey)) {
+      // Legal pages use specific loader
+      const html = loadLegal(pageKey, lang);
+      // We need to wrap this in the layout or update generateHTML to handle legal content
+      // For now, let's use a simple wrapper similar to before but with SEO tags
+      // Actually, the previous code had inline HTML for privacy/terms. 
+      // Let's use generateHTML if possible, or keep the inline logic but improved.
+      // The previous code for privacy was:
+      /*
+      app.get('/privacy', (req, res) => {
+        const lang = detectLanguage(req);
+        const t = loadTranslations(lang);
+        const html = loadLegal('privacy', lang);
+        res.send(`...`);
+      });
+      */
+      // I will create a helper to render legal pages to keep it clean.
+      return res.send(renderLegalPage(pageKey, lang, t, html));
+    }
+    return res.send(generateHTML(pageKey, lang, t));
+  }
+
+  // 404 for this language
+  res.status(404).send('Page not found');
+});
+
+// Helper for Legal Pages (Privacy/Terms)
+function renderLegalPage(type, lang, t, content) {
+  const seoTags = getSeoTags(type, lang);
+  return `
+<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-413235931"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-413235931');
+  </script>
+  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${t.legal[type].title} - EaseMind</title>
+  ${seoTags}
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #2D3748; margin-bottom: 2rem; }
+    h2 { color: #4A5568; margin-top: 2rem; }
+    p { margin-bottom: 1rem; }
+    .back-link { display: inline-block; margin-bottom: 2rem; color: #667EEA; text-decoration: none; font-weight: 500; }
+    .back-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="back-link">← ${t.nav.home}</a>
+  ${content}
+</body>
+</html>
+  `;
+}
+
 // Sitemap
 app.get('/sitemap.xml', (req, res) => {
   const baseUrl = 'https://easemind.io';
-  const langs = ['pt-BR', 'en', 'es'];
-  const pages = ['', '/how-it-works', '/plans', '/faq', '/contact', '/privacy', '/terms'];
-  const lastMod = new Date().toISOString().split('T')[0]; // YYYY-MM-DD format
+  const lastMod = new Date().toISOString().split('T')[0];
 
   let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
   xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" ';
   xml += 'xmlns:xhtml="http://www.w3.org/1999/xhtml">\n';
 
-  // Standard pages
-  langs.forEach(lang => {
-    pages.forEach(page => {
+  // Generate URLs for all pages in all languages
+  Object.keys(routeMap).forEach(pageKey => {
+    ['pt-BR', 'en', 'es'].forEach(lang => {
+      const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
+      const slug = routeMap[pageKey][lang];
+      const path = slug ? `/${slug}` : '';
+      const loc = `${baseUrl}/${urlPrefix}${path}`;
+
       xml += `  <url>\n`;
-      xml += `    <loc>${baseUrl}${page}?lang=${lang}</loc>\n`;
+      xml += `    <loc>${loc}</loc>\n`;
       xml += `    <lastmod>${lastMod}</lastmod>\n`;
       xml += `    <changefreq>weekly</changefreq>\n`;
-      xml += `    <priority>${page === '' ? '1.0' : page === '/plans' ? '0.9' : '0.8'}</priority>\n`;
+      xml += `    <priority>${pageKey === 'home' ? '1.0' : '0.8'}</priority>\n`;
 
-      // Add alternate language versions (hreflang)
-      langs.forEach(altLang => {
+      // Hreflangs
+      ['pt-BR', 'en', 'es'].forEach(altLang => {
         if (altLang !== lang) {
-          xml += `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${baseUrl}${page}?lang=${altLang}" />\n`;
+          const altPrefix = altLang === 'pt-BR' ? 'pt' : altLang;
+          const altSlug = routeMap[pageKey][altLang];
+          const altPath = altSlug ? `/${altSlug}` : '';
+          xml += `    <xhtml:link rel="alternate" hreflang="${altLang}" href="${baseUrl}/${altPrefix}${altPath}" />\n`;
         }
       });
 
@@ -1624,7 +1815,13 @@ app.get('/sitemap.xml', (req, res) => {
     });
   });
 
-  // Educational Pages (Pre-sell)
+  // Educational Pages (Pre-sell) - Keep existing logic but update URLs if needed
+  // User didn't explicitly ask to change these, but for consistency:
+  // /pt/educativo, /en/educational, /es/educativo match the pattern /:lang/:slug
+  // We can add them to routeMap or keep them separate if they use a different template (educativo.html)
+  // They use `educativo.html`, so we should handle them separately or integrate.
+  // Let's keep them explicit for now to avoid breaking the static file serving.
+
   const eduPages = [
     { lang: 'pt-BR', path: '/pt/educativo' },
     { lang: 'en', path: '/en/educational' },
@@ -1637,14 +1834,11 @@ app.get('/sitemap.xml', (req, res) => {
     xml += `    <lastmod>${lastMod}</lastmod>\n`;
     xml += `    <changefreq>weekly</changefreq>\n`;
     xml += `    <priority>0.9</priority>\n`;
-
-    // Add alternate language versions for edu pages
     eduPages.forEach(altPage => {
       if (altPage.lang !== page.lang) {
         xml += `    <xhtml:link rel="alternate" hreflang="${altPage.lang}" href="${baseUrl}${altPage.path}" />\n`;
       }
     });
-
     xml += `  </url>\n`;
   });
 
