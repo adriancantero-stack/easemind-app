@@ -906,13 +906,17 @@ function generateHTML(page, lang, t) {
       </a>
       <div class="header-actions">
         <div class="lang-selector">
-          <button class="lang-selector-button">
-            ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          <button class="lang-selector-button" aria-label="Select Language">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="2" y1="12" x2="22" y2="12"></line>
+              <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+            </svg>
           </button>
           <div class="lang-selector-dropdown">
-            <a href="/pt${page === 'home' ? '' : '/' + routeMap[page]['pt-BR']}" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-            <a href="/en${page === 'home' ? '' : '/' + routeMap[page]['en']}" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-            <a href="/es${page === 'home' ? '' : '/' + routeMap[page]['es']}" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+            <a href="/pt${page === 'home' ? '' : '/' + routeMap[page]['pt-BR']}" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 PT</a>
+            <a href="/en${page === 'home' ? '' : '/' + routeMap[page]['en']}" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 EN</a>
+            <a href="/es${page === 'home' ? '' : '/' + routeMap[page]['es']}" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 ES</a>
           </div>
         </div>
       </div>
@@ -1663,13 +1667,17 @@ app.get('/terms', (req, res) => {
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
-        <button class="lang-selector-button">
-          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+        <button class="lang-selector-button" aria-label="Select Language">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
         </button>
         <div class="lang-selector-dropdown">
-          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 PT</a>
+          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 EN</a>
+          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 ES</a>
         </div>
       </div>
     </nav>

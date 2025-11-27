@@ -136,6 +136,12 @@ nav {
   margin: 0;
 }
 
+@media (min-width: 768px) {
+  nav {
+    flex-direction: row-reverse;
+  }
+}
+
 .logo {
   display: flex;
   align-items: center;
