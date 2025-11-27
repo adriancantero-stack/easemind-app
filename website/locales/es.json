@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "EaseMind — Encuentra calma y claridad con Luna",
-    "description": "IA empática para bienestar mental. Respiración guiada, SOS con música, diario emocional y contenido de autocuidado."
+    "description": "IA empática para bienestar mental. Respiración guiada, SOS con música, diario emocional y contenido de autocuidado.",
+    "keywords": "calma, bienestar emocional, meditación, respiración, apoyo emocional, mindfulness, autocuidado"
   },
   "nav": {
     "home": "Inicio",

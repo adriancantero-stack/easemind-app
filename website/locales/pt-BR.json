@@ -1,7 +1,8 @@
 {
   "meta": {
     "title": "EaseMind — Encontre calma e claridade com a Luna",
-    "description": "App de bem-estar mental com IA empática. Respiração guiada, SOS com música, diário emocional e conteúdo para autocuidado."
+    "description": "App de bem-estar mental com IA empática. Respiração guiada, SOS com música, diário emocional e conteúdo para autocuidado.",
+    "keywords": "calma, bem-estar emocional, meditação, respiração, apoio emocional, mindfulness, autocuidado"
   },
   "nav": {
     "home": "Início",
