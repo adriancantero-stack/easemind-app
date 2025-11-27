@@ -904,11 +904,6 @@ function generateHTML(page, lang, t) {
       <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
-      <div class="nav-links">
-        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['how-it-works'][lang]}">${t.nav.how}</a>
-        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.nav.plans}</a>
-        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.nav.contact}</a>
-      </div>
       <div class="header-actions">
         <div class="lang-selector">
           <button class="lang-selector-button">
@@ -920,7 +915,6 @@ function generateHTML(page, lang, t) {
             <a href="/es${page === 'home' ? '' : '/' + routeMap[page]['es']}" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
           </div>
         </div>
-        <a href="${pwaUrl}" class="btn btn-primary btn-sm">${t.cta.downloadApp || 'Baixar'}</a>
       </div>
     </nav>
   </header>
