@@ -1346,6 +1346,28 @@ async def sync_firebase_user(request: UserSyncRequest):
             users_collection.insert_one(new_user)
             logger.info(f"✅ Created new user: {request.firebase_uid}")
             
+            # Send welcome email asynchronously
+            try:
+                from services.email_service import EmailService
+                email_service = EmailService()
+                user_language = new_user.get('language', 'pt-BR')
+                user_name = new_user.get('display_name', 'Usuário')
+                
+                # Send welcome email (non-blocking)
+                email_sent = email_service.send_welcome_email(
+                    email=request.email,
+                    name=user_name,
+                    language=user_language
+                )
+                
+                if email_sent:
+                    logger.info(f"📧 Welcome email sent to {request.email}")
+                else:
+                    logger.warning(f"⚠️ Failed to send welcome email to {request.email}")
+            except Exception as email_error:
+                # Don't fail user creation if email fails
+                logger.error(f"❌ Error sending welcome email: {email_error}")
+            
             return {
                 "success": True,
                 "message": "User created successfully",
