@@ -46,25 +46,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         console.log('🔐 Auth state changed:', firebaseUser ? 'Logged in' : 'Logged out');
-        
+
         // Clear timeout since we got a response
         clearTimeout(timeoutId);
-        
+
         if (firebaseUser) {
-          // Usuário logado com Firebase
-          setUser(firebaseUser);
-          
-          // Sincronizar com backend
+          // Sincronizar com backend ANTES de liberar o usuário
           try {
             console.log('📡 Syncing user with backend:', firebaseUser.uid);
-            console.log('📡 Backend URL:', backendUrl);
-            console.log('📡 User data:', {
-              firebase_uid: firebaseUser.uid,
-              email: firebaseUser.email || '',
-              display_name: firebaseUser.displayName || 'Usuário',
-              photo_url: firebaseUser.photoURL || null,
-            });
-            
+
             const response = await fetch(`${backendUrl}/api/user/sync`, {
               method: 'POST',
               headers: {
@@ -78,23 +68,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               }),
             });
 
-            console.log('📡 Response status:', response.status);
-            const responseText = await response.text();
-            console.log('📡 Response body:', responseText);
-            
             if (response.ok) {
-              const data = JSON.parse(responseText);
+              const data = await response.json();
               console.log('✅ User synced with backend:', data);
-              
-              // Atualizar userId no store com o Firebase UID
+
+              // Atualizar userId no store
               const store = useStore.getState();
               if (store.userId !== firebaseUser.uid) {
-                console.log('📝 Atualizando userId no store:', firebaseUser.uid);
-                // Limpar dados do usuário anterior e atualizar para o novo
                 await store.setUserId(firebaseUser.uid);
               }
-              
-              // Carregar preferências do backend (tema e idioma)
+
+              // Carregar preferências
               await store.loadPreferencesFromBackend();
             } else {
               console.error('❌ Failed to sync user with backend');
@@ -102,12 +86,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           } catch (error) {
             console.error('❌ Error syncing user:', error);
           }
+
+          // Só agora liberar o usuário para o app
+          setUser(firebaseUser);
         } else {
-          // Usuário não logado - usar modo visitante
+          // Usuário não logado
           setUser(null);
           console.log('👤 Modo visitante ativo');
         }
-        
+
         setLoading(false);
       });
     } catch (error) {
