@@ -15,8 +15,8 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
-import { 
-  signInWithEmailAndPassword, 
+import {
+  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithCredential,
@@ -60,7 +60,8 @@ export default function LoginScreen() {
         .then((result) => {
           if (result) {
             console.log('✅ Login com Google realizado via redirect');
-            router.replace('/(tabs)/');
+            console.log('✅ Login com Google realizado via redirect');
+            router.replace('/');
           }
         })
         .catch((error) => {
@@ -106,17 +107,17 @@ export default function LoginScreen() {
         // Login
         await signInWithEmailAndPassword(auth, email, password);
         console.log('✅ Login realizado com sucesso');
-        router.replace('/(tabs)/');
+        router.replace('/');
       } else {
         // Cadastro
         await createUserWithEmailAndPassword(auth, email, password);
         console.log('✅ Cadastro realizado com sucesso');
-        router.replace('/(tabs)/');
+        router.replace('/');
       }
     } catch (error: any) {
       console.error('❌ Erro de autenticação:', error);
       let errorMessage = t('auth.unknownError');
-      
+
       if (error.code === 'auth/email-already-in-use') {
         errorMessage = t('auth.emailInUse');
       } else if (error.code === 'auth/invalid-email') {
@@ -126,7 +127,7 @@ export default function LoginScreen() {
       } else if (error.code === 'auth/weak-password') {
         errorMessage = t('auth.weakPassword');
       }
-      
+
       Alert.alert(t('auth.error'), errorMessage);
     } finally {
       setLoading(false);
@@ -142,21 +143,21 @@ export default function LoginScreen() {
         provider.setCustomParameters({
           prompt: 'select_account'
         });
-        
+
         console.log('🔐 Tentando login com Google...');
-        
+
         try {
           // Tentar popup primeiro
           const result = await signInWithPopup(auth, provider);
           console.log('✅ Login com Google realizado (Popup)', result.user.email);
-          router.replace('/(tabs)/');
+          router.replace('/');
         } catch (popupError: any) {
           console.error('❌ Erro no popup:', popupError);
-          
+
           // Verificar se é erro de conta já existente
           if (popupError.code === 'auth/account-exists-with-different-credential') {
             console.log('⚠️ Conta já existe com credencial diferente');
-            
+
             // Oferecer vincular contas
             if (Platform.OS === 'web') {
               const shouldLink = window.confirm(
@@ -164,27 +165,27 @@ export default function LoginScreen() {
                 'Deseja vincular sua conta do Google a esta conta existente? ' +
                 'Você precisará fazer login com email e senha primeiro.'
               );
-              
+
               if (shouldLink) {
                 const emailInput = window.prompt('Digite seu email:');
                 const passwordInput = window.prompt('Digite sua senha:');
-                
+
                 if (emailInput && passwordInput) {
                   try {
                     // Fazer login com email/senha primeiro
                     const credential = await signInWithEmailAndPassword(auth, emailInput, passwordInput);
                     console.log('✅ Login com email/senha realizado');
-                    
+
                     // Agora vincular com Google
                     const googleCredential = GoogleAuthProvider.credential(
                       popupError.customData._tokenResponse.oauthIdToken
                     );
-                    
+
                     await credential.user.linkWithCredential(googleCredential);
                     console.log('✅ Contas vinculadas com sucesso!');
-                    
+
                     window.alert('Contas vinculadas! Agora você pode fazer login com Google ou email/senha.');
-                    router.replace('/(tabs)/');
+                    router.replace('/');
                   } catch (linkError: any) {
                     console.error('❌ Erro ao vincular contas:', linkError);
                     window.alert('Erro ao vincular contas: ' + linkError.message);
@@ -194,11 +195,11 @@ export default function LoginScreen() {
             }
             return;
           }
-          
+
           // Se popup foi bloqueado, usar redirect
-          if (popupError.code === 'auth/popup-blocked' || 
-              popupError.code === 'auth/popup-closed-by-user' ||
-              popupError.code === 'auth/cancelled-popup-request') {
+          if (popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/popup-closed-by-user' ||
+            popupError.code === 'auth/cancelled-popup-request') {
             console.log('⚠️ Popup bloqueado, usando redirect...');
             await signInWithRedirect(auth, provider);
             // O redirect vai recarregar a página, o useEffect vai pegar o resultado
@@ -216,7 +217,7 @@ export default function LoginScreen() {
       }
     } catch (error: any) {
       console.error('❌ Erro no Google Sign-In:', error);
-      
+
       // Tratar diferentes tipos de erro
       if (error.code === 'auth/popup-closed-by-user') {
         console.log('Login cancelado pelo usuário');
@@ -252,28 +253,28 @@ export default function LoginScreen() {
       }
       return;
     }
-    
+
     setLoading(true);
     try {
       // Configure language for Firebase emails based on user's app language
       const language = useStore.getState().language;
       auth.languageCode = language;
-      
+
       console.log(`📧 Sending password reset email to ${email} in ${language}`);
       await sendPasswordResetEmail(auth, email);
-      
+
       console.log('✅ Password reset email sent');
-      
+
       if (Platform.OS === 'web') {
         window.alert(t('auth.resetEmailSent'));
       } else {
         Alert.alert(t('auth.resetPassword'), t('auth.resetEmailSent'));
       }
-      
+
       setShowForgotPassword(false);
     } catch (error: any) {
       console.error('❌ Reset password error:', error);
-      
+
       if (Platform.OS === 'web') {
         window.alert(t('auth.resetEmailError'));
       } else {
@@ -287,189 +288,189 @@ export default function LoginScreen() {
   return (
     <ResponsiveContainer>
       <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]}>
-        <KeyboardAvoidingView 
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        style={styles.keyboardView}
-      >
-        <ScrollView contentContainerStyle={styles.scrollContent}>
-          {/* Logo/Header */}
-          <View style={styles.header}>
-            <Image 
-              source={isDarkMode 
-                ? require('../../assets/images/logo-easemind-dark-new.png')
-                : require('../../assets/images/logo-easemind-light.png')
-              }
-              style={styles.logoImage}
-              resizeMode="contain"
-            />
-            <Text style={[styles.subtitle, { color: currentTheme.textSecondary }]}>
-              {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
-            </Text>
-          </View>
-
-          {/* Google Sign-In - FIRST AND LARGER */}
-          {isHydrated ? (
-            <TouchableOpacity
-              style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.accent1 }]}
-              onPress={handleGoogleSignIn}
-              disabled={loading}
-            >
-              <Ionicons name="logo-google" size={32} color="#EA4335" />
-              <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
-                {t('auth.continueWithGoogle')}
-              </Text>
-            </TouchableOpacity>
-          ) : (
-            <View style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30', opacity: 0.5 }]}>
-              <Ionicons name="logo-google" size={32} color="#EA4335" />
-              <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
-                {t('auth.continueWithGoogle')}
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={styles.keyboardView}
+        >
+          <ScrollView contentContainerStyle={styles.scrollContent}>
+            {/* Logo/Header */}
+            <View style={styles.header}>
+              <Image
+                source={isDarkMode
+                  ? require('../../assets/images/logo-easemind-dark-new.png')
+                  : require('../../assets/images/logo-easemind-light.png')
+                }
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
+              <Text style={[styles.subtitle, { color: currentTheme.textSecondary }]}>
+                {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
               </Text>
             </View>
-          )}
 
-          {/* Divider */}
-          <View style={styles.divider}>
-            <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
-            <Text style={[styles.dividerText, { color: currentTheme.textSecondary }]}>
-              {t('auth.orContinueWith')}
-            </Text>
-            <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
-          </View>
+            {/* Google Sign-In - FIRST AND LARGER */}
+            {isHydrated ? (
+              <TouchableOpacity
+                style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.accent1 }]}
+                onPress={handleGoogleSignIn}
+                disabled={loading}
+              >
+                <Ionicons name="logo-google" size={32} color="#EA4335" />
+                <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
+                  {t('auth.continueWithGoogle')}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <View style={[styles.googleButtonLarge, { backgroundColor: currentTheme.card, borderColor: currentTheme.textSecondary + '30', opacity: 0.5 }]}>
+                <Ionicons name="logo-google" size={32} color="#EA4335" />
+                <Text style={[styles.googleButtonLargeText, { color: currentTheme.text }]}>
+                  {t('auth.continueWithGoogle')}
+                </Text>
+              </View>
+            )}
 
-          {/* Email Input */}
-          <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.card }]}
-              placeholder={t('auth.email')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-            />
-          </View>
+            {/* Divider */}
+            <View style={styles.divider}>
+              <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
+              <Text style={[styles.dividerText, { color: currentTheme.textSecondary }]}>
+                {t('auth.orContinueWith')}
+              </Text>
+              <View style={[styles.dividerLine, { backgroundColor: currentTheme.textSecondary + '30' }]} />
+            </View>
 
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <Ionicons name="lock-closed-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.card }]}
-              placeholder={t('auth.password')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
-              autoComplete="password"
-            />
-            <TouchableOpacity 
-              onPress={() => setShowPassword(!showPassword)}
-              style={styles.eyeIcon}
-            >
-              <Ionicons 
-                name={showPassword ? "eye-outline" : "eye-off-outline"} 
-                size={20} 
-                color={currentTheme.textSecondary} 
+            {/* Email Input */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.card }]}
+                placeholder={t('auth.email')}
+                placeholderTextColor={currentTheme.textSecondary}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
               />
-            </TouchableOpacity>
-          </View>
+            </View>
 
-          {/* Forgot Password Link */}
-          {isLogin && (
-            <TouchableOpacity 
-              onPress={() => setShowForgotPassword(true)}
-              style={styles.forgotPasswordContainer}
+            {/* Password Input */}
+            <View style={styles.inputContainer}>
+              <Ionicons name="lock-closed-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.card }]}
+                placeholder={t('auth.password')}
+                placeholderTextColor={currentTheme.textSecondary}
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!showPassword}
+                autoComplete="password"
+              />
+              <TouchableOpacity
+                onPress={() => setShowPassword(!showPassword)}
+                style={styles.eyeIcon}
+              >
+                <Ionicons
+                  name={showPassword ? "eye-outline" : "eye-off-outline"}
+                  size={20}
+                  color={currentTheme.textSecondary}
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Forgot Password Link */}
+            {isLogin && (
+              <TouchableOpacity
+                onPress={() => setShowForgotPassword(true)}
+                style={styles.forgotPasswordContainer}
+              >
+                <Text style={[styles.forgotPasswordText, { color: currentTheme.accent1 }]}>
+                  {t('auth.forgotPassword')}
+                </Text>
+              </TouchableOpacity>
+            )}
+
+            {/* Login/Signup Button */}
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
+              onPress={handleEmailAuth}
+              disabled={loading}
             >
-              <Text style={[styles.forgotPasswordText, { color: currentTheme.accent1 }]}>
-                {t('auth.forgotPassword')}
+              {loading ? (
+                <ActivityIndicator color="#FFF" />
+              ) : (
+                <Text style={styles.buttonText}>
+                  {isLogin ? t('auth.signIn') : t('auth.signUp')}
+                </Text>
+              )}
+            </TouchableOpacity>
+
+            {/* Toggle Login/Signup */}
+            <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={styles.toggleButton}>
+              <Text style={[styles.toggleText, { color: currentTheme.textSecondary }]}>
+                {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
+                <Text style={[styles.toggleLink, { color: currentTheme.accent1 }]}>
+                  {isLogin ? t('auth.signUp') : t('auth.signIn')}
+                </Text>
               </Text>
             </TouchableOpacity>
-          )}
 
-          {/* Login/Signup Button */}
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
-            onPress={handleEmailAuth}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#FFF" />
-            ) : (
-              <Text style={styles.buttonText}>
-                {isLogin ? t('auth.signIn') : t('auth.signUp')}
-              </Text>
-            )}
-          </TouchableOpacity>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
 
-          {/* Toggle Login/Signup */}
-          <TouchableOpacity onPress={() => setIsLogin(!isLogin)} style={styles.toggleButton}>
-            <Text style={[styles.toggleText, { color: currentTheme.textSecondary }]}>
-              {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
-              <Text style={[styles.toggleLink, { color: currentTheme.accent1 }]}>
-                {isLogin ? t('auth.signUp') : t('auth.signIn')}
-              </Text>
+      {/* Forgot Password Modal */}
+      <Modal
+        visible={showForgotPassword}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setShowForgotPassword(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={[styles.modalContent, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
+              {t('auth.resetPasswordTitle')}
             </Text>
-          </TouchableOpacity>
+            <Text style={[styles.modalMessage, { color: currentTheme.textSecondary }]}>
+              {t('auth.resetPasswordMessage')}
+            </Text>
 
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+            <View style={styles.inputContainer}>
+              <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
+              <TextInput
+                style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.bg }]}
+                placeholder={t('auth.email')}
+                placeholderTextColor={currentTheme.textSecondary}
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+                autoComplete="email"
+              />
+            </View>
 
-    {/* Forgot Password Modal */}
-    <Modal
-      visible={showForgotPassword}
-      animationType="slide"
-      transparent={true}
-      onRequestClose={() => setShowForgotPassword(false)}
-    >
-      <View style={styles.modalOverlay}>
-        <View style={[styles.modalContent, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.modalTitle, { color: currentTheme.text }]}>
-            {t('auth.resetPasswordTitle')}
-          </Text>
-          <Text style={[styles.modalMessage, { color: currentTheme.textSecondary }]}>
-            {t('auth.resetPasswordMessage')}
-          </Text>
+            <TouchableOpacity
+              style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
+              onPress={handleForgotPassword}
+              disabled={loading}
+            >
+              {loading ? (
+                <ActivityIndicator color="#fff" />
+              ) : (
+                <Text style={styles.buttonText}>{t('auth.sendResetLink')}</Text>
+              )}
+            </TouchableOpacity>
 
-          <View style={styles.inputContainer}>
-            <Ionicons name="mail-outline" size={20} color={currentTheme.textSecondary} style={styles.inputIcon} />
-            <TextInput
-              style={[styles.input, { color: currentTheme.text, backgroundColor: currentTheme.bg }]}
-              placeholder={t('auth.email')}
-              placeholderTextColor={currentTheme.textSecondary}
-              value={email}
-              onChangeText={setEmail}
-              keyboardType="email-address"
-              autoCapitalize="none"
-              autoComplete="email"
-            />
+            <TouchableOpacity
+              style={styles.modalCancelButton}
+              onPress={() => setShowForgotPassword(false)}
+            >
+              <Text style={[styles.modalCancelText, { color: currentTheme.textSecondary }]}>
+                {t('auth.backToLogin')}
+              </Text>
+            </TouchableOpacity>
           </View>
-
-          <TouchableOpacity
-            style={[styles.button, { backgroundColor: currentTheme.accent1 }]}
-            onPress={handleForgotPassword}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>{t('auth.sendResetLink')}</Text>
-            )}
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.modalCancelButton}
-            onPress={() => setShowForgotPassword(false)}
-          >
-            <Text style={[styles.modalCancelText, { color: currentTheme.textSecondary }]}>
-              {t('auth.backToLogin')}
-            </Text>
-          </TouchableOpacity>
         </View>
-      </View>
-    </Modal>
+      </Modal>
 
     </ResponsiveContainer>
   );
