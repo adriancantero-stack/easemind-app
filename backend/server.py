@@ -1339,6 +1339,7 @@ async def sync_firebase_user(request: UserSyncRequest):
                 "gender": None,
                 "profile_photo": None,
                 "sos_contacts": [],
+                "profile_completed": False,  # Novo campo para onboarding
                 "created_at": datetime.utcnow(),
                 "last_login": datetime.utcnow()
             }
@@ -1399,7 +1400,8 @@ async def update_user_profile(request: UserProfileUpdateRequest):
         
         # Preparar dados de atualização
         update_data = {
-            "updated_at": datetime.utcnow()
+            "updated_at": datetime.utcnow(),
+            "profile_completed": True  # Marcar perfil como completo ao salvar
         }
         
         if request.display_name is not None:

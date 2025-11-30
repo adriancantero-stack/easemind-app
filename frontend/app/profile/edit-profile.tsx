@@ -12,7 +12,7 @@ import {
   Platform,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
+import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import { useAuth } from '../../contexts/AuthContext';
@@ -34,13 +34,15 @@ interface UserProfile {
 export default function EditProfileScreen() {
   const { t } = useTranslation();
   const router = useRouter();
+  const params = useLocalSearchParams();
+  const isOnboarding = params.onboarding === 'true';
   const { user } = useAuth();
   const isDarkMode = useStore((state) => state.isDarkMode);
   const currentTheme = isDarkMode ? theme.dark : theme.light;
 
   const [loading, setLoading] = useState(false);
   const [fetchingProfile, setFetchingProfile] = useState(true);
-  
+
   // Estados do formulário
   const [displayName, setDisplayName] = useState('');
   const [profilePhoto, setProfilePhoto] = useState<string | null>(null);
@@ -93,11 +95,11 @@ export default function EditProfileScreen() {
       const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL;
       console.log('🔍 Fetching profile - Backend URL:', backendUrl);
       const response = await fetch(`${backendUrl}/api/user/profile/${user.uid}`);
-      
+
       if (response.ok) {
         const data = await response.json();
         const profile = data.user;
-        
+
         setDisplayName(profile.display_name || '');
         setProfilePhoto(profile.profile_photo);
         setSelectedGoals(profile.goals || []);
@@ -117,7 +119,7 @@ export default function EditProfileScreen() {
     try {
       // Solicitar permissão
       const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-      
+
       if (status !== 'granted') {
         Alert.alert(
           t('profile.error'),
@@ -153,6 +155,16 @@ export default function EditProfileScreen() {
 
   const handleSave = async () => {
     try {
+      // Validar nome obrigatório no onboarding
+      if (isOnboarding && displayName.trim().length < 2) {
+        if (Platform.OS === 'web') {
+          window.alert(t('profile.nameRequired'));
+        } else {
+          Alert.alert(t('profile.error'), t('profile.nameRequired'));
+        }
+        return;
+      }
+
       setLoading(true);
 
       if (!user?.uid) {
@@ -206,11 +218,16 @@ export default function EditProfileScreen() {
       } else {
         Alert.alert(t('profile.myProfile'), t('profile.saveSuccess'));
       }
-      
-      router.back();
+
+      // Redirecionar baseado no modo
+      if (isOnboarding) {
+        router.replace('/(tabs)');
+      } else {
+        router.back();
+      }
     } catch (error) {
       console.error('❌ Erro ao salvar perfil:', error);
-      
+
       if (Platform.OS === 'web') {
         window.alert(t('profile.saveError'));
       } else {
@@ -235,11 +252,14 @@ export default function EditProfileScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]} edges={['top']}>
       {/* Header */}
       <View style={[styles.header, { backgroundColor: currentTheme.bg }]}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color={currentTheme.text} />
-        </TouchableOpacity>
+        {!isOnboarding && (
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Ionicons name="arrow-back" size={24} color={currentTheme.text} />
+          </TouchableOpacity>
+        )}
+        {isOnboarding && <View style={{ width: 24 }} />}
         <Text style={[styles.title, { color: currentTheme.text }]}>
-          {t('profile.editProfile')}
+          {isOnboarding ? t('profile.completeProfile') : t('profile.editProfile')}
         </Text>
         <View style={{ width: 24 }} />
       </View>
@@ -276,8 +296,8 @@ export default function EditProfileScreen() {
             {t('profile.displayName')}
           </Text>
           <TextInput
-            style={[styles.input, { 
-              backgroundColor: currentTheme.bg, 
+            style={[styles.input, {
+              backgroundColor: currentTheme.bg,
               color: currentTheme.text,
               borderColor: currentTheme.accent1 + '30'
             }]}
@@ -321,7 +341,7 @@ export default function EditProfileScreen() {
           <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
             🔔 {t('profile.preferences')}
           </Text>
-          
+
           <View style={styles.preferenceRow}>
             <Text style={[styles.preferenceLabel, { color: currentTheme.text }]}>
               {t('profile.notificationsEnabled')}
