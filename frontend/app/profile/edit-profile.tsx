@@ -31,6 +31,8 @@ interface UserProfile {
   gender: string | null;
 }
 
+import { ResponsiveContainer } from '../../components/ResponsiveContainer';
+
 export default function EditProfileScreen() {
   const { t } = useTranslation();
   const router = useRouter();
@@ -249,229 +251,231 @@ export default function EditProfileScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]} edges={['top']}>
-      {/* Header */}
-      <View style={[styles.header, { backgroundColor: currentTheme.bg }]}>
-        {!isOnboarding && (
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Ionicons name="arrow-back" size={24} color={currentTheme.text} />
-          </TouchableOpacity>
-        )}
-        {isOnboarding && <View style={{ width: 24 }} />}
-        <Text style={[styles.title, { color: currentTheme.text }]}>
-          {isOnboarding ? t('profile.completeProfile') : t('profile.editProfile')}
-        </Text>
-        <View style={{ width: 24 }} />
-      </View>
-
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
-        {/* Foto de Perfil */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            {t('profile.profilePhoto')}
-          </Text>
-          <View style={styles.photoContainer}>
-            {profilePhoto ? (
-              <Image source={{ uri: profilePhoto }} style={styles.profileImage} />
-            ) : (
-              <View style={[styles.placeholderImage, { backgroundColor: currentTheme.accent1 + '20' }]}>
-                <Ionicons name="person" size={64} color={currentTheme.accent1} />
-              </View>
-            )}
-            <TouchableOpacity
-              style={[styles.changePhotoButton, { backgroundColor: currentTheme.accent1 }]}
-              onPress={pickImage}
-            >
-              <Ionicons name="camera" size={20} color="#FFF" />
-              <Text style={styles.changePhotoText}>
-                {profilePhoto ? t('profile.changePhoto') : t('profile.addPhoto')}
-              </Text>
+    <ResponsiveContainer>
+      <SafeAreaView style={[styles.container, { backgroundColor: currentTheme.bg }]} edges={['top']}>
+        {/* Header */}
+        <View style={[styles.header, { backgroundColor: currentTheme.bg }]}>
+          {!isOnboarding && (
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+              <Ionicons name="arrow-back" size={24} color={currentTheme.text} />
             </TouchableOpacity>
-          </View>
-        </View>
-
-        {/* Nome */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            {t('profile.displayName')}
-          </Text>
-          <TextInput
-            style={[styles.input, {
-              backgroundColor: currentTheme.bg,
-              color: currentTheme.text,
-              borderColor: currentTheme.accent1 + '30'
-            }]}
-            value={displayName}
-            onChangeText={setDisplayName}
-            placeholder={t('profile.displayNamePlaceholder')}
-            placeholderTextColor={currentTheme.textMuted}
-          />
-        </View>
-
-        {/* Objetivos */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            🎯 {t('profile.myGoals')}
-          </Text>
-          {goals.map((goal) => (
-            <TouchableOpacity
-              key={goal.id}
-              style={[
-                styles.checkboxItem,
-                selectedGoals.includes(goal.id) && {
-                  backgroundColor: currentTheme.accent1 + '20',
-                },
-              ]}
-              onPress={() => toggleGoal(goal.id)}
-            >
-              <Ionicons
-                name={selectedGoals.includes(goal.id) ? 'checkbox' : 'square-outline'}
-                size={24}
-                color={selectedGoals.includes(goal.id) ? currentTheme.accent1 : currentTheme.textMuted}
-              />
-              <Text style={[styles.checkboxLabel, { color: currentTheme.text }]}>
-                {goal.label}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Preferências */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            🔔 {t('profile.preferences')}
-          </Text>
-
-          <View style={styles.preferenceRow}>
-            <Text style={[styles.preferenceLabel, { color: currentTheme.text }]}>
-              {t('profile.notificationsEnabled')}
-            </Text>
-            <TouchableOpacity
-              style={[
-                styles.toggleButton,
-                notificationEnabled && { backgroundColor: currentTheme.accent1 }
-              ]}
-              onPress={() => setNotificationEnabled(!notificationEnabled)}
-            >
-              <View style={[
-                styles.toggleCircle,
-                notificationEnabled && styles.toggleCircleActive
-              ]} />
-            </TouchableOpacity>
-          </View>
-
-          <Text style={[styles.subLabel, { color: currentTheme.textSecondary }]}>
-            {t('profile.preferredTime')}
-          </Text>
-          <View style={styles.optionsGrid}>
-            {timeOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id}
-                style={[
-                  styles.optionChip,
-                  { borderColor: currentTheme.accent1 + '30' },
-                  preferredTime === option.id && {
-                    backgroundColor: currentTheme.accent1 + '20',
-                    borderColor: currentTheme.accent1,
-                  },
-                ]}
-                onPress={() => setPreferredTime(option.id)}
-              >
-                <Text
-                  style={[
-                    styles.optionText,
-                    { color: preferredTime === option.id ? currentTheme.accent1 : currentTheme.text },
-                  ]}
-                >
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Informações Opcionais */}
-        <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
-          <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
-            📊 {t('profile.optionalInfo')}
-          </Text>
-
-          <Text style={[styles.subLabel, { color: currentTheme.textSecondary }]}>
-            {t('profile.ageRange')}
-          </Text>
-          <View style={styles.optionsGrid}>
-            {ageRangeOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id || 'none'}
-                style={[
-                  styles.optionChip,
-                  { borderColor: currentTheme.accent1 + '30' },
-                  ageRange === option.id && {
-                    backgroundColor: currentTheme.accent1 + '20',
-                    borderColor: currentTheme.accent1,
-                  },
-                ]}
-                onPress={() => setAgeRange(option.id)}
-              >
-                <Text
-                  style={[
-                    styles.optionText,
-                    { color: ageRange === option.id ? currentTheme.accent1 : currentTheme.text },
-                  ]}
-                >
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <Text style={[styles.subLabel, { color: currentTheme.textSecondary, marginTop: 16 }]}>
-            {t('profile.gender')}
-          </Text>
-          <View style={styles.optionsGrid}>
-            {genderOptions.map((option) => (
-              <TouchableOpacity
-                key={option.id || 'none'}
-                style={[
-                  styles.optionChip,
-                  { borderColor: currentTheme.accent1 + '30' },
-                  gender === option.id && {
-                    backgroundColor: currentTheme.accent1 + '20',
-                    borderColor: currentTheme.accent1,
-                  },
-                ]}
-                onPress={() => setGender(option.id)}
-              >
-                <Text
-                  style={[
-                    styles.optionText,
-                    { color: gender === option.id ? currentTheme.accent1 : currentTheme.text },
-                  ]}
-                >
-                  {option.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-
-        {/* Botão Salvar */}
-        <TouchableOpacity
-          style={[styles.saveButton, { backgroundColor: currentTheme.accent1 }]}
-          onPress={handleSave}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="#FFF" />
-          ) : (
-            <>
-              <Ionicons name="checkmark-circle" size={24} color="#FFF" />
-              <Text style={styles.saveButtonText}>{t('profile.save')}</Text>
-            </>
           )}
-        </TouchableOpacity>
-      </ScrollView>
-    </SafeAreaView>
+          {isOnboarding && <View style={{ width: 24 }} />}
+          <Text style={[styles.title, { color: currentTheme.text }]}>
+            {isOnboarding ? t('profile.completeProfile') : t('profile.editProfile')}
+          </Text>
+          <View style={{ width: 24 }} />
+        </View>
+
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.content}>
+          {/* Foto de Perfil */}
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
+              {t('profile.profilePhoto')}
+            </Text>
+            <View style={styles.photoContainer}>
+              {profilePhoto ? (
+                <Image source={{ uri: profilePhoto }} style={styles.profileImage} />
+              ) : (
+                <View style={[styles.placeholderImage, { backgroundColor: currentTheme.accent1 + '20' }]}>
+                  <Ionicons name="person" size={64} color={currentTheme.accent1} />
+                </View>
+              )}
+              <TouchableOpacity
+                style={[styles.changePhotoButton, { backgroundColor: currentTheme.accent1 }]}
+                onPress={pickImage}
+              >
+                <Ionicons name="camera" size={20} color="#FFF" />
+                <Text style={styles.changePhotoText}>
+                  {profilePhoto ? t('profile.changePhoto') : t('profile.addPhoto')}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Nome */}
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
+              {t('profile.displayName')}
+            </Text>
+            <TextInput
+              style={[styles.input, {
+                backgroundColor: currentTheme.bg,
+                color: currentTheme.text,
+                borderColor: currentTheme.accent1 + '30'
+              }]}
+              value={displayName}
+              onChangeText={setDisplayName}
+              placeholder={t('profile.displayNamePlaceholder')}
+              placeholderTextColor={currentTheme.textMuted}
+            />
+          </View>
+
+          {/* Objetivos */}
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
+              🎯 {t('profile.myGoals')}
+            </Text>
+            {goals.map((goal) => (
+              <TouchableOpacity
+                key={goal.id}
+                style={[
+                  styles.checkboxItem,
+                  selectedGoals.includes(goal.id) && {
+                    backgroundColor: currentTheme.accent1 + '20',
+                  },
+                ]}
+                onPress={() => toggleGoal(goal.id)}
+              >
+                <Ionicons
+                  name={selectedGoals.includes(goal.id) ? 'checkbox' : 'square-outline'}
+                  size={24}
+                  color={selectedGoals.includes(goal.id) ? currentTheme.accent1 : currentTheme.textMuted}
+                />
+                <Text style={[styles.checkboxLabel, { color: currentTheme.text }]}>
+                  {goal.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* Preferências */}
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
+              🔔 {t('profile.preferences')}
+            </Text>
+
+            <View style={styles.preferenceRow}>
+              <Text style={[styles.preferenceLabel, { color: currentTheme.text }]}>
+                {t('profile.notificationsEnabled')}
+              </Text>
+              <TouchableOpacity
+                style={[
+                  styles.toggleButton,
+                  notificationEnabled && { backgroundColor: currentTheme.accent1 }
+                ]}
+                onPress={() => setNotificationEnabled(!notificationEnabled)}
+              >
+                <View style={[
+                  styles.toggleCircle,
+                  notificationEnabled && styles.toggleCircleActive
+                ]} />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.subLabel, { color: currentTheme.textSecondary }]}>
+              {t('profile.preferredTime')}
+            </Text>
+            <View style={styles.optionsGrid}>
+              {timeOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.id}
+                  style={[
+                    styles.optionChip,
+                    { borderColor: currentTheme.accent1 + '30' },
+                    preferredTime === option.id && {
+                      backgroundColor: currentTheme.accent1 + '20',
+                      borderColor: currentTheme.accent1,
+                    },
+                  ]}
+                  onPress={() => setPreferredTime(option.id)}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      { color: preferredTime === option.id ? currentTheme.accent1 : currentTheme.text },
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* Informações Opcionais */}
+          <View style={[styles.section, { backgroundColor: currentTheme.card }]}>
+            <Text style={[styles.sectionTitle, { color: currentTheme.text }]}>
+              📊 {t('profile.optionalInfo')}
+            </Text>
+
+            <Text style={[styles.subLabel, { color: currentTheme.textSecondary }]}>
+              {t('profile.ageRange')}
+            </Text>
+            <View style={styles.optionsGrid}>
+              {ageRangeOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.id || 'none'}
+                  style={[
+                    styles.optionChip,
+                    { borderColor: currentTheme.accent1 + '30' },
+                    ageRange === option.id && {
+                      backgroundColor: currentTheme.accent1 + '20',
+                      borderColor: currentTheme.accent1,
+                    },
+                  ]}
+                  onPress={() => setAgeRange(option.id)}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      { color: ageRange === option.id ? currentTheme.accent1 : currentTheme.text },
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+
+            <Text style={[styles.subLabel, { color: currentTheme.textSecondary, marginTop: 16 }]}>
+              {t('profile.gender')}
+            </Text>
+            <View style={styles.optionsGrid}>
+              {genderOptions.map((option) => (
+                <TouchableOpacity
+                  key={option.id || 'none'}
+                  style={[
+                    styles.optionChip,
+                    { borderColor: currentTheme.accent1 + '30' },
+                    gender === option.id && {
+                      backgroundColor: currentTheme.accent1 + '20',
+                      borderColor: currentTheme.accent1,
+                    },
+                  ]}
+                  onPress={() => setGender(option.id)}
+                >
+                  <Text
+                    style={[
+                      styles.optionText,
+                      { color: gender === option.id ? currentTheme.accent1 : currentTheme.text },
+                    ]}
+                  >
+                    {option.label}
+                  </Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+
+          {/* Botão Salvar */}
+          <TouchableOpacity
+            style={[styles.saveButton, { backgroundColor: currentTheme.accent1 }]}
+            onPress={handleSave}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#FFF" />
+            ) : (
+              <>
+                <Ionicons name="checkmark-circle" size={24} color="#FFF" />
+                <Text style={styles.saveButtonText}>{t('profile.save')}</Text>
+              </>
+            )}
+          </TouchableOpacity>
+        </ScrollView>
+      </SafeAreaView>
+    </ResponsiveContainer>
   );
 }
 
