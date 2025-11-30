@@ -840,8 +840,8 @@
       if (row) row.style.opacity = '0.5';
 
       try {
-        // Fix: Use correct API endpoint that matches server.js route
-        const res = await fetch(`/api/admin/delete-user/${uid}`, {
+        // Use API_URL constant to match other admin endpoints
+        const res = await fetch(`${API_URL}/admin/delete-user/${uid}`, {
           method: 'DELETE',
           credentials: 'same-origin'
         });
