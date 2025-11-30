@@ -1020,6 +1020,12 @@ app.get('/admin', (req, res) => {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EaseMind Admin - Login</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/favicon-admin.png">
+  <link rel="shortcut icon" type="image/png" href="/favicon-admin.png">
+  <link rel="apple-touch-icon" href="/favicon-admin.png">
+  
   <style>
     * {
       margin: 0;
