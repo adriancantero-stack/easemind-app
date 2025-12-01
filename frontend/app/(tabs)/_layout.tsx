@@ -48,12 +48,7 @@ export default function TabLayout() {
           // Verificar se perfil está completo (nome não é 'Usuário')
           const isCompleted = profile.profile_completed === true && profile.display_name !== 'Usuário';
 
-          console.log('🔍 [Popup Debug] Profile check:', {
-            uid: user.uid,
-            profile_completed: profile.profile_completed,
-            display_name: profile.display_name,
-            isCompleted
-          });
+
 
           if (!isCompleted) {
             if (Platform.OS === 'web') {

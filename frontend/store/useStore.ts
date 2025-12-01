@@ -39,7 +39,7 @@ interface AppState {
   sessionLogs: SessionLog[];
   voiceEnabled: boolean;
   userId: string; // User ID for memory/context
-  
+
   setThemeMode: (mode: ThemeMode) => void;
   setLanguage: (value: string) => void;
   setVoiceEnabled: (enabled: boolean) => void;
@@ -105,20 +105,20 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       const { auth } = require('../config/firebase');
       const currentFirebaseUser = auth.currentUser;
-      
+
       if (currentFirebaseUser?.uid) {
         // Usuário autenticado - retornar Firebase UID
         const firebaseUid = currentFirebaseUser.uid;
-        
+
         // Atualizar store se necessário
         const currentUserId = get().userId;
         if (currentUserId !== firebaseUid) {
           set({ userId: firebaseUid });
           try {
             await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, firebaseUid);
-          } catch {}
+          } catch { }
         }
-        
+
         console.log('👤 Using Firebase UID:', firebaseUid);
         return firebaseUid;
       }
@@ -126,13 +126,13 @@ export const useStore = create<AppState>((set, get) => ({
       // Firebase não disponível ou erro - continuar com fallback
       console.log('⚠️ Firebase not available, using local user ID');
     }
-    
+
     // Fallback: usar ID local
     const currentUserId = get().userId;
     if (currentUserId) {
       return currentUserId;
     }
-    
+
     // Try to load from storage
     try {
       const storedUserId = await AsyncStorage.getItem(STORAGE_KEYS.USER_ID);
@@ -140,16 +140,16 @@ export const useStore = create<AppState>((set, get) => ({
         set({ userId: storedUserId });
         return storedUserId;
       }
-    } catch {}
-    
+    } catch { }
+
     // Generate new UUID (modo visitante)
     const newUserId = `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     set({ userId: newUserId });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, newUserId);
-    } catch {}
-    
+    } catch { }
+
     console.log('👤 Generated guest ID:', newUserId);
     return newUserId;
   },
@@ -161,7 +161,7 @@ export const useStore = create<AppState>((set, get) => ({
       await AsyncStorage.setItem(STORAGE_KEYS.THEME_MODE, mode);
       // Sync with backend
       get().syncPreferencesWithBackend();
-    } catch {}
+    } catch { }
   },
 
   setLanguage: async (value: string) => {
@@ -170,28 +170,28 @@ export const useStore = create<AppState>((set, get) => ({
       await AsyncStorage.setItem(STORAGE_KEYS.LANGUAGE, value);
       // Sync with backend
       get().syncPreferencesWithBackend();
-    } catch {}
+    } catch { }
   },
 
   setVoiceEnabled: async (enabled: boolean) => {
     set({ voiceEnabled: enabled });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.VOICE_ENABLED, JSON.stringify(enabled));
-    } catch {}
+    } catch { }
   },
 
   completeOnboarding: async () => {
     set({ hasCompletedOnboarding: true });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.ONBOARDING, 'true');
-    } catch {}
+    } catch { }
   },
 
   setCurrentMood: async (mood: number) => {
     set({ currentMood: mood });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.MOOD, JSON.stringify(mood));
-    } catch {}
+    } catch { }
   },
 
   addMessage: async (role: 'user' | 'assistant', content: string) => {
@@ -204,7 +204,7 @@ export const useStore = create<AppState>((set, get) => ({
     set({ messages });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(messages));
-    } catch {}
+    } catch { }
   },
 
   addTypingMessage: async (role: 'user' | 'assistant', fullContent: string) => {
@@ -228,14 +228,14 @@ export const useStore = create<AppState>((set, get) => ({
 
   completeTypingMessage: async (timestamp: number) => {
     const messages = get().messages.map(msg =>
-      msg.timestamp === timestamp 
+      msg.timestamp === timestamp
         ? { ...msg, content: msg.fullContent || msg.content, isTyping: false, fullContent: undefined }
         : msg
     );
     set({ messages });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.MESSAGES, JSON.stringify(messages));
-    } catch {}
+    } catch { }
   },
 
   addMoodEntry: async (mood: number, note?: string) => {
@@ -249,7 +249,7 @@ export const useStore = create<AppState>((set, get) => ({
     set({ moodEntries });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.MOOD_ENTRIES, JSON.stringify(moodEntries));
-    } catch {}
+    } catch { }
   },
 
   addSessionLog: async (sessionId: string, notes?: string) => {
@@ -264,7 +264,7 @@ export const useStore = create<AppState>((set, get) => ({
     set({ sessionLogs });
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.SESSION_LOGS, JSON.stringify(sessionLogs));
-    } catch {}
+    } catch { }
   },
 
   detectSystemSettings: () => {
@@ -301,17 +301,17 @@ export const useStore = create<AppState>((set, get) => ({
         voiceEnabled: voiceEnabled !== null ? JSON.parse(voiceEnabled) : true, // Default true
         userId: userId || '', // Load userId from storage or default to empty string
       });
-      
+
       // Load preferences from backend after loading from local storage
       await get().loadPreferencesFromBackend();
-    } catch {}
+    } catch { }
   },
 
   syncPreferencesWithBackend: async () => {
     try {
       const { auth } = require('../config/firebase');
       const currentFirebaseUser = auth.currentUser;
-      
+
       if (!currentFirebaseUser?.uid) {
         console.log('⚠️ Not syncing preferences: User not logged in');
         return;
@@ -319,11 +319,11 @@ export const useStore = create<AppState>((set, get) => ({
 
       const { themeMode, language } = get();
       const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
-      
+
       console.log('🔄 Syncing preferences with backend...', { themeMode, language });
-      
-      const response = await fetch(`${backendUrl}/api/user/profile/update`, {
-        method: 'POST',
+
+      const response = await fetch(`${backendUrl}/api/user/profile`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -348,22 +348,22 @@ export const useStore = create<AppState>((set, get) => ({
     try {
       const { auth } = require('../config/firebase');
       const currentFirebaseUser = auth.currentUser;
-      
+
       if (!currentFirebaseUser?.uid) {
         console.log('⚠️ Not loading preferences: User not logged in');
         return;
       }
 
       const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || 'http://localhost:8001';
-      
+
       console.log('📥 Loading preferences from backend...');
-      
-      const response = await fetch(`${backendUrl}/api/user/profile?firebase_uid=${currentFirebaseUser.uid}`);
+
+      const response = await fetch(`${backendUrl}/api/user/profile/${currentFirebaseUser.uid}`);
 
       if (response.ok) {
         const data = await response.json();
         const user = data.user;
-        
+
         if (user.theme) {
           const mode = user.theme as ThemeMode;
           const isDark = getIsDarkMode(mode);
@@ -371,7 +371,7 @@ export const useStore = create<AppState>((set, get) => ({
           await AsyncStorage.setItem(STORAGE_KEYS.THEME_MODE, mode);
           console.log('✅ Theme loaded from backend:', mode);
         }
-        
+
         if (user.language) {
           set({ language: user.language });
           await AsyncStorage.setItem(STORAGE_KEYS.LANGUAGE, user.language);
@@ -394,14 +394,14 @@ export const useStore = create<AppState>((set, get) => ({
       await AsyncStorage.removeItem(STORAGE_KEYS.MOOD_ENTRIES);
       await AsyncStorage.removeItem(STORAGE_KEYS.SESSION_LOGS);
       await AsyncStorage.removeItem(STORAGE_KEYS.MOOD);
-      
+
       set({
         messages: [],
         moodEntries: [],
         sessionLogs: [],
         currentMood: null,
       });
-      
+
       console.log('✅ User data cleared');
     } catch (error) {
       console.error('❌ Error clearing user data:', error);
@@ -411,15 +411,15 @@ export const useStore = create<AppState>((set, get) => ({
   setUserId: async (uid: string) => {
     console.log('👤 Setting userId:', uid);
     const currentUserId = get().userId;
-    
+
     // Se o userId mudou, limpar dados do usuário anterior
     if (currentUserId && currentUserId !== uid) {
       console.log('🔄 User changed, clearing previous user data');
       await get().clearUserData();
     }
-    
+
     set({ userId: uid });
-    
+
     try {
       await AsyncStorage.setItem(STORAGE_KEYS.USER_ID, uid);
     } catch (error) {
