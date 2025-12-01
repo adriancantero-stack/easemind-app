@@ -61,7 +61,7 @@ export default function LoginScreen() {
           if (result) {
             console.log('✅ Login com Google realizado via redirect');
             console.log('✅ Login com Google realizado via redirect');
-            router.replace('/');
+            router.replace('/(tabs)');
           }
         })
         .catch((error) => {
@@ -107,12 +107,12 @@ export default function LoginScreen() {
         // Login
         await signInWithEmailAndPassword(auth, email, password);
         console.log('✅ Login realizado com sucesso');
-        router.replace('/');
+        router.replace('/(tabs)');
       } else {
         // Cadastro
         await createUserWithEmailAndPassword(auth, email, password);
         console.log('✅ Cadastro realizado com sucesso');
-        router.replace('/');
+        router.replace('/(tabs)');
       }
     } catch (error: any) {
       console.error('❌ Erro de autenticação:', error);
@@ -150,7 +150,7 @@ export default function LoginScreen() {
           // Tentar popup primeiro
           const result = await signInWithPopup(auth, provider);
           console.log('✅ Login com Google realizado (Popup)', result.user.email);
-          router.replace('/');
+          router.replace('/(tabs)');
         } catch (popupError: any) {
           console.error('❌ Erro no popup:', popupError);
 
@@ -185,7 +185,7 @@ export default function LoginScreen() {
                     console.log('✅ Contas vinculadas com sucesso!');
 
                     window.alert('Contas vinculadas! Agora você pode fazer login com Google ou email/senha.');
-                    router.replace('/');
+                    router.replace('/(tabs)');
                   } catch (linkError: any) {
                     console.error('❌ Erro ao vincular contas:', linkError);
                     window.alert('Erro ao vincular contas: ' + linkError.message);
