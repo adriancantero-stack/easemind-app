@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import React, { useState, useEffect } from 'react';
-import { View } from 'react-native';
+import { View, Platform } from 'react-native';
 import { useStore } from '../../store/useStore';
 import { theme } from '../../utils/theme';
 import { PanicModal } from '../../components/PanicModal';
@@ -47,22 +47,43 @@ export default function TabLayout() {
           // Verificar se perfil está completo (nome não é 'Usuário')
           const isCompleted = profile.profile_completed === true && profile.display_name !== 'Usuário';
 
+          console.log('🔍 [Popup Debug] Profile check:', {
+            uid: user.uid,
+            profile_completed: profile.profile_completed,
+            display_name: profile.display_name,
+            isCompleted
+          });
+
           if (!isCompleted) {
-            Alert.alert(
-              t('profile.completeProfile'),
-              t('profile.completeProfileMessage'),
-              [
-                {
-                  text: t('common.later'),
-                  style: 'cancel',
-                  onPress: () => console.log('Lembrete de perfil adiado')
-                },
-                {
-                  text: t('common.completeNow'),
-                  onPress: () => router.push('/profile/edit-profile?onboarding=true')
-                }
-              ]
-            );
+            if (Platform.OS === 'web') {
+              // Web implementation
+              const shouldComplete = window.confirm(
+                `${t('profile.completeProfile')}\n\n${t('profile.completeProfileMessage')}`
+              );
+
+              if (shouldComplete) {
+                router.push('/profile/edit-profile?onboarding=true');
+              } else {
+                console.log('Lembrete de perfil adiado (Web)');
+              }
+            } else {
+              // Native implementation
+              Alert.alert(
+                t('profile.completeProfile'),
+                t('profile.completeProfileMessage'),
+                [
+                  {
+                    text: t('common.later'),
+                    style: 'cancel',
+                    onPress: () => console.log('Lembrete de perfil adiado')
+                  },
+                  {
+                    text: t('common.completeNow'),
+                    onPress: () => router.push('/profile/edit-profile?onboarding=true')
+                  }
+                ]
+              );
+            }
           }
         }
       } catch (error) {
