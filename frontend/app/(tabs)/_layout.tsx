@@ -38,7 +38,8 @@ export default function TabLayout() {
 
       try {
         const backendUrl = process.env.EXPO_PUBLIC_BACKEND_URL || Constants.expoConfig?.extra?.EXPO_PUBLIC_BACKEND_URL;
-        const response = await fetch(`${backendUrl}/api/user/profile/${user.uid}`);
+        // Adicionar timestamp para evitar cache
+        const response = await fetch(`${backendUrl}/api/user/profile/${user.uid}?_t=${Date.now()}`);
 
         if (response.ok) {
           const data = await response.json();

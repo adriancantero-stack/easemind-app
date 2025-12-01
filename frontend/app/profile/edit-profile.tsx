@@ -158,13 +158,24 @@ export default function EditProfileScreen() {
   const handleSave = async () => {
     try {
       // Validar nome obrigatório no onboarding
-      if (isOnboarding && displayName.trim().length < 2) {
-        if (Platform.OS === 'web') {
-          window.alert(t('profile.nameRequired'));
-        } else {
-          Alert.alert(t('profile.error'), t('profile.nameRequired'));
+      if (isOnboarding) {
+        if (displayName.trim().length < 2) {
+          if (Platform.OS === 'web') {
+            window.alert(t('profile.nameRequired'));
+          } else {
+            Alert.alert(t('profile.error'), t('profile.nameRequired'));
+          }
+          return;
         }
-        return;
+
+        if (displayName.trim() === 'Usuário') {
+          if (Platform.OS === 'web') {
+            window.alert(t('profile.nameRequired')); // Use same message or specific one
+          } else {
+            Alert.alert(t('profile.error'), 'Por favor, digite seu nome real.');
+          }
+          return;
+        }
       }
 
       setLoading(true);
