@@ -7,6 +7,10 @@ export const translations = {
       start: 'Get Started',
       consent: 'I understand this is not medical advice',
     },
+    common: {
+      later: 'Later',
+      completeNow: 'Complete Now',
+    },
     tabs: {
       chat: 'Chat',
       sessions: 'Sessions',
@@ -257,6 +261,7 @@ export const translations = {
       verified: 'Verified account',
       error: 'Error',
       completeProfile: 'Complete Your Profile',
+      completeProfileMessage: 'Complete your profile to get better conversations and personalized support.',
       nameRequired: 'Please enter your name to continue',
       editProfile: 'Edit Profile',
       myProfile: 'My Profile',
@@ -371,6 +376,10 @@ export const translations = {
       privacy: 'Seus dados ficam privados e criptografados no seu dispositivo',
       start: 'Começar',
       consent: 'Entendo que isso não é aconselhamento médico',
+    },
+    common: {
+      later: 'Depois',
+      completeNow: 'Completar Agora',
     },
     tabs: {
       chat: 'Chat',
@@ -620,6 +629,7 @@ export const translations = {
       verified: 'Conta verificada',
       error: 'Erro',
       completeProfile: 'Complete seu Perfil',
+      completeProfileMessage: 'Complete seu perfil para ter conversas melhores e suporte personalizado.',
       nameRequired: 'Por favor, digite seu nome para continuar',
       editProfile: 'Editar Perfil',
       myProfile: 'Meu Perfil',
@@ -734,6 +744,10 @@ export const translations = {
       privacy: 'Tus datos permanecen privados y encriptados en tu dispositivo',
       start: 'Comenzar',
       consent: 'Entiendo que esto no es consejo médico',
+    },
+    common: {
+      later: 'Después',
+      completeNow: 'Completar Ahora',
     },
     tabs: {
       chat: 'Chat',
@@ -983,6 +997,7 @@ export const translations = {
       verified: 'Cuenta verificada',
       error: 'Error',
       completeProfile: 'Completa tu Perfil',
+      completeProfileMessage: 'Completa tu perfil para tener mejores conversaciones y soporte personalizado.',
       nameRequired: 'Por favor, ingresa tu nombre para continuar',
       editProfile: 'Editar Perfil',
       myProfile: 'Mi Perfil',
