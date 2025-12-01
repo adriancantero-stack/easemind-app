@@ -1456,7 +1456,8 @@ async def update_user_profile(request: UserProfileUpdateRequest):
                 "age_range": updated_user.get("age_range"),
                 "gender": updated_user.get("gender"),
                 "theme": updated_user.get("theme", "system"),
-                "language": updated_user.get("language", "pt-BR")
+                "language": updated_user.get("language", "pt-BR"),
+                "profile_completed": updated_user.get("profile_completed", False)
             }
         }
         
@@ -1494,7 +1495,8 @@ async def get_user_profile(firebase_uid: str):
                 "notification_enabled": user.get("notification_enabled", True),
                 "preferred_time": user.get("preferred_time", "morning"),
                 "age_range": user.get("age_range"),
-                "gender": user.get("gender")
+                "gender": user.get("gender"),
+                "profile_completed": user.get("profile_completed", False)
             }
         }
         
