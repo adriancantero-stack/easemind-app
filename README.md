@@ -1,8 +1,12 @@
 # 🧠 EaseMind - Digital Emotional Support Platform
 
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
-[![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)]()
+
+[![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge&logo=statuspage)](https://easemind.io)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge&logo=open-source-initiative)](LICENSE)
+[![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=semver)](https://github.com/adriancantero-stack/easemind-app)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 > **Calm your mind, heal your day** - An AI-powered mental wellness platform offering emotional support, guided sessions, mood tracking, and crisis intervention.
 
@@ -19,30 +23,40 @@ EaseMind is a comprehensive mental health application featuring:
 
 ## 🏗️ Architecture
 
+<div align="center">
+
+```mermaid
+graph TD
+    User[👤 User] -->|1. Visit| Frontend[🖥️ Vercel Frontend]
+    User -->|2. Voice/Text| Backend[⚙️ Railway API]
+    
+    subgraph "Frontend Layer"
+    Frontend
+    end
+    
+    subgraph "Backend Core"
+    Backend -->|3. Query| Mongo[(🍃 MongoDB Atlas)]
+    Backend -->|4. AI Processing| AI[🧠 OpenAI / Gemini]
+    Backend -->|5. Voice Processing| Voice[🎙️ Whisper / ElevenLabs]
+    end
+    
+    subgraph "External Services"
+    Stripe[💳 Stripe]
+    Firebase[🔥 Firebase Auth]
+    end
+    
+    Frontend -->|Auth| Firebase
+    Backend -->|Payments| Stripe
+    
+    style User fill:#f9f,stroke:#333,stroke-width:2px
+    style Frontend fill:#000000,stroke:#333,stroke-width:2px,color:white
+    style Backend fill:#0B0D0E,stroke:#333,stroke-width:2px,color:white
+    style Mongo fill:#47A248,stroke:#333,stroke-width:2px,color:white
+    style AI fill:#ff9900,stroke:#333,stroke-width:2px,color:white
+    style Voice fill:#007aff,stroke:#333,stroke-width:2px,color:white
 ```
-┌─────────────────────────────────────────┐
-│         FRONTEND (Vercel)               │
-│  • Website: easemind.io                 │
-│  • Pre-sell: /educativo (PT/EN/ES)      │
-│  • Admin Dashboard                      │
-└─────────────────┬───────────────────────┘
-                  │
-                  ▼
-┌─────────────────────────────────────────┐
-│       BACKEND API (Railway)             │
-│  • FastAPI: api.easemind.io             │
-│  • 78 REST endpoints                    │
-│  • Real-time AI processing              │
-└─────────────────┬───────────────────────┘
-                  │
-                  ▼
-┌─────────────────────────────────────────┐
-│       DATABASE (MongoDB)                │
-│  • User profiles & conversations        │
-│  • Mood logs & journal entries          │
-│  • Session data & analytics             │
-└─────────────────────────────────────────┘
-```
+
+</div>
 
 ## 🚀 Live Deployment
 
@@ -334,14 +348,15 @@ curl -X POST https://api.easemind.io/api/chat \
   -d '{"message":"Hello","user_id":"test","lang":"en"}'
 ```
 
+
 ## 📈 Performance
 
 | Metric | Value | Status |
 |--------|-------|--------|
-| Backend Response Time | < 500ms | ✅ Excellent |
-| Frontend Load Time | < 300ms | ✅ Excellent |
-| Build Time (Railway) | ~4-5 min | ✅ Optimized |
-| Uptime | 99.9% | ✅ Stable |
+| **Backend Latency** | < 500ms | ⚡ Fast |
+| **Frontend Load** | < 300ms | ⚡ Instant |
+| **Build Time** | ~4 min | ✅ Optimized |
+| **Uptime** | 99.9% | 🟢 Stable |
 
 ## 🔒 Security
 
