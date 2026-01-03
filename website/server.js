@@ -100,7 +100,8 @@ const routeMap = {
   'contact': { 'pt-BR': 'contato', 'en': 'contact', 'es': 'contacto' },
   'about': { 'pt-BR': 'sobre', 'en': 'about', 'es': 'sobre' },
   'privacy': { 'pt-BR': 'privacidade', 'en': 'privacy', 'es': 'privacidad' },
-  'terms': { 'pt-BR': 'termos', 'en': 'terms', 'es': 'terminos' }
+  'terms': { 'pt-BR': 'termos', 'en': 'terms', 'es': 'terminos' },
+  'presell': { 'pt-BR': 'pre-venda', 'en': 'presell', 'es': 'pre-venta' }
 };
 
 // Reverse map for lookup: { 'pt-BR': { 'como-funciona': 'how-it-works' } }
@@ -728,6 +729,21 @@ function generateHTML(page, lang, t) {
           </div>
         </section>
       `;
+      break;
+
+    case 'presell':
+      // For the presell page, we serve the static HTML file we created, 
+      // but we could also inject dynamic SEO tags here if we converted it to a template string.
+      // Since we created a full HTML file, we might just read and return it, 
+      // OR we can rely on Express static serving if we configure the route handler to sendFile.
+      // However, the current server.js architecture generates HTML strings.
+      // To fit in, let's read the file content and inject it, or return a placeholder if we want to move logic later.
+      // But the simplest valid integration with this specific `generateHTML` switch is to reading the file.
+      try {
+        return fs.readFileSync(path.join(__dirname, 'presell.html'), 'utf8');
+      } catch (e) {
+        return '<h1>Error loading presell page</h1>';
+      }
       break;
 
     case 'contact':

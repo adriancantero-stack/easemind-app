@@ -300,5 +300,12 @@
     "cta_button": "Acessar EaseMind",
     "disclaimer_title": "Observação importante",
     "disclaimer_text": "O EaseMind não substitui psicoterapia ou profissionais de saúde, não oferece diagnóstico e não faz promessas de tratamento. É uma ferramenta complementar de bem-estar emocional, feita para trazer calma, clareza e apoio no dia a dia."
+  },
+  "presell": {
+    "title": "Organização Simples Para o Seu Dia a Dia",
+    "subtitle": "Descubra ferramentas digitais práticas para planejar sua rotina com mais clareza e eficiência.",
+    "cta": "Ir para o Site Oficial",
+    "secure": "Ambiente Seguro",
+    "verified": "Oficial e Verificado"
   }
 }
