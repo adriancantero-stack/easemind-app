@@ -2113,9 +2113,12 @@ function generateBlogHTML(article, lang, t) {
   </main>
   
   
-  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
-    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
+  
+  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem; width: 100%;">
+    <div class="footer-container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+      
+      <!-- Grid de Colunas -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 5rem; text-align: left;">
         <div class="footer-brand">
           <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
           <p style="color: #a0aec0; line-height: 1.6; font-size: 0.9375rem;">${t.legal.disclaimer || 'EaseMind é um aplicativo de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico.'}</p>
@@ -2146,18 +2149,25 @@ function generateBlogHTML(article, lang, t) {
         </div>
       </div>
       
-      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin: 0 auto 3rem auto; text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 900px;">
-        <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
-          ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
-        </p>
+      <!-- Seção de Aviso e Créditos (Centralização Absoluta) -->
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        
+        <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(255,255,255,0.1); max-width: 900px; width: 100%;">
+          <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
+            ⚕️ <strong>${(t.footer.disclaimerLabel || 'Aviso Importante').replace('::', ':').replace(':', '')}:</strong> ${t.footer.disclaimer}
+          </p>
+        </div>
+
+        <div style="color: #718096; font-size: 0.875rem; width: 100%;">
+          <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
+          <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+        </div>
+
       </div>
 
-      <div style="text-align: center; color: #718096; font-size: 0.875rem; width: 100%;">
-        <p style="margin-bottom: 0.5rem; display: block;">${t.footer.copyright}</p>
-        <p style="display: block;">${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
-      </div>
     </div>
   </footer>
+
 
 
 </body>
@@ -2225,9 +2235,12 @@ function generateBlogIndexHTML(articles, lang, t) {
   </main>
   
   
-  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
-    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
+  
+  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem; width: 100%;">
+    <div class="footer-container" style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+      
+      <!-- Grid de Colunas -->
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 5rem; text-align: left;">
         <div class="footer-brand">
           <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
           <p style="color: #a0aec0; line-height: 1.6; font-size: 0.9375rem;">${t.legal.disclaimer || 'EaseMind é um aplicativo de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico.'}</p>
@@ -2258,18 +2271,25 @@ function generateBlogIndexHTML(articles, lang, t) {
         </div>
       </div>
       
-      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin: 0 auto 3rem auto; text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 900px;">
-        <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
-          ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
-        </p>
+      <!-- Seção de Aviso e Créditos (Centralização Absoluta) -->
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
+        
+        <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; border: 1px solid rgba(255,255,255,0.1); max-width: 900px; width: 100%;">
+          <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
+            ⚕️ <strong>${(t.footer.disclaimerLabel || 'Aviso Importante').replace('::', ':').replace(':', '')}:</strong> ${t.footer.disclaimer}
+          </p>
+        </div>
+
+        <div style="color: #718096; font-size: 0.875rem; width: 100%;">
+          <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
+          <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+        </div>
+
       </div>
 
-      <div style="text-align: center; color: #718096; font-size: 0.875rem; width: 100%;">
-        <p style="margin-bottom: 0.5rem; display: block;">${t.footer.copyright}</p>
-        <p style="display: block;">${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
-      </div>
     </div>
   </footer>
+
 
 
 </body>
