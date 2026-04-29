@@ -2111,11 +2111,53 @@ function generateBlogHTML(article, lang, t) {
   <main>
     ${bodyContent}
   </main>
-  <footer class="site-footer">
-    <div class="container" style="text-align: center;">
-      <p style="color: #9ca3af; font-size: 0.875rem;">&copy; 2026 EaseMind. All rights reserved.</p>
+  
+  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
+        <div class="footer-brand">
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
+          <p style="color: #a0aec0; line-height: 1.6; font-size: 0.9375rem;">${t.legal.disclaimer || 'EaseMind é um aplicativo de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico.'}</p>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.product}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="/${urlLangPrefix}/${routeMap['about'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.about}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['how-it-works'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.how}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['plans'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.plans}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['faq'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.faq}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['contact'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.contact}</a></li>
+            <li><a href="/${urlLangPrefix}/blog" style="color: white; text-decoration: none; font-weight: 600;">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.legal}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="/${urlLangPrefix}/${routeMap['privacy'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.privacy}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['terms'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.terms}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.download}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="https://app.easemind.io" style="color: #a0aec0; text-decoration: none;">${t.cta.downloadApp || 'Comece Agora'}</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+        <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
+          ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
+        </p>
+      </div>
+
+      <div style="text-align: center; color: #718096; font-size: 0.875rem;">
+        <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
+        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      </div>
     </div>
   </footer>
+
 </body>
 </html>
   `;
@@ -2179,11 +2221,53 @@ function generateBlogIndexHTML(articles, lang, t) {
       ${articleCards}
     </div>
   </main>
-  <footer class="site-footer">
-    <div class="container" style="text-align: center;">
-      <p style="color: #6b7280;">&copy; 2026 EaseMind. All rights reserved.</p>
+  
+  <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
+        <div class="footer-brand">
+          <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
+          <p style="color: #a0aec0; line-height: 1.6; font-size: 0.9375rem;">${t.legal.disclaimer || 'EaseMind é um aplicativo de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico.'}</p>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.product}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="/${urlLangPrefix}/${routeMap['about'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.about}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['how-it-works'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.how}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['plans'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.plans}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['faq'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.faq}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['contact'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.contact}</a></li>
+            <li><a href="/${urlLangPrefix}/blog" style="color: white; text-decoration: none; font-weight: 600;">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.legal}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="/${urlLangPrefix}/${routeMap['privacy'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.privacy}</a></li>
+            <li><a href="/${urlLangPrefix}/${routeMap['terms'][lang]}" style="color: #a0aec0; text-decoration: none;">${t.footer.terms}</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color: white; font-size: 1.125rem; font-weight: 700; margin-bottom: 1.5rem;">${t.footer.download}</h4>
+          <ul style="list-style: none; padding: 0; line-height: 2;">
+            <li><a href="https://app.easemind.io" style="color: #a0aec0; text-decoration: none;">${t.cta.downloadApp || 'Comece Agora'}</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+        <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
+          ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
+        </p>
+      </div>
+
+      <div style="text-align: center; color: #718096; font-size: 0.875rem;">
+        <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
+        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      </div>
     </div>
   </footer>
+
 </body>
 </html>
   `;
