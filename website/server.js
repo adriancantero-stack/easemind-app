@@ -1529,6 +1529,35 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
 });
 
 // Routes
+
+// Blog Routes
+app.get(['/pt/blog/:slug', '/en/blog/:slug', '/es/blog/:slug'], (req, res) => {
+  const slug = req.params.slug;
+  const pathParts = req.path.split('/');
+  const langCode = pathParts[1]; // 'pt', 'en', 'es'
+  const lang = langCode === 'pt' ? 'pt-BR' : langCode;
+  
+  const t = loadTranslations(lang);
+  
+  try {
+    const blogDataPath = path.join(__dirname, 'blog_data.json');
+    if (!fs.existsSync(blogDataPath)) {
+        return res.status(404).send("Blog data not found");
+    }
+    const blogData = JSON.parse(fs.readFileSync(blogDataPath, 'utf8'));
+    const article = blogData.articles.find(a => a.slug === slug && a.lang === lang);
+    
+    if (!article) {
+      return res.status(404).send("Article not found");
+    }
+
+    res.send(generateBlogHTML(article, lang, t));
+  } catch (error) {
+    console.error('Error loading blog article:', error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 app.get('/', (req, res) => {
   const lang = detectLanguage(req);
   const t = loadTranslations(lang);
@@ -1955,3 +1984,79 @@ app.get('/robots.txt', (req, res) => {
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`✅ EaseMind Website running on http://0.0.0.0:${PORT}`);
 });
+
+
+function generateBlogHTML(article, lang, t) {
+  const baseUrl = 'https://easemind.io';
+  const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
+  const url = `${baseUrl}/${urlLangPrefix}/blog/${article.slug}`;
+  
+  const seoTags = `
+    <link rel="canonical" href="${url}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="${article.title}" />
+    <meta property="og:description" content="${article.description}" />
+    <meta property="og:image" content="${baseUrl}${article.image}" />
+    <meta property="og:url" content="${url}" />
+  `;
+
+  const bodyContent = `
+    <article class="blog-post container" style="max-width: 800px; margin: 4rem auto; padding: 0 1.5rem;">
+      <header class="post-header" style="margin-bottom: 3rem; text-align: center;">
+        <span class="category" style="display: inline-block; background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; rounded: 9999px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; border-radius: 20px;">${article.category}</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; color: #1e1b4b; line-height: 1.2; margin-bottom: 1.5rem;">${article.title}</h1>
+        <div class="post-meta" style="color: #6b7280; font-size: 0.875rem;">
+          <time datetime="${article.date}">${new Date(article.date).toLocaleDateString(lang)}</time>
+        </div>
+      </header>
+      
+      <div class="post-content" style="font-size: 1.125rem; line-height: 1.8; color: #374151;">
+        ${marked.parse(article.content)}
+      </div>
+
+      <footer class="post-footer" style="margin-top: 5rem; padding-top: 3rem; border-top: 1px solid #e5e7eb; text-align: center;">
+        <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e1b4b; margin-bottom: 1.5rem;">${t.cta.download}</h3>
+        <a href="https://app.easemind.io/" class="btn btn-primary" style="display: inline-block; background: #4f46e5; color: white; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none;">Baixar EaseMind</a>
+      </footer>
+    </article>
+  `;
+
+  // Simple layout wrapper based on the project's style
+  return `
+<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${article.title} - EaseMind</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  ${seoTags}
+  <style>
+    .post-content h2 { font-size: 1.875rem; font-weight: 700; color: #1e1b4b; margin-top: 2.5rem; margin-bottom: 1.25rem; }
+    .post-content p { margin-bottom: 1.5rem; }
+    .post-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style-type: disc; }
+    .post-content li { margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
+        <img src="/logo.png" alt="EaseMind Logo">
+      </a>
+    </nav>
+  </header>
+  <main>
+    ${bodyContent}
+  </main>
+  <footer style="background: #f9fafb; padding: 4rem 0; margin-top: 4rem;">
+    <div class="container" style="text-align: center;">
+      <p style="color: #6b7280;">&copy; 2026 EaseMind. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
+  `;
+}
