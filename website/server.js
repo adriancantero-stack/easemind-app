@@ -958,6 +958,7 @@ function generateHTML(page, lang, t) {
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/blog/anxiety-relief">Blog</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -1667,6 +1668,7 @@ app.get('/privacy', (req, res) => {
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/blog/anxiety-relief">Blog</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -1763,6 +1765,7 @@ app.get('/terms', (req, res) => {
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['plans'][lang]}">${t.footer.plans}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['faq'][lang]}">${t.footer.faq}</a></li>
             <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/${routeMap['contact'][lang]}">${t.footer.contact}</a></li>
+            <li><a href="/${lang === 'pt-BR' ? 'pt' : lang}/blog/anxiety-relief">Blog</a></li>
           </ul>
         </div>
         <div class="footer-links">
