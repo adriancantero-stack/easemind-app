@@ -1533,6 +1533,7 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
 
 
 // Blog Routes
+
 // Blog Index Route
 app.get(['/pt/blog', '/en/blog', '/es/blog'], (req, res) => {
   const pathParts = req.path.split('/');
@@ -1547,7 +1548,12 @@ app.get(['/pt/blog', '/en/blog', '/es/blog'], (req, res) => {
         return res.status(404).send("Blog data not found");
     }
     const blogData = JSON.parse(fs.readFileSync(blogDataPath, 'utf8'));
-    const articles = blogData.articles.filter(a => a.lang === lang);
+    
+    // FILTRO GARANTIDO: Filtra apenas artigos que correspondem EXATAMENTE ao idioma da URL
+    const articles = blogData.articles.filter(a => {
+        if (lang === 'pt-BR') return a.lang === 'pt-BR';
+        return a.lang === lang;
+    });
     
     res.send(generateBlogIndexHTML(articles, lang, t));
   } catch (error) {
