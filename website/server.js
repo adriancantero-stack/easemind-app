@@ -2045,12 +2045,11 @@ function generateBlogHTML(article, lang, t) {
     <meta property="og:url" content="${url}" />
   `;
 
+  
   let cleanContent = article.content;
-  const h1Pattern = /^#\s+(.*)$/m;
-  const match = cleanContent.match(h1Pattern);
-  if (match && (match[1].trim() === article.title.trim() || article.title.includes(match[1].trim()))) {
-    cleanContent = cleanContent.replace(h1Pattern, '').trim();
-  }
+  // Remove o primeiro H1 (# Título) se ele existir no início do conteúdo
+  cleanContent = cleanContent.replace(/^#\s+.*$/m, '').trim();
+
 
   const bodyContent = `
     <article class="blog-post container" style="max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; background: white;">
