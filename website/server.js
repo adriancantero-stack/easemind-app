@@ -2112,8 +2112,9 @@ function generateBlogHTML(article, lang, t) {
     ${bodyContent}
   </main>
   
+  
   <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
-    <div class="container">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
         <div class="footer-brand">
           <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
@@ -2145,18 +2146,19 @@ function generateBlogHTML(article, lang, t) {
         </div>
       </div>
       
-      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin: 0 auto 3rem auto; text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 900px;">
         <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
           ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
         </p>
       </div>
 
-      <div style="text-align: center; color: #718096; font-size: 0.875rem;">
-        <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
-        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      <div style="text-align: center; color: #718096; font-size: 0.875rem; width: 100%;">
+        <p style="margin-bottom: 0.5rem; display: block;">${t.footer.copyright}</p>
+        <p style="display: block;">${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
       </div>
     </div>
   </footer>
+
 
 </body>
 </html>
@@ -2222,8 +2224,9 @@ function generateBlogIndexHTML(articles, lang, t) {
     </div>
   </main>
   
+  
   <footer class="site-footer" style="background: #1a202c; color: white; padding: 4rem 0; margin-top: 4rem;">
-    <div class="container">
+    <div class="container" style="max-width: 1100px; margin: 0 auto; padding: 0 1.5rem;">
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; margin-bottom: 4rem; text-align: left;">
         <div class="footer-brand">
           <img src="/logo-footer.png" alt="EaseMind" style="height: 40px; margin-bottom: 1.5rem;">
@@ -2255,18 +2258,19 @@ function generateBlogIndexHTML(articles, lang, t) {
         </div>
       </div>
       
-      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin-bottom: 3rem; text-align: center; border: 1px solid rgba(255,255,255,0.1);">
+      <div style="background: rgba(255,255,255,0.05); border-radius: 1rem; padding: 2rem; margin: 0 auto 3rem auto; text-align: center; border: 1px solid rgba(255,255,255,0.1); max-width: 900px;">
         <p style="color: #a0aec0; font-size: 0.875rem; margin: 0; line-height: 1.6;">
           ⚕️ <strong>${t.footer.disclaimerLabel}:</strong> ${t.footer.disclaimer}
         </p>
       </div>
 
-      <div style="text-align: center; color: #718096; font-size: 0.875rem;">
-        <p style="margin-bottom: 0.5rem;">${t.footer.copyright}</p>
-        <p>${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
+      <div style="text-align: center; color: #718096; font-size: 0.875rem; width: 100%;">
+        <p style="margin-bottom: 0.5rem; display: block;">${t.footer.copyright}</p>
+        <p style="display: block;">${t.footer.madeWith} ❤️ ${t.footer.toHelp}</p>
       </div>
     </div>
   </footer>
+
 
 </body>
 </html>
