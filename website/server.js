@@ -1986,6 +1986,7 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 
+
 function generateBlogHTML(article, lang, t) {
   const baseUrl = 'https://easemind.io';
   const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
@@ -2001,10 +2002,10 @@ function generateBlogHTML(article, lang, t) {
   `;
 
   const bodyContent = `
-    <article class="blog-post container" style="max-width: 800px; margin: 4rem auto; padding: 0 1.5rem;">
+    <article class="blog-post container" style="max-width: 800px; margin: 2rem auto; padding: 0 1.5rem; background: white;">
       <header class="post-header" style="margin-bottom: 3rem; text-align: center;">
-        <span class="category" style="display: inline-block; background: #e0e7ff; color: #4338ca; padding: 0.25rem 0.75rem; rounded: 9999px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem; border-radius: 20px;">${article.category}</span>
-        <h1 style="font-size: 2.5rem; font-weight: 800; color: #1e1b4b; line-height: 1.2; margin-bottom: 1.5rem;">${article.title}</h1>
+        <span class="category" style="display: inline-block; background: #f3f4f6; color: #4b5563; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1rem;">${article.category}</span>
+        <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; line-height: 1.2; margin-bottom: 1.5rem;">${article.title}</h1>
         <div class="post-meta" style="color: #6b7280; font-size: 0.875rem;">
           <time datetime="${article.date}">${new Date(article.date).toLocaleDateString(lang)}</time>
         </div>
@@ -2014,14 +2015,16 @@ function generateBlogHTML(article, lang, t) {
         ${marked.parse(article.content)}
       </div>
 
-      <footer class="post-footer" style="margin-top: 5rem; padding-top: 3rem; border-top: 1px solid #e5e7eb; text-align: center;">
-        <h3 style="font-size: 1.5rem; font-weight: 700; color: #1e1b4b; margin-bottom: 1.5rem;">${t.cta.download}</h3>
-        <a href="https://app.easemind.io/" class="btn btn-primary" style="display: inline-block; background: #4f46e5; color: white; padding: 1rem 2rem; border-radius: 0.5rem; font-weight: 600; text-decoration: none;">Baixar EaseMind</a>
+      <footer class="post-footer" style="margin-top: 5rem; padding: 4rem 2rem; border: 1px solid #e5e7eb; border-radius: 1rem; text-align: center; background: white;">
+        <h3 style="font-size: 1.75rem; font-weight: 700; color: #111827; margin-bottom: 1rem;">Try EaseMind</h3>
+        <p style="color: #4b5563; margin-bottom: 2rem; font-size: 1.125rem;">${t.cta.subtitle || 'Your journey to mental wellness starts here.'}</p>
+        <a href="https://app.easemind.io/" class="btn btn-primary" style="display: inline-block; background: #4f46e5; color: white; padding: 1.25rem 2.5rem; border-radius: 0.75rem; font-weight: 700; text-decoration: none; font-size: 1.125rem; box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.2);">
+          ${lang === 'pt-BR' ? 'Baixar EaseMind' : lang === 'es' ? 'Descargar EaseMind' : 'Download EaseMind'}
+        </a>
       </footer>
     </article>
   `;
 
-  // Simple layout wrapper based on the project's style
   return `
 <!DOCTYPE html>
 <html lang="${lang}">
@@ -2034,15 +2037,20 @@ function generateBlogHTML(article, lang, t) {
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   ${seoTags}
   <style>
-    .post-content h2 { font-size: 1.875rem; font-weight: 700; color: #1e1b4b; margin-top: 2.5rem; margin-bottom: 1.25rem; }
+    body { background-color: white !important; color: #111827; }
+    header { background: white; border-bottom: 1px solid #f3f4f6; padding: 1rem 0; }
+    .post-content h2 { font-size: 1.875rem; font-weight: 700; color: #111827; margin-top: 3rem; margin-bottom: 1.25rem; }
     .post-content p { margin-bottom: 1.5rem; }
     .post-content ul { margin-bottom: 1.5rem; padding-left: 1.5rem; list-style-type: disc; }
     .post-content li { margin-bottom: 0.5rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    .logo img { height: 40px; }
+    footer.site-footer { background: #f9fafb; padding: 4rem 0; margin-top: 6rem; border-top: 1px solid #e5e7eb; }
   </style>
 </head>
 <body>
   <header>
-    <nav class="container">
+    <nav class="container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="/${lang === 'pt-BR' ? 'pt' : lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
@@ -2051,7 +2059,7 @@ function generateBlogHTML(article, lang, t) {
   <main>
     ${bodyContent}
   </main>
-  <footer style="background: #f9fafb; padding: 4rem 0; margin-top: 4rem;">
+  <footer class="site-footer">
     <div class="container" style="text-align: center;">
       <p style="color: #6b7280;">&copy; 2026 EaseMind. All rights reserved.</p>
     </div>
