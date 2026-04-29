@@ -2024,6 +2024,7 @@ app.listen(PORT, '0.0.0.0', () => {
 
 
 
+
 function generateBlogHTML(article, lang, t) {
   const baseUrl = 'https://easemind.io';
   const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
@@ -2038,7 +2039,6 @@ function generateBlogHTML(article, lang, t) {
     <meta property="og:url" content="${url}" />
   `;
 
-  // Limpar o conteúdo para evitar títulos duplicados (remove H1 se ele for igual ao título do artigo)
   let cleanContent = article.content;
   const h1Pattern = /^#\s+(.*)$/m;
   const match = cleanContent.match(h1Pattern);
@@ -2047,10 +2047,10 @@ function generateBlogHTML(article, lang, t) {
   }
 
   const bodyContent = `
-    <article class="blog-post container" style="max-width: 800px; margin: 0 auto; padding: 4rem 1.5rem; background: white;">
-      <header class="post-header" style="margin-bottom: 3.5rem; text-align: center;">
+    <article class="blog-post container" style="max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; background: white;">
+      <header class="post-header" style="margin-bottom: 3.5rem; text-align: center; background: white; padding: 2rem 0;">
         <span class="category" style="display: inline-block; background: #f3f4f6; color: #4b5563; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; margin-bottom: 1.25rem; text-transform: uppercase; letter-spacing: 0.05em;">${article.category}</span>
-        <h1 style="font-size: 2.25rem; font-weight: 800; color: #111827; line-height: 1.3; margin-bottom: 1.5rem; letter-spacing: -0.02em;">${article.title}</h1>
+        <h1 style="font-size: 2.5rem; font-weight: 800; color: #111827; line-height: 1.2; margin-bottom: 1.5rem; letter-spacing: -0.02em;">${article.title}</h1>
         <div class="post-meta" style="color: #9ca3af; font-size: 0.875rem; font-weight: 500;">
           <time datetime="${article.date}">${new Date(article.date).toLocaleDateString(lang, { day: 'numeric', month: 'long', year: 'numeric' })}</time>
         </div>
@@ -2083,7 +2083,7 @@ function generateBlogHTML(article, lang, t) {
   ${seoTags}
   <style>
     body { background-color: white !important; color: #111827; font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
-    header.site-header { background: white; border-bottom: 1px solid #f3f4f6; padding: 1.25rem 0; position: sticky; top: 0; z-index: 100; }
+    header.site-header { background: white; border-bottom: 1px solid #f3f4f6; padding: 1.25rem 0; position: relative; z-index: 100; }
     .post-content h2 { font-size: 1.75rem; font-weight: 800; color: #111827; margin-top: 3.5rem; margin-bottom: 1.5rem; letter-spacing: -0.01em; }
     .post-content p { margin-bottom: 1.75rem; }
     .post-content ul, .post-content ol { margin-bottom: 2rem; padding-left: 1.5rem; }
@@ -2109,6 +2109,74 @@ function generateBlogHTML(article, lang, t) {
   <footer class="site-footer">
     <div class="container" style="text-align: center;">
       <p style="color: #9ca3af; font-size: 0.875rem;">&copy; 2026 EaseMind. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
+  `;
+}
+
+
+function generateBlogIndexHTML(articles, lang, t) {
+  const baseUrl = 'https://easemind.io';
+  const urlLangPrefix = lang === 'pt-BR' ? 'pt' : lang;
+  
+  const articleCards = articles.map(article => `
+    <a href="/${urlLangPrefix}/blog/${article.slug}" style="text-decoration: none; color: inherit;">
+      <div style="background: white; border: 1px solid #e5e7eb; border-radius: 1rem; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; height: 100%; display: flex; flex-direction: column;">
+        <div style="padding: 1.5rem; flex-grow: 1;">
+          <span style="display: inline-block; background: #f3f4f6; color: #4b5563; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;">${article.category}</span>
+          <h3 style="font-size: 1.25rem; font-weight: 700; color: #111827; margin-bottom: 0.75rem; line-height: 1.4;">${article.title}</h3>
+          <p style="color: #6b7280; font-size: 0.875rem; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">${article.description}</p>
+        </div>
+        <div style="padding: 1rem 1.5rem; border-top: 1px solid #f3f4f6; color: #4f46e5; font-weight: 600; font-size: 0.875rem;">
+          ${lang === 'pt-BR' ? 'Ler mais' : lang === 'es' ? 'Leer más' : 'Read more'} &rarr;
+        </div>
+      </div>
+    </a>
+  `).join('');
+
+  return `
+<!DOCTYPE html>
+<html lang="${lang}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blog - EaseMind</title>
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="stylesheet" href="/styles/main.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #f9fafb; color: #111827; font-family: 'Inter', sans-serif; }
+    header { background: white; border-bottom: 1px solid #e5e7eb; padding: 1rem 0; position: relative; z-index: 50; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .blog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem; margin: 4rem 0; }
+    .blog-header { text-align: center; margin: 4rem 0; }
+    .blog-header h1 { font-size: 3rem; font-weight: 800; color: #111827; margin-bottom: 1rem; }
+    .blog-header p { font-size: 1.25rem; color: #6b7280; max-width: 600px; margin: 0 auto; }
+    footer.site-footer { background: white; padding: 4rem 0; border-top: 1px solid #e5e7eb; margin-top: 4rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container">
+      <a href="/${urlLangPrefix}" class="logo">
+        <img src="/logo.png" alt="EaseMind Logo" style="height: 40px;">
+      </a>
+    </nav>
+  </header>
+  <main class="container">
+    <div class="blog-header">
+      <h1>Blog</h1>
+      <p>${lang === 'pt-BR' ? 'Dicas e guias para sua saúde mental e bem-estar.' : lang === 'es' ? 'Consejos y guías para tu salud mental y bienestar.' : 'Tips and guides for your mental health and wellness.'}</p>
+    </div>
+    <div class="blog-grid">
+      ${articleCards}
+    </div>
+  </main>
+  <footer class="site-footer">
+    <div class="container" style="text-align: center;">
+      <p style="color: #6b7280;">&copy; 2026 EaseMind. All rights reserved.</p>
     </div>
   </footer>
 </body>
