@@ -1530,6 +1530,7 @@ app.delete('/api/admin/delete-user/:firebase_uid', async (req, res) => {
 
 // Routes
 
+
 // Blog Routes
 app.get(['/pt/blog/:slug', '/en/blog/:slug', '/es/blog/:slug'], (req, res) => {
   const slug = req.params.slug;
@@ -1545,7 +1546,16 @@ app.get(['/pt/blog/:slug', '/en/blog/:slug', '/es/blog/:slug'], (req, res) => {
         return res.status(404).send("Blog data not found");
     }
     const blogData = JSON.parse(fs.readFileSync(blogDataPath, 'utf8'));
-    const article = blogData.articles.find(a => a.slug === slug && a.lang === lang);
+    
+    // Busca robusta: 
+    // 1. Tenta slug exato
+    // 2. Tenta slug sem o sufixo de idioma (ex: 'anxiety-relief' em vez de 'anxiety-relief-en')
+    let article = blogData.articles.find(a => a.slug === slug && a.lang === lang);
+    
+    if (!article) {
+      // Tenta encontrar um artigo que comece com o slug e pertença ao idioma
+      article = blogData.articles.find(a => a.slug.startsWith(slug) && a.lang === lang);
+    }
     
     if (!article) {
       return res.status(404).send("Article not found");
