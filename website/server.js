@@ -713,7 +713,7 @@ legacyPages.forEach(page => {
 
 // Dynamic Route Handler for Localized Pages
 // /:lang/:slug
-app.get("/:langPrefix/:slug?"), (req, res, next) => {
+app.get("/:langPrefix/:slug?", (req, res, next) => {
   const { langPrefix, slug } = req.params;
 
   // Validate language prefix
