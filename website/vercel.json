@@ -2,22 +2,22 @@
   "version": 2,
   "builds": [
     {
-      "src": "server.js",
+      "src": "website/server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/robots.txt",
-      "dest": "/public/robots.txt"
+      "dest": "public/robots.txt"
     },
     {
       "src": "/sitemap_blog.xml",
-      "dest": "/public/sitemap_blog.xml"
+      "dest": "public/sitemap_blog.xml"
     },
     {
       "src": "/(.*)",
-      "dest": "/server.js"
+      "dest": "website/server.js"
     }
   ]
 }
