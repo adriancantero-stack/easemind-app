@@ -61,14 +61,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
 app.use('/locales', express.static(path.join(__dirname, 'locales')));
 
-// Static routes for SEO files
-app.get('/robots.txt', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'robots.txt'));
-});
 
-app.get('/sitemap_blog.xml', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'sitemap_blog.xml'));
-});
 
 // Helper: Load translations
 function loadTranslations(lang) {
