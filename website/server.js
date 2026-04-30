@@ -712,7 +712,8 @@ legacyPages.forEach(page => {
 
 
 app.get("/", (req, res) => {
-  res.send("Root page works!");
+  console.log("Root route accessed!");
+  res.redirect(302, "/pt");
 });
 
 // Dynamic Route Handler for Localized Pages
