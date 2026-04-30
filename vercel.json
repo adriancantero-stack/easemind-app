@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "public": "website/public",
   "builds": [
     {
       "src": "website/server.js",
