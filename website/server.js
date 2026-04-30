@@ -59,7 +59,79 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/styles', express.static(path.join(__dirname, 'styles')));
-app.use('/locales', express.static(path.join(__dirname, 'locales')));
+app.use("/locales", express.static(path.join(__dirname, "locales")));
+
+// Helper: Load blog articles
+function loadBlogArticles(lang) {
+  const blogDataPath = path.join(__dirname, 'data', `blog_data_${lang.replace('-', '_')}.json`);
+  if (fs.existsSync(blogDataPath)) {
+    return JSON.parse(fs.readFileSync(blogDataPath, 'utf8')).articles;
+  }
+  return [];
+}
+
+// Blog routes
+app.get('/(pt|en|es)/blog', (req, res) => {
+  const lang = detectLanguage(req);
+  const t = loadTranslations(lang);
+  const articles = loadBlogArticles(lang);
+
+  let blogContent = `
+    <section class="blog-list">
+      <div class="container">
+        <h1>${t.blog.title}</h1>
+        <p class="section-subtitle">${t.blog.subtitle}</p>
+        <div class="article-grid">
+  `;
+
+  articles.forEach(article => {
+    blogContent += `
+          <div class="article-card">
+            <img src="${article.image}" alt="${article.title}" loading="lazy">
+            <h3>${article.title}</h3>
+            <p>${article.description}</p>
+            <a href="/${lang === 'pt-BR' ? 'pt' : lang}/blog/${article.slug}" class="btn btn-secondary">${t.blog.readMore}</a>
+          </div>
+    `;
+  });
+
+  blogContent += `
+        </div>
+      </div>
+    </section>
+  `;
+
+  res.send(generateHTML('blog', lang, t, blogContent));
+});
+
+app.get('/(pt|en|es)/blog/:slug', (req, res) => {
+  const lang = detectLanguage(req);
+  const t = loadTranslations(lang);
+  const articles = loadBlogArticles(lang);
+  const article = articles.find(a => a.slug === req.params.slug);
+
+  if (!article) {
+    return res.status(404).send(generateHTML('404', lang, t, '<h1>404: Article Not Found</h1>'));
+  }
+
+  const articleContent = marked.parse(article.content);
+
+  let blogDetailContent = `
+    <section class="blog-detail">
+      <div class="container">
+        <h1>${article.title}</h1>
+        <p class="article-meta">${t.blog.publishedOn} ${article.date} | ${t.blog.category}: ${article.category}</p>
+        <img src="${article.image}" alt="${article.title}" class="article-image" loading="lazy">
+        <div class="article-body">
+          ${articleContent}
+        </div>
+        <a href="/${lang === 'pt-BR' ? 'pt' : lang}/blog" class="btn btn-secondary">${t.blog.backToBlog}</a>
+      </div>
+    </section>
+  `;
+
+  res.send(generateHTML('blog-detail', lang, t, blogDetailContent));
+});
 
 
 
