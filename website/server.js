@@ -1545,7 +1545,7 @@ app.get(['/pt/blog', '/en/blog', '/es/blog'], (req, res) => {
   const t = loadTranslations(lang);
   
   try {
-    const blogDataPath = path.join(__dirname, 'blog_data.json');
+    const blogDataPath = path.join(__dirname, 'data', `blog_data_${lang.replace('-', '_')}.json`);
     if (!fs.existsSync(blogDataPath)) {
         return res.status(404).send("Blog data not found");
     }
@@ -1573,7 +1573,7 @@ app.get(['/pt/blog/:slug', '/en/blog/:slug', '/es/blog/:slug'], (req, res) => {
   const t = loadTranslations(lang);
   
   try {
-    const blogDataPath = path.join(__dirname, 'blog_data.json');
+    const blogDataPath = path.join(__dirname, 'data', `blog_data_${lang.replace('-', '_')}.json`);
     if (!fs.existsSync(blogDataPath)) {
         return res.status(404).send("Blog data not found");
     }
