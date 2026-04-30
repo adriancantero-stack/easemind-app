@@ -709,20 +709,7 @@ legacyPages.forEach(page => {
 
 
 
-// Root redirect
-app.get("/"), (req, res) => {
-  // Check if it\"s a legacy query param request
-  if (req.query.lang) {
-    const lang = detectLanguage(req);
-    const urlPrefix = lang === "pt-BR" ? "pt" : lang;
-    return res.redirect(301, `/${urlPrefix}`);
-  }
 
-  // Detect language and redirect
-  const lang = detectLanguage(req);
-  const urlPrefix = lang === "pt-BR" ? "pt" : lang;
-  res.redirect(302, `/${urlPrefix}`);
-});
 
 // Dynamic Route Handler for Localized Pages
 // /:lang/:slug
@@ -738,7 +725,8 @@ app.get("/:langPrefix/:slug?"), (req, res, next) => {
 
   // Handle Home (empty slug)
   if (!slug) {
-    return res.send(`<h1>Hello from Localized Home! (${lang})</h1>`);
+    const t = loadTranslations(lang);
+    return res.send(generateHTML("home", lang, t));
   }
 
   // Handle other localized pages
