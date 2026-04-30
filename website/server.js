@@ -707,22 +707,28 @@ legacyPages.forEach(page => {
   });
 });
 
+
+
+app.get("/"), (req, res) => {
+  res.send("<h1>Hello from Root!</h1>");
+});
+
 // Dynamic Route Handler for Localized Pages
 // /:lang/:slug
-app.get('/:langPrefix/:slug?', (req, res, next) => {
+app.get("/:langPrefix/:slug?"), (req, res, next) => {
   const { langPrefix, slug } = req.params;
 
   // Validate language prefix
-  if (!['pt', 'en', 'es'].includes(langPrefix)) {
+  if (!["pt", "en", "es"].includes(langPrefix)) {
     return next(); // Not a language route, maybe a static file or API
   }
 
-  const lang = langPrefix === 'pt' ? 'pt-BR' : langPrefix;
+  const lang = langPrefix === "pt" ? "pt-BR" : langPrefix;
 
   // Handle Home (empty slug)
   if (!slug) {
     const t = loadTranslations(lang);
-    return res.send(generateHTML('home', lang, t));
+    return res.send(generateHTML("home", lang, t));
   }
 
   // Handle other localized pages
@@ -734,26 +740,3 @@ app.get('/:langPrefix/:slug?', (req, res, next) => {
 
   next(); // No matching localized page found
 });
-
-// Root redirect
-app.get('/', (req, res) => {
-  // Check if it's a legacy query param request
-  if (req.query.lang) {
-    const lang = req.query.lang;
-    const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
-    return res.redirect(301, `/${urlPrefix}`);
-  }
-
-  // Detect language and redirect
-  const lang = detectLanguage(req);
-  const urlPrefix = lang === 'pt-BR' ? 'pt' : lang;
-  res.redirect(302, `/${urlPrefix}`);
-});
-
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-module.exports = app;
