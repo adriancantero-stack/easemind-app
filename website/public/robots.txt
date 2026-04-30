@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://easemind.io/sitemap_blog.xml
