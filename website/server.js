@@ -711,6 +711,10 @@ legacyPages.forEach(page => {
 
 
 
+app.get("/", (req, res) => {
+  res.redirect(302, "/pt");
+});
+
 // Dynamic Route Handler for Localized Pages
 // /:lang/:slug
 app.get("/:langPrefix/:slug?", (req, res, next) => {
