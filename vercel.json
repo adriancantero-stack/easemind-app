@@ -7,6 +7,16 @@
       "use": "@vercel/node"
     }
   ],
+  "rewrites": [
+    {
+      "source": "/robots.txt",
+      "destination": "/website/public/robots.txt"
+    },
+    {
+      "source": "/sitemap_blog.xml",
+      "destination": "/website/public/sitemap_blog.xml"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
