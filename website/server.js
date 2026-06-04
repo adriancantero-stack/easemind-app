@@ -407,21 +407,20 @@ function generateHTML(page, lang, t) {
             <h1 style="text-align: center; margin-bottom: 1rem;">${t.contact.h1}</h1>
             <p style="text-align: center; max-width: 600px; margin: 0 auto 3rem; color: var(--ink-600); font-size: 1.125rem;">${t.contact.description}</p>
             
-            <form id="contactForm" class="contact-form">
-              <div class="form-group">
-                <input type="text" name="name" placeholder="${t.contact.form.name}" required>
+            <div class="contact-card" style="background: white; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); padding: 4rem 2rem; max-width: 500px; margin: 0 auto; text-align: center; border: 1px solid rgba(0,0,0,0.05);">
+              <div style="width: 80px; height: 80px; background: rgba(139, 111, 243, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem;">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="var(--brand-primary)">
+                  <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
+                </svg>
               </div>
-              <div class="form-group">
-                <input type="email" name="email" placeholder="${t.contact.form.email}" required>
-              </div>
-              <div class="form-group">
-                <textarea name="message" rows="6" placeholder="${t.contact.form.message}" required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">${t.contact.form.submit}</button>
-            </form>
-            
-            <div class="contact-info" style="text-align: center; margin-top: 3rem; width: 100%; display: block;">
-              <p style="font-size: 1rem; color: var(--ink-600); text-align: center; margin: 0 auto;"><strong style="color: var(--ink-900);">${t.contact.support.label}</strong> <a href="mailto:${t.contact.support.email}" style="color: var(--brand-primary); text-decoration: none;">${t.contact.support.email}</a></p>
+              <h2 style="margin-bottom: 0.5rem; color: var(--ink-900); font-size: 1.5rem;">${t.contact.support.label || 'Suporte por E-mail'}</h2>
+              <p style="color: var(--ink-600); margin-bottom: 2rem;">Clique no botão abaixo para nos enviar um e-mail. Nossa equipe responderá o mais rápido possível.</p>
+              <a href="mailto:${t.contact.support.email}" class="btn btn-primary" style="display: inline-flex; align-items: center; gap: 0.5rem; font-size: 1.125rem; padding: 1rem 2rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                  <path d="M20,8L12,13L4,8V6L12,11L20,6M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6C22,4.89 21.1,4 20,4Z" />
+                </svg>
+                ${t.contact.support.email}
+              </a>
             </div>
           </div>
         </section>
@@ -508,32 +507,7 @@ function generateHTML(page, lang, t) {
     </div>
   </footer>
   
-  ${page === 'contact' ? `
-  <script>
-    document.getElementById('contactForm').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const formData = new FormData(e.target);
-      const data = Object.fromEntries(formData);
-      
-      try {
-        const res = await fetch('/api/website/contact', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        
-        if (res.ok) {
-          alert('${t.contact.form.success}');
-          e.target.reset();
-        } else {
-          alert('${t.contact.form.error}');
-        }
-      } catch (err) {
-        alert('${t.contact.form.error}');
-      }
-    });
-  </script>
-  ` : ''}
+
 </body>
 </html>
   `;
