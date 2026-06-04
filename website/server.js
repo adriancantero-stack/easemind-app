@@ -35,7 +35,7 @@ function loadTranslations(lang) {
   if (fs.existsSync(filePath)) {
     return JSON.parse(fs.readFileSync(filePath, 'utf8'));
   }
-  return JSON.parse(fs.readFileSync(path.join(__dirname, 'locales', 'pt-BR.json'), 'utf8'));
+  return JSON.parse(fs.readFileSync(path.join(__dirname, 'locales', 'pt.json'), 'utf8'));
 }
 
 // Helper: Load legal markdown
@@ -45,7 +45,7 @@ function loadLegal(type, lang) {
     const markdown = fs.readFileSync(filePath, 'utf8');
     return marked.parse(markdown);
   }
-  return marked.parse(fs.readFileSync(path.join(__dirname, 'locales', `${type}-pt-BR.md`), 'utf8'));
+  return marked.parse(fs.readFileSync(path.join(__dirname, 'locales', `${type}-pt.md`), 'utf8'));
 }
 
 // Helper: Markdown parser
@@ -68,7 +68,7 @@ function parseMarkdown(filePath) {
   return { meta, content: match[2] };
 }
 
-function getAllBlogPosts(lang = 'pt-BR') {
+function getAllBlogPosts(lang = 'pt') {
   const blogDir = path.join(__dirname, 'content', 'blog', lang);
   if (!fs.existsSync(blogDir)) return [];
   const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.md'));
@@ -82,26 +82,23 @@ function getAllBlogPosts(lang = 'pt-BR') {
 
 // Helper: Detect language from Accept-Language header
 function detectLanguage(req) {
-  const langQuery = req.query.lang;
-  if (langQuery && ['pt-BR', 'en', 'es'].includes(langQuery)) return langQuery;
-  
   const acceptLang = req.headers['accept-language'] || '';
-  if (acceptLang.includes('pt')) return 'pt-BR';
+  if (acceptLang.includes('pt')) return 'pt';
   if (acceptLang.includes('es')) return 'es';
   return 'en';
 }
 
 // Helper: Generate HTML template (PREMIUM DESIGN)
-function generateHTML(page, lang, t, data = {}) {
+function generateHTML(page, lang, t, data = {}, currentPath = '') {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
   const appPreviewUrl = 'https://app.easemind.io';
   
-  const monthlyUrl = lang === 'pt-BR' 
+  const monthlyUrl = lang === 'pt' 
     ? 'https://buy.stripe.com/dRm5kDeByfUnavK5qb3oA07' 
     : 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04';
     
-  const yearlyUrl = lang === 'pt-BR' 
+  const yearlyUrl = lang === 'pt' 
     ? 'https://buy.stripe.com/14A28r1OM9vZfQ43i33oA06' 
     : 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05';
   
@@ -118,7 +115,7 @@ function generateHTML(page, lang, t, data = {}) {
             <p>${t.hero.subtitle}</p>
             <div class="cta-group">
               <a href="#download" class="btn btn-primary">${t.cta.download}</a>
-              <a href="/how-it-works?lang=${lang}" class="btn btn-secondary">${t.cta.how}</a>
+              <a href="/${lang}/how-it-works" class="btn btn-secondary">${t.cta.how}</a>
             </div>
           </div>
         </section>
@@ -415,7 +412,7 @@ function generateHTML(page, lang, t, data = {}) {
             
             <div style="text-align: center; margin-top: 4rem;">
               <p style="font-size: 1.125rem; margin-bottom: 1.5rem; text-align: center; margin-left: auto; margin-right: auto;">${t.faq.more}</p>
-              <a href="/contact?lang=${lang}" class="btn btn-primary">${t.cta.contact}</a>
+              <a href="/${lang}/contact" class="btn btn-primary">${t.cta.contact}</a>
             </div>
           </div>
         </section>
@@ -460,7 +457,7 @@ function generateHTML(page, lang, t, data = {}) {
         <section class="blog-list" style="padding: 3rem 0 6rem; min-height: 50vh;">
           <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem;">
             ${data.posts && data.posts.length > 0 ? data.posts.map(post => `
-              <a href="/blog/${post.slug}?lang=${lang}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; background: white;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)'">
+              <a href="/${lang}/blog/${post.slug}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; background: white;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)'">
                 <img src="${post.image || '/images/og-image.jpg'}" alt="${post.title}" style="width: 100%; height: 220px; object-fit: cover;">
                 <div style="padding: 2rem;">
                   <span style="font-size: 0.875rem; color: var(--brand-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${post.date}</span>
@@ -478,7 +475,7 @@ function generateHTML(page, lang, t, data = {}) {
       content = `
         <article class="blog-post" style="padding: 6rem 0; max-width: 800px; margin: 0 auto;">
           <div class="container">
-            <a href="/blog?lang=${lang}" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem;">&larr; Voltar para o Blog</a>
+            <a href="/${lang}/blog" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem;">&larr; Voltar para o Blog</a>
             <img src="${data.post.image || '/images/og-image.jpg'}" alt="${data.post.title}" style="width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 3rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1);">
             <h1 style="font-size: 3rem; font-weight: 900; color: var(--ink-900); margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em;">${data.post.title}</h1>
             <div style="color: var(--ink-500); margin-bottom: 3rem; font-size: 1.125rem; font-weight: 500;">Publicado em ${data.post.date}</div>
@@ -520,17 +517,17 @@ function generateHTML(page, lang, t, data = {}) {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
         <button class="lang-selector-button">
-          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          ${lang === 'pt' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
         </button>
         <div class="lang-selector-dropdown">
-          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          <a href="/pt${currentPath}" ${lang === 'pt' ? 'class="active"' : ''}>🇧🇷 Português</a>
+          <a href="/en${currentPath}" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+          <a href="/es${currentPath}" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
         </div>
       </div>
     </nav>
@@ -550,18 +547,18 @@ function generateHTML(page, lang, t, data = {}) {
         <div class="footer-links">
           <h4>${t.footer.product}</h4>
           <ul>
-            <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
-            <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
-            <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
-            <li><a href="/blog?lang=${lang}">Blog</a></li>
-            <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
+            <li><a href="/${lang}/how-it-works">${t.footer.how}</a></li>
+            <li><a href="/${lang}/plans">${t.footer.plans}</a></li>
+            <li><a href="/${lang}/faq">${t.footer.faq}</a></li>
+            <li><a href="/${lang}/blog">Blog</a></li>
+            <li><a href="/${lang}/contact">${t.footer.contact}</a></li>
           </ul>
         </div>
         <div class="footer-links">
           <h4>${t.footer.legal}</h4>
           <ul>
-            <li><a href="/privacy?lang=${lang}">${t.footer.privacy}</a></li>
-            <li><a href="/terms?lang=${lang}">${t.footer.terms}</a></li>
+            <li><a href="/${lang}/privacy">${t.footer.privacy}</a></li>
+            <li><a href="/${lang}/terms">${t.footer.terms}</a></li>
           </ul>
         </div>
         <div class="footer-links">
@@ -822,50 +819,70 @@ app.get('/api/admin/mood-distribution', async (req, res) => {
   }
 });
 
-// Routes
+// Root redirect
 app.get('/', (req, res) => {
   const lang = detectLanguage(req);
-  const t = loadTranslations(lang);
-  res.send(generateHTML('home', lang, t));
+  res.redirect(`/${lang}`);
 });
 
-app.get('/how-it-works', (req, res) => {
-  const lang = detectLanguage(req);
-  const t = loadTranslations(lang);
-  res.send(generateHTML('how-it-works', lang, t));
+// Fallback redirects for old non-prefixed routes
+const staticPages = ['how-it-works', 'plans', 'faq', 'contact', 'blog', 'privacy', 'terms'];
+staticPages.forEach(page => {
+  app.get(`/${page}`, (req, res) => {
+    const lang = detectLanguage(req);
+    res.redirect(`/${lang}/${page}`);
+  });
 });
 
-app.get('/plans', (req, res) => {
-  const lang = detectLanguage(req);
+// Localized Routes
+app.get('/:lang(pt|en|es)', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
-  res.send(generateHTML('plans', lang, t));
+  res.send(generateHTML('home', lang, t, {}, '/'));
 });
 
-app.get('/faq', (req, res) => {
-  const lang = detectLanguage(req);
+app.get('/:lang(pt|en|es)/how-it-works', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
-  res.send(generateHTML('faq', lang, t));
+  res.send(generateHTML('how-it-works', lang, t, {}, '/how-it-works'));
 });
 
-app.get('/contact', (req, res) => {
-  const lang = detectLanguage(req);
+app.get('/:lang(pt|en|es)/plans', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
-  res.send(generateHTML('contact', lang, t));
+  res.send(generateHTML('plans', lang, t, {}, '/plans'));
 });
 
-app.get('/blog', (req, res) => {
-  const lang = detectLanguage(req);
+app.get('/:lang(pt|en|es)/faq', (req, res) => {
+  const lang = req.params.lang;
+  const t = loadTranslations(lang);
+  res.send(generateHTML('faq', lang, t, {}, '/faq'));
+});
+
+app.get('/:lang(pt|en|es)/contact', (req, res) => {
+  const lang = req.params.lang;
+  const t = loadTranslations(lang);
+  res.send(generateHTML('contact', lang, t, {}, '/contact'));
+});
+
+app.get('/:lang(pt|en|es)/blog', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
   const posts = getAllBlogPosts(lang);
   res.send(generateHTML('blog', lang, t, {
     title: 'Blog - EaseMind',
     description: 'Artigos sobre saúde mental, bem-estar e tecnologia.',
     posts
-  }));
+  }, '/blog'));
 });
 
 app.get('/blog/:slug', (req, res) => {
   const lang = detectLanguage(req);
+  res.redirect(`/${lang}/blog/${req.params.slug}`);
+});
+
+app.get('/:lang(pt|en|es)/blog/:slug', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
   const slug = req.params.slug;
   const filePath = path.join(__dirname, 'content', 'blog', lang, `${slug}.md`);
@@ -882,37 +899,37 @@ app.get('/blog/:slug', (req, res) => {
     description: meta.description,
     image: meta.image,
     post: { ...meta, html }
-  }));
+  }, `/blog/${slug}`));
 });
 
 app.get('/sitemap.xml', (req, res) => {
   const baseUrl = 'https://easemind.io';
   
-  const languages = ['pt-BR', 'en', 'es'];
+  const languages = ['pt', 'en', 'es'];
   let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
 
   // Add main pages for all languages
   languages.forEach(lang => {
-    const langQuery = `?lang=${lang}`;
+    const prefix = `/${lang}`;
     sitemap += `
   <url>
-    <loc>${baseUrl}/${langQuery}</loc>
+    <loc>${baseUrl}${prefix}</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>${baseUrl}/how-it-works${langQuery}</loc>
+    <loc>${baseUrl}${prefix}/how-it-works</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/plans${langQuery}</loc>
+    <loc>${baseUrl}${prefix}/plans</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>${baseUrl}/blog${langQuery}</loc>
+    <loc>${baseUrl}${prefix}/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>`;
@@ -922,7 +939,7 @@ app.get('/sitemap.xml', (req, res) => {
     posts.forEach(post => {
       sitemap += `
   <url>
-    <loc>${baseUrl}/blog/${post.slug}${langQuery}</loc>
+    <loc>${baseUrl}/${lang}/blog/${post.slug}</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;
@@ -936,8 +953,8 @@ app.get('/sitemap.xml', (req, res) => {
   res.send(sitemap);
 });
 
-app.get('/privacy', (req, res) => {
-  const lang = detectLanguage(req);
+app.get('/:lang(pt|en|es)/privacy', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
   const html = loadLegal('privacy', lang);
   res.send(`
@@ -954,17 +971,17 @@ app.get('/privacy', (req, res) => {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
         <button class="lang-selector-button">
-          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          ${lang === 'pt' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
         </button>
         <div class="lang-selector-dropdown">
-          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          <a href="/pt/privacy" ${lang === 'pt' ? 'class="active"' : ''}>🇧🇷 Português</a>
+          <a href="/en/privacy" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+          <a href="/es/privacy" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
         </div>
       </div>
     </nav>
@@ -984,8 +1001,8 @@ app.get('/privacy', (req, res) => {
   `);
 });
 
-app.get('/terms', (req, res) => {
-  const lang = detectLanguage(req);
+app.get('/:lang(pt|en|es)/terms', (req, res) => {
+  const lang = req.params.lang;
   const t = loadTranslations(lang);
   const html = loadLegal('terms', lang);
   res.send(`
@@ -1002,17 +1019,17 @@ app.get('/terms', (req, res) => {
 <body>
   <header>
     <nav class="container">
-      <a href="/?lang=${lang}" class="logo">
+      <a href="/${lang}" class="logo">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
         <button class="lang-selector-button">
-          ${lang === 'pt-BR' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
+          ${lang === 'pt' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
         </button>
         <div class="lang-selector-dropdown">
-          <a href="?lang=pt-BR" ${lang === 'pt-BR' ? 'class="active"' : ''}>🇧🇷 Português</a>
-          <a href="?lang=en" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
-          <a href="?lang=es" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
+          <a href="/pt/terms" ${lang === 'pt' ? 'class="active"' : ''}>🇧🇷 Português</a>
+          <a href="/en/terms" ${lang === 'en' ? 'class="active"' : ''}>🇺🇸 English</a>
+          <a href="/es/terms" ${lang === 'es' ? 'class="active"' : ''}>🇪🇸 Español</a>
         </div>
       </div>
     </nav>
@@ -1032,29 +1049,7 @@ app.get('/terms', (req, res) => {
   `);
 });
 
-// Sitemap
-app.get('/sitemap.xml', (req, res) => {
-  const baseUrl = 'https://easemind.io';
-  const langs = ['pt-BR', 'en', 'es'];
-  const pages = ['', '/how-it-works', '/plans', '/faq', '/contact', '/privacy', '/terms'];
-  
-  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-  
-  langs.forEach(lang => {
-    pages.forEach(page => {
-      xml += `  <url>\n`;
-      xml += `    <loc>${baseUrl}${page}?lang=${lang}</loc>\n`;
-      xml += `    <changefreq>weekly</changefreq>\n`;
-      xml += `    <priority>${page === '' ? '1.0' : '0.8'}</priority>\n`;
-      xml += `  </url>\n`;
-    });
-  });
-  
-  xml += '</urlset>';
-  res.header('Content-Type', 'application/xml');
-  res.send(xml);
-});
+
 
 // Robots.txt
 app.get('/robots.txt', (req, res) => {

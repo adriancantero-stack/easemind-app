@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "771193870049",
+    "project_id": "easemind-auth-firebase",
+    "storage_bucket": "easemind-auth-firebase.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771193870049:android:2250493daa3884295009a0",
+        "android_client_info": {
+          "package_name": "com.easemind.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "771193870049-121v5eg8ngsuotirir6ougen5ul5e3n3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNHevNclm8XwLwupm_gyCBuLqDhptQkpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "771193870049-121v5eg8ngsuotirir6ougen5ul5e3n3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "771193870049-jkrv6ib7269vsmjmd21mnq6k5el5e67i.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.easemind.app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
