@@ -279,5 +279,12 @@
     "disclaimer": "EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.",
     "disclaimerLabel": "Aviso Importante:",
     "copyright": "© 2025 EaseMind. Todos los derechos reservados."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Bienestar emocional, prácticas guiadas y tecnología.",
+    "empty": "Aún no hay artículos publicados.",
+    "back": "Volver al Blog",
+    "published": "Publicado el"
   }
 }

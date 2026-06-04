@@ -280,5 +280,12 @@
     "disclaimer": "O EaseMind não substitui tratamento médico ou psicológico. Em caso de crise, procure ajuda profissional (CVV 188, SAMU 192) ou vá ao hospital mais próximo.",
     "disclaimerLabel": "Aviso Importante:",
     "copyright": "© 2025 EaseMind. Todos os direitos reservados."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Bem-estar emocional, práticas guiadas e tecnologia.",
+    "empty": "Nenhum artigo publicado ainda.",
+    "back": "Voltar para o Blog",
+    "published": "Publicado em"
   }
 }

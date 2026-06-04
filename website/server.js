@@ -450,8 +450,8 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
       content = `
         <section class="blog-header" style="padding: 6rem 0 3rem; text-align: center; background: linear-gradient(135deg, rgba(139, 111, 243, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
           <div class="container">
-            <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--ink-900); margin-bottom: 1rem;">Blog</h1>
-            <p style="font-size: 1.25rem; color: var(--ink-600); max-width: 600px; margin: 0 auto;">Bem-estar emocional, práticas guiadas e tecnologia.</p>
+            <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--ink-900); margin-bottom: 1rem;">${t.blog.title}</h1>
+            <p style="font-size: 1.25rem; color: var(--ink-600); max-width: 600px; margin: 0 auto;">${t.blog.subtitle}</p>
           </div>
         </section>
         <section class="blog-list" style="padding: 3rem 0 6rem; min-height: 50vh;">
@@ -465,7 +465,7 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
                   <p style="font-size: 1rem; color: var(--ink-600); line-height: 1.6; margin: 0;">${post.description}</p>
                 </div>
               </a>
-            `).join('') : '<p style="text-align:center; width: 100%; color: var(--ink-500);">Nenhum artigo publicado ainda.</p>'}
+            `).join('') : `<p style="text-align:center; width: 100%; color: var(--ink-500);">${t.blog.empty}</p>`}
           </div>
         </section>
       `;
@@ -475,10 +475,10 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
       content = `
         <article class="blog-post" style="padding: 6rem 0; max-width: 800px; margin: 0 auto;">
           <div class="container">
-            <a href="/${lang}/blog" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem;">&larr; Voltar para o Blog</a>
+            <a href="/${lang}/blog" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem;">&larr; ${t.blog.back}</a>
             <img src="${data.post.image || '/images/og-image.jpg'}" alt="${data.post.title}" style="width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 3rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1);">
             <h1 style="font-size: 3rem; font-weight: 900; color: var(--ink-900); margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em;">${data.post.title}</h1>
-            <div style="color: var(--ink-500); margin-bottom: 3rem; font-size: 1.125rem; font-weight: 500;">Publicado em ${data.post.date}</div>
+            <div style="color: var(--ink-500); margin-bottom: 3rem; font-size: 1.125rem; font-weight: 500;">${t.blog.published} ${data.post.date}</div>
             <div class="legal-content" style="font-size: 1.25rem; line-height: 1.8; color: var(--ink-800);">
               ${data.post.html}
             </div>

@@ -279,5 +279,12 @@
     "disclaimer": "EaseMind does not replace medical or psychological treatment. In case of crisis, seek professional help (Lifeline 988, Emergency 911) or go to the nearest hospital.",
     "disclaimerLabel": "Important Notice:",
     "copyright": "© 2025 EaseMind. All rights reserved."
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Emotional wellness, guided practices, and technology.",
+    "empty": "No articles published yet.",
+    "back": "Back to Blog",
+    "published": "Published on"
   }
 }
