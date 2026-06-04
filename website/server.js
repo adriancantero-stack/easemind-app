@@ -68,8 +68,8 @@ function parseMarkdown(filePath) {
   return { meta, content: match[2] };
 }
 
-function getAllBlogPosts() {
-  const blogDir = path.join(__dirname, 'content', 'blog');
+function getAllBlogPosts(lang = 'pt-BR') {
+  const blogDir = path.join(__dirname, 'content', 'blog', lang);
   if (!fs.existsSync(blogDir)) return [];
   const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.md'));
   const posts = files.map(file => {
@@ -856,7 +856,7 @@ app.get('/contact', (req, res) => {
 app.get('/blog', (req, res) => {
   const lang = detectLanguage(req);
   const t = loadTranslations(lang);
-  const posts = getAllBlogPosts();
+  const posts = getAllBlogPosts(lang);
   res.send(generateHTML('blog', lang, t, {
     title: 'Blog - EaseMind',
     description: 'Artigos sobre saúde mental, bem-estar e tecnologia.',
@@ -868,7 +868,7 @@ app.get('/blog/:slug', (req, res) => {
   const lang = detectLanguage(req);
   const t = loadTranslations(lang);
   const slug = req.params.slug;
-  const filePath = path.join(__dirname, 'content', 'blog', `${slug}.md`);
+  const filePath = path.join(__dirname, 'content', 'blog', lang, `${slug}.md`);
   
   if (!fs.existsSync(filePath)) {
     return res.status(404).send('Not Found');
@@ -887,27 +887,53 @@ app.get('/blog/:slug', (req, res) => {
 
 app.get('/sitemap.xml', (req, res) => {
   const baseUrl = 'https://easemind.io';
-  const posts = getAllBlogPosts();
   
-  const staticUrls = [
-    '', '/how-it-works', '/plans', '/faq', '/contact', '/blog'
-  ];
-  
-  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
-  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-  
-  staticUrls.forEach(url => {
-    xml += `  <url>\n    <loc>${baseUrl}${url}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${url === '' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+  const languages = ['pt-BR', 'en', 'es'];
+  let sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+
+  // Add main pages for all languages
+  languages.forEach(lang => {
+    const langQuery = `?lang=${lang}`;
+    sitemap += `
+  <url>
+    <loc>${baseUrl}/${langQuery}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/how-it-works${langQuery}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/plans${langQuery}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/blog${langQuery}</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>`;
+
+    // Add blog posts for this language
+    const posts = getAllBlogPosts(lang);
+    posts.forEach(post => {
+      sitemap += `
+  <url>
+    <loc>${baseUrl}/blog/${post.slug}${langQuery}</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+    });
   });
-  
-  posts.forEach(post => {
-    xml += `  <url>\n    <loc>${baseUrl}/blog/${post.slug}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
-  });
-  
-  xml += '</urlset>';
+
+  sitemap += `
+</urlset>`;
   
   res.header('Content-Type', 'application/xml');
-  res.send(xml);
+  res.send(sitemap);
 });
 
 app.get('/privacy', (req, res) => {
