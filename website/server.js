@@ -495,6 +495,8 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
   }
   
   // Complete HTML structure
+  const canonicalPath = path === '/' ? '' : path;
+  const canonicalUrl = `https://easemind.io/${lang}${canonicalPath}`;
   return `
 <!DOCTYPE html>
 <html lang="${lang}">
@@ -508,6 +510,11 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
   <meta property="og:image" content="${data.image || 'https://easemind.io/images/og-image.jpg'}">
   <meta property="og:type" content="${page === 'blog-post' ? 'article' : 'website'}">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="${canonicalUrl}">
+  <link rel="alternate" hreflang="pt" href="https://easemind.io/pt${canonicalPath}">
+  <link rel="alternate" hreflang="en" href="https://easemind.io/en${canonicalPath}">
+  <link rel="alternate" hreflang="es" href="https://easemind.io/es${canonicalPath}">
+  <link rel="alternate" hreflang="x-default" href="https://easemind.io/en${canonicalPath}">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="stylesheet" href="/styles/main.css">
@@ -870,8 +877,8 @@ app.get('/:lang(pt|en|es)/blog', (req, res) => {
   const t = loadTranslations(lang);
   const posts = getAllBlogPosts(lang);
   res.send(generateHTML('blog', lang, t, {
-    title: 'Blog - EaseMind',
-    description: 'Artigos sobre saúde mental, bem-estar e tecnologia.',
+    title: `${t.blog.title} - EaseMind`,
+    description: t.blog.subtitle,
     posts
   }, '/blog'));
 });
