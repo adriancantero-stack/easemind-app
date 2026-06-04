@@ -63,7 +63,15 @@ function detectLanguage(req) {
 function generateHTML(page, lang, t) {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
-  const appPreviewUrl = 'https://easemind-mobile.preview.emergentagent.com';
+  const appPreviewUrl = 'https://app.easemind.io';
+  
+  const monthlyUrl = lang === 'pt-BR' 
+    ? 'https://buy.stripe.com/dRm5kDeByfUnavK5qb3oA07' 
+    : 'https://buy.stripe.com/6oUaEX9hedMfavK6uf3oA04';
+    
+  const yearlyUrl = lang === 'pt-BR' 
+    ? 'https://buy.stripe.com/14A28r1OM9vZfQ43i33oA06' 
+    : 'https://buy.stripe.com/4gMbJ10KI9vZ7jy6uf3oA05';
   
   let content = '';
   
@@ -338,7 +346,7 @@ function generateHTML(page, lang, t) {
                 <ul class="pricing-features">
                   ${t.plans.yearly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
-                <a href="${appPreviewUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
+                <a href="${yearlyUrl}" class="btn btn-primary">${t.cta.subYearly || 'Assinar anual'}</a>
               </div>
               
               <!-- MONTHLY PLAN -->
@@ -349,7 +357,7 @@ function generateHTML(page, lang, t) {
                 <ul class="pricing-features">
                   ${t.plans.monthly.features.map(f => `<li>${f}</li>`).join('')}
                 </ul>
-                <a href="${appPreviewUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
+                <a href="${monthlyUrl}" class="btn btn-secondary">${t.cta.subMonthly || 'Assinar mensal'}</a>
               </div>
             </div>
             
