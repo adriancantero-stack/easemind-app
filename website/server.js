@@ -48,6 +48,38 @@ function loadLegal(type, lang) {
   return marked.parse(fs.readFileSync(path.join(__dirname, 'locales', `${type}-pt-BR.md`), 'utf8'));
 }
 
+// Helper: Markdown parser
+function parseMarkdown(filePath) {
+  const fileContent = fs.readFileSync(filePath, 'utf-8');
+  const match = fileContent.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  if (!match) return { meta: {}, content: fileContent };
+  
+  const metaLines = match[1].split('\n');
+  const meta = {};
+  metaLines.forEach(line => {
+    const splitIndex = line.indexOf(':');
+    if (splitIndex !== -1) {
+      const key = line.slice(0, splitIndex).trim();
+      let value = line.slice(splitIndex + 1).trim();
+      if (value.startsWith('"') && value.endsWith('"')) value = value.slice(1, -1);
+      meta[key] = value;
+    }
+  });
+  return { meta, content: match[2] };
+}
+
+function getAllBlogPosts() {
+  const blogDir = path.join(__dirname, 'content', 'blog');
+  if (!fs.existsSync(blogDir)) return [];
+  const files = fs.readdirSync(blogDir).filter(file => file.endsWith('.md'));
+  const posts = files.map(file => {
+    const filePath = path.join(blogDir, file);
+    const { meta } = parseMarkdown(filePath);
+    return { slug: file.replace('.md', ''), ...meta };
+  });
+  return posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+}
+
 // Helper: Detect language from Accept-Language header
 function detectLanguage(req) {
   const langQuery = req.query.lang;
@@ -60,7 +92,7 @@ function detectLanguage(req) {
 }
 
 // Helper: Generate HTML template (PREMIUM DESIGN)
-function generateHTML(page, lang, t) {
+function generateHTML(page, lang, t, data = {}) {
   const appStoreUrl = 'https://apps.apple.com/app/easemind';
   const playStoreUrl = 'https://play.google.com/store/apps/details?id=io.easemind';
   const appPreviewUrl = 'https://app.easemind.io';
@@ -162,6 +194,61 @@ function generateHTML(page, lang, t) {
                 <div class="step-content">
                   <h3>${t.howItWorks.s4?.title || 'Diário Emocional'}</h3>
                   <p>${t.howItWorks.s4?.description || 'Registre seus sentimentos e acompanhe seu progresso ao longo do tempo.'}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section class="testimonials" style="padding: 6rem 0; background: linear-gradient(135deg, rgba(139, 111, 243, 0.03) 0%, rgba(255, 255, 255, 0) 100%);">
+          <div class="container">
+            <h2 style="text-align: center; margin-bottom: 1rem;">O que dizem sobre nós</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 4rem;">Milhares de pessoas já encontraram a calma com a Luna.</p>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+              <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
+                <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
+                <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
+                  ★ ★ ★ ★ ★
+                </div>
+                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"A Luna me ajudou a controlar uma crise de ansiedade antes de uma reunião importante. O exercício de respiração guiada foi fundamental."</p>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--brand-secondary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">M</div>
+                  <div>
+                    <div style="font-weight: 700; color: var(--ink-900);">Mariana S.</div>
+                    <div style="font-size: 0.875rem; color: var(--ink-500);">São Paulo, SP</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
+                <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
+                <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
+                  ★ ★ ★ ★ ★
+                </div>
+                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"Tenho dificuldade para dormir há anos. Os áudios de relaxamento e o diário emocional antes de deitar mudaram completamente minha rotina."</p>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #4ECDC4; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">R</div>
+                  <div>
+                    <div style="font-weight: 700; color: var(--ink-900);">Ricardo M.</div>
+                    <div style="font-size: 0.875rem; color: var(--ink-500);">Lisboa, PT</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
+                <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
+                <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
+                  ★ ★ ★ ★ ★
+                </div>
+                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"O design do aplicativo é lindo e não me sobrecarrega com informações. É exatamente o que eu preciso quando minha mente está acelerada."</p>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #FF6B6B; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">A</div>
+                  <div>
+                    <div style="font-weight: 700; color: var(--ink-900);">Ana C.</div>
+                    <div style="font-size: 0.875rem; color: var(--ink-500);">Rio de Janeiro, RJ</div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -389,6 +476,53 @@ function generateHTML(page, lang, t) {
         </section>
       `;
       break;
+      
+    case 'blog':
+      content = `
+        <section class="blog-header" style="padding: 6rem 0 3rem; text-align: center; background: linear-gradient(135deg, rgba(139, 111, 243, 0.05) 0%, rgba(255, 255, 255, 0) 100%);">
+          <div class="container">
+            <h1 style="font-size: 3.5rem; font-weight: 800; color: var(--ink-900); margin-bottom: 1rem;">Blog</h1>
+            <p style="font-size: 1.25rem; color: var(--ink-600); max-width: 600px; margin: 0 auto;">Bem-estar emocional, práticas guiadas e tecnologia.</p>
+          </div>
+        </section>
+        <section class="blog-list" style="padding: 3rem 0 6rem; min-height: 50vh;">
+          <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem;">
+            ${data.posts && data.posts.length > 0 ? data.posts.map(post => `
+              <a href="/blog/${post.slug}?lang=${lang}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; background: white;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)'">
+                <img src="${post.image || '/images/og-image.jpg'}" alt="${post.title}" style="width: 100%; height: 220px; object-fit: cover;">
+                <div style="padding: 2rem;">
+                  <span style="font-size: 0.875rem; color: var(--brand-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${post.date}</span>
+                  <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--ink-900); margin: 0.75rem 0; line-height: 1.3;">${post.title}</h3>
+                  <p style="font-size: 1rem; color: var(--ink-600); line-height: 1.6; margin: 0;">${post.description}</p>
+                </div>
+              </a>
+            `).join('') : '<p style="text-align:center; width: 100%; color: var(--ink-500);">Nenhum artigo publicado ainda.</p>'}
+          </div>
+        </section>
+      `;
+      break;
+      
+    case 'blog-post':
+      content = `
+        <article class="blog-post" style="padding: 6rem 0; max-width: 800px; margin: 0 auto;">
+          <div class="container">
+            <a href="/blog?lang=${lang}" style="color: var(--brand-primary); text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; margin-bottom: 2.5rem;">&larr; Voltar para o Blog</a>
+            <img src="${data.post.image || '/images/og-image.jpg'}" alt="${data.post.title}" style="width: 100%; height: auto; max-height: 450px; object-fit: cover; border-radius: 24px; margin-bottom: 3rem; box-shadow: 0 15px 40px rgba(0,0,0,0.1);">
+            <h1 style="font-size: 3rem; font-weight: 900; color: var(--ink-900); margin-bottom: 1rem; line-height: 1.2; letter-spacing: -0.02em;">${data.post.title}</h1>
+            <div style="color: var(--ink-500); margin-bottom: 3rem; font-size: 1.125rem; font-weight: 500;">Publicado em ${data.post.date}</div>
+            <div class="legal-content" style="font-size: 1.25rem; line-height: 1.8; color: var(--ink-800);">
+              ${data.post.html}
+            </div>
+            
+            <div style="margin-top: 5rem; padding: 3rem; background: linear-gradient(135deg, rgba(139, 111, 243, 0.08) 0%, rgba(139, 111, 243, 0.02) 100%); border-radius: 24px; text-align: center; border: 1px solid rgba(139, 111, 243, 0.1);">
+              <h3 style="font-size: 1.75rem; font-weight: 800; color: var(--ink-900); margin-bottom: 1rem;">Apoio emocional na palma da mão</h3>
+              <p style="font-size: 1.125rem; color: var(--ink-600); margin-bottom: 2rem;">Baixe o EaseMind e conte com a Luna para te guiar em momentos de estresse ou ansiedade.</p>
+              <a href="${appPreviewUrl}" class="btn btn-primary" style="font-size: 1.125rem; padding: 1rem 2.5rem;">Acessar o App Web</a>
+            </div>
+          </div>
+        </article>
+      `;
+      break;
   }
   
   // Complete HTML structure
@@ -398,8 +532,13 @@ function generateHTML(page, lang, t) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${t.meta.title}</title>
-  <meta name="description" content="${t.meta.description}">
+  <title>${data.title || t.meta.title}</title>
+  <meta name="description" content="${data.description || t.meta.description}">
+  <meta property="og:title" content="${data.title || t.meta.title}">
+  <meta property="og:description" content="${data.description || t.meta.description}">
+  <meta property="og:image" content="${data.image || 'https://easemind.io/images/og-image.jpg'}">
+  <meta property="og:type" content="${page === 'blog-post' ? 'article' : 'website'}">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" type="image/png" href="/favicon.png">
   <link rel="apple-touch-icon" href="/favicon.png">
   <link rel="stylesheet" href="/styles/main.css">
@@ -442,6 +581,7 @@ function generateHTML(page, lang, t) {
             <li><a href="/how-it-works?lang=${lang}">${t.footer.how}</a></li>
             <li><a href="/plans?lang=${lang}">${t.footer.plans}</a></li>
             <li><a href="/faq?lang=${lang}">${t.footer.faq}</a></li>
+            <li><a href="/blog?lang=${lang}">Blog</a></li>
             <li><a href="/contact?lang=${lang}">${t.footer.contact}</a></li>
           </ul>
         </div>
@@ -739,6 +879,63 @@ app.get('/contact', (req, res) => {
   const lang = detectLanguage(req);
   const t = loadTranslations(lang);
   res.send(generateHTML('contact', lang, t));
+});
+
+app.get('/blog', (req, res) => {
+  const lang = detectLanguage(req);
+  const t = loadTranslations(lang);
+  const posts = getAllBlogPosts();
+  res.send(generateHTML('blog', lang, t, {
+    title: 'Blog - EaseMind',
+    description: 'Artigos sobre saúde mental, bem-estar e tecnologia.',
+    posts
+  }));
+});
+
+app.get('/blog/:slug', (req, res) => {
+  const lang = detectLanguage(req);
+  const t = loadTranslations(lang);
+  const slug = req.params.slug;
+  const filePath = path.join(__dirname, 'content', 'blog', `${slug}.md`);
+  
+  if (!fs.existsSync(filePath)) {
+    return res.status(404).send('Not Found');
+  }
+  
+  const { meta, content } = parseMarkdown(filePath);
+  const html = marked.parse(content);
+  
+  res.send(generateHTML('blog-post', lang, t, {
+    title: `${meta.title} - EaseMind`,
+    description: meta.description,
+    image: meta.image,
+    post: { ...meta, html }
+  }));
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  const baseUrl = 'https://easemind.io';
+  const posts = getAllBlogPosts();
+  
+  const staticUrls = [
+    '', '/how-it-works', '/plans', '/faq', '/contact', '/blog'
+  ];
+  
+  let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+  xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+  
+  staticUrls.forEach(url => {
+    xml += `  <url>\n    <loc>${baseUrl}${url}</loc>\n    <changefreq>weekly</changefreq>\n    <priority>${url === '' ? '1.0' : '0.8'}</priority>\n  </url>\n`;
+  });
+  
+  posts.forEach(post => {
+    xml += `  <url>\n    <loc>${baseUrl}/blog/${post.slug}</loc>\n    <changefreq>monthly</changefreq>\n    <priority>0.7</priority>\n  </url>\n`;
+  });
+  
+  xml += '</urlset>';
+  
+  res.header('Content-Type', 'application/xml');
+  res.send(xml);
 });
 
 app.get('/privacy', (req, res) => {
