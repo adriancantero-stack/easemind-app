@@ -1,8 +1,7 @@
 {
   "meta": {
     "title": "EaseMind — Encuentra calma y claridad con Luna",
-    "description": "IA empática para bienestar mental. Respiración guiada, SOS con música, diario emocional y contenido de autocuidado.",
-    "keywords": "calma, bienestar emocional, meditación, respiración, apoyo emocional, mindfulness, autocuidado"
+    "description": "IA empática para bienestar mental. Respiración guiada, SOS con música, diario emocional y contenido de autocuidado."
   },
   "nav": {
     "home": "Inicio",
@@ -12,50 +11,49 @@
     "contact": "Contacto"
   },
   "cta": {
-    "download": "Prueba EaseMind",
-    "downloadApp": "Comienza Ahora",
-    "how": "Cómo Funciona",
+    "download": "Descargar App",
+    "how": "Cómo funciona",
     "plans": "Planes",
     "contact": "Contáctanos",
-    "startFree": "Empezar Gratis",
+    "startFree": "Empezar gratis",
     "subMonthly": "Suscribirse Mensual",
     "subYearly": "Suscribirse Anual",
-    "finalTitle": "¿Listo Para Comenzar?",
-    "finalSubtitle": "Descarga EaseMind y Explora Herramientas Para Más Calma en Tu Día",
-    "availableOn": "Disponible En",
-    "availableAt": "Disponible En",
-    "downloadOn": "Disponible En",
-    "getItOn": "Disponible En",
+    "finalTitle": "¿Listo para comenzar?",
+    "finalSubtitle": "Descarga EaseMind y encuentra calma en minutos",
+    "availableOn": "Disponible en",
+    "availableAt": "Disponible en",
+    "downloadOn": "Disponible en",
+    "getItOn": "Disponible en",
     "availableOnAppStore": "App Store",
     "availableOnGooglePlay": "Google Play"
   },
   "hero": {
-    "h1": "Descubre Herramientas Para Más Calma y Claridad Cada Día",
-    "subtitle": "Tu asistente virtual Luna ofrece orientación amable con ejercicios de respiración, prácticas de atención plena y herramientas simples de bienestar emocional."
+    "h1": "Encuentra calma y claridad en minutos",
+    "subtitle": "Tu terapeuta virtual Luna te acoge, guía y acompaña con respiración, mindfulness y psicología basada en evidencia."
   },
   "benefits": {
-    "title": "¿Por Qué Elegir EaseMind?",
-    "subtitle": "Apoyo Digital Para Tu Bienestar Emocional",
+    "title": "¿Por qué elegir EaseMind?",
+    "subtitle": "Apoyo emocional cuando más lo necesitas",
     "b1": {
-      "title": "Apoyo Emocional En Cualquier Momento",
-      "description": "Habla con Luna y recibe apoyo emocional con respiración guiada, preguntas reflexivas y respuestas cálidas y humanas."
+      "title": "Apoyo emocional en cualquier momento",
+      "description": "Habla con Luna y alivia la ansiedad con Terapia Cognitivo-Conductual, respiración guiada y empatía real."
     },
     "b2": {
-      "title": "Sesiones Guiadas Con Música",
-      "description": "Prácticas cortas de respiración y relajación con sonidos suaves para dormir, concentrarse y gratitud."
+      "title": "Sesiones guiadas con música",
+      "description": "4-7-8, box breathing, relajación, gratitud, sueño y enfoque — con música suave."
     },
     "b3": {
-      "title": "Ético, Seguro Y Privado",
-      "description": "Sin Diagnósticos Ni Prescripciones. Tus Datos Cumplen Con GDPR/LGPD."
+      "title": "Ético, seguro y privado",
+      "description": "Sin diagnósticos ni prescripciones. Tus datos cumplen con GDPR/LGPD."
     }
   },
   "howItWorks": {
-    "title": "Cómo Funciona",
-    "subtitle": "Simple y Fácil de Usar",
-    "h1": "Cómo Funciona",
+    "title": "Cómo funciona",
+    "subtitle": "Simple, rápido y eficaz",
+    "h1": "Cómo funciona",
     "s1": {
-      "title": "Habla Con Luna",
-      "description": "Luna escucha lo que compartes y responde de manera tranquila y solidaria, con voz natural y sugerencias simples y prácticas.",
+      "title": "Habla con Luna",
+      "description": "Luna comprende cómo te sientes y responde con empatía. Voz natural, ritmo calmado y guía práctica.",
       "feature1": "Conversaciones naturales:",
       "feature1Desc": "Luna usa procesamiento de lenguaje natural para entender tus emociones y ofrecer respuestas empáticas y contextualizadas.",
       "feature2": "Memoria contextual:",
@@ -75,7 +73,7 @@
     },
     "s3": {
       "title": "SOS con música calmante",
-      "description": "Cuando todo parezca abrumador, toca SOS para ejercicios cortos de respiración, audio relajante y orientación amable.",
+      "description": "En crisis, pulsa SOS: respiración breve, contención y guía hacia ayuda inmediata.",
       "feature1": "Activación inmediata:",
       "feature1Desc": "Un toque en el botón SOS inicia una sesión de respiración de emergencia con música calmante instantánea.",
       "feature2": "Instrucciones claras y tranquilizadoras:",
@@ -135,7 +133,7 @@
         "Contenido exclusivo"
       ]
     },
-    "legal": "Suscripciones con renovación automática. Cancela en cualquier momento a través del portal de Stripe. 7 días de prueba gratis. Pueden aplicarse impuestos locales.",
+    "legal": "Suscripciones con renovación automática. Cancela en App Store o Google Play. Pueden aplicarse impuestos locales.",
     "payment": "Aceptamos tarjetas de crédito, débito y más • Datos protegidos",
     "premium": {
       "features": [
@@ -158,7 +156,7 @@
       },
       {
         "q": "¿Puedo cancelar cuando quiera?",
-        "a": "Sí. Cancela en cualquier momento a través del portal de Stripe. Recibirás un enlace de gestión por correo electrónico después de la compra."
+        "a": "Sí. Cancela en App Store o Google Play en cualquier momento."
       },
       {
         "q": "¿Mis datos son privados?",
@@ -171,24 +169,23 @@
     ]
   },
   "contact": {
-    "h1": "Contáctanos",
-    "description": "¿Tienes preguntas, sugerencias o necesitas ayuda? Estamos aquí para ti.",
-    "emailInfo": "Envíanos un correo y responderemos en 24 horas",
+    "h1": "Contacto",
+    "description": "Habla con nuestro equipo. Respondemos en 48 horas hábiles.",
     "form": {
       "name": "Nombre",
       "email": "Email",
       "message": "Mensaje",
-      "submit": "Enviar mensaje",
-      "success": "¡Mensaje enviado! Responderemos pronto.",
-      "error": "No se pudo enviar ahora. Intenta de nuevo."
+      "submit": "Enviar",
+      "success": "¡Mensaje enviado con éxito!",
+      "error": "No pudimos enviar ahora. Intenta nuevamente más tarde."
     },
     "support": {
-      "label": "Email de soporte:",
+      "label": "Correo de soporte:",
       "email": "support@easemind.io"
     }
   },
   "legal": {
-    "disclaimer": "EaseMind es una aplicación de apoyo emocional y no sustituye la terapia, el diagnóstico o el tratamiento médico. En caso de emergencia, busque ayuda profesional.",
+    "disclaimer": "EaseMind es una app de apoyo emocional y no reemplaza la terapia, el diagnóstico ni el tratamiento médico. En crisis, busca ayuda profesional.",
     "privacy": {
       "title": "Política de Privacidad"
     },
@@ -196,59 +193,10 @@
       "title": "Términos de Uso"
     }
   },
-  "about": {
-    "title": "Nuestra Historia",
-    "subtitle": "Una historia real. Un dolor real. Una misión real.<br>EaseMind nació de una lucha que cambió nuestras vidas.",
-    "origin": {
-      "title": "Donde todo comenzó",
-      "p1": "Antes de que existiera cualquier aplicación, método o idea… existía el dolor. Mi esposa enfrentaba crisis de <span class=\"highlight\">Ansiedad y Pánico</span> tan intensas que nuestra rutina se convirtió en supervivencia. Buscamos psicólogos, terapeutas, médicos — y cada día parecía una nueva batalla.",
-      "p2": "Pero no nos rendimos. Caminamos juntos, abrazando el miedo, la inseguridad, las madrugadas en vela, las lágrimas que solo quien vive esto entiende.",
-      "p3": "Con el tiempo, llegó la curación. Y con ella, algo aún más poderoso: el propósito.",
-      "p4": "Mi esposa decidió estudiar y convertirse en <span class=\"highlight\">Terapeuta</span>. Quería ayudar a otras personas a no sentirse solas en la oscuridad como ella se sintió alguna vez. Y yo, programador, comencé a darme cuenta de que la tecnología también podía ser curación — si se usa con amor, empatía y verdad.",
-      "p5": "Así nació EaseMind: no como una aplicación, sino como una continuación de nuestra historia."
-    },
-    "mission": {
-      "title": "Nuestra Misión",
-      "p1": "Nadie debería enfrentar la ansiedad sin apoyo. Nadie debería sufrir porque no puede pagar terapia semanal. Nadie debería sentir que está luchando solo.",
-      "p2": "Creamos EaseMind para ser:",
-      "list": [
-        "✨ <strong>Accesible</strong> — porque la salud mental es un derecho, no un lujo",
-        "✨ <strong>Acogedor</strong> — porque sabemos exactamente cómo duele este dolor",
-        "✨ <strong>Eficaz</strong> — tecnología de punta guiándote con empatía real"
-      ],
-      "p3": "Esta app no es un producto. Es el puente que deseamos haber encontrado en aquel entonces."
-    },
-    "values": {
-      "title": "Nuestros pilares",
-      "v1": {
-        "title": "Empatía",
-        "desc": "Creado por quienes vivieron la ansiedad en carne propia — y saben lo que estás sintiendo."
-      },
-      "v2": {
-        "title": "Accesibilidad",
-        "desc": "Apoyo emocional de calidad, a un precio que cabe en la realidad de cualquier persona."
-      },
-      "v3": {
-        "title": "Innovación humana",
-        "desc": "Tecnología y terapia trabajando juntas, con un único objetivo: tu bienestar."
-      }
-    },
-    "team": {
-      "title": "Quiénes Somos",
-      "desc": "Somos una pareja que transformó el dolor en propósito. Ella, terapeuta formada, con una historia personal de superación. Él, programador apasionado por crear soluciones que realmente hacen la diferencia.",
-      "desc2": "Juntos, creamos EaseMind para que nadie tenga que enfrentar solo lo que nosotros enfrentamos. Si hoy estás aquí, sabe esto: esta app fue hecha pensando en ti.",
-      "desc3": "No estás solo. Nunca lo estuviste. Y nunca lo estarás."
-    },
-    "cta": {
-      "title": "Sé Parte de Esta Transformación",
-      "subtitle": "Únete a miles de personas que ya encontraron apoyo y alivio con EaseMind"
-    }
-  },
   "footer": {
     "product": "Producto",
     "legal": "Legal",
     "download": "Descargar",
-    "about": "Acerca de",
     "how": "Cómo funciona",
     "plans": "Planes",
     "faq": "FAQ",
@@ -259,61 +207,8 @@
     "googlePlay": "Google Play",
     "madeWith": "Hecho con",
     "toHelp": "para ayudarte a encontrar calma",
-    "disclaimer": "EaseMind es una aplicación de apoyo emocional y no sustituye la terapia, el diagnóstico o el tratamiento médico. En caso de emergencia, busque ayuda profesional.",
+    "disclaimer": "EaseMind no reemplaza el tratamiento médico o psicológico. En caso de crisis, busca ayuda profesional (Línea de Crisis 911) o ve al hospital más cercano.",
     "disclaimerLabel": "Aviso Importante:",
     "copyright": "© 2025 EaseMind. Todos los derechos reservados."
-  },
-  "edu": {
-    "hero_title": "Apoyo Emocional Digital",
-    "hero_subtitle": "Cómo la tecnología está ayudando a las personas a encontrar equilibrio de forma simple y accesible.",
-    "context_title": "¿Por qué buscar apoyo digital?",
-    "context_p1": "En los últimos años, la rutina acelerada, el exceso de estímulos y la presión diaria han hecho que millones de personas sientan un impacto en su bienestar emocional. Muchas veces, no es fácil encontrar a alguien con quien hablar, desahogarse u orientarse en el momento exacto en que la mente más lo necesita.",
-    "context_p2": "Al mismo tiempo, la tecnología está avanzando tan rápido que ya permite crear espacios más tranquilos, privados y acogedores — disponibles a cualquier hora, directo en el celular.",
-    "context_p3": "De aquí nace una nueva idea: el apoyo emocional digital.",
-    "what_is_title": "¿Qué es el apoyo emocional digital?",
-    "what_is_desc": "Es cuando usamos tecnología para:",
-    "what_is_1": "Ayudar a organizar pensamientos",
-    "what_is_2": "Aliviar momentos de tensión",
-    "what_is_3": "Ofrecer compañía emocional",
-    "what_is_4": "Guiar en ejercicios prácticos",
-    "what_is_5": "Ofrecer herramientas de autocuidado de forma rápida e intuitiva",
-    "what_is_note": "No reemplaza a profesionales, no es tratamiento, no promete curas — pero complementa el día a día, trayendo confort y claridad en momentos en que la mente se siente sobrecargada.",
-    "why_important_title": "¿Por qué esto se ha vuelto tan importante?",
-    "why_important_intro": "3 razones principales explican la evolución de este tipo de herramienta:",
-    "reason_1_title": "Conexión vs. Comprensión",
-    "reason_1_desc": "Las personas están más conectadas que nunca — pero no siempre se sienten comprendidas. Tener a alguien 'cerca' 24/7 hace la diferencia.",
-    "reason_2_title": "Los tiempos han cambiado",
-    "reason_2_desc": "No todos pueden pausar su rutina para agendar citas o conversar cuando lo necesitan.",
-    "reason_3_title": "Nuevas formas de cuidado",
-    "reason_3_desc": "Respiración guiada, meditaciones rápidas, ejercicios mentales simples e incluso conversaciones estructuradas ayudan a traer calma en minutos.",
-    "easemind_role_title": "¿Dónde entra EaseMind en esta nueva realidad?",
-    "easemind_role_desc": "EaseMind nació justamente de esta necesidad: una herramienta digital de bienestar emocional, hecha para dar soporte simple, rápido y discreto.",
-    "easemind_for_who": "Fue creado para quienes buscan:",
-    "feature_1": "Organizar la mente",
-    "feature_2": "Respirar mejor en momentos difíciles",
-    "feature_3": "Acceder a ejercicios de calma",
-    "feature_4": "Tener una 'guía emocional' en el bolsillo",
-    "feature_5": "Aprender a lidiar con el estrés del día a día",
-    "inside_title": "Lo que encontrarás dentro de EaseMind",
-    "inside_1_title": "Ejercicios guiados",
-    "inside_1_desc": "Respiración y relajación para disminuir la tensión mental.",
-    "inside_2_title": "Espacio para desahogarse",
-    "inside_2_desc": "Sin juicios. Saca todo afuera y reorganiza tus pensamientos.",
-    "inside_3_title": "Sugerencias rápidas",
-    "inside_3_desc": "Pequeñas prácticas de bienestar que caben en 2 a 5 minutos.",
-    "inside_4_title": "IA Acogedora",
-    "inside_4_desc": "Orientación suave para momentos de sobrecarga emocional.",
-    "cta_title": "Conoce el apoyo emocional digital en la práctica",
-    "cta_desc": "Si quieres experimentar y entender mejor cómo funciona esta nueva forma de apoyo, accede a la página oficial.",
-    "cta_button": "Acceder a EaseMind",
-    "disclaimer_title": "Observación importante",
-    "disclaimer_text": "EaseMind no reemplaza la psicoterapia o profesionales de la salud, no ofrece diagnóstico y no hace promesas de tratamiento. Es una herramienta complementaria de bienestar emocional, hecha para traer calma, claridad y apoyo en el día a día."
-  },
-  "presell": {
-    "title": "Organización Simple Para Tu Día a Día",
-    "subtitle": "Descubre herramientas digitales prácticas para planificar tu rutina con más claridad y eficiencia.",
-    "cta": "Ir al Sitio Oficial",
-    "secure": "Ambiente Seguro",
-    "verified": "Oficial y Verificado"
   }
 }

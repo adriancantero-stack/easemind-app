@@ -8,8 +8,7 @@ from datetime import datetime, timedelta
 # MongoDB connection
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
 client = MongoClient(MONGO_URL)
-DB_NAME = os.environ.get('DB_NAME', 'railway')
-db = client[DB_NAME]
+db = client['easemind']
 
 # Collections
 users_collection = db['users']

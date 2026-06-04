@@ -12,28 +12,28 @@
   --brand-glow: rgba(139, 111, 243, 0.4);
   --secondary: #A8D8EA;
   --secondary-soft: #E8F2FF;
-
+  
   /* Text Colors */
   --ink-900: #111827;
   --ink-600: #4B5563;
   --ink-400: #9CA3AF;
   --ink-blue: #CBD5E1;
-
+  
   /* Surface Colors */
   --surface-white: #FFFFFF;
   --surface-light: #F7F8FA;
   --surface-dark: #0B1120;
   --surface-dark-alt: #141B2F;
-
+  
   /* Shadows */
   --shadow-soft: 0 4px 20px rgba(139, 111, 243, 0.08);
   --shadow-card: 0 10px 40px rgba(139, 111, 243, 0.12);
   --shadow-hover: 0 20px 60px rgba(139, 111, 243, 0.2);
   --shadow-glow: 0 8px 32px rgba(139, 111, 243, 0.25);
-
+  
   /* Typography */
   --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-
+  
   /* Animations */
   --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
@@ -63,15 +63,8 @@ body {
 
 /* === BREATHING ANIMATION === */
 @keyframes breathe {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.97;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.97; }
 }
 
 body {
@@ -79,30 +72,25 @@ body {
 }
 
 /* === TYPOGRAPHY === */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   color: var(--ink-900);
   font-weight: 800;
   letter-spacing: -0.03em;
   line-height: 1.1;
 }
 
-h1 {
-  font-size: clamp(2.75rem, 6vw, 4.5rem);
+h1 { 
+  font-size: clamp(2.75rem, 6vw, 4.5rem); 
   font-weight: 900;
 }
 
-h2 {
-  font-size: clamp(2.25rem, 5vw, 3.5rem);
+h2 { 
+  font-size: clamp(2.25rem, 5vw, 3.5rem); 
   font-weight: 800;
 }
 
-h3 {
-  font-size: clamp(1.5rem, 3.5vw, 2rem);
+h3 { 
+  font-size: clamp(1.5rem, 3.5vw, 2rem); 
   font-weight: 700;
 }
 
@@ -141,15 +129,12 @@ header.scrolled {
 
 nav {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 0;
   border: none;
   margin: 0;
 }
-
-
 
 .logo {
   display: flex;
@@ -213,7 +198,7 @@ nav {
   border: 2px solid var(--brand-soft);
   border-radius: 12px;
   box-shadow: 0 8px 24px rgba(139, 111, 243, 0.15);
-  min-width: auto;
+  min-width: 140px;
   opacity: 0;
   visibility: hidden;
   transform: translateY(-10px);
@@ -278,15 +263,8 @@ nav {
 }
 
 @keyframes float {
-
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50% {
-    transform: translateX(-50%) translateY(-20px);
-  }
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50% { transform: translateX(-50%) translateY(-20px); }
 }
 
 .hero .container {
@@ -503,21 +481,10 @@ section h2 {
   animation: fadeInUp 0.8s ease-out forwards;
 }
 
-.step:nth-child(1) {
-  animation-delay: 0.1s;
-}
-
-.step:nth-child(2) {
-  animation-delay: 0.2s;
-}
-
-.step:nth-child(3) {
-  animation-delay: 0.3s;
-}
-
-.step:nth-child(4) {
-  animation-delay: 0.4s;
-}
+.step:nth-child(1) { animation-delay: 0.1s; }
+.step:nth-child(2) { animation-delay: 0.2s; }
+.step:nth-child(3) { animation-delay: 0.3s; }
+.step:nth-child(4) { animation-delay: 0.4s; }
 
 .step:nth-child(even) .step-content {
   order: 2;
@@ -995,7 +962,6 @@ footer {
     opacity: 0;
     transform: translateY(40px);
   }
-
   to {
     opacity: 1;
     transform: translateY(0);
@@ -1003,15 +969,8 @@ footer {
 }
 
 @keyframes pulse {
-
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(1.05);
-  }
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
 }
 
 /* === RESPONSIVE === */
@@ -1023,26 +982,26 @@ footer {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
+  
   /* Force image to always appear first on mobile */
   .step .step-visual {
     order: -1;
   }
-
+  
   .step .step-content {
     order: 1;
   }
-
+  
   .footer-content {
     grid-template-columns: 1fr 1fr;
     gap: 2.5rem;
   }
-
+  
   .footer-brand {
     grid-column: 1 / -1;
     max-width: 100%;
   }
-
+  
   .container {
     padding: 0 2rem;
   }
@@ -1050,82 +1009,72 @@ footer {
 
 /* Mobile */
 @media (max-width: 768px) {
-
   /* Navigation */
   nav {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     gap: 1.5rem;
     padding: 1.5rem 0;
   }
-
-
-
+  
   .logo img {
-    height: 40px;
+    height: 56px;
   }
-
-
-
+  
   .nav-links {
-    order: 3;
-    flex-basis: 100%;
     flex-wrap: wrap;
     justify-content: center;
     gap: 1rem;
   }
-
+  
   .nav-links a {
     font-size: 0.9375rem;
   }
-
+  
   .lang-selector-button {
     font-size: 0.875rem;
     padding: 0.5rem 1rem;
   }
-
+  
   /* Hero Section */
   .hero {
     padding: 4rem 0 3rem;
   }
-
+  
   .hero h1 {
     font-size: 2rem;
     line-height: 1.2;
   }
-
+  
   .hero p {
     font-size: 1rem;
   }
-
+  
   /* Sections */
   section {
     padding: 4rem 0;
   }
-
+  
   h2 {
     font-size: 1.875rem;
   }
-
+  
   .section-subtitle {
     font-size: 1rem;
   }
-
+  
   /* Buttons & CTAs */
   .cta-group {
     flex-direction: column;
     width: 100%;
     gap: 1rem;
   }
-
+  
   .btn {
     width: 100%;
     padding: 1rem 1.5rem;
     font-size: 1rem;
   }
-
+  
   /* Grids */
   .benefit-grid,
   .how-grid,
@@ -1134,106 +1083,87 @@ footer {
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
+  
   /* Footer */
   .footer-content {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
     gap: 2.5rem;
     text-align: center;
   }
-
-  .footer-brand {
-    grid-column: 1 / -1;
-  }
-
-  /* Place "Produto" and "Legal" side by side on mobile */
-  .footer-links:nth-child(2) {
-    grid-column: 1;
-  }
-
-  .footer-links:nth-child(3) {
-    grid-column: 2;
-  }
-
-  /* Place "Download" below spanning both columns */
-  .footer-links:nth-child(4) {
-    grid-column: 1 / -1;
-  }
-
-  .footer-links {
-    text-align: center;
-  }
-
-  .footer-links ul {
-    padding: 0;
-  }
-
+  
   .footer-logo {
     text-align: center;
     margin: 0 auto 2.5rem;
   }
-
+  
   .footer-logo img {
     margin: 0 auto 1rem;
     display: block;
   }
-
+  
+  .footer-links {
+    text-align: center;
+  }
+  
+  .footer-links ul {
+    padding: 0;
+  }
+  
   footer {
     padding: 3rem 0 2rem;
   }
-
+  
   .disclaimer {
     padding: 1.5rem;
     font-size: 0.875rem;
   }
-
+  
   /* Container */
   .container {
     padding: 0 1.5rem;
   }
-
+  
   /* Cards */
   .benefit-card,
   .plan-card,
   .step {
     padding: 2rem 1.5rem;
   }
-
+  
   /* Contact Form */
   .contact-form {
     padding: 2rem 1.5rem;
   }
-
+  
   .contact-form input,
   .contact-form textarea {
     font-size: 1rem;
     padding: 0.875rem 1rem;
   }
-
+  
   .contact-section {
     padding: 4rem 0;
   }
-
+  
   .contact-section h1 {
     font-size: 2rem;
   }
-
+  
   .contact-section p {
     font-size: 1rem;
   }
-
+  
   /* FAQ */
   .faq-question {
     padding: 1.5rem;
     font-size: 1.0625rem;
   }
-
+  
   .faq-answer {
     padding: 0 1.5rem;
     font-size: 1rem;
   }
-
+  
   .faq-item.active .faq-answer {
     padding: 0 1.5rem 1.5rem;
   }
@@ -1244,50 +1174,50 @@ footer {
   .hero h1 {
     font-size: 1.75rem;
   }
-
+  
   h2 {
     font-size: 1.5rem;
   }
-
+  
   .container {
     padding: 0 1rem;
   }
-
+  
   .btn {
     font-size: 0.9375rem;
     padding: 0.875rem 1.25rem;
   }
-
+  
   .footer-logo img {
     height: 32px;
   }
-
+  
   .disclaimer {
     font-size: 0.8125rem;
     padding: 1.25rem;
   }
-
+  
   /* Contact Form Small Mobile */
   .contact-form {
     padding: 1.5rem 1rem;
   }
-
+  
   .contact-section h1 {
     font-size: 1.75rem;
   }
-
+  
   /* FAQ Small Mobile */
   .faq-question {
     padding: 1.25rem 1rem;
     font-size: 1rem;
     gap: 1rem;
   }
-
+  
   .faq-answer {
     padding: 0 1rem;
     font-size: 0.9375rem;
   }
-
+  
   .faq-item.active .faq-answer {
     padding: 0 1rem 1.25rem;
   }
@@ -1347,8 +1277,7 @@ footer {
   font-size: 1.0625rem;
 }
 
-.legal-content ul,
-.legal-content ol {
+.legal-content ul, .legal-content ol {
   margin-left: 2rem;
   margin-bottom: 1.5rem;
   color: var(--ink-600);
@@ -1412,8 +1341,9 @@ footer {
     font-size: 1.75rem;
   }
 
-  .legal-content ul,
-  .legal-content ol {
+  .legal-content ul, .legal-content ol {
     margin-left: 1.25rem;
   }
+}
+
 }

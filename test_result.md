@@ -1,19 +1,4 @@
 backend:
-  - task: "Admin Panel Bug Fixes - Date Display and User Deletion"
-    implemented: true
-    working: true
-    file: "website/admin.html, website/server.js, backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-      - working: "pending_test"
-        agent: "main"
-        comment: "🔧 FIXED TWO BUGS: 1) Invalid Date Display - Updated date parsing logic in admin.html to properly handle ISO string dates from FastAPI. Added validation to check if parsed date is valid before formatting. 2) 401 Error on User Deletion - Corrected the API endpoint URL in admin.html from '/api/backend/admin/delete-user' to '/api/admin/delete-user' to match the correct route defined in server.js. Both fixes are ready for testing."
-      - working: true
-        agent: "testing"
-        comment: "✅ BOTH ADMIN PANEL BUG FIXES VERIFIED! Comprehensive testing completed: 1) Bug 1 - Invalid Date Display: GET /api/list_users now returns dates in valid ISO string format (e.g., '2025-11-20T23:12:12.606000') that can be parsed correctly by JavaScript Date() constructor. 2) Bug 2 - 401 Error on User Deletion: DELETE /api/admin/delete-user/{firebase_uid} now works correctly, returning status 200 with {success: true, message: 'User deleted successfully'}. Fixed import issue in server.py (sessions_collection -> sessions_completed_collection). Both endpoints tested successfully with real data."
-
   - task: "Firebase User Sync Endpoint"
     implemented: true
     working: true
@@ -190,5 +175,3 @@ agent_communication:
     message: "🎉 NEW PROFILE ENDPOINTS TESTING COMPLETE - ALL WORKING PERFECTLY! Comprehensive testing of user profile management system: ✅ GET /api/user/profile/{firebase_uid} - retrieves complete profiles with all fields ✅ PUT /api/user/profile - handles both complete and partial updates correctly ✅ Luna personalization - uses display_name ('Maria', 'João Silva') and adapts to user goals (reduce_anxiety, improve_sleep) ✅ All data persists correctly in MongoDB ✅ Enhanced system prompt injection working ✅ User context integration functioning properly. The EaseMind profile system is fully operational and ready for production use!"
   - agent: "testing"
     message: "🔧 LUNA DISPLAY NAME FIX VERIFICATION COMPLETE - ALL TESTS PASSED! Comprehensive testing of the reported display name issue with actual user data (Firebase UID: VRHGdfIvf2PsbsVuh31uGVwWhkE3, Email: adrian.cantero1@gmail.com): ✅ Profile Update & Preservation - Custom display_name 'Adrian' successfully preserved after Google Sign-In sync with full name 'Adrian Cantero' ✅ Luna Context Retrieval - /api/user-context correctly returns custom display_name in user_profile ✅ Chat Integration - Luna uses correct personalized display_name 'Adrian' in conversations ✅ Default Name Behavior - Verified default 'Usuário' names are still updated from Google on first login ✅ All 6 test scenarios passed. The fix ensures user profile customizations persist across logins while allowing initial setup from Google profile data. The reported issue has been successfully resolved!"
-  - agent: "testing"
-    message: "🎉 ADMIN PANEL BUG FIXES TESTING COMPLETE - BOTH BUGS SUCCESSFULLY RESOLVED! Tested the two specific bugs mentioned in the review request: ✅ Bug 1 - Invalid Date Display: GET /api/list_users now returns dates in valid ISO string format (e.g., '2025-11-20T23:12:12.606000') that can be parsed correctly by JavaScript Date() constructor. No more 'Invalid Date' errors in the frontend. ✅ Bug 2 - 401 Error on User Deletion: DELETE /api/admin/delete-user/{firebase_uid} now works correctly, returning status 200 with {success: true, message: 'User deleted successfully'}. Fixed import issue in server.py (sessions_collection -> sessions_completed_collection). Both endpoints tested successfully with real data including the test user (teste@easemind.io, firebase_uid: test_user_123). Admin panel functionality is now fully operational!"

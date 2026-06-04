@@ -1,86 +1,89 @@
 <analysis>
-The trajectory details an extensive and complex series of development and debugging tasks on a full-stack application (EaseMind). The work transitioned from initial feature requests and bug fixes on the marketing website and PWA to a deep and challenging effort to make a non-functional admin panel work in a Vercel serverless environment.
+The AI engineer's work in this trajectory centered on implementing a new user profile customization feature for the EaseMind app, as requested by the user. Initially, the focus was on establishing the feature's scope, including user-defined names, photos, goals, and notification preferences, accessible via an Edit Profile button. The implementation followed a structured plan: backend updates for user data persistence, frontend development for the profile editing UI in three languages, and integrating this data into Luna's AI context.
 
-Initial tasks involved updating website content (button text, footer layout) and fixing multi-language support bugs in locale files (, , ). This was followed by adding features to the Expo app, such as a Premium link, and fixing a critical PWA loading bug where an index title was briefly visible, which was definitively solved using .
-
-The most significant portion of the work was dedicated to the admin panel. The AI engineer rebuilt the admin panel from scratch after numerous failed attempts to fix session persistence. The core issue was the incompatibility of 's default  with Vercel's serverless architecture. The path to a solution involved debugging environment variables (, , ), creating new serverless functions in Python for each admin action (, , ), fixing Python dependencies ( in ), and correcting a hardcoded database name in the serverless functions.
-
-The final interactions focused on fixing bugs in the newly functional admin panel: an Invalid Date format for user creation dates and a 401 error on user deletion. The AI engineer was in the process of debugging these two specific issues when the trajectory ended.
-
-The primary language of interaction is Portuguese (Brazil), and future communication should continue in .
+Significant challenges arose during frontend integration, primarily with environment variable access ( vs. ) and ensuring  was installed. The AI meticulously debugged these issues using logs and user feedback, correcting URL construction and variable access in  and . Finally, UI refinements were made to display the chosen name and profile picture on the profile screen. The trajectory concluded with the user reporting that Luna was incorrectly using the full name instead of the specified display name, indicating a remaining issue with Luna's context utilization.
 </analysis>
 
 <product_requirements>
-The product is EaseMind, an AI-powered emotional support application with a web/PWA frontend, a marketing website, and a backend admin panel.
+The EaseMind application is a mobile-first emotional support tool featuring an AI chat (Luna), guided sessions, a panic button, and a journal, designed with multi-language support and an Apple-like serenity aesthetic. The institutional website provides public pages and an Admin Dashboard with analytics.
 
-The primary goal of the development cycle was to stabilize the existing application, fix critical bugs, and add new management functionalities. Key requirements implemented include:
+**Explicit User Request (New Feature - User Profile):**
+The user requested a customizable profile section where users can:
+- Define a .
+- Upload an optional .
+- Select multiple  (e.g., reduce anxiety, improve sleep, increase focus, regulate mood).
+- Configure  (enable/disable, preferred time).
+- Optionally provide  and .
 
-1.  **Marketing Website Updates:** Numerous content and style changes were made, including button text, footer layouts, fixing multi-language support (especially for English), adding a Google Analytics tag, and generating a .
-
-2.  **PWA Enhancements:** A Premium link was added to the main navigation menu. A critical loading bug, which flashed an index screen, was resolved to provide a seamless splash screen experience.
-
-3.  **Admin Panel Functionality:** The core task was to build a functional admin panel. After many iterations, a new, simplified admin panel was created. It now successfully:
-    *   Authenticates the admin user.
-    *   Displays key app statistics (total users, active users, etc.).
-    *   Lists all registered users from the MongoDB database, showing their email, name, creation date, and subscription status (Free/Premium).
-    *   Includes a button to delete users.
-    *   Includes a button to synchronize users from Firebase Authentication into the MongoDB database, resolving data discrepancies.
+This profile should be accessible via an Edit Profile button (not mandatory onboarding). Luna should use this information to personalize conversations (using display name, adapting responses, suggesting sessions based on goals). Notification preferences should be saved but not immediately implement push notifications. The design must follow the existing minimalist style and be implemented in 3 languages (PT-BR, EN, ES).
 </product_requirements>
 
 <key_technical_concepts>
-- **Full-Stack Monorepo:** Expo (React Native) PWA, Express.js website, and FastAPI backend.
-- **Serverless Deployment (Vercel):** The marketing website and admin-related APIs are deployed on Vercel. This introduced major challenges.
-- **Python Serverless Functions:** Admin API endpoints were implemented as individual Python files in the  directory, which Vercel deploys as serverless functions.
-- **Session Management:**  was used for admin authentication. The initial use of  failed on Vercel, leading to a complete rebuild of the admin logic.
-- **Database & Sync:** MongoDB (on Railway) is the primary database. A synchronization mechanism was built to pull user data from Firebase Authentication into MongoDB.
+-   **Expo Router**: For file-based routing in the mobile application.
+-   **React Native**: Core framework for mobile UI development.
+-   **FastAPI**: Python backend for API endpoints and business logic.
+-   **MongoDB**: Database for user and application data.
+-   **Firebase Auth**: Used for user authentication.
+-   **i18n-js, expo-localization**: For multi-language support.
+-   **expo-image-picker**: Library for handling image uploads.
+-   **Environment Variables**:  for backend API calls.
 </key_technical_concepts>
 
 <code_architecture>
-The application is a monorepo with , , and  directories. The most recent work was heavily focused on  and .
 
 
-
-- ****
-    - **Importance:** The heart of the marketing website and the admin panel's frontend server. It handles routing, serves HTML, manages localization, and proxies API requests to the appropriate backend or serverless function.
-    - **Changes:** This file was heavily modified. The admin-related endpoints () were completely rewritten to be simple proxies that call the FastAPI backend, using a  environment variable. This was a major architectural decision to simplify a complex and failing serverless implementation. Session management logic was also iteratively debugged and then simplified.
-
-- ****
-    - **Importance:** The single-page frontend for the entire admin dashboard.
-    - **Changes:** The file was completely **rewritten from scratch** to create a simpler, more reliable admin panel. It now contains HTML for a login form, a dashboard for stats, and a user table. It uses vanilla JavaScript  calls to communicate with the API endpoints defined in . It was updated to include a Sync Firebase button and a Delete button for each user.
-
-- ****
-    - **Importance:** The main FastAPI backend server. It handles core application logic and database interactions.
-    - **Changes:** New endpoints were added to support the rebuilt admin panel, including  to fetch all users from the  in MongoDB, and a  endpoint to delete users. It was also corrected to import the database collection properly ().
-
-- **** & ****
-    - **Importance:** These files represent the previous, more complex serverless architecture for the admin panel. They were a major source of bugs.
-    - **Changes:** While they were edited extensively to fix bugs (hardcoded DB name, dependencies), the final, successful architecture **bypassed them** in favor of proxying requests to the FastAPI backend. They are now largely legacy, although the final solution for the delete/sync user functionality was to create new serverless functions for them (, ) and fix their dependencies and database connection logic.
-
-- ****
-    - **Importance:** The initial entry point for the PWA.
-    - **Changes:** This file was refactored to use the  API. It now prevents the splash screen from auto-hiding, checks auth status, and only hides the splash screen upon successful redirection to the login or main app. This fixed a visual bug where index text would flash on screen.
+-   ****:
+    -   **Importance**: Defines the backend API endpoints for the application.
+    -   **Changes**: Added  Pydantic model for validating incoming profile update requests and a  endpoint to handle updating user profiles in MongoDB.
+-   ****:
+    -   **Importance**: Manages the core logic for Luna's AI interactions, including user context and prompt generation.
+    -   **Changes**: Modified  to retrieve new profile fields (, , , , , ) from the user's document. Updated  to include  and  for personalized Luna responses.
+-   ****:
+    -   **Importance**: Centralized file for all multi-language strings used in the frontend.
+    -   **Changes**: Added new translation keys for profile fields (e.g., , , ), notification settings, age range, gender, and relevant button texts across Portuguese, English, and Spanish.
+-   ****:
+    -   **Importance**: Displays the user's main profile information.
+    -   **Changes**: Added an ✏️ Editar Perfil button that navigates to the new  screen. Modified to fetch and display the user's  and  (as a circular avatar) if available, falling back to the default icon and email.
+-   ** (New file)**:
+    -   **Importance**: Provides the UI for users to customize and update their profile details.
+    -   **Changes**: Created this new screen with input fields for ,  (using ), multi-selection for , a toggle for notification preferences with a time picker, and dropdowns for  and . Implemented  and  functions to interact with the backend API.
+-   ****:
+    -   **Importance**: Configuration file for the Expo application, including extra properties like environment variables.
+    -   **Changes**: Ensured  is correctly exposed via  for frontend access.
+-   ****:
+    -   **Importance**: Manages frontend dependencies.
+    -   **Changes**:  was added as a dependency during debugging.
 </code_architecture>
 
 <pending_tasks>
-- **Fix the Admin Panel Bugs:** The user's final request was to fix two remaining issues in the admin panel:
-  1. The user creation date is displayed as Invalid Date.
-  2. The Excluir (Delete) button results in a 401 Unauthorized error.
+-   Implement Apple Sign-In.
+-   Complete backend migration for complex APIs (TTS, LLM) to Vercel Serverless.
+-   Implement remaining website visual redesign (iPhone mockup, micro-animations, full page review).
+-   RevenueCat integration for monetization.
+-   CMS integration for Blog/Studies.
+-   Configure OAuth Consent Screen in Google Cloud Console for custom app name/logo in Google Sign-In.
+-   Configure custom email (e.g., ).
+-   Final testing of Google Sign-In on a physical device (requires native build and SHA-1 setup).
+-   Address the issue of Luna using the full name instead of the specified display name in chat conversations.
 </pending_tasks>
 
 <current_work>
-The AI engineer was actively debugging the two final bugs reported by the user for the admin panel. After the user confirmed that users were now appearing in the list but the date was wrong and deletion failed, the engineer began to investigate.
+Immediately prior to this summary request, the AI engineer was engaged in two main areas: firstly, implementing the user profile customization feature as requested by the user, and secondly, debugging issues encountered during this implementation.
 
-**Current State of the Product:**
-- The marketing website is stable and has all the requested content and SEO/analytics tags.
-- The PWA loading experience is fixed.
-- The admin panel is **partially functional**. It correctly authenticates the user and displays user statistics and the user list.
-- **Known bugs:**
-  1.  **Invalid Date:** The  column in the admin user list shows Invalid Date. The AI engineer's last action was to start investigating the data format being returned by the backend  endpoint.
-  2.  **Deletion Error:** Clicking the Excluir (Delete) button triggers a 401 Unauthorized error, indicating a problem with the request's authentication or URL. The AI identified this as a likely URL path issue in the frontend JavaScript.
+The user profile feature involved:
+1.  **Backend updates**: Adding a  endpoint and updating the user model in  and  to store fields like , , , , , and .
+2.  **Frontend development**: Creating  with UI elements for all new profile fields, including  for photo upload, and adding an Editar Perfil button to . Internationalization for these new elements was added to .
+3.  **Luna Integration**: Modifying  to ensure Luna uses the user's  and  for personalized interactions.
 
-The last code change was an attempt to make the date parsing in  more robust, but it was unsuccessful. The immediate next step was to inspect the raw data from the backend.
+During testing, several issues arose:
+-   An initial error due to  not being installed, which was resolved by installing the package.
+-   A persistent issue where the profile data was not saving, caused by incorrect environment variable usage ( instead of , and then  not being exposed, leading to  being the correct one). This involved multiple debugging rounds, adding logs, and modifying  and verifying .
+
+After successfully resolving the saving issue, the AI implemented UI improvements on  to display the user's  as an avatar and their  instead of the email.
+
+The most recent feedback from the user is that while the profile display updates correctly, Luna is still using the user's full name (e.g., Adrian Cantero) in chat, rather than the  (e.g., Adrian) configured in the profile. The AI engineer was last attempting to debug this by checking backend logs and then trying to directly inspect the MongoDB.
 </current_work>
 
 <optional_next_step>
-Inspect the raw JSON response from the  endpoint to determine the exact format of the  field. This will confirm if it's a string, a Unix timestamp, or another format, allowing for a correct fix.
+Investigate why Luna is using the full name (Adrian Cantero) instead of the configured display name (Adrian) by examining how user context is passed to the LLM.
 </optional_next_step>

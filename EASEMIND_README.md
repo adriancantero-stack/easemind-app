@@ -171,7 +171,7 @@ Core principles:
 ## 📱 URLs & Access
 
 ### Web Preview
-- **URL**: https://easemind-control.preview.emergentagent.com
+- **URL**: https://easemind-mobile.preview.emergentagent.com
 - **Best for**: Desktop testing, feature demos
 
 ### Mobile Testing (Expo Go)
@@ -288,8 +288,8 @@ OPENAI_API_KEY=your-openai-key-here
 
 ### Frontend (.env)
 ```
-EXPO_PUBLIC_BACKEND_URL=https://easemind-control.preview.emergentagent.com
-EXPO_PACKAGER_HOSTNAME=https://easemind-control.preview.emergentagent.com
+EXPO_PUBLIC_BACKEND_URL=https://easemind-mobile.preview.emergentagent.com
+EXPO_PACKAGER_HOSTNAME=https://easemind-mobile.preview.emergentagent.com
 ```
 
 ---

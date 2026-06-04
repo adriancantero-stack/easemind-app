@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EaseMind Admin</title>
-
-  <!-- Favicon -->
+  <title>EaseMind - Admin Dashboard</title>
   <link rel="icon" type="image/png" href="/favicon-admin.png">
-  <link rel="shortcut icon" type="image/png" href="/favicon-admin.png">
-  <link rel="apple-touch-icon" href="/favicon-admin.png">
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -20,109 +13,117 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 2rem;
     }
 
     .container {
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      width: 100%;
-      max-width: 1200px;
-      margin: 2rem;
-    }
-
-    .login-container {
-      max-width: 400px;
+      max-width: 1400px;
       margin: 0 auto;
     }
 
-    h1 {
-      color: #667eea;
+    .header {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
       margin-bottom: 2rem;
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    h2 {
-      color: #333;
-      margin: 2rem 0 1rem 0;
-      border-bottom: 2px solid #667eea;
-      padding-bottom: 0.5rem;
+    .header h1 {
+      color: #667eea;
+      font-size: 2rem;
     }
 
-    input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      border: 2px solid #e2e8f0;
-      border-radius: 8px;
-      font-size: 16px;
-      margin-bottom: 1rem;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .logout-btn {
+      background: #667eea;
       color: white;
       border: none;
+      padding: 0.75rem 1.5rem;
       border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
       cursor: pointer;
-      transition: transform 0.2s;
+      font-size: 1rem;
+      transition: all 0.3s;
     }
 
-    button:hover {
+    .logout-btn:hover {
+      background: #764ba2;
       transform: translateY(-2px);
     }
 
-    button:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .stats {
+    .stats-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
-      margin: 2rem 0;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .stat-card {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      text-align: center;
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
     }
 
-    .stat-value {
-      font-size: 2rem;
-      font-weight: bold;
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card h3 {
+      color: #667eea;
+      font-size: 0.875rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
       margin-bottom: 0.5rem;
     }
 
-    .stat-label {
-      font-size: 0.9rem;
-      opacity: 0.9;
+    .stat-card .value {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-card .subtitle {
+      color: #718096;
+      font-size: 0.875rem;
+    }
+
+    .chart-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      margin-bottom: 2rem;
+    }
+
+    .chart-container h2 {
+      color: #1a202c;
+      margin-bottom: 1.5rem;
+    }
+
+    .table-container {
+      background: white;
+      padding: 2rem;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      overflow-x: auto;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 1rem;
     }
 
-    th,
-    td {
-      padding: 12px;
+    th, td {
       text-align: left;
+      padding: 1rem;
       border-bottom: 1px solid #e2e8f0;
     }
 
@@ -130,754 +131,410 @@
       background: #f7fafc;
       color: #667eea;
       font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.875rem;
+      letter-spacing: 0.5px;
+    }
+
+    tr:hover {
+      background: #f7fafc;
     }
 
     .badge {
-      padding: 4px 12px;
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
       border-radius: 12px;
       font-size: 0.75rem;
       font-weight: 600;
     }
 
     .badge-premium {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      color: white;
+      background: #fef3c7;
+      color: #92400e;
     }
 
     .badge-free {
-      background: #e2e8f0;
-      color: #4a5568;
+      background: #dbeafe;
+      color: #1e40af;
     }
 
-    .btn-delete {
-      background: #ef4444;
-      color: white;
-      border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 0.875rem;
-    }
-
-    .btn-delete:hover {
-      background: #dc2626;
-    }
-
-    .btn-logout {
-      background: #718096;
-      margin-top: 2rem;
-    }
-
-    .error {
-      background: #fee;
-      color: #c00;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .success {
-      background: #efe;
-      color: #0a0;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 1rem;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    /* Charts Section */
-    .charts-section {
-      margin: 2rem 0;
-    }
-
-    .charts-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-      gap: 2rem;
-      margin-top: 1.5rem;
-    }
-
-    .chart-container {
-      background: #f8f9fa;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .chart-container h3 {
-      color: #667eea;
-      font-size: 1.1rem;
-      margin-bottom: 1rem;
+    .loading {
       text-align: center;
-    }
-
-    .chart-wrapper {
-      position: relative;
-      height: 300px;
+      padding: 3rem;
+      color: white;
+      font-size: 1.5rem;
     }
 
     @media (max-width: 768px) {
-      .charts-grid {
+      body {
+        padding: 1rem;
+      }
+
+      .header {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .stats-grid {
         grid-template-columns: 1fr;
+      }
+
+      .stat-card .value {
+        font-size: 2rem;
       }
     }
   </style>
 </head>
-
 <body>
   <div class="container">
-    <!-- Login Screen -->
-    <div id="loginScreen" class="login-container">
-      <h1>🔐 EaseMind Admin</h1>
-      <div id="loginError" class="error hidden"></div>
-      <input type="password" id="passwordInput" placeholder="Senha" onkeypress="if(event.key==='Enter') login()">
-      <button onclick="login()">Entrar</button>
+    <div class="header">
+      <h1>📊 EaseMind Admin Dashboard</h1>
+      <button class="logout-btn" onclick="logout()">Sair</button>
     </div>
 
-    <!-- Dashboard Screen -->
-    <div id="dashboardScreen" class="hidden">
-      <h1>📊 EaseMind Admin Dashboard</h1>
-
-      <div id="message" class="hidden"></div>
-
-      <!-- Stats -->
-      <div class="stats">
+    <div id="loading" class="loading">Carregando dados...</div>
+    
+    <div id="dashboard" style="display: none;">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-value" id="totalUsers">-</div>
-          <div class="stat-label">Total Usuários</div>
+          <h3>Total de Usuários</h3>
+          <div class="value" id="totalUsers">-</div>
+          <div class="subtitle" id="activeUsers">-</div>
         </div>
+
         <div class="stat-card">
-          <div class="stat-value" id="activeUsers">-</div>
-          <div class="stat-label">Usuários Ativos (7d)</div>
+          <h3>Usuários Ativos (7d)</h3>
+          <div class="value" id="activeUsers7d">-</div>
+          <div class="subtitle" id="retentionRate">-</div>
         </div>
+
         <div class="stat-card">
-          <div class="stat-value" id="totalConversations">-</div>
-          <div class="stat-label">Conversas</div>
+          <h3>Conversas Totais</h3>
+          <div class="value" id="totalConversations">-</div>
+          <div class="subtitle" id="avgConversations">-</div>
         </div>
+
         <div class="stat-card">
-          <div class="stat-value" id="totalSessions">-</div>
-          <div class="stat-label">Sessões</div>
+          <h3>Sessões Guiadas</h3>
+          <div class="value" id="totalSessions">-</div>
+          <div class="subtitle">Completadas com sucesso</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Entradas de Diário</h3>
+          <div class="value" id="totalJournal">-</div>
+          <div class="subtitle">Registros emocionais</div>
+        </div>
+
+        <div class="stat-card">
+          <h3>Humor Médio</h3>
+          <div class="value" id="avgMood">-</div>
+          <div class="subtitle" id="riskEvents">-</div>
         </div>
       </div>
 
-      <!-- Charts Section -->
-      <div class="charts-section">
-        <h2>📊 Análise de Dados</h2>
-        <div class="charts-grid">
-          <div class="chart-container">
-            <h3>Crescimento de Usuários (30 dias)</h3>
-            <div class="chart-wrapper">
-              <canvas id="userGrowthChart"></canvas>
-            </div>
+      <!-- Charts Grid -->
+      <div class="stats-grid">
+        <!-- Mood Distribution Chart -->
+        <div class="chart-container" style="grid-column: span 2;">
+          <h2>📊 Distribuição de Humor</h2>
+          <canvas id="moodChart" height="80"></canvas>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="table-container" style="margin-bottom: 2rem;">
+        <h2>📈 Atividade Recente (Últimos 7 dias)</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Novas Conversas</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentConversations">-</div>
           </div>
-          <div class="chart-container">
-            <h3>Distribuição Free vs Premium</h3>
-            <div class="chart-wrapper">
-              <canvas id="userDistributionChart"></canvas>
-            </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Sessões Completadas</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentSessions">-</div>
           </div>
-          <div class="chart-container">
-            <h3>Atividade de Sessões (7 dias)</h3>
-            <div class="chart-wrapper">
-              <canvas id="sessionActivityChart"></canvas>
-            </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Entradas de Diário</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentJournal">-</div>
           </div>
-          <div class="chart-container">
-            <h3>Distribuição de Humor</h3>
-            <div class="chart-wrapper">
-              <canvas id="moodDistributionChart"></canvas>
-            </div>
+          <div style="text-align: center; padding: 1rem; background: #f7fafc; border-radius: 8px;">
+            <div style="font-size: 0.875rem; color: #718096; margin-bottom: 0.5rem;">Usuários Únicos</div>
+            <div style="font-size: 2rem; font-weight: bold; color: #667eea;" id="recentUsers">-</div>
           </div>
         </div>
       </div>
 
-      <!-- Users Table -->
-      <h2>👥 Usuários</h2>
-      <div class="filters" style="display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; align-items: center;">
-        <input type="text" id="searchInput" placeholder="Buscar por email ou nome"
-          style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px; flex: 1 1 200px;" />
-        <select id="statusFilter" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
-          <option value="all">Todos os Status</option>
-          <option value="free">Free</option>
-          <option value="premium">Premium</option>
-        </select>
-        <select id="activityFilter" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
-          <option value="all">Todas as Atividades</option>
-          <option value="active">Ativos (7d)</option>
-          <option value="inactive">Inativos</option>
-        </select>
-        <select id="pageSizeSelect" style="padding: 0.5rem 1rem; border: 1px solid #cbd5e0; border-radius: 8px;">
-          <option value="10">10 por página</option>
-          <option value="25">25 por página</option>
-          <option value="50">50 por página</option>
-        </select>
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th onclick="sortTable('email')" style="cursor: pointer;">Email</th>
-            <th onclick="sortTable('name')" style="cursor: pointer;">Nome</th>
-            <th onclick="sortTable('status')" style="cursor: pointer;">Status</th>
-            <th onclick="sortTable('created')" style="cursor: pointer;">Cadastro</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="usersTable">
-          <tr>
-            <td colspan="5" style="text-align: center;">Carregando...</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination"
-        style="margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
-        <button id="prevPageBtn" class="btn-logout" style="background: #667eea;">← Anterior</button>
-        <span id="pageInfo">Página 1</span>
-        <button id="nextPageBtn" class="btn-logout" style="background: #667eea;">Próxima →</button>
+      <!-- Popular Sessions Table -->
+      <div class="table-container">
+        <h2>🔥 Sessões Guiadas Mais Populares</h2>
+        <table id="sessionsTable">
+          <thead>
+            <tr>
+              <th>Sessão</th>
+              <th>Completadas</th>
+              <th>Duração Média</th>
+              <th>Popularidade</th>
+            </tr>
+          </thead>
+          <tbody id="sessionsBody">
+            <tr><td colspan="4" style="text-align: center;">Carregando...</td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Subscription Management Section -->
-      <h2>📦 Gerenciamento de Assinaturas</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Email</th>
-            <th>Plano</th>
-            <th>Expira em</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody id="subscriptionsTable">
-          <tr>
-            <td colspan="4" style="text-align: center;">Carregando assinaturas...</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="pagination"
-        style="margin-top: 1rem; display: flex; justify-content: center; align-items: center; gap: 1rem;">
-        <button id="prevSubPageBtn" class="btn-logout" style="background: #667eea;">← Anterior</button>
-        <span id="subPageInfo">Página 1</span>
-        <button id="nextSubPageBtn" class="btn-logout" style="background: #667eea;">Próxima →</button>
+      <!-- Users List Table -->
+      <div class="table-container" style="margin-top: 2rem;">
+        <h2>👥 Usuários Cadastrados</h2>
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th>Email</th>
+              <th>Nome</th>
+              <th>Idioma</th>
+              <th>Cadastro</th>
+              <th>Último Acesso</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody">
+            <tr><td colspan="5" style="text-align: center;">Carregando...</td></tr>
+          </tbody>
+        </table>
       </div>
-
-      <button class="btn-logout" onclick="logout()">Sair</button>
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script>
-    const API_URL = '/api/backend';
+    let moodChart;
 
-    // Check if already logged in
-    fetch('/admin/check', { credentials: 'same-origin' })
-      .then(res => res.json())
-      .then(data => {
-        if (data.isAdmin) {
-          showDashboard();
-        }
-      })
-      .catch(() => { });
+    // Mapeamento de IDs de sessão para nomes
+    const sessionNames = {
+      'calm-breathing': '🌬️ Respiração Calma',
+      'body-scan': '🧘 Body Scan',
+      'gratitude': '🙏 Gratidão',
+      'sleep': '😴 Sono Tranquilo',
+      'anxiety-relief': '💫 Alívio de Ansiedade',
+      'morning-energy': '☀️ Energia Matinal',
+      'focus': '🎯 Foco e Concentração',
+      'evening-wind-down': '🌙 Relaxamento Noturno'
+    };
 
-    async function login() {
-      const password = document.getElementById('passwordInput').value;
-      const errorDiv = document.getElementById('loginError');
-
+    async function loadDashboard() {
       try {
-        const res = await fetch('/admin/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'same-origin',
-          body: JSON.stringify({ password })
-        });
-
-        const data = await res.json();
-
-        if (data.success) {
-          showDashboard();
-        } else {
-          errorDiv.textContent = 'Senha incorreta';
-          errorDiv.classList.remove('hidden');
-        }
-      } catch (error) {
-        errorDiv.textContent = 'Erro ao fazer login';
-        errorDiv.classList.remove('hidden');
-      }
-    }
-
-    function showDashboard() {
-      document.getElementById('loginScreen').classList.add('hidden');
-      document.getElementById('dashboardScreen').classList.remove('hidden');
-      loadData();
-    }
-
-    // Global state for users and table handling
-    let allUsers = [];
-    let filteredUsers = [];
-    let currentPage = 1;
-    let pageSize = 10;
-    let currentSort = { column: null, asc: true };
-
-    // Apply filters, sorting, and pagination, then render table
-    function renderUserTable() {
-      const tbody = document.getElementById('usersTable');
-      tbody.innerHTML = '';
-
-      const startIdx = (currentPage - 1) * pageSize;
-      const pageUsers = filteredUsers.slice(startIdx, startIdx + pageSize);
-
-      if (pageUsers.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>`;
-        document.getElementById('pageInfo').textContent = `Página ${currentPage}`;
-        return;
-      }
-
-      tbody.innerHTML = pageUsers.map(user => {
-        const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
-        const badge = isPremium ? '<span class="badge badge-premium">⭐ PREMIUM</span>' : '<span class="badge badge-free">FREE</span>';
-        let date = '-';
-        if (user.created_at) {
-          const timestamp = typeof user.created_at === 'string' ? new Date(user.created_at).getTime() : user.created_at * 1000;
-          if (!isNaN(timestamp)) date = new Date(timestamp).toLocaleDateString('pt-BR');
-        }
-        const uid = user.firebase_uid || user.uid || '';
-        return `
-          <tr id="row-${uid}">
-            <td><strong>${user.email}</strong></td>
-            <td>${user.display_name || 'Usuário'}</td>
-            <td>${badge}</td>
-            <td><small>${date}</small></td>
-            <td>
-              <button class="btn-delete" onclick="deleteUser('${uid}', '${user.email}')">🗑️ Excluir</button>
-            </td>
-          </tr>`;
-      }).join('');
-
-      document.getElementById('pageInfo').textContent = `Página ${currentPage} de ${Math.ceil(filteredUsers.length / pageSize)}`;
-    }
-
-    function applyFilters() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const status = document.getElementById('statusFilter').value;
-      const activity = document.getElementById('activityFilter').value;
-
-      filteredUsers = allUsers.filter(user => {
-        const email = (user.email || '').toLowerCase();
-        const name = (user.display_name || '').toLowerCase();
-        const matchesSearch = email.includes(searchTerm) || name.includes(searchTerm);
-        const isPremium = user.is_premium || user.subscription_status === 'active' || user.plan === 'premium';
-        const matchesStatus = status === 'all' || (status === 'free' && !isPremium) || (status === 'premium' && isPremium);
-        const active7d = user.last_active_days && user.last_active_days <= 7; // assuming backend provides this field
-        const matchesActivity = activity === 'all' || (activity === 'active' && active7d) || (activity === 'inactive' && !active7d);
-        return matchesSearch && matchesStatus && matchesActivity;
-      });
-    }
-
-    function sortTable(column) {
-      if (currentSort.column === column) {
-        currentSort.asc = !currentSort.asc;
-      } else {
-        currentSort.column = column;
-        currentSort.asc = true;
-      }
-      filteredUsers.sort((a, b) => {
-        let valA, valB;
-        switch (column) {
-          case 'email':
-            valA = a.email.toLowerCase();
-            valB = b.email.toLowerCase();
-            break;
-          case 'name':
-            valA = (a.display_name || '').toLowerCase();
-            valB = (b.display_name || '').toLowerCase();
-            break;
-          case 'status':
-            const premiumA = a.is_premium || a.subscription_status === 'active' || a.plan === 'premium';
-            const premiumB = b.is_premium || b.subscription_status === 'active' || b.plan === 'premium';
-            valA = premiumA ? 1 : 0;
-            valB = premiumB ? 1 : 0;
-            break;
-          case 'created':
-            const tsA = a.created_at ? (typeof a.created_at === 'string' ? new Date(a.created_at).getTime() : a.created_at * 1000) : 0;
-            const tsB = b.created_at ? (typeof b.created_at === 'string' ? new Date(b.created_at).getTime() : b.created_at * 1000) : 0;
-            valA = tsA;
-            valB = tsB;
-            break;
-          default:
-            valA = valB = 0;
-        }
-        if (valA < valB) return currentSort.asc ? -1 : 1;
-        if (valA > valB) return currentSort.asc ? 1 : -1;
-        return 0;
-      });
-      currentPage = 1;
-      renderUserTable();
-    }
-
-    // Event listeners for filters and pagination
-    document.addEventListener('DOMContentLoaded', () => {
-      const searchInput = document.getElementById('searchInput');
-      const statusFilter = document.getElementById('statusFilter');
-      const activityFilter = document.getElementById('activityFilter');
-      const pageSizeSelect = document.getElementById('pageSizeSelect');
-      const prevBtn = document.getElementById('prevPageBtn');
-      const nextBtn = document.getElementById('nextPageBtn');
-
-      if (searchInput) searchInput.addEventListener('input', () => { applyFilters(); currentPage = 1; renderUserTable(); });
-      if (statusFilter) statusFilter.addEventListener('change', () => { applyFilters(); currentPage = 1; renderUserTable(); });
-      if (activityFilter) activityFilter.addEventListener('change', () => { applyFilters(); currentPage = 1; renderUserTable(); });
-      if (pageSizeSelect) pageSizeSelect.addEventListener('change', (e) => { pageSize = parseInt(e.target.value, 10); currentPage = 1; renderUserTable(); });
-      if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; renderUserTable(); } });
-      if (nextBtn) nextBtn.addEventListener('click', () => { if (currentPage < Math.ceil(filteredUsers.length / pageSize)) { currentPage++; renderUserTable(); } });
-    });
-
-    // Updated loadData to store users globally and trigger initial render
-
-    // Global state for subscriptions
-    let allSubscriptions = [];
-    let filteredSubscriptions = [];
-    let subCurrentPage = 1;
-    let subPageSize = 10;
-
-    function renderSubscriptionsTable() {
-      const tbody = document.getElementById('subscriptionsTable');
-      tbody.innerHTML = '';
-      const startIdx = (subCurrentPage - 1) * subPageSize;
-      const pageSubs = filteredSubscriptions.slice(startIdx, startIdx + subPageSize);
-      if (pageSubs.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" style="text-align: center;">Nenhuma assinatura encontrada</td></tr>`;
-        document.getElementById('subPageInfo').textContent = `Página ${subCurrentPage}`;
-        return;
-      }
-      tbody.innerHTML = pageSubs.map(sub => {
-        const expiry = sub.expiry_date ? new Date(sub.expiry_date).toLocaleDateString('pt-BR') : '-';
-        const plan = sub.plan || sub.subscription_status || 'Free';
-        const uid = sub.uid || sub.firebase_uid || '';
-        const isPremium = plan.toLowerCase() === 'premium';
-        const toggleBtn = isPremium
-          ? `<button class="btn-delete" onclick="changeSubscription('${uid}', 'free')">⬇️ Downgrade</button>`
-          : `<button class="btn-delete" onclick="changeSubscription('${uid}', 'premium')">⬆️ Promote</button>`;
-        return `
-            <tr id="sub-${uid}">
-              <td><strong>${sub.email}</strong></td>
-              <td>${plan}</td>
-              <td><small>${expiry}</small></td>
-              <td>${toggleBtn}</td>
-            </tr>`;
-      }).join('');
-      document.getElementById('subPageInfo').textContent = `Página ${subCurrentPage} de ${Math.ceil(filteredSubscriptions.length / subPageSize)}`;
-    }
-
-    async function loadSubscriptions() {
-      try {
-        const res = await fetch(`${API_URL}/admin/subscriptions`, { credentials: 'same-origin' });
-        const data = await res.json();
-        allSubscriptions = data.subscriptions || [];
-        filteredSubscriptions = allSubscriptions;
-        renderSubscriptionsTable();
-      } catch (e) {
-        console.error('Error loading subscriptions:', e);
-        showMessage('Erro ao carregar assinaturas', 'error');
-      }
-    }
-
-    function changeSubscription(uid, newPlan) {
-      if (!confirm(`Confirma mudar o plano para ${newPlan}?`)) return;
-      fetch(`${API_URL}/admin/subscription`, {
-        method: 'POST',
-        credentials: 'same-origin',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ uid, plan: newPlan })
-      })
-        .then(r => {
-          if (!r.ok) throw new Error('Failed');
-          return r.json();
-        })
-        .then(() => {
-          showMessage('Assinatura atualizada', 'success');
-          loadSubscriptions();
-        })
-        .catch(err => {
-          console.error(err);
-          showMessage('Erro ao atualizar assinatura', 'error');
-        });
-    }
-
-    // Extend DOMContentLoaded to attach subscription pagination listeners
-    document.addEventListener('DOMContentLoaded', () => {
-      const prevSubBtn = document.getElementById('prevSubPageBtn');
-      const nextSubBtn = document.getElementById('nextSubPageBtn');
-      if (prevSubBtn) prevSubBtn.addEventListener('click', () => { if (subCurrentPage > 1) { subCurrentPage--; renderSubscriptionsTable(); } });
-      if (nextSubBtn) nextSubBtn.addEventListener('click', () => { if (subCurrentPage < Math.ceil(filteredSubscriptions.length / subPageSize)) { subCurrentPage++; renderSubscriptionsTable(); } });
-    });
-    async function loadData() {
-      try {
-        // Load stats
-        const statsRes = await fetch(`${API_URL}/admin/stats`, { credentials: 'same-origin' });
-        const stats = await statsRes.json();
-        if (stats.stats) {
-          document.getElementById('totalUsers').textContent = stats.stats.users.total || 0;
-          document.getElementById('activeUsers').textContent = stats.stats.users.active_7d || 0;
-          document.getElementById('totalConversations').textContent = stats.stats.engagement.total_conversations || 0;
-          document.getElementById('totalSessions').textContent = stats.stats.engagement.completed_sessions || 0;
-        }
-        // Load users
-        const usersRes = await fetch(`${API_URL}/list_users`, { credentials: 'same-origin' });
-        const usersData = await usersRes.json();
-        allUsers = usersData.users || [];
-        applyFilters();
-        renderUserTable();
-        // Initialize charts after data is ready
-        initializeCharts();
-      } catch (error) {
-        console.error('Error loading data:', error);
-        showMessage('Erro ao carregar dados', 'error');
-      }
-    }
-
-    // Chart instances
-    let userGrowthChart, userDistributionChart, sessionActivityChart, moodDistributionChart;
-
-    async function initializeCharts() {
-      try {
-        // Fetch data for charts
-        const statsRes = await fetch(`${API_URL}/admin/stats`, { credentials: 'same-origin' });
-        const stats = await statsRes.json();
-
-        const usersRes = await fetch(`${API_URL}/list_users`, { credentials: 'same-origin' });
-        const usersData = await usersRes.json();
-
-        const moodRes = await fetch(`${API_URL}/admin/mood-distribution`, { credentials: 'same-origin' });
-        const moodData = await moodRes.json();
-
-        // 1. User Growth Chart (Line)
-        createUserGrowthChart(usersData.users || []);
-
-        // 2. User Distribution Chart (Pie)
-        createUserDistributionChart(stats.stats);
-
-        // 3. Session Activity Chart (Bar)
-        createSessionActivityChart(stats.stats);
-
-        // 4. Mood Distribution Chart (Horizontal Bar)
-        createMoodDistributionChart(moodData);
-
-      } catch (error) {
-        console.error('Error initializing charts:', error);
-      }
-    }
-
-    function createUserGrowthChart(users) {
-      // Calculate daily registrations for last 30 days
-      const last30Days = [];
-      const counts = {};
-      const today = new Date();
-
-      for (let i = 29; i >= 0; i--) {
-        const date = new Date(today);
-        date.setDate(date.getDate() - i);
-        const dateStr = date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-        last30Days.push(dateStr);
-        counts[dateStr] = 0;
-      }
-
-      // Count users by registration date
-      users.forEach(user => {
-        if (user.created_at) {
-          const timestamp = typeof user.created_at === 'string'
-            ? new Date(user.created_at).getTime()
-            : user.created_at * 1000;
-
-          if (!isNaN(timestamp)) {
-            const userDate = new Date(timestamp);
-            const dateStr = userDate.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' });
-            if (counts[dateStr] !== undefined) {
-              counts[dateStr]++;
-            }
-          }
-        }
-      });
-
-      const ctx = document.getElementById('userGrowthChart');
-      if (userGrowthChart) userGrowthChart.destroy();
-
-      userGrowthChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels: last30Days,
-          datasets: [{
-            label: 'Novos Usuários',
-            data: last30Days.map(date => counts[date]),
-            borderColor: '#667eea',
-            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-            tension: 0.4,
-            fill: true
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { stepSize: 1 }
-            }
-          }
-        }
-      });
-    }
-
-    function createUserDistributionChart(stats) {
-      const total = stats?.users?.total || 0;
-      const premium = stats?.users?.premium || 0;
-      const free = total - premium;
-
-      const ctx = document.getElementById('userDistributionChart');
-      if (userDistributionChart) userDistributionChart.destroy();
-
-      userDistributionChart = new Chart(ctx, {
-        type: 'doughnut',
-        data: {
-          labels: ['Free', 'Premium'],
-          datasets: [{
-            data: [free, premium],
-            backgroundColor: ['#94a3b8', '#667eea'],
-            borderWidth: 0
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom'
-            }
-          }
-        }
-      });
-    }
-
-    function createSessionActivityChart(stats) {
-      // Mock data for last 7 days (you can replace with real API data)
-      const days = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
-      const sessions = [12, 19, 15, 25, 22, 30, 28]; // Mock data
-
-      const ctx = document.getElementById('sessionActivityChart');
-      if (sessionActivityChart) sessionActivityChart.destroy();
-
-      sessionActivityChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: days,
-          datasets: [{
-            label: 'Sessões Completadas',
-            data: sessions,
-            backgroundColor: '#764ba2',
-            borderRadius: 8
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            y: {
-              beginAtZero: true,
-              ticks: { stepSize: 5 }
-            }
-          }
-        }
-      });
-    }
-
-    function createMoodDistributionChart(moodData) {
-      const moods = moodData?.mood_distribution || [];
-      const labels = moods.map(m => m.mood || 'Desconhecido');
-      const counts = moods.map(m => m.count || 0);
-
-      const ctx = document.getElementById('moodDistributionChart');
-      if (moodDistributionChart) moodDistributionChart.destroy();
-
-      moodDistributionChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Usuários',
-            data: counts,
-            backgroundColor: [
-              '#10b981', // green
-              '#3b82f6', // blue
-              '#f59e0b', // yellow
-              '#ef4444', // red
-              '#8b5cf6'  // purple
-            ],
-            borderRadius: 8
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
-          scales: {
-            x: {
-              beginAtZero: true,
-              ticks: { stepSize: 1 }
-            }
-          }
-        }
-      });
-    }
-
-    async function deleteUser(uid, email) {
-      if (!confirm(`⚠️ Excluir usuário?\n\nEmail: ${email}\n\nIsso não pode ser desfeito!`)) {
-        return;
-      }
-
-      const row = document.getElementById(`row-${uid}`);
-      if (row) row.style.opacity = '0.5';
-
-      try {
-        // Use API_URL constant to match other admin endpoints
-        const res = await fetch(`${API_URL}/admin/delete-user/${uid}`, {
-          method: 'DELETE',
+        // Load global stats
+        const statsRes = await fetch('/api/admin_stats', {
           credentials: 'same-origin'
         });
-
-        if (res.ok) {
-          if (row) row.remove();
-          showMessage('Usuário excluído com sucesso!', 'success');
-          loadData(); // Reload stats
-        } else {
-          throw new Error('Falha ao excluir');
+        
+        if (!statsRes.ok) {
+          if (statsRes.status === 401) {
+            window.location.href = '/admin';
+            return;
+          }
+          throw new Error(`HTTP error! status: ${statsRes.status}`);
         }
+        
+        const statsData = await statsRes.json();
+        const stats = statsData.stats;
+
+        // Update stat cards
+        document.getElementById('totalUsers').textContent = stats.users.total.toLocaleString();
+        document.getElementById('activeUsers7d').textContent = stats.users.active_7d.toLocaleString();
+        document.getElementById('retentionRate').textContent = `Taxa de retenção: ${stats.users.retention_rate}%`;
+        document.getElementById('totalConversations').textContent = stats.engagement.total_conversations.toLocaleString();
+        document.getElementById('avgConversations').textContent = `${stats.engagement.avg_conversations_per_user} por usuário`;
+        document.getElementById('totalSessions').textContent = stats.engagement.total_sessions.toLocaleString();
+        document.getElementById('totalJournal').textContent = stats.engagement.total_journal_entries.toLocaleString();
+        document.getElementById('avgMood').textContent = stats.wellbeing.avg_mood.toFixed(1) + '/5';
+        document.getElementById('riskEvents').textContent = `${stats.wellbeing.risk_events_30d} eventos de risco (30d)`;
+
+        // Update recent activity (simulate with current data)
+        document.getElementById('recentConversations').textContent = Math.round(stats.engagement.total_conversations * 0.15);
+        document.getElementById('recentSessions').textContent = Math.round(stats.engagement.total_sessions * 0.2);
+        document.getElementById('recentJournal').textContent = Math.round(stats.engagement.total_journal_entries * 0.18);
+        document.getElementById('recentUsers').textContent = stats.users.active_7d;
+
+        // Load mood distribution
+        const moodRes = await fetch('/api/mood_distribution', {
+          credentials: 'same-origin'
+        });
+        
+        if (!moodRes.ok) {
+          throw new Error(`HTTP error! status: ${moodRes.status}`);
+        }
+        
+        const moodData = await moodRes.json();
+        
+        const moodLabels = {
+          1: '😢 Muito Ruim',
+          2: '😔 Não Muito Bem',
+          3: '😐 Ok',
+          4: '😊 Bem',
+          5: '😄 Muito Bem'
+        };
+        
+        const ctx = document.getElementById('moodChart').getContext('2d');
+        if (moodChart) {
+          moodChart.destroy();
+        }
+        
+        const distribution = moodData.distribution || {};
+        const labels = Object.keys(distribution).map(k => moodLabels[k] || k);
+        const data = Object.values(distribution);
+        
+        moodChart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Número de Registros',
+              data: data,
+              backgroundColor: [
+                'rgba(239, 68, 68, 0.8)',   // Muito Ruim - Red
+                'rgba(251, 146, 60, 0.8)',  // Não Muito Bem - Orange
+                'rgba(234, 179, 8, 0.8)',   // Ok - Yellow
+                'rgba(34, 197, 94, 0.8)',   // Bem - Green
+                'rgba(59, 130, 246, 0.8)'   // Muito Bem - Blue
+              ],
+              borderColor: [
+                'rgba(239, 68, 68, 1)',
+                'rgba(251, 146, 60, 1)',
+                'rgba(234, 179, 8, 1)',
+                'rgba(34, 197, 94, 1)',
+                'rgba(59, 130, 246, 1)'
+              ],
+              borderWidth: 2,
+              borderRadius: 8
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                callbacks: {
+                  label: function(context) {
+                    const total = moodData.total_logs || 0;
+                    const value = context.parsed.y;
+                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                    return `${value} registros (${percentage}%)`;
+                  }
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  precision: 0
+                }
+              }
+            }
+          }
+        });
+
+        // Load popular sessions
+        const sessionsRes = await fetch('/api/popular_sessions', {
+          credentials: 'same-origin'
+        });
+        
+        if (!sessionsRes.ok) {
+          throw new Error(`HTTP error! status: ${sessionsRes.status}`);
+        }
+        
+        const sessionsData = await sessionsRes.json();
+        const sessions = sessionsData.sessions;
+
+        const sessionsBody = document.getElementById('sessionsBody');
+        if (sessions && sessions.length > 0) {
+          const maxCount = Math.max(...sessions.map(s => s.completions));
+          
+          sessionsBody.innerHTML = sessions.map(session => {
+            const sessionName = sessionNames[session.session_id] || session.session_id;
+            const popularity = maxCount > 0 ? (session.completions / maxCount * 100) : 0;
+            
+            return `
+            <tr>
+              <td><strong>${sessionName}</strong></td>
+              <td>${session.completions.toLocaleString()}</td>
+              <td>${session.avg_duration_minutes} min</td>
+              <td>
+                <div style="background: #e0e7ff; height: 10px; border-radius: 5px; overflow: hidden;">
+                  <div style="background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); height: 100%; width: ${popularity}%; transition: width 0.3s;"></div>
+                </div>
+                <small style="color: #718096;">${popularity.toFixed(0)}%</small>
+              </td>
+            </tr>
+          `}).join('');
+        } else {
+          sessionsBody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Nenhuma sessão encontrada</td></tr>';
+        }
+
+        // Load users list
+        const usersRes = await fetch('/api/list_users', {
+          credentials: 'same-origin'
+        });
+        
+        if (!usersRes.ok) {
+          throw new Error(`HTTP error! status: ${usersRes.status}`);
+        }
+        
+        const usersData = await usersRes.json();
+        const users = usersData.users;
+
+        const usersBody = document.getElementById('usersBody');
+        if (users && users.length > 0) {
+          usersBody.innerHTML = users.map(user => {
+            const createdDate = user.created_at ? new Date(user.created_at).toLocaleDateString('pt-BR') : '-';
+            const lastLogin = user.last_login ? new Date(user.last_login).toLocaleDateString('pt-BR') : '-';
+            const languageFlag = {
+              'pt-BR': '🇧🇷',
+              'en': '🇺🇸',
+              'es': '🇪🇸'
+            }[user.language] || '🌍';
+            
+            return `
+            <tr>
+              <td><strong>${user.email || '-'}</strong></td>
+              <td>${user.display_name || 'Usuário'}</td>
+              <td>${languageFlag} ${user.language || '-'}</td>
+              <td><small>${createdDate}</small></td>
+              <td><small>${lastLogin}</small></td>
+            </tr>
+          `}).join('');
+        } else {
+          usersBody.innerHTML = '<tr><td colspan="5" style="text-align: center;">Nenhum usuário encontrado</td></tr>';
+        }
+
+        // Hide loading, show dashboard
+        document.getElementById('loading').style.display = 'none';
+        document.getElementById('dashboard').style.display = 'block';
+
       } catch (error) {
-        if (row) row.style.opacity = '1';
-        showMessage('Erro ao excluir usuário', 'error');
+        console.error('Error loading dashboard:', error);
+        document.getElementById('loading').textContent = 'Erro ao carregar dados. Tente novamente.';
       }
     }
 
-    function showMessage(text, type) {
-      const div = document.getElementById('message');
-      div.textContent = text;
-      div.className = type;
-      div.classList.remove('hidden');
-      setTimeout(() => div.classList.add('hidden'), 3000);
+    function logout() {
+      if (confirm('Tem certeza que deseja sair?')) {
+        fetch('/admin/logout', { method: 'POST' })
+          .then(() => {
+            window.location.href = '/admin';
+          });
+      }
     }
 
-    async function logout() {
-      await fetch('/admin/logout', { method: 'POST', credentials: 'same-origin' });
-      location.reload();
-    }
+    // Load on page load
+    loadDashboard();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadDashboard, 30000);
   </script>
 </body>
-
 </html>

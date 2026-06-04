@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Get backend URL from environment
-BACKEND_URL = "https://easemind-control.preview.emergentagent.com/api"
+BACKEND_URL = "https://easemind-mobile.preview.emergentagent.com/api"
 
 print(f"🌐 Testing Backend URL: {BACKEND_URL}")
 print(f"⏰ Test Time: {datetime.now().isoformat()}")
@@ -696,142 +696,6 @@ def test_luna_display_name_fix():
     print("🎉 Luna Display Name Fix Tests Completed!")
     return True
 
-def test_admin_panel_bug_fixes():
-    """
-    Test Admin Panel Bug Fixes - Specific test for the review request
-    Bug 1: Invalid Date Display in /api/list_users
-    Bug 2: 401 Error on User Deletion in /api/admin/delete-user/{firebase_uid}
-    """
-    print("🔧 Testing Admin Panel Bug Fixes")
-    print("=" * 50)
-    
-    # Test Bug 1: Invalid Date Display
-    print("🧪 Bug 1: Testing /api/list_users - Date Display Fix")
-    try:
-        response = requests.get(f"{BACKEND_URL}/list_users", timeout=10)
-        print(f"Status Code: {response.status_code}")
-        
-        if response.status_code == 200:
-            data = response.json()
-            users = data.get("users", [])
-            print(f"✅ PASS: Retrieved {len(users)} users")
-            
-            # Look for the test user specifically
-            test_user = None
-            for user in users:
-                if user.get("firebase_uid") == "test_user_123" or user.get("email") == "teste@easemind.io":
-                    test_user = user
-                    break
-            
-            if test_user:
-                print(f"🎯 Found test user: {test_user.get('email')} (UID: {test_user.get('firebase_uid')})")
-                
-                # Test date parsing
-                created_at = test_user.get("created_at")
-                if created_at:
-                    print(f"📅 created_at value: {created_at} (type: {type(created_at)})")
-                    
-                    # Try to parse the date
-                    try:
-                        if isinstance(created_at, str):
-                            # Try parsing ISO format
-                            parsed_date = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                            print(f"✅ PASS: Date parsed successfully: {parsed_date}")
-                            print(f"✅ BUG 1 FIX VERIFIED: Date is in valid ISO string format")
-                        else:
-                            print(f"❌ FAIL: created_at is not a string, it's {type(created_at)}")
-                            return False
-                    except Exception as e:
-                        print(f"❌ FAIL: Could not parse date '{created_at}': {e}")
-                        return False
-                else:
-                    print("⚠️  Test user has no created_at field")
-            else:
-                print("⚠️  Test user (test_user_123 / teste@easemind.io) not found")
-                # Still check if any user has valid date format
-                if users:
-                    sample_user = users[0]
-                    created_at = sample_user.get("created_at")
-                    if created_at and isinstance(created_at, str):
-                        try:
-                            parsed_date = datetime.fromisoformat(created_at.replace('Z', '+00:00'))
-                            print(f"✅ PASS: Sample user date format is valid: {created_at}")
-                        except:
-                            print(f"❌ FAIL: Sample user date format is invalid: {created_at}")
-                            return False
-        else:
-            print(f"❌ FAIL: HTTP {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        return False
-    
-    print()
-    
-    # Test Bug 2: 401 Error on User Deletion
-    print("🧪 Bug 2: Testing /api/admin/delete-user/{firebase_uid} - User Deletion Fix")
-    firebase_uid = "test_user_123"
-    
-    try:
-        response = requests.delete(f"{BACKEND_URL}/admin/delete-user/{firebase_uid}", timeout=10)
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.text}")
-        
-        if response.status_code == 200:
-            try:
-                data = response.json()
-                if data.get("success") == True:
-                    print(f"✅ PASS: User deletion successful")
-                    print(f"✅ BUG 2 FIX VERIFIED: Endpoint returned success=true")
-                else:
-                    print(f"❌ FAIL: Response success field is not true: {data}")
-                    return False
-            except:
-                print(f"❌ FAIL: Could not parse JSON response")
-                return False
-        elif response.status_code == 404:
-            print(f"⚠️  User not found (404) - this might be expected if user was already deleted")
-            print(f"✅ BUG 2 FIX VERIFIED: No 401 error, endpoint is accessible")
-        elif response.status_code == 401:
-            print(f"❌ FAIL: Still getting 401 Unauthorized error")
-            return False
-        else:
-            print(f"❌ FAIL: Unexpected status code {response.status_code}")
-            return False
-    except Exception as e:
-        print(f"❌ ERROR: {str(e)}")
-        return False
-    
-    print()
-    
-    # Verify user deletion by checking list again
-    print("🧪 Verification: Check if user was deleted from list")
-    try:
-        response = requests.get(f"{BACKEND_URL}/list_users", timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            users = data.get("users", [])
-            
-            # Look for the test user
-            test_user_found = False
-            for user in users:
-                if user.get("firebase_uid") == "test_user_123" or user.get("email") == "teste@easemind.io":
-                    test_user_found = True
-                    break
-            
-            if test_user_found:
-                print(f"⚠️  Test user still exists in database")
-            else:
-                print(f"✅ PASS: Test user successfully removed from database")
-        else:
-            print(f"❌ Could not verify deletion - list_users returned {response.status_code}")
-    except Exception as e:
-        print(f"❌ Error verifying deletion: {e}")
-    
-    print()
-    print("🎉 Admin Panel Bug Fixes Tests Completed!")
-    return True
-
 def main():
     """Run all tests"""
     print("🚀 EaseMind Backend Testing - Complete API Suite")
@@ -848,10 +712,6 @@ def main():
         print("❌ Health check failed. Stopping tests.")
         sys.exit(1)
     
-    # Run Admin Panel Bug Fixes tests (NEW - Priority test for review request)
-    admin_fixes_ok = test_admin_panel_bug_fixes()
-    print()
-    
     # Run Firebase sync tests
     firebase_ok = test_firebase_user_sync()
     print()
@@ -860,7 +720,7 @@ def main():
     profile_ok = test_user_profile_management()
     print()
     
-    # Run Luna Display Name Fix tests
+    # Run Luna Display Name Fix tests (NEW)
     luna_fix_ok = test_luna_display_name_fix()
     
     print()
@@ -868,9 +728,8 @@ def main():
     print("📊 FINAL TEST RESULTS")
     print("=" * 60)
     
-    if admin_fixes_ok and firebase_ok and profile_ok and luna_fix_ok:
+    if firebase_ok and profile_ok and luna_fix_ok:
         print("🎉 ALL TESTS PASSED!")
-        print("✅ Admin Panel Bug Fixes: WORKING")
         print("✅ Firebase User Sync: WORKING")
         print("✅ User Profile Management: WORKING")
         print("✅ Luna Personalization: WORKING")
@@ -878,7 +737,6 @@ def main():
         sys.exit(0)
     else:
         print("❌ SOME TESTS FAILED!")
-        print(f"{'✅' if admin_fixes_ok else '❌'} Admin Panel Bug Fixes: {'WORKING' if admin_fixes_ok else 'FAILED'}")
         print(f"{'✅' if firebase_ok else '❌'} Firebase User Sync: {'WORKING' if firebase_ok else 'FAILED'}")
         print(f"{'✅' if profile_ok else '❌'} User Profile Management: {'WORKING' if profile_ok else 'FAILED'}")
         print(f"{'✅' if luna_fix_ok else '❌'} Luna Display Name Fix: {'WORKING' if luna_fix_ok else 'FAILED'}")

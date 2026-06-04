@@ -7,8 +7,7 @@ from datetime import datetime
 # MongoDB connection
 MONGO_URL = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/')
 client = MongoClient(MONGO_URL)
-DB_NAME = os.environ.get('DB_NAME', 'railway')
-db = client[DB_NAME]
+db = client['easemind']
 
 users_collection = db['users']
 
@@ -25,10 +24,7 @@ class handler(BaseHTTPRequestHandler):
                     'display_name': 1,
                     'language': 1,
                     'created_at': 1,
-                    'last_login': 1,
-                    'is_premium': 1,
-                    'subscription_status': 1,
-                    'plan': 1
+                    'last_login': 1
                 }
             ).sort('created_at', -1).limit(100))
             
