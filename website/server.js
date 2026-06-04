@@ -458,7 +458,7 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
           <div class="container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2.5rem;">
             ${data.posts && data.posts.length > 0 ? data.posts.map(post => `
               <a href="/${lang}/blog/${post.slug}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06); transition: transform 0.3s ease, box-shadow 0.3s ease; background: white;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.1)'" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.06)'">
-                <img src="${post.image || '/images/og-image.jpg'}" alt="${post.title}" style="width: 100%; height: 220px; object-fit: cover;">
+                <img src="${post.image || '/images/og-image.jpg'}" alt="${post.title}" loading="lazy" style="width: 100%; height: 220px; object-fit: cover;">
                 <div style="padding: 2rem;">
                   <span style="font-size: 0.875rem; color: var(--brand-primary); font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;">${post.date}</span>
                   <h3 style="font-size: 1.5rem; font-weight: 800; color: var(--ink-900); margin: 0.75rem 0; line-height: 1.3;">${post.title}</h3>
@@ -497,6 +497,42 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
   // Complete HTML structure
   const canonicalPath = path === '/' ? '' : path;
   const canonicalUrl = `https://easemind.io/${lang}${canonicalPath}`;
+  
+  let jsonLd = '';
+  if (page === 'blog-post') {
+    jsonLd = `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "${data.title || t.meta.title}",
+      "image": "${data.image || 'https://easemind.io/images/og-image.jpg'}",
+      "datePublished": "${data.post?.date || ''}",
+      "author": {
+        "@type": "Organization",
+        "name": "EaseMind",
+        "url": "https://easemind.io"
+      }
+    }
+    </script>
+    `;
+  } else {
+    jsonLd = `
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "EaseMind",
+      "url": "https://easemind.io/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://easemind.io/${lang}/blog?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    `;
+  }
   return `
 <!DOCTYPE html>
 <html lang="${lang}">
@@ -520,15 +556,16 @@ function generateHTML(page, lang, t, data = {}, currentPath = '') {
   <link rel="stylesheet" href="/styles/main.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+${jsonLd}
 </head>
 <body>
   <header>
     <nav class="container">
-      <a href="/${lang}" class="logo">
+      <a href="/${lang}" class="logo" aria-label="EaseMind Homepage">
         <img src="/logo.png" alt="EaseMind Logo">
       </a>
       <div class="lang-selector">
-        <button class="lang-selector-button">
+        <button class="lang-selector-button" aria-label="Select Language">
           ${lang === 'pt' ? '🇧🇷 PT' : lang === 'en' ? '🇺🇸 EN' : '🇪🇸 ES'} ▾
         </button>
         <div class="lang-selector-dropdown">
