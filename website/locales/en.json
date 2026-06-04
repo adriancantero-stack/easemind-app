@@ -184,6 +184,68 @@
       "email": "support@easemind.io"
     }
   },
+  "testimonials": {
+    "title": "What people say about us",
+    "subtitle": "Thousands of people have already found calm with Luna.",
+    "items": [
+      {
+        "content": "Luna helped me control a panic attack right before an important meeting. The guided breathing exercise was essential.",
+        "author": "Sarah M.",
+        "location": "New York, NY",
+        "initial": "S",
+        "color": "var(--brand-secondary)"
+      },
+      {
+        "content": "I've had trouble sleeping for years. The relaxation audios and the emotional diary before bed completely changed my routine.",
+        "author": "Richard C.",
+        "location": "London, UK",
+        "initial": "R",
+        "color": "#4ECDC4"
+      },
+      {
+        "content": "The app's design is beautiful and doesn't overwhelm me with information. It's exactly what I need when my mind is racing.",
+        "author": "Emily T.",
+        "location": "Los Angeles, CA",
+        "initial": "E",
+        "color": "#FF6B6B"
+      },
+      {
+        "content": "Luna's voice is incredibly natural. I feel like I'm talking to a welcoming friend every time I open the application.",
+        "author": "James H.",
+        "location": "Sydney, AU",
+        "initial": "J",
+        "color": "#FCA311"
+      },
+      {
+        "content": "I started using the 4-7-8 breathing in traffic and it changed my day. The easily accessible SOS button is a real lifesaver.",
+        "author": "Chloe B.",
+        "location": "Toronto, CA",
+        "initial": "C",
+        "color": "#845EC2"
+      },
+      {
+        "content": "I really like the emotional diary. Seeing my mood trends in graphs has been a great help in my self-awareness journey.",
+        "author": "Fiona L.",
+        "location": "Dublin, IE",
+        "initial": "F",
+        "color": "#00C9A7"
+      },
+      {
+        "content": "Since getting the yearly plan, the unlimited sessions with music have become my morning routine. Worth every penny for my well-being.",
+        "author": "Lucas P.",
+        "location": "Chicago, IL",
+        "initial": "L",
+        "color": "#FF9671"
+      },
+      {
+        "content": "It is so simple and straight to the point. In a world full of complex apps, Luna focuses on what matters: bringing peace in minutes.",
+        "author": "Jessica K.",
+        "location": "Austin, TX",
+        "initial": "J",
+        "color": "#4B4453"
+      }
+    ]
+  },
   "legal": {
     "disclaimer": "EaseMind is an emotional support app and does not replace therapy, diagnosis, or medical treatment. In crisis, seek professional help.",
     "privacy": {

@@ -185,6 +185,68 @@
       "email": "support@easemind.io"
     }
   },
+  "testimonials": {
+    "title": "O que dizem sobre nós",
+    "subtitle": "Milhares de pessoas já encontraram a calma com a Luna.",
+    "items": [
+      {
+        "content": "A Luna me ajudou a controlar uma crise de ansiedade antes de uma reunião importante. O exercício de respiração guiada foi fundamental.",
+        "author": "Mariana S.",
+        "location": "São Paulo, SP",
+        "initial": "M",
+        "color": "var(--brand-secondary)"
+      },
+      {
+        "content": "Tenho dificuldade para dormir há anos. Os áudios de relaxamento e o diário emocional antes de deitar mudaram completamente minha rotina.",
+        "author": "Ricardo M.",
+        "location": "Lisboa, PT",
+        "initial": "R",
+        "color": "#4ECDC4"
+      },
+      {
+        "content": "O design do aplicativo é lindo e não me sobrecarrega com informações. É exatamente o que eu preciso quando minha mente está acelerada.",
+        "author": "Ana C.",
+        "location": "Rio de Janeiro, RJ",
+        "initial": "A",
+        "color": "#FF6B6B"
+      },
+      {
+        "content": "A voz da Luna é incrivelmente natural. Sinto como se estivesse conversando com uma amiga acolhedora sempre que abro o aplicativo.",
+        "author": "Carlos E.",
+        "location": "Curitiba, PR",
+        "initial": "C",
+        "color": "#FCA311"
+      },
+      {
+        "content": "Comecei a usar a respiração 4-7-8 no trânsito e mudou meu dia. O botão SOS de fácil acesso no app é um verdadeiro salva-vidas.",
+        "author": "Beatriz F.",
+        "location": "Belo Horizonte, MG",
+        "initial": "B",
+        "color": "#845EC2"
+      },
+      {
+        "content": "Gosto muito do diário emocional. Ver as tendências do meu humor em gráficos tem me ajudado muito na minha jornada de autoconhecimento.",
+        "author": "Fernanda L.",
+        "location": "Porto, PT",
+        "initial": "F",
+        "color": "#00C9A7"
+      },
+      {
+        "content": "Depois que aderi ao plano anual, as sessões ilimitadas com música se tornaram minha rotina matinal. Vale cada centavo investido no meu bem-estar.",
+        "author": "Lucas T.",
+        "location": "Salvador, BA",
+        "initial": "L",
+        "color": "#FF9671"
+      },
+      {
+        "content": "É tão simples e direto ao ponto. Em um mundo cheio de apps complexos, a Luna foca no que importa: trazer paz em minutos.",
+        "author": "Juliana P.",
+        "location": "Brasília, DF",
+        "initial": "J",
+        "color": "#4B4453"
+      }
+    ]
+  },
   "legal": {
     "disclaimer": "EaseMind é um app de apoio emocional e não substitui terapia, diagnóstico ou tratamento médico. Em caso de crise, procure ajuda profissional.",
     "privacy": {

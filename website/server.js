@@ -203,54 +203,26 @@ function generateHTML(page, lang, t, data = {}) {
         <!-- TESTIMONIALS SECTION -->
         <section class="testimonials" style="padding: 6rem 0; background: linear-gradient(135deg, rgba(139, 111, 243, 0.03) 0%, rgba(255, 255, 255, 0) 100%);">
           <div class="container">
-            <h2 style="text-align: center; margin-bottom: 1rem;">O que dizem sobre nós</h2>
-            <p class="section-subtitle" style="text-align: center; margin-bottom: 4rem;">Milhares de pessoas já encontraram a calma com a Luna.</p>
+            <h2 style="text-align: center; margin-bottom: 1rem;">${t.testimonials?.title || 'O que dizem sobre nós'}</h2>
+            <p class="section-subtitle" style="text-align: center; margin-bottom: 4rem;">${t.testimonials?.subtitle || 'Milhares de pessoas já encontraram a calma com a Luna.'}</p>
             
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+              ${(t.testimonials?.items || []).map(item => `
               <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
                 <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
                 <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
                   ★ ★ ★ ★ ★
                 </div>
-                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"A Luna me ajudou a controlar uma crise de ansiedade antes de uma reunião importante. O exercício de respiração guiada foi fundamental."</p>
+                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"${item.content}"</p>
                 <div style="display: flex; align-items: center; gap: 1rem;">
-                  <div style="width: 48px; height: 48px; border-radius: 50%; background: var(--brand-secondary); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">M</div>
+                  <div style="width: 48px; height: 48px; border-radius: 50%; background: ${item.color || 'var(--brand-secondary)'}; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${item.initial}</div>
                   <div>
-                    <div style="font-weight: 700; color: var(--ink-900);">Mariana S.</div>
-                    <div style="font-size: 0.875rem; color: var(--ink-500);">São Paulo, SP</div>
+                    <div style="font-weight: 700; color: var(--ink-900);">${item.author}</div>
+                    <div style="font-size: 0.875rem; color: var(--ink-500);">${item.location}</div>
                   </div>
                 </div>
               </div>
-
-              <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
-                <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
-                <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
-                  ★ ★ ★ ★ ★
-                </div>
-                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"Tenho dificuldade para dormir há anos. Os áudios de relaxamento e o diário emocional antes de deitar mudaram completamente minha rotina."</p>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #4ECDC4; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">R</div>
-                  <div>
-                    <div style="font-weight: 700; color: var(--ink-900);">Ricardo M.</div>
-                    <div style="font-size: 0.875rem; color: var(--ink-500);">Lisboa, PT</div>
-                  </div>
-                </div>
-              </div>
-
-              <div style="background: white; padding: 2rem; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.04); position: relative;">
-                <div style="color: var(--brand-primary); font-size: 3rem; position: absolute; top: 1rem; right: 1.5rem; opacity: 0.2; font-family: serif;">"</div>
-                <div style="display: flex; gap: 0.25rem; color: #FFD700; margin-bottom: 1rem;">
-                  ★ ★ ★ ★ ★
-                </div>
-                <p style="font-size: 1.125rem; color: var(--ink-700); line-height: 1.6; margin-bottom: 1.5rem; font-style: italic;">"O design do aplicativo é lindo e não me sobrecarrega com informações. É exatamente o que eu preciso quando minha mente está acelerada."</p>
-                <div style="display: flex; align-items: center; gap: 1rem;">
-                  <div style="width: 48px; height: 48px; border-radius: 50%; background: #FF6B6B; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">A</div>
-                  <div>
-                    <div style="font-weight: 700; color: var(--ink-900);">Ana C.</div>
-                    <div style="font-size: 0.875rem; color: var(--ink-500);">Rio de Janeiro, RJ</div>
-                  </div>
-                </div>
-              </div>
+              `).join('')}
             </div>
           </div>
         </section>
